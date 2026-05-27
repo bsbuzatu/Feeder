@@ -7,7 +7,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
 <meta name="apple-mobile-web-app-title" content="Jurnal Bogdan">
-<title>Jurnal Nutrițional</title>
+<title>Jurnal Nutritional</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -622,6 +622,34 @@
     margin: 10px auto 0;
   }
 
+  .modal-close-btn {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    border: 1px solid var(--line);
+    background: var(--bg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    color: var(--ink-soft);
+    flex-shrink: 0;
+    transition: all 0.15s;
+    font-family: inherit;
+  }
+
+  .modal-close-btn:active {
+    background: var(--salmon);
+    color: white;
+    border-color: var(--salmon);
+    transform: scale(0.92);
+  }
+
+  .modal-close-btn svg {
+    width: 16px;
+    height: 16px;
+  }
+
   .modal-header {
     padding: 16px 20px 12px;
     border-bottom: 1px solid var(--line);
@@ -1099,14 +1127,14 @@
 <div class="header" id="header">
   <div class="header-top">
     <div>
-      <div class="date-label" id="dateLabel">Astăzi</div>
+      <div class="date-label" id="dateLabel">Astazi</div>
       <div class="date-sub" id="dateSub">--</div>
     </div>
     <div class="date-nav">
-      <button class="date-btn" id="prevDay" aria-label="Ziua precedentă">
+      <button class="date-btn" id="prevDay" aria-label="Ziua precedenta">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"/></svg>
       </button>
-      <button class="date-btn" id="nextDay" aria-label="Ziua următoare">
+      <button class="date-btn" id="nextDay" aria-label="Ziua urmatoare">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg>
       </button>
     </div>
@@ -1114,10 +1142,10 @@
 </div>
 
 <div class="tabs">
-  <button class="tab active" data-view="today">Astăzi</button>
-  <button class="tab" data-view="metrics">Măsurători</button>
+  <button class="tab active" data-view="today">Astazi</button>
+  <button class="tab" data-view="metrics">Masuratori</button>
   <button class="tab" data-view="history">Istoric</button>
-  <button class="tab" data-view="settings">Setări</button>
+  <button class="tab" data-view="settings">Setari</button>
 </div>
 
 <!-- TODAY VIEW -->
@@ -1128,7 +1156,7 @@
       <div>
         <span class="calorie-remaining" id="caloriesRemaining">2000</span><span class="calorie-unit">kcal</span>
       </div>
-      <div class="calorie-status" id="calorieStatus">Țintă: 2000 kcal · Deficit ~500 kcal</div>
+      <div class="calorie-status" id="calorieStatus">Tinta: 2000 kcal · Deficit ~500 kcal</div>
       <div class="calorie-bar">
         <div class="calorie-bar-fill" id="calorieBar" style="width: 0%"></div>
       </div>
@@ -1138,31 +1166,31 @@
       <div class="macro-card">
         <div class="macro-name">Proteine</div>
         <div class="macro-value"><span id="proteinConsumed">0</span> / <span id="proteinTarget">195</span><span style="font-size: 14px; color: var(--ink-faint);">g</span></div>
-        <div class="macro-target" id="proteinRemaining">195g rămase</div>
+        <div class="macro-target" id="proteinRemaining">195g ramase</div>
         <div class="macro-bar"><div class="macro-bar-fill protein" id="proteinBar" style="width: 0%"></div></div>
       </div>
       <div class="macro-card">
-        <div class="macro-name">Carbohidrați</div>
+        <div class="macro-name">Carbohidrati</div>
         <div class="macro-value"><span id="carbsConsumed">0</span> / <span id="carbsTarget">190</span><span style="font-size: 14px; color: var(--ink-faint);">g</span></div>
-        <div class="macro-target" id="carbsRemaining">190g rămase</div>
+        <div class="macro-target" id="carbsRemaining">190g ramase</div>
         <div class="macro-bar"><div class="macro-bar-fill carbs" id="carbsBar" style="width: 0%"></div></div>
       </div>
       <div class="macro-card">
-        <div class="macro-name">Grăsimi</div>
+        <div class="macro-name">Grasimi</div>
         <div class="macro-value"><span id="fatConsumed">0</span> / <span id="fatTarget">80</span><span style="font-size: 14px; color: var(--ink-faint);">g</span></div>
-        <div class="macro-target" id="fatRemaining">80g rămase</div>
+        <div class="macro-target" id="fatRemaining">80g ramase</div>
         <div class="macro-bar"><div class="macro-bar-fill fat" id="fatBar" style="width: 0%"></div></div>
       </div>
       <div class="macro-card">
         <div class="macro-name">Fibre</div>
         <div class="macro-value"><span id="fiberConsumed">0</span> / <span id="fiberTarget">35</span><span style="font-size: 14px; color: var(--ink-faint);">g</span></div>
-        <div class="macro-target" id="fiberRemaining">35g rămase</div>
+        <div class="macro-target" id="fiberRemaining">35g ramase</div>
         <div class="macro-bar"><div class="macro-bar-fill fiber" id="fiberBar" style="width: 0%"></div></div>
       </div>
       <div class="macro-card" id="ironCard">
         <div class="macro-name">Fier <span style="color: var(--salmon);">⚠</span></div>
         <div class="macro-value"><span id="ironConsumed">0</span> / <span id="ironTarget">10</span><span style="font-size: 14px; color: var(--ink-faint);">mg</span></div>
-        <div class="macro-target" id="ironStatus">Limită strictă</div>
+        <div class="macro-target" id="ironStatus">Limita stricta</div>
         <div class="macro-bar"><div class="macro-bar-fill iron" id="ironBar" style="width: 0%"></div></div>
       </div>
     </div>
@@ -1180,10 +1208,11 @@
 <div class="view" id="view-metrics">
   <div class="dashboard">
     <div class="section-header">
-      <div class="section-title">Măsurători de azi</div>
+      <div class="section-title">Masuratori de azi</div>
     </div>
 
     <div class="metrics-input">
+      <div style="font-size: 11px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--ink-faint); font-weight: 600; margin-bottom: 10px;">Greutate si corp</div>
       <div class="metrics-row">
         <div class="metric-input-group">
           <div class="metric-label">Greutate (kg)</div>
@@ -1196,12 +1225,36 @@
       </div>
       <div class="metrics-row">
         <div class="metric-input-group">
-          <div class="metric-label">% Grăsime</div>
+          <div class="metric-label">% Grasime</div>
           <input type="number" step="0.1" class="metric-input" id="fatPctInput" placeholder="18.9">
         </div>
         <div class="metric-input-group">
-          <div class="metric-label">Pași</div>
+          <div class="metric-label">Masa musculara (kg)</div>
+          <input type="number" step="0.1" class="metric-input" id="muscleMassInput" placeholder="76.4">
+        </div>
+      </div>
+      <div class="metrics-row">
+        <div class="metric-input-group">
+          <div class="metric-label">Masa grasa (kg)</div>
+          <input type="number" step="0.1" class="metric-input" id="fatMassInput" placeholder="18.4">
+        </div>
+        <div class="metric-input-group">
+          <div class="metric-label">Masa slaba (kg)</div>
+          <input type="number" step="0.1" class="metric-input" id="leanMassInput" placeholder="79.0">
+        </div>
+      </div>
+    </div>
+
+    <div class="metrics-input" style="margin-top: 12px;">
+      <div style="font-size: 11px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--ink-faint); font-weight: 600; margin-bottom: 10px;">Activitate zilnica</div>
+      <div class="metrics-row">
+        <div class="metric-input-group">
+          <div class="metric-label">Pasi (Apple Watch)</div>
           <input type="number" class="metric-input" id="stepsInput" placeholder="8000">
+        </div>
+        <div class="metric-input-group">
+          <div class="metric-label">Cal. arse (Apple Watch)</div>
+          <input type="number" class="metric-input" id="activeCalInput" placeholder="450">
         </div>
       </div>
       <div class="metrics-row">
@@ -1219,28 +1272,62 @@
             <option value="lower-b">Lower B</option>
             <option value="cardio">Cardio Zone 2</option>
             <option value="walk">Plimbare</option>
-            <option value="rest">Pauză</option>
+            <option value="rest">Pauza</option>
           </select>
         </div>
       </div>
     </div>
 
-    <button class="btn-primary" id="saveMetrics">Salvează măsurători</button>
+    <div class="metrics-input" style="margin-top: 12px;">
+      <div style="font-size: 11px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--ink-faint); font-weight: 600; margin-bottom: 10px;">Fasting</div>
+      <div class="metrics-row">
+        <div class="metric-input-group">
+          <div class="metric-label">Ore fasting azi</div>
+          <input type="number" step="0.5" class="metric-input" id="fastingHoursInput" placeholder="14">
+        </div>
+        <div class="metric-input-group">
+          <div class="metric-label">Fereastra mancat (ore)</div>
+          <input type="number" step="0.5" class="metric-input" id="eatingWindowInput" placeholder="10">
+        </div>
+      </div>
+      <div class="metrics-row">
+        <div class="metric-input-group">
+          <div class="metric-label">Prima masa la ora</div>
+          <input type="time" class="metric-input" id="firstMealInput">
+        </div>
+        <div class="metric-input-group">
+          <div class="metric-label">Ultima masa la ora</div>
+          <input type="time" class="metric-input" id="lastMealInput">
+        </div>
+      </div>
+    </div>
+
+    <button class="btn-primary" id="saveMetrics" style="margin-top: 12px;">Salveaza masuratori</button>
 
     <div style="margin-top: 24px;">
       <div class="section-header">
-        <div class="section-title">Tendințe</div>
+        <div class="section-title">Ultimele valori</div>
       </div>
       <div class="stat-grid">
         <div class="stat-card">
           <div class="stat-label">Greutate</div>
-          <div class="stat-value" id="weightCurrent">— kg</div>
-          <div class="stat-change neutral" id="weightChange">—</div>
+          <div class="stat-value" id="weightCurrent">- kg</div>
+          <div class="stat-change neutral" id="weightChange">-</div>
         </div>
         <div class="stat-card">
           <div class="stat-label">Talie</div>
-          <div class="stat-value" id="waistCurrent">— cm</div>
-          <div class="stat-change neutral" id="waistChange">—</div>
+          <div class="stat-value" id="waistCurrent">- cm</div>
+          <div class="stat-change neutral" id="waistChange">-</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">Masa musculara</div>
+          <div class="stat-value" id="muscleCurrent">- kg</div>
+          <div class="stat-change neutral" id="muscleChange">-</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">% Grasime</div>
+          <div class="stat-value" id="fatPctCurrent">- %</div>
+          <div class="stat-change neutral" id="fatPctChange">-</div>
         </div>
       </div>
     </div>
@@ -1251,13 +1338,13 @@
 <div class="view" id="view-history">
   <div class="dashboard">
     <div class="section-header">
-      <div class="section-title">Evoluție</div>
+      <div class="section-title">Evolutie</div>
       <div class="section-sub" id="historyPeriod">Ultimele 30 zile</div>
     </div>
 
     <div class="chart-card">
       <div class="chart-title">Greutate</div>
-      <div class="chart-sub">Tendință zilnică</div>
+      <div class="chart-sub">Tendinta zilnica</div>
       <div class="chart-container">
         <canvas id="weightChart"></canvas>
       </div>
@@ -1265,7 +1352,7 @@
 
     <div class="chart-card">
       <div class="chart-title">Talie</div>
-      <div class="chart-sub">Indicator principal grăsime viscerală</div>
+      <div class="chart-sub">Indicator principal grasime viscerala</div>
       <div class="chart-container">
         <canvas id="waistChart"></canvas>
       </div>
@@ -1273,7 +1360,7 @@
 
     <div class="chart-card">
       <div class="chart-title">Proteine zilnice</div>
-      <div class="chart-sub">Țintă: 195g · Medie ultima săpt: <span id="proteinAvg">—</span>g</div>
+      <div class="chart-sub">Tinta: 195g · Medie ultima sapt: <span id="proteinAvg">-</span>g</div>
       <div class="chart-container">
         <canvas id="proteinChart"></canvas>
       </div>
@@ -1281,7 +1368,7 @@
 
     <div class="chart-card">
       <div class="chart-title">Calorii zilnice</div>
-      <div class="chart-sub">Țintă: 2000 kcal · Medie ultima săpt: <span id="calAvg">—</span> kcal</div>
+      <div class="chart-sub">Tinta: 2000 kcal · Medie ultima sapt: <span id="calAvg">-</span> kcal</div>
       <div class="chart-container">
         <canvas id="caloriesChart"></canvas>
       </div>
@@ -1293,11 +1380,11 @@
 <div class="view" id="view-settings">
   <div class="dashboard">
     <div class="section-header">
-      <div class="section-title">Țintele tale</div>
+      <div class="section-title">Tintele tale</div>
     </div>
 
     <div class="setting-section">
-      <h3>Compoziție corporală</h3>
+      <h3>Compozitie corporala</h3>
       <div class="setting-row">
         <div class="setting-label">Greutate (kg)</div>
         <input type="number" step="0.1" class="setting-value" id="settingWeight" style="background: var(--bg); border: 1px solid var(--line); border-radius: 8px; padding: 6px 10px; width: 90px; text-align: right;" value="97.4">
@@ -1307,11 +1394,11 @@
         <input type="number" step="0.1" class="setting-value" id="settingProteinRatio" style="background: var(--bg); border: 1px solid var(--line); border-radius: 8px; padding: 6px 10px; width: 90px; text-align: right;" value="2.0">
       </div>
       <div class="setting-row">
-        <div class="setting-label">Calorii țintă</div>
+        <div class="setting-label">Calorii tinta</div>
         <input type="number" class="setting-value" id="settingCalories" style="background: var(--bg); border: 1px solid var(--line); border-radius: 8px; padding: 6px 10px; width: 90px; text-align: right;" value="2000">
       </div>
       <div class="setting-row">
-        <div class="setting-label">Grăsimi (g)</div>
+        <div class="setting-label">Grasimi (g)</div>
         <input type="number" class="setting-value" id="settingFat" style="background: var(--bg); border: 1px solid var(--line); border-radius: 8px; padding: 6px 10px; width: 90px; text-align: right;" value="80">
       </div>
       <div class="setting-row">
@@ -1327,31 +1414,31 @@
         <div class="setting-value" id="calcProtein">195 g</div>
       </div>
       <div class="setting-row">
-        <div class="setting-label">Carbohidrați zilnici</div>
+        <div class="setting-label">Carbohidrati zilnici</div>
         <div class="setting-value" id="calcCarbs">190 g</div>
       </div>
       <div class="setting-row">
-        <div class="setting-label">Fibre țintă</div>
+        <div class="setting-label">Fibre tinta</div>
         <div class="setting-value">35 g</div>
       </div>
     </div>
 
-    <button class="btn-primary" id="saveSettings" style="margin-bottom: 20px;">Salvează setări</button>
+    <button class="btn-primary" id="saveSettings" style="margin-bottom: 20px;">Salveaza setari</button>
 
     <div class="section-header">
       <div class="section-title">Date</div>
     </div>
 
-    <button class="btn-secondary" id="exportBtn">⬇ Exportă tot istoricul (JSON)</button>
-    <button class="btn-secondary" id="importBtn">⬆ Importă date (JSON)</button>
+    <button class="btn-secondary" id="exportBtn">⬇ Exporta tot istoricul (JSON)</button>
+    <button class="btn-secondary" id="importBtn">⬆ Importa date (JSON)</button>
     <input type="file" id="importFile" accept=".json" style="display: none;">
-    <button class="btn-danger" id="resetBtn" style="margin-top: 12px;">Șterge toate datele</button>
+    <button class="btn-danger" id="resetBtn" style="margin-top: 12px;">Sterge toate datele</button>
 
     <div style="margin-top: 24px; padding: 16px; background: var(--bg-elev); border: 1px solid var(--line); border-radius: var(--radius-md); font-size: 13px; color: var(--ink-soft); line-height: 1.6;">
       <strong style="font-family: var(--font-display); font-size: 15px;">Despre datele tale</strong><br><br>
-      Toate datele sunt salvate <strong>local pe telefonul tău</strong> (IndexedDB). Nu se trimit nicăieri.<br><br>
-      Pentru analiză periodică, folosește butonul <strong>Exportă</strong> și trimite fișierul JSON. Restaurarea se face cu <strong>Importă</strong>.<br><br>
-      <strong>Recomandare:</strong> exportă săptămânal ca backup.
+      Toate datele sunt salvate <strong>local pe telefonul tau</strong> (IndexedDB). Nu se trimit nicaieri.<br><br>
+      Pentru analiza periodica, foloseste butonul <strong>Exporta</strong> si trimite fisierul JSON. Restaurarea se face cu <strong>Importa</strong>.<br><br>
+      <strong>Recomandare:</strong> exporta saptamanal ca backup.
     </div>
   </div>
 </div>
@@ -1361,11 +1448,18 @@
   <div class="modal">
     <div class="modal-handle"></div>
     <div class="modal-header">
-      <div class="modal-title" id="foodModalTitle">Adaugă aliment</div>
-      <div class="modal-sub" id="foodModalSub">Selectează ce ai mâncat</div>
+      <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 12px;">
+        <div style="flex: 1;">
+          <div class="modal-title" id="foodModalTitle">Adauga aliment</div>
+          <div class="modal-sub" id="foodModalSub">Selecteaza ce ai mancat</div>
+        </div>
+        <button class="modal-close-btn" id="closeFoodModal" aria-label="Inchide">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+      </div>
     </div>
     <div class="search-bar">
-      <input type="text" class="search-input" id="searchInput" placeholder="🔍 Caută aliment..." autocomplete="off">
+      <input type="text" class="search-input" id="searchInput" placeholder="Cauta aliment..." autocomplete="off">
     </div>
     <div class="food-list" id="foodList"></div>
   </div>
@@ -1375,20 +1469,25 @@
 <div class="modal-overlay" id="qtyModal">
   <div class="modal">
     <div class="modal-handle"></div>
+    <div style="padding: 12px 20px 0; display: flex; justify-content: flex-end;">
+      <button class="modal-close-btn" id="closeQtyModal" aria-label="Inchide">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+    </div>
     <div class="qty-content">
       <div class="qty-selected">
-        <div class="qty-selected-name" id="qtySelectedName">—</div>
+        <div class="qty-selected-name" id="qtySelectedName">-</div>
         <div class="qty-selected-info" id="qtySelectedInfo">per 100g</div>
       </div>
       <div class="qty-input-wrap">
-        <button class="qty-btn" id="qtyMinus">−</button>
+        <button class="qty-btn" id="qtyMinus">-</button>
         <input type="number" class="qty-input" id="qtyInput" value="100" min="1" max="999">
         <span class="qty-unit" id="qtyUnit">g</span>
         <button class="qty-btn" id="qtyPlus">+</button>
       </div>
       <div class="qty-presets" id="qtyPresets"></div>
       <div class="qty-preview" id="qtyPreview"></div>
-      <button class="btn-primary" id="qtySave">Adaugă la masă</button>
+      <button class="btn-primary" id="qtySave">Adauga la masa</button>
     </div>
   </div>
 </div>
@@ -1403,16 +1502,16 @@
 // ============================================
 const FOOD_DB = [
   // PROTEINE ANIMALE
-  { id: 'pui', name: 'Piept de pui (negătit)', category: 'Proteine animale', kcal: 110, p: 23, c: 0, f: 1.2, fiber: 0, iron: 0.4, defaultQty: 180, presets: [120, 150, 180, 200] },
-  { id: 'curcan', name: 'Piept de curcan (negătit)', category: 'Proteine animale', kcal: 105, p: 24, c: 0, f: 1, fiber: 0, iron: 0.7, defaultQty: 180, presets: [120, 150, 180, 200] },
+  { id: 'pui', name: 'Piept de pui (negatit)', category: 'Proteine animale', kcal: 110, p: 23, c: 0, f: 1.2, fiber: 0, iron: 0.4, defaultQty: 180, presets: [120, 150, 180, 200] },
+  { id: 'curcan', name: 'Piept de curcan (negatit)', category: 'Proteine animale', kcal: 105, p: 24, c: 0, f: 1, fiber: 0, iron: 0.7, defaultQty: 180, presets: [120, 150, 180, 200] },
   { id: 'cod', name: 'Cod sau merluciu', category: 'Proteine animale', kcal: 82, p: 18, c: 0, f: 0.7, fiber: 0, iron: 0.3, defaultQty: 180, presets: [120, 150, 180, 200] },
-  { id: 'somon', name: 'Somon sălbatic', category: 'Proteine animale', kcal: 180, p: 20, c: 0, f: 11, fiber: 0, iron: 0.5, defaultQty: 150, presets: [120, 150, 180] },
-  { id: 'macrou', name: 'Macrou proaspăt', category: 'Proteine animale', kcal: 205, p: 19, c: 0, f: 14, fiber: 0, iron: 1.6, defaultQty: 150, presets: [120, 150, 180], warning: 'Fier mediu' },
-  { id: 'pastrav', name: 'Păstrăv', category: 'Proteine animale', kcal: 140, p: 20, c: 0, f: 6, fiber: 0, iron: 0.7, defaultQty: 150, presets: [120, 150, 180] },
-  { id: 'ton', name: 'Ton la conservă în apă (scurs)', category: 'Proteine animale', kcal: 116, p: 26, c: 0, f: 1, fiber: 0, iron: 1, defaultQty: 150, presets: [80, 120, 150] },
-  { id: 'hering', name: 'Hering proaspăt', category: 'Proteine animale', kcal: 158, p: 18, c: 0, f: 9, fiber: 0, iron: 1.1, defaultQty: 150, presets: [100, 150, 180], warning: 'Max 1x/2 săpt' },
-  { id: 'ou', name: 'Ou întreg (1 buc ≈55g)', category: 'Proteine animale', kcal: 78, p: 6.3, c: 0.6, f: 5.3, fiber: 0, iron: 0.9, unit: 'buc', defaultQty: 1, presets: [1, 2, 3, 4] },
-  { id: 'albus', name: 'Albuș de ou (1 buc ≈33g)', category: 'Proteine animale', kcal: 17, p: 3.6, c: 0.2, f: 0.1, fiber: 0, iron: 0, unit: 'buc', defaultQty: 2, presets: [2, 3, 4, 6] },
+  { id: 'somon', name: 'Somon salbatic', category: 'Proteine animale', kcal: 180, p: 20, c: 0, f: 11, fiber: 0, iron: 0.5, defaultQty: 150, presets: [120, 150, 180] },
+  { id: 'macrou', name: 'Macrou proaspat', category: 'Proteine animale', kcal: 205, p: 19, c: 0, f: 14, fiber: 0, iron: 1.6, defaultQty: 150, presets: [120, 150, 180], warning: 'Fier mediu' },
+  { id: 'pastrav', name: 'Pastrav', category: 'Proteine animale', kcal: 140, p: 20, c: 0, f: 6, fiber: 0, iron: 0.7, defaultQty: 150, presets: [120, 150, 180] },
+  { id: 'ton', name: 'Ton conserva in apa (scurs)', category: 'Proteine animale', kcal: 116, p: 26, c: 0, f: 1, fiber: 0, iron: 1, defaultQty: 150, presets: [80, 120, 150] },
+  { id: 'hering', name: 'Hering proaspat', category: 'Proteine animale', kcal: 158, p: 18, c: 0, f: 9, fiber: 0, iron: 1.1, defaultQty: 150, presets: [100, 150, 180], warning: 'Max 1x/2 sapt' },
+  { id: 'ou', name: 'Ou intreg (1 buc ~55g)', category: 'Proteine animale', kcal: 78, p: 6.3, c: 0.6, f: 5.3, fiber: 0, iron: 0.9, unit: 'buc', defaultQty: 1, presets: [1, 2, 3, 4] },
+  { id: 'albus', name: 'Albus de ou (1 buc ~33g)', category: 'Proteine animale', kcal: 17, p: 3.6, c: 0.2, f: 0.1, fiber: 0, iron: 0, unit: 'buc', defaultQty: 2, presets: [2, 3, 4, 6] },
 
   // LACTATE
   { id: 'iaurt2', name: 'Iaurt grecesc 2%', category: 'Lactate', kcal: 73, p: 10, c: 4, f: 2, fiber: 0, iron: 0.1, defaultQty: 200, presets: [100, 150, 200] },
@@ -1420,64 +1519,83 @@ const FOOD_DB = [
   { id: 'cottage', name: 'Cottage cheese degresat', category: 'Lactate', kcal: 72, p: 12, c: 2.7, f: 1, fiber: 0, iron: 0.1, defaultQty: 200, presets: [100, 150, 200] },
   { id: 'lapte', name: 'Lapte degresat', category: 'Lactate', kcal: 35, p: 3.4, c: 5, f: 0.1, fiber: 0, iron: 0, defaultQty: 200, presets: [100, 200, 250] },
 
-  // PROTEINĂ PUDRĂ + SHAKE
+  // PROTEINA PUDRA + SHAKE
   { id: 'whey', name: 'Whey isolate', category: 'Shake', kcal: 380, p: 88, c: 4, f: 1.5, fiber: 0, iron: 0.3, defaultQty: 40, presets: [30, 35, 40, 45] },
-  { id: 'creatina', name: 'Creatină monohidrat', category: 'Shake', kcal: 0, p: 0, c: 0, f: 0, fiber: 0, iron: 0, defaultQty: 5, presets: [5] },
+  { id: 'creatina', name: 'Creatina monohidrat', category: 'Shake', kcal: 0, p: 0, c: 0, f: 0, fiber: 0, iron: 0, defaultQty: 5, presets: [5] },
 
-  // PROTEINE VEGETALE (zile leguminoase)
+  // PROTEINE VEGETALE
   { id: 'tofu', name: 'Tofu ferm', category: 'Proteine vegetale', kcal: 144, p: 17, c: 3, f: 9, fiber: 2, iron: 1.5, defaultQty: 150, presets: [100, 150, 180, 200] },
   { id: 'tempeh', name: 'Tempeh', category: 'Proteine vegetale', kcal: 190, p: 19, c: 9, f: 11, fiber: 7, iron: 2.7, defaultQty: 100, presets: [80, 100, 130] },
-  { id: 'linte-uscata', name: 'Linte verde uscată', category: 'Proteine vegetale', kcal: 353, p: 25, c: 60, f: 1, fiber: 11, iron: 7.5, defaultQty: 50, presets: [30, 40, 50, 60] },
-  { id: 'naut-uscat', name: 'Năut uscat', category: 'Proteine vegetale', kcal: 364, p: 19, c: 61, f: 6, fiber: 17, iron: 6.2, defaultQty: 50, presets: [30, 40, 50, 60] },
-  { id: 'fasole-alba', name: 'Fasole albă uscată', category: 'Proteine vegetale', kcal: 333, p: 23, c: 60, f: 1, fiber: 16, iron: 5.5, defaultQty: 50, presets: [30, 40, 50, 60] },
+  { id: 'linte-uscata', name: 'Linte verde uscata', category: 'Proteine vegetale', kcal: 353, p: 25, c: 60, f: 1, fiber: 11, iron: 7.5, defaultQty: 50, presets: [30, 40, 50, 60] },
+  { id: 'naut-uscat', name: 'Naut uscat', category: 'Proteine vegetale', kcal: 364, p: 19, c: 61, f: 6, fiber: 17, iron: 6.2, defaultQty: 50, presets: [30, 40, 50, 60] },
+  { id: 'fasole-alba', name: 'Fasole alba uscata', category: 'Proteine vegetale', kcal: 333, p: 23, c: 60, f: 1, fiber: 16, iron: 5.5, defaultQty: 50, presets: [30, 40, 50, 60] },
 
-  // CARBOHIDRAȚI
-  { id: 'orez-brun', name: 'Orez brun uscat', category: 'Carbohidrați', kcal: 360, p: 7.5, c: 76, f: 2.7, fiber: 3.4, iron: 1.5, defaultQty: 70, presets: [50, 60, 70, 80] },
-  { id: 'orez-basmati', name: 'Orez basmati uscat', category: 'Carbohidrați', kcal: 350, p: 7.5, c: 78, f: 0.8, fiber: 1.4, iron: 1, defaultQty: 70, presets: [50, 60, 70, 80] },
-  { id: 'quinoa-uscata', name: 'Quinoa uscată', category: 'Carbohidrați', kcal: 368, p: 14, c: 64, f: 6, fiber: 7, iron: 4.6, defaultQty: 70, presets: [50, 60, 70] },
-  { id: 'ovaz', name: 'Ovăz integral uscat', category: 'Carbohidrați', kcal: 389, p: 17, c: 66, f: 7, fiber: 11, iron: 4.7, defaultQty: 40, presets: [30, 40, 50] },
-  { id: 'cartof-dulce', name: 'Cartof dulce crud', category: 'Carbohidrați', kcal: 86, p: 1.6, c: 20, f: 0.1, fiber: 3, iron: 0.6, defaultQty: 200, presets: [150, 200, 250] },
-  { id: 'cartof-alb', name: 'Cartof alb crud', category: 'Carbohidrați', kcal: 77, p: 2, c: 17, f: 0.1, fiber: 2.2, iron: 0.8, defaultQty: 200, presets: [150, 200, 250] },
-  { id: 'paine-int', name: 'Pâine integrală 100%', category: 'Carbohidrați', kcal: 247, p: 13, c: 41, f: 3.4, fiber: 7, iron: 2.5, defaultQty: 60, presets: [30, 60, 90] },
+  // CARBOHIDRATI
+  { id: 'orez-brun', name: 'Orez brun uscat', category: 'Carbohidrati', kcal: 360, p: 7.5, c: 76, f: 2.7, fiber: 3.4, iron: 1.5, defaultQty: 70, presets: [50, 60, 70, 80] },
+  { id: 'orez-basmati', name: 'Orez basmati uscat', category: 'Carbohidrati', kcal: 350, p: 7.5, c: 78, f: 0.8, fiber: 1.4, iron: 1, defaultQty: 70, presets: [50, 60, 70, 80] },
+  { id: 'quinoa-uscata', name: 'Quinoa uscata', category: 'Carbohidrati', kcal: 368, p: 14, c: 64, f: 6, fiber: 7, iron: 4.6, defaultQty: 70, presets: [50, 60, 70] },
+  { id: 'ovaz', name: 'Ovaz integral uscat', category: 'Carbohidrati', kcal: 389, p: 17, c: 66, f: 7, fiber: 11, iron: 4.7, defaultQty: 40, presets: [30, 40, 50] },
+  { id: 'cartof-dulce', name: 'Cartof dulce crud', category: 'Carbohidrati', kcal: 86, p: 1.6, c: 20, f: 0.1, fiber: 3, iron: 0.6, defaultQty: 200, presets: [150, 200, 250] },
+  { id: 'cartof-alb', name: 'Cartof alb crud', category: 'Carbohidrati', kcal: 77, p: 2, c: 17, f: 0.1, fiber: 2.2, iron: 0.8, defaultQty: 200, presets: [150, 200, 250] },
+  { id: 'paine-int', name: 'Paine integrala 100%', category: 'Carbohidrati', kcal: 247, p: 13, c: 41, f: 3.4, fiber: 7, iron: 2.5, defaultQty: 60, presets: [30, 60, 90] },
 
   // LEGUME
   { id: 'broccoli', name: 'Broccoli', category: 'Legume', kcal: 34, p: 2.8, c: 7, f: 0.4, fiber: 2.6, iron: 0.7, defaultQty: 200, presets: [100, 150, 200, 250] },
-  { id: 'conopida', name: 'Conopidă', category: 'Legume', kcal: 25, p: 1.9, c: 5, f: 0.3, fiber: 2, iron: 0.4, defaultQty: 200, presets: [100, 150, 200, 250] },
-  { id: 'spanac', name: 'Spanac proaspăt', category: 'Legume', kcal: 23, p: 2.9, c: 3.6, f: 0.4, fiber: 2.2, iron: 2.7, defaultQty: 150, presets: [100, 150, 200], warning: 'Fier mediu' },
-  { id: 'kale', name: 'Varză kale', category: 'Legume', kcal: 35, p: 2.9, c: 4.4, f: 1.5, fiber: 4.1, iron: 1.5, defaultQty: 100, presets: [50, 100, 150] },
+  { id: 'conopida', name: 'Conopida', category: 'Legume', kcal: 25, p: 1.9, c: 5, f: 0.3, fiber: 2, iron: 0.4, defaultQty: 200, presets: [100, 150, 200, 250] },
+  { id: 'spanac', name: 'Spanac proaspat', category: 'Legume', kcal: 23, p: 2.9, c: 3.6, f: 0.4, fiber: 2.2, iron: 2.7, defaultQty: 150, presets: [100, 150, 200], warning: 'Fier mediu' },
+  { id: 'kale', name: 'Varza kale', category: 'Legume', kcal: 35, p: 2.9, c: 4.4, f: 1.5, fiber: 4.1, iron: 1.5, defaultQty: 100, presets: [50, 100, 150] },
   { id: 'sparanghel', name: 'Sparanghel', category: 'Legume', kcal: 20, p: 2.2, c: 3.9, f: 0.1, fiber: 2.1, iron: 2.1, defaultQty: 150, presets: [100, 150, 200] },
   { id: 'dovlecel', name: 'Dovlecel', category: 'Legume', kcal: 17, p: 1.2, c: 3.1, f: 0.3, fiber: 1, iron: 0.4, defaultQty: 200, presets: [100, 200, 300] },
   { id: 'vinete', name: 'Vinete', category: 'Legume', kcal: 25, p: 1, c: 6, f: 0.2, fiber: 3, iron: 0.2, defaultQty: 200, presets: [100, 200, 300] },
   { id: 'ardei', name: 'Ardei (capia/gras)', category: 'Legume', kcal: 31, p: 1, c: 7, f: 0.3, fiber: 2.1, iron: 0.4, defaultQty: 150, presets: [100, 150, 200] },
-  { id: 'rosii', name: 'Roșii', category: 'Legume', kcal: 18, p: 0.9, c: 3.9, f: 0.2, fiber: 1.2, iron: 0.5, defaultQty: 150, presets: [100, 150, 200, 300] },
-  { id: 'castraveti', name: 'Castraveți', category: 'Legume', kcal: 15, p: 0.7, c: 3.6, f: 0.1, fiber: 0.5, iron: 0.3, defaultQty: 150, presets: [100, 150, 200] },
-  { id: 'salata', name: 'Salată verde mix', category: 'Legume', kcal: 15, p: 1.4, c: 2.9, f: 0.2, fiber: 1.3, iron: 0.9, defaultQty: 100, presets: [50, 100, 150] },
+  { id: 'rosii', name: 'Rosii', category: 'Legume', kcal: 18, p: 0.9, c: 3.9, f: 0.2, fiber: 1.2, iron: 0.5, defaultQty: 150, presets: [100, 150, 200, 300] },
+  { id: 'castraveti', name: 'Castraveti', category: 'Legume', kcal: 15, p: 0.7, c: 3.6, f: 0.1, fiber: 0.5, iron: 0.3, defaultQty: 150, presets: [100, 150, 200] },
+  { id: 'salata', name: 'Salata verde mix', category: 'Legume', kcal: 15, p: 1.4, c: 2.9, f: 0.2, fiber: 1.3, iron: 0.9, defaultQty: 100, presets: [50, 100, 150] },
   { id: 'morcovi', name: 'Morcovi', category: 'Legume', kcal: 41, p: 0.9, c: 10, f: 0.2, fiber: 2.8, iron: 0.3, defaultQty: 100, presets: [50, 100, 150] },
-  { id: 'sfecla', name: 'Sfeclă roșie', category: 'Legume', kcal: 43, p: 1.6, c: 10, f: 0.2, fiber: 2.8, iron: 0.8, defaultQty: 100, presets: [50, 100] },
-  { id: 'ceapa', name: 'Ceapă', category: 'Legume', kcal: 40, p: 1.1, c: 9.3, f: 0.1, fiber: 1.7, iron: 0.2, defaultQty: 30, presets: [20, 30, 50] },
+  { id: 'sfecla', name: 'Sfecla rosie', category: 'Legume', kcal: 43, p: 1.6, c: 10, f: 0.2, fiber: 2.8, iron: 0.8, defaultQty: 100, presets: [50, 100] },
+  { id: 'ceapa', name: 'Ceapa', category: 'Legume', kcal: 40, p: 1.1, c: 9.3, f: 0.1, fiber: 1.7, iron: 0.2, defaultQty: 30, presets: [20, 30, 50] },
 
-  // FRUCTE
-  { id: 'afine', name: 'Afine', category: 'Fructe', kcal: 57, p: 0.7, c: 14, f: 0.3, fiber: 2.4, iron: 0.3, defaultQty: 100, presets: [50, 100, 150] },
-  { id: 'zmeura', name: 'Zmeură', category: 'Fructe', kcal: 52, p: 1.2, c: 12, f: 0.7, fiber: 6.5, iron: 0.7, defaultQty: 100, presets: [50, 100, 150] },
-  { id: 'mure', name: 'Mure', category: 'Fructe', kcal: 43, p: 1.4, c: 10, f: 0.5, fiber: 5.3, iron: 0.6, defaultQty: 100, presets: [50, 100, 150] },
-  { id: 'capsuni', name: 'Căpșuni', category: 'Fructe', kcal: 32, p: 0.7, c: 7.7, f: 0.3, fiber: 2, iron: 0.4, defaultQty: 150, presets: [100, 150, 200] },
-  { id: 'banana', name: 'Banană', category: 'Fructe', kcal: 89, p: 1.1, c: 23, f: 0.3, fiber: 2.6, iron: 0.3, defaultQty: 100, presets: [80, 100, 120, 150] },
-  { id: 'mar', name: 'Măr', category: 'Fructe', kcal: 52, p: 0.3, c: 14, f: 0.2, fiber: 2.4, iron: 0.1, defaultQty: 150, presets: [100, 150, 200] },
-  { id: 'para', name: 'Pară', category: 'Fructe', kcal: 57, p: 0.4, c: 15, f: 0.1, fiber: 3.1, iron: 0.2, defaultQty: 150, presets: [100, 150, 200] },
-  { id: 'kiwi', name: 'Kiwi (1 buc ≈75g)', category: 'Fructe', kcal: 61, p: 1.1, c: 15, f: 0.5, fiber: 3, iron: 0.3, unit: 'buc', defaultQty: 2, presets: [1, 2, 3] },
+  // FRUCTE RECOMANDATE
+  { id: 'afine', name: 'Afine', category: 'Fructe recomandate', kcal: 57, p: 0.7, c: 14, f: 0.3, fiber: 2.4, iron: 0.3, defaultQty: 100, presets: [50, 100, 150] },
+  { id: 'zmeura', name: 'Zmeura', category: 'Fructe recomandate', kcal: 52, p: 1.2, c: 12, f: 0.7, fiber: 6.5, iron: 0.7, defaultQty: 100, presets: [50, 100, 150] },
+  { id: 'mure', name: 'Mure', category: 'Fructe recomandate', kcal: 43, p: 1.4, c: 10, f: 0.5, fiber: 5.3, iron: 0.6, defaultQty: 100, presets: [50, 100, 150] },
+  { id: 'capsuni', name: 'Capsuni', category: 'Fructe recomandate', kcal: 32, p: 0.7, c: 7.7, f: 0.3, fiber: 2, iron: 0.4, defaultQty: 150, presets: [100, 150, 200] },
+  { id: 'cirese', name: 'Cirese', category: 'Fructe recomandate', kcal: 63, p: 1.1, c: 16, f: 0.2, fiber: 2.1, iron: 0.4, defaultQty: 150, presets: [100, 150, 200] },
+  { id: 'visine', name: 'Visine', category: 'Fructe recomandate', kcal: 50, p: 1, c: 12, f: 0.3, fiber: 1.6, iron: 0.3, defaultQty: 150, presets: [100, 150, 200] },
+  { id: 'agrise', name: 'Agrise', category: 'Fructe recomandate', kcal: 44, p: 0.9, c: 10, f: 0.6, fiber: 4.3, iron: 0.3, defaultQty: 100, presets: [50, 100, 150] },
+  { id: 'coacaze-rosii', name: 'Coacaze rosii', category: 'Fructe recomandate', kcal: 56, p: 1.4, c: 14, f: 0.2, fiber: 4.3, iron: 1, defaultQty: 100, presets: [50, 100, 150] },
+  { id: 'coacaze-negre', name: 'Coacaze negre', category: 'Fructe recomandate', kcal: 63, p: 1.4, c: 15, f: 0.4, fiber: 5.3, iron: 1.5, defaultQty: 100, presets: [50, 100, 150] },
+  { id: 'banana', name: 'Banana', category: 'Fructe recomandate', kcal: 89, p: 1.1, c: 23, f: 0.3, fiber: 2.6, iron: 0.3, defaultQty: 100, presets: [80, 100, 120, 150] },
+  { id: 'mar', name: 'Mar', category: 'Fructe recomandate', kcal: 52, p: 0.3, c: 14, f: 0.2, fiber: 2.4, iron: 0.1, defaultQty: 150, presets: [100, 150, 200] },
+  { id: 'para', name: 'Para', category: 'Fructe recomandate', kcal: 57, p: 0.4, c: 15, f: 0.1, fiber: 3.1, iron: 0.2, defaultQty: 150, presets: [100, 150, 200] },
+  { id: 'kiwi', name: 'Kiwi (1 buc ~75g)', category: 'Fructe recomandate', kcal: 61, p: 1.1, c: 15, f: 0.5, fiber: 3, iron: 0.3, unit: 'buc', defaultQty: 2, presets: [1, 2, 3] },
+  { id: 'portocala', name: 'Portocala', category: 'Fructe recomandate', kcal: 47, p: 0.9, c: 12, f: 0.1, fiber: 2.4, iron: 0.1, defaultQty: 150, presets: [100, 150, 200] },
+  { id: 'grapefruit', name: 'Grapefruit', category: 'Fructe recomandate', kcal: 42, p: 0.8, c: 11, f: 0.1, fiber: 1.6, iron: 0.1, defaultQty: 200, presets: [100, 200, 300] },
 
-  // GRĂSIMI / SEMINȚE
-  { id: 'ulei-masline', name: 'Ulei măsline extravirgin', category: 'Grăsimi', kcal: 884, p: 0, c: 0, f: 100, fiber: 0, iron: 0, unit: 'ml', defaultQty: 10, presets: [5, 10, 15, 20] },
-  { id: 'avocado', name: 'Avocado', category: 'Grăsimi', kcal: 160, p: 2, c: 9, f: 15, fiber: 7, iron: 0.6, defaultQty: 80, presets: [40, 80, 120] },
-  { id: 'nuci', name: 'Nuci', category: 'Grăsimi', kcal: 654, p: 15, c: 14, f: 65, fiber: 6.7, iron: 2.9, defaultQty: 15, presets: [10, 15, 20, 30] },
-  { id: 'migdale', name: 'Migdale', category: 'Grăsimi', kcal: 579, p: 21, c: 22, f: 50, fiber: 12.5, iron: 3.7, defaultQty: 15, presets: [10, 15, 20, 30] },
-  { id: 'chia', name: 'Semințe chia', category: 'Grăsimi', kcal: 486, p: 17, c: 42, f: 31, fiber: 34, iron: 7.7, defaultQty: 12, presets: [10, 12, 15], warning: 'Fier mare' },
-  { id: 'in', name: 'Semințe in măcinate', category: 'Grăsimi', kcal: 534, p: 18, c: 29, f: 42, fiber: 27, iron: 5.7, defaultQty: 10, presets: [5, 10, 15] },
-  { id: 'dovleac', name: 'Semințe dovleac', category: 'Grăsimi', kcal: 559, p: 30, c: 11, f: 49, fiber: 6, iron: 8.8, defaultQty: 10, presets: [5, 10, 15], warning: 'Fier MARE' },
-  { id: 'unt-arah', name: 'Unt arahide natural', category: 'Grăsimi', kcal: 588, p: 25, c: 20, f: 50, fiber: 6, iron: 2, defaultQty: 15, presets: [10, 15, 20] },
-  { id: 'tahini', name: 'Tahini', category: 'Grăsimi', kcal: 595, p: 17, c: 21, f: 53, fiber: 9, iron: 8.9, defaultQty: 10, presets: [5, 10, 15], warning: 'Fier MARE' },
-  { id: 'cacao', name: 'Cacao pură fără zahăr', category: 'Grăsimi', kcal: 228, p: 20, c: 58, f: 14, fiber: 33, iron: 13.9, defaultQty: 5, presets: [3, 5, 10], warning: 'Fier MARE' }
+  // FRUCTE DE VARA (mai dulci - consuma moderat)
+  { id: 'caise', name: 'Caise', category: 'Fructe de vara', kcal: 48, p: 1.4, c: 11, f: 0.4, fiber: 2, iron: 0.4, defaultQty: 150, presets: [80, 100, 150, 200] },
+  { id: 'piersici', name: 'Piersici', category: 'Fructe de vara', kcal: 39, p: 0.9, c: 10, f: 0.3, fiber: 1.5, iron: 0.3, defaultQty: 150, presets: [100, 150, 200] },
+  { id: 'nectarine', name: 'Nectarine', category: 'Fructe de vara', kcal: 44, p: 1.1, c: 11, f: 0.3, fiber: 1.7, iron: 0.3, defaultQty: 150, presets: [100, 150, 200] },
+  { id: 'prune', name: 'Prune', category: 'Fructe de vara', kcal: 46, p: 0.7, c: 11, f: 0.3, fiber: 1.4, iron: 0.2, defaultQty: 150, presets: [80, 100, 150, 200] },
+  { id: 'pepene-rosu', name: 'Pepene rosu', category: 'Fructe de vara', kcal: 30, p: 0.6, c: 7.6, f: 0.2, fiber: 0.4, iron: 0.2, defaultQty: 300, presets: [150, 200, 300, 400] },
+  { id: 'pepene-galben', name: 'Pepene galben', category: 'Fructe de vara', kcal: 34, p: 0.8, c: 8, f: 0.2, fiber: 0.9, iron: 0.2, defaultQty: 200, presets: [150, 200, 300] },
+  { id: 'smochine', name: 'Smochine proaspete', category: 'Fructe de vara', kcal: 74, p: 0.8, c: 19, f: 0.3, fiber: 2.9, iron: 0.4, defaultQty: 100, presets: [50, 100, 150] },
+  { id: 'struguri', name: 'Struguri (albi/rosii)', category: 'Fructe de vara', kcal: 69, p: 0.7, c: 18, f: 0.2, fiber: 0.9, iron: 0.4, defaultQty: 150, presets: [80, 100, 150, 200] },
+
+  // GRASIMI / SEMINTE
+  { id: 'ulei-masline', name: 'Ulei masline extravirgin', category: 'Grasimi', kcal: 884, p: 0, c: 0, f: 100, fiber: 0, iron: 0, unit: 'ml', defaultQty: 10, presets: [5, 10, 15, 20] },
+  { id: 'avocado', name: 'Avocado', category: 'Grasimi', kcal: 160, p: 2, c: 9, f: 15, fiber: 7, iron: 0.6, defaultQty: 80, presets: [40, 80, 120] },
+  { id: 'nuci', name: 'Nuci', category: 'Grasimi', kcal: 654, p: 15, c: 14, f: 65, fiber: 6.7, iron: 2.9, defaultQty: 15, presets: [10, 15, 20, 30] },
+  { id: 'migdale', name: 'Migdale', category: 'Grasimi', kcal: 579, p: 21, c: 22, f: 50, fiber: 12.5, iron: 3.7, defaultQty: 15, presets: [10, 15, 20, 30] },
+  { id: 'chia', name: 'Seminte chia', category: 'Grasimi', kcal: 486, p: 17, c: 42, f: 31, fiber: 34, iron: 7.7, defaultQty: 12, presets: [10, 12, 15], warning: 'Fier mare' },
+  { id: 'in', name: 'Seminte in macinate', category: 'Grasimi', kcal: 534, p: 18, c: 29, f: 42, fiber: 27, iron: 5.7, defaultQty: 10, presets: [5, 10, 15] },
+  { id: 'dovleac', name: 'Seminte dovleac', category: 'Grasimi', kcal: 559, p: 30, c: 11, f: 49, fiber: 6, iron: 8.8, defaultQty: 10, presets: [5, 10, 15], warning: 'Fier MARE' },
+  { id: 'unt-arah', name: 'Unt arahide natural', category: 'Grasimi', kcal: 588, p: 25, c: 20, f: 50, fiber: 6, iron: 2, defaultQty: 15, presets: [10, 15, 20] },
+  { id: 'tahini', name: 'Tahini', category: 'Grasimi', kcal: 595, p: 17, c: 21, f: 53, fiber: 9, iron: 8.9, defaultQty: 10, presets: [5, 10, 15], warning: 'Fier MARE' },
+  { id: 'cacao', name: 'Cacao pura fara zahar', category: 'Grasimi', kcal: 228, p: 20, c: 58, f: 14, fiber: 33, iron: 13.9, defaultQty: 5, presets: [3, 5, 10], warning: 'Fier MARE' }
 ];
+
+
 
 // ============================================
 // DATABASE (IndexedDB)
@@ -1587,8 +1705,8 @@ let settings = {
 
 const MEALS = [
   { id: 'shake1', name: 'Shake post-workout', time: '08:30' },
-  { id: 'pranz', name: 'Prânz', time: '13:00' },
-  { id: 'cina', name: 'Cină', time: '17:30' },
+  { id: 'pranz', name: 'Pranz', time: '13:00' },
+  { id: 'cina', name: 'Cina', time: '17:30' },
   { id: 'shake2', name: 'Shake seara', time: '20:30' }
 ];
 
@@ -1603,7 +1721,7 @@ function displayDate(dateStr) {
   const d = new Date(dateStr);
   const today = formatDate(new Date());
   const yesterday = formatDate(new Date(Date.now() - 86400000));
-  if (dateStr === today) return { label: 'Astăzi', sub: d.toLocaleDateString('ro-RO', { weekday: 'long', day: 'numeric', month: 'long' }) };
+  if (dateStr === today) return { label: 'Astazi', sub: d.toLocaleDateString('ro-RO', { weekday: 'long', day: 'numeric', month: 'long' }) };
   if (dateStr === yesterday) return { label: 'Ieri', sub: d.toLocaleDateString('ro-RO', { weekday: 'long', day: 'numeric', month: 'long' }) };
   return { label: d.toLocaleDateString('ro-RO', { weekday: 'long', day: 'numeric', month: 'long' }), sub: '' };
 }
@@ -1676,7 +1794,7 @@ async function renderToday() {
   else calBar.classList.remove('over');
 
   document.getElementById('calorieStatus').textContent =
-    remaining < 0 ? `Depășit cu ${Math.abs(remaining)} kcal` : `Țintă: ${targets.calories} kcal · Deficit ~500 kcal`;
+    remaining < 0 ? `Depasit cu ${Math.abs(remaining)} kcal` : `Tinta: ${targets.calories} kcal · Deficit ~500 kcal`;
 
   // Macros
   updateMacro('protein', totals.p, targets.protein, 'g');
@@ -1706,7 +1824,7 @@ async function renderToday() {
         </div>
         <div class="meal-summary">
           ${entries.length > 0 ? `<div class="meal-kcal">${Math.round(mealKcal)} kcal</div>` : ''}
-          <button class="add-btn" data-meal="${meal.id}" aria-label="Adaugă">
+          <button class="add-btn" data-meal="${meal.id}" aria-label="Adauga">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
           </button>
         </div>
@@ -1720,7 +1838,7 @@ async function renderToday() {
             </div>
             <div class="item-actions">
               <div class="item-kcal">${Math.round(e.kcal)} kcal</div>
-              <button class="delete-btn" data-id="${e.id}" aria-label="Șterge">
+              <button class="delete-btn" data-id="${e.id}" aria-label="Sterge">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19,6l-2,14c-0.2,1.7-1.7,3-3.4,3H10.4c-1.7,0-3.2-1.3-3.4-3L5,6"/></svg>
               </button>
             </div>
@@ -1745,7 +1863,7 @@ async function renderToday() {
       e.stopPropagation();
       const id = parseInt(btn.dataset.id);
       await dbDelete('entries', id);
-      showToast('Șters');
+      showToast('Sters');
       renderToday();
     });
   });
@@ -1759,7 +1877,7 @@ function updateMacro(key, val, target, unit) {
   document.getElementById(`${key}Consumed`).textContent = consumed;
   document.getElementById(`${key}Target`).textContent = target;
   document.getElementById(`${key}Remaining`).textContent =
-    val > target ? `+${Math.round(val - target)}${unit} peste` : `${remaining}${unit} rămase`;
+    val > target ? `+${Math.round(val - target)}${unit} peste` : `${remaining}${unit} ramase`;
 
   const bar = document.getElementById(`${key}Bar`);
   bar.style.width = pct + '%';
@@ -1774,7 +1892,7 @@ function updateIronMacro(val, target) {
   document.getElementById('ironConsumed').textContent = consumed;
   document.getElementById('ironTarget').textContent = target;
   document.getElementById('ironStatus').textContent =
-    val > target ? `⚠ Limită depășită!` : 'Limită strictă';
+    val > target ? `⚠ Limita depasita!` : 'Limita stricta';
 
   const bar = document.getElementById('ironBar');
   bar.style.width = pct + '%';
@@ -1790,8 +1908,8 @@ function updateIronMacro(val, target) {
 function openFoodPicker(mealId) {
   currentMeal = mealId;
   const meal = MEALS.find(m => m.id === mealId);
-  document.getElementById('foodModalTitle').textContent = `Adaugă la ${meal.name}`;
-  document.getElementById('foodModalSub').textContent = 'Selectează ce ai mâncat';
+  document.getElementById('foodModalTitle').textContent = `Adauga la ${meal.name}`;
+  document.getElementById('foodModalSub').textContent = 'Selecteaza ce ai mancat';
   document.getElementById('searchInput').value = '';
   renderFoodList('');
   document.getElementById('foodModal').classList.add('show');
@@ -1805,13 +1923,51 @@ function renderFoodList(filter) {
   const list = document.getElementById('foodList');
   list.innerHTML = '';
 
-  const filtered = filter.trim()
-    ? FOOD_DB.filter(f => f.name.toLowerCase().includes(filter.toLowerCase()))
-    : FOOD_DB;
+  const q = filter.trim().toLowerCase();
 
-  // Group by category
+  // If searching, show flat results ordered by relevance (no categories)
+  if (q) {
+    const scored = FOOD_DB
+      .map(f => {
+        const name = f.name.toLowerCase();
+        let score = -1;
+        if (name === q) score = 1000;
+        else if (name.startsWith(q)) score = 500;
+        else if (name.split(/[\s(]/).some(w => w.startsWith(q))) score = 250;
+        else if (name.includes(q)) score = 100;
+        return { food: f, score };
+      })
+      .filter(x => x.score > 0)
+      .sort((a, b) => b.score - a.score);
+
+    if (scored.length === 0) {
+      list.innerHTML = '<div class="empty-state"><div class="empty-state-text">Niciun aliment gasit</div></div>';
+      return;
+    }
+
+    const resultHeader = document.createElement('div');
+    resultHeader.className = 'food-category';
+    resultHeader.textContent = `Rezultate (${scored.length})`;
+    list.appendChild(resultHeader);
+
+    scored.forEach(({ food }) => {
+      const item = document.createElement('div');
+      item.className = 'food-item';
+      item.innerHTML = `
+        <div>
+          <div class="food-name">${food.name}${food.warning ? `<span class="food-warning"> ⚠</span>` : ''}</div>
+          <div class="food-macros">${food.category} · ${food.kcal} kcal · ${food.p}P ${food.c}C ${food.f}G · Fe ${food.iron}mg</div>
+        </div>
+      `;
+      item.addEventListener('click', () => openQtyModal(food));
+      list.appendChild(item);
+    });
+    return;
+  }
+
+  // No search: group by category
   const byCategory = {};
-  filtered.forEach(f => {
+  FOOD_DB.forEach(f => {
     if (!byCategory[f.category]) byCategory[f.category] = [];
     byCategory[f.category].push(f);
   });
@@ -1827,7 +1983,7 @@ function renderFoodList(filter) {
       item.className = 'food-item';
       item.innerHTML = `
         <div>
-          <div class="food-name">${food.name}${food.warning ? `<span class="food-warning">⚠</span>` : ''}</div>
+          <div class="food-name">${food.name}${food.warning ? `<span class="food-warning"> ⚠</span>` : ''}</div>
           <div class="food-macros">${food.kcal} kcal · ${food.p}P ${food.c}C ${food.f}G · Fe ${food.iron}mg</div>
         </div>
       `;
@@ -1835,10 +1991,6 @@ function renderFoodList(filter) {
       list.appendChild(item);
     });
   });
-
-  if (filtered.length === 0) {
-    list.innerHTML = '<div class="empty-state"><div class="empty-state-text">Niciun aliment găsit</div></div>';
-  }
 }
 
 // ============================================
@@ -1850,7 +2002,7 @@ function openQtyModal(food) {
 
   document.getElementById('qtySelectedName').textContent = food.name;
   const unit = food.unit || 'g';
-  document.getElementById('qtySelectedInfo').textContent = `${food.kcal} kcal per ${unit === 'buc' ? 'bucată' : '100g'} · Fier ${food.iron}mg`;
+  document.getElementById('qtySelectedInfo').textContent = `${food.kcal} kcal per ${unit === 'buc' ? 'bucata' : '100g'} · Fier ${food.iron}mg`;
   document.getElementById('qtyUnit').textContent = unit;
   document.getElementById('qtyInput').value = food.defaultQty;
 
@@ -1892,8 +2044,8 @@ function updateQtyPreview() {
   document.getElementById('qtyPreview').innerHTML = `
     <div class="qty-preview-row"><span class="qty-preview-label">Calorii</span><span class="qty-preview-value">${Math.round(kcal)} kcal</span></div>
     <div class="qty-preview-row"><span class="qty-preview-label">Proteine</span><span class="qty-preview-value">${p.toFixed(1)} g</span></div>
-    <div class="qty-preview-row"><span class="qty-preview-label">Carbohidrați</span><span class="qty-preview-value">${c.toFixed(1)} g</span></div>
-    <div class="qty-preview-row"><span class="qty-preview-label">Grăsimi</span><span class="qty-preview-value">${f.toFixed(1)} g</span></div>
+    <div class="qty-preview-row"><span class="qty-preview-label">Carbohidrati</span><span class="qty-preview-value">${c.toFixed(1)} g</span></div>
+    <div class="qty-preview-row"><span class="qty-preview-label">Grasimi</span><span class="qty-preview-value">${f.toFixed(1)} g</span></div>
     <div class="qty-preview-row"><span class="qty-preview-label">Fibre</span><span class="qty-preview-value">${fiber.toFixed(1)} g</span></div>
     <div class="qty-preview-row"><span class="qty-preview-label">Fier</span><span class="qty-preview-value" style="color: ${iron > 3 ? 'var(--salmon)' : 'var(--ink)'};">${iron.toFixed(2)} mg</span></div>
   `;
@@ -1925,7 +2077,7 @@ async function saveEntry() {
 
   await dbAdd('entries', entry);
   closeQtyModal();
-  showToast(`+${Math.round(entry.kcal)} kcal adăugate`);
+  showToast(`+${Math.round(entry.kcal)} kcal adaugate`);
   renderToday();
 }
 
@@ -1937,9 +2089,17 @@ async function loadMetricsForDay() {
   document.getElementById('weightInput').value = m?.weight || '';
   document.getElementById('waistInput').value = m?.waist || '';
   document.getElementById('fatPctInput').value = m?.fatPct || '';
+  document.getElementById('muscleMassInput').value = m?.muscleMass || '';
+  document.getElementById('fatMassInput').value = m?.fatMass || '';
+  document.getElementById('leanMassInput').value = m?.leanMass || '';
   document.getElementById('stepsInput').value = m?.steps || '';
+  document.getElementById('activeCalInput').value = m?.activeCal || '';
   document.getElementById('sleepInput').value = m?.sleep || '';
   document.getElementById('workoutInput').value = m?.workout || '';
+  document.getElementById('fastingHoursInput').value = m?.fastingHours || '';
+  document.getElementById('eatingWindowInput').value = m?.eatingWindow || '';
+  document.getElementById('firstMealInput').value = m?.firstMeal || '';
+  document.getElementById('lastMealInput').value = m?.lastMeal || '';
 
   // Show current values
   const all = await dbGetAll('metrics');
@@ -1968,6 +2128,32 @@ async function loadMetricsForDay() {
       el.className = 'stat-change ' + (change < 0 ? 'positive' : change > 0 ? 'negative' : 'neutral');
     }
   }
+
+  const muscleSorted = all.filter(x => x.muscleMass).sort((a, b) => a.date.localeCompare(b.date));
+  if (muscleSorted.length > 0) {
+    const latest = muscleSorted[muscleSorted.length - 1];
+    document.getElementById('muscleCurrent').textContent = `${latest.muscleMass} kg`;
+    if (muscleSorted.length > 1) {
+      const prev = muscleSorted[0];
+      const change = latest.muscleMass - prev.muscleMass;
+      const el = document.getElementById('muscleChange');
+      el.textContent = `${change > 0 ? '+' : ''}${change.toFixed(1)} kg din ${prev.date}`;
+      el.className = 'stat-change ' + (change > 0 ? 'positive' : change < 0 ? 'negative' : 'neutral');
+    }
+  }
+
+  const fatPctSorted = all.filter(x => x.fatPct).sort((a, b) => a.date.localeCompare(b.date));
+  if (fatPctSorted.length > 0) {
+    const latest = fatPctSorted[fatPctSorted.length - 1];
+    document.getElementById('fatPctCurrent').textContent = `${latest.fatPct} %`;
+    if (fatPctSorted.length > 1) {
+      const prev = fatPctSorted[0];
+      const change = latest.fatPct - prev.fatPct;
+      const el = document.getElementById('fatPctChange');
+      el.textContent = `${change > 0 ? '+' : ''}${change.toFixed(1)}% din ${prev.date}`;
+      el.className = 'stat-change ' + (change < 0 ? 'positive' : change > 0 ? 'negative' : 'neutral');
+    }
+  }
 }
 
 async function saveMetricsForDay() {
@@ -1976,14 +2162,22 @@ async function saveMetricsForDay() {
     weight: parseFloat(document.getElementById('weightInput').value) || null,
     waist: parseFloat(document.getElementById('waistInput').value) || null,
     fatPct: parseFloat(document.getElementById('fatPctInput').value) || null,
+    muscleMass: parseFloat(document.getElementById('muscleMassInput').value) || null,
+    fatMass: parseFloat(document.getElementById('fatMassInput').value) || null,
+    leanMass: parseFloat(document.getElementById('leanMassInput').value) || null,
     steps: parseInt(document.getElementById('stepsInput').value) || null,
+    activeCal: parseInt(document.getElementById('activeCalInput').value) || null,
     sleep: parseFloat(document.getElementById('sleepInput').value) || null,
     workout: document.getElementById('workoutInput').value || null,
+    fastingHours: parseFloat(document.getElementById('fastingHoursInput').value) || null,
+    eatingWindow: parseFloat(document.getElementById('eatingWindowInput').value) || null,
+    firstMeal: document.getElementById('firstMealInput').value || null,
+    lastMeal: document.getElementById('lastMealInput').value || null,
     timestamp: Date.now()
   };
 
   await dbPut('metrics', data);
-  showToast('✓ Salvat');
+  showToast('Salvat');
   loadMetricsForDay();
 }
 
@@ -2032,8 +2226,8 @@ async function renderHistory() {
   // Averages last 7 days
   const last7 = caloriesData.slice(-7).filter(x => x !== null);
   const last7P = proteinData.slice(-7).filter(x => x !== null);
-  document.getElementById('calAvg').textContent = last7.length ? Math.round(last7.reduce((s,v)=>s+v,0) / last7.length) : '—';
-  document.getElementById('proteinAvg').textContent = last7P.length ? Math.round(last7P.reduce((s,v)=>s+v,0) / last7P.length) : '—';
+  document.getElementById('calAvg').textContent = last7.length ? Math.round(last7.reduce((s,v)=>s+v,0) / last7.length) : '-';
+  document.getElementById('proteinAvg').textContent = last7P.length ? Math.round(last7P.reduce((s,v)=>s+v,0) / last7P.length) : '-';
 
   const labels = dates.map(d => {
     const dt = new Date(d);
@@ -2139,7 +2333,7 @@ async function saveSettings() {
 
   await dbPut('settings', { key: 'main', data: settings });
   computeAndDisplay();
-  showToast('✓ Setări salvate');
+  showToast('Setari salvate');
   renderToday();
 }
 
@@ -2167,7 +2361,7 @@ async function exportData() {
   a.download = `jurnal-bogdan-${formatDate(new Date())}.json`;
   a.click();
   URL.revokeObjectURL(url);
-  showToast('✓ Exportat');
+  showToast('Exportat');
 }
 
 async function importData(file) {
@@ -2175,7 +2369,7 @@ async function importData(file) {
     const text = await file.text();
     const data = JSON.parse(text);
 
-    if (!confirm(`Vrei să imporți ${data.entries?.length || 0} înregistrări și ${data.metrics?.length || 0} măsurători? Datele existente NU vor fi șterse.`)) return;
+    if (!confirm(`Vrei sa importi ${data.entries?.length || 0} inregistrari si ${data.metrics?.length || 0} masuratori? Datele existente NU vor fi sterse.`)) return;
 
     if (data.entries) {
       for (const e of data.entries) {
@@ -2194,7 +2388,7 @@ async function importData(file) {
       applySettingsToUI();
     }
 
-    showToast('✓ Importat cu succes');
+    showToast('Importat cu succes');
     renderToday();
   } catch (err) {
     alert('Eroare la import: ' + err.message);
@@ -2202,14 +2396,14 @@ async function importData(file) {
 }
 
 async function resetAll() {
-  if (!confirm('SIGUR vrei să ștergi TOATE datele? Această acțiune nu poate fi anulată.')) return;
-  if (!confirm('Confirmare finală: toate înregistrările, măsurătorile și setările vor fi pierdute.')) return;
+  if (!confirm('SIGUR vrei sa stergi TOATE datele? Aceasta actiune nu poate fi anulata.')) return;
+  if (!confirm('Confirmare finala: toate inregistrarile, masuratorile si setarile vor fi pierdute.')) return;
 
   await dbClear('entries');
   await dbClear('metrics');
   await dbClear('settings');
 
-  showToast('Toate datele șterse');
+  showToast('Toate datele sterse');
   setTimeout(() => location.reload(), 800);
 }
 
@@ -2268,9 +2462,16 @@ function bindEvents() {
     if (e.target.id === 'foodModal') closeFoodPicker();
   });
 
+  document.getElementById('closeFoodModal').addEventListener('click', closeFoodPicker);
+
   document.getElementById('searchInput').addEventListener('input', (e) => {
     renderFoodList(e.target.value);
+    // Scroll to top of list when typing
+    const list = document.getElementById('foodList');
+    if (list) list.scrollTop = 0;
   });
+
+  document.getElementById('closeQtyModal').addEventListener('click', closeQtyModal);
 
   // Quantity modal
   document.getElementById('qtyModal').addEventListener('click', (e) => {
@@ -2334,10 +2535,60 @@ function bindEvents() {
 }
 
 // ============================================
+// SEED DATA (auto-import istoric din versiunea anterioara)
+// Se importa o singura data, prima oara cand utilizatorul deschide aceasta versiune.
+// ============================================
+const SEED_DATA = {
+  version: '2026-05-27-seed-v1',
+  entries: [
+    { date: "2026-05-27", meal: "shake1", foodId: "whey", foodName: "Whey isolate", qty: 40, unit: "g", kcal: 152, p: 35.2, c: 1.6, f: 0.6, fiber: 0, iron: 0.12, timestamp: 1779865796087 },
+    { date: "2026-05-27", meal: "shake1", foodId: "creatina", foodName: "Creatina monohidrat", qty: 5, unit: "g", kcal: 0, p: 0, c: 0, f: 0, fiber: 0, iron: 0, timestamp: 1779865859828 },
+    { date: "2026-05-27", meal: "shake1", foodId: "banana", foodName: "Banana", qty: 90, unit: "g", kcal: 80.1, p: 0.99, c: 20.7, f: 0.27, fiber: 2.34, iron: 0.27, timestamp: 1779865947460 },
+    { date: "2026-05-27", meal: "shake1", foodId: "in", foodName: "Seminte in macinate", qty: 10, unit: "g", kcal: 53.4, p: 1.8, c: 2.9, f: 4.2, fiber: 2.7, iron: 0.57, timestamp: 1779866060286 },
+    { date: "2026-05-27", meal: "shake1", foodId: "nuci", foodName: "Nuci", qty: 10, unit: "g", kcal: 65.4, p: 1.5, c: 1.4, f: 6.5, fiber: 0.67, iron: 0.29, timestamp: 1779866161507 },
+    { date: "2026-05-27", meal: "pranz", foodId: "ceapa", foodName: "Ceapa", qty: 24, unit: "g", kcal: 9.6, p: 0.264, c: 2.232, f: 0.024, fiber: 0.408, iron: 0.048, timestamp: 1779871396897 },
+    { date: "2026-05-27", meal: "pranz", foodId: "broccoli", foodName: "Broccoli", qty: 207, unit: "g", kcal: 70.38, p: 5.796, c: 14.49, f: 0.828, fiber: 5.382, iron: 1.449, timestamp: 1779871516272 },
+    { date: "2026-05-27", meal: "pranz", foodId: "rosii", foodName: "Rosii", qty: 30, unit: "g", kcal: 5.4, p: 0.27, c: 1.17, f: 0.06, fiber: 0.36, iron: 0.15, timestamp: 1779871632509 },
+    { date: "2026-05-27", meal: "pranz", foodId: "pui", foodName: "Piept de pui (negatit)", qty: 360, unit: "g", kcal: 396, p: 82.8, c: 0, f: 4.32, fiber: 0, iron: 1.44, timestamp: 1779871741497 },
+    { date: "2026-05-27", meal: "cina", foodId: "ceapa", foodName: "Ceapa", qty: 24, unit: "g", kcal: 9.6, p: 0.264, c: 2.232, f: 0.024, fiber: 0.408, iron: 0.048, timestamp: 1779890408486 },
+    { date: "2026-05-27", meal: "cina", foodId: "broccoli", foodName: "Broccoli", qty: 200, unit: "g", kcal: 68, p: 5.6, c: 14, f: 0.8, fiber: 5.2, iron: 1.4, timestamp: 1779890424357 },
+    { date: "2026-05-27", meal: "cina", foodId: "rosii", foodName: "Rosii", qty: 30, unit: "g", kcal: 5.4, p: 0.27, c: 1.17, f: 0.06, fiber: 0.36, iron: 0.15, timestamp: 1779890444704 },
+    { date: "2026-05-27", meal: "cina", foodId: "pui", foodName: "Piept de pui (negatit)", qty: 300, unit: "g", kcal: 330, p: 69, c: 0, f: 3.6, fiber: 0, iron: 1.2, timestamp: 1779890463130 },
+    { date: "2026-05-27", meal: "cina", foodId: "ulei-masline", foodName: "Ulei masline extravirgin", qty: 10, unit: "ml", kcal: 88.4, p: 0, c: 0, f: 10, fiber: 0, iron: 0, timestamp: 1779890909329 },
+    { date: "2026-05-27", meal: "cina", foodId: "nuci", foodName: "Nuci", qty: 11, unit: "g", kcal: 71.94, p: 1.65, c: 1.54, f: 7.15, fiber: 0.737, iron: 0.319, timestamp: 1779891134547 }
+  ]
+};
+
+async function applySeedIfNeeded() {
+  const seedFlag = await dbGet('settings', 'seedApplied');
+  if (seedFlag && seedFlag.value === SEED_DATA.version) {
+    return; // Seed-ul a fost deja aplicat
+  }
+
+  // Verifica daca exista deja inregistrari pentru data din seed
+  // (utilizatorul ar fi putut sa le aiba deja - nu suprascriem)
+  const existing = await dbGetByIndex('entries', 'date', '2026-05-27');
+
+  if (existing.length === 0) {
+    // Date noi - importa seed-ul
+    for (const entry of SEED_DATA.entries) {
+      await dbAdd('entries', { ...entry });
+    }
+    console.log(`Seed aplicat: ${SEED_DATA.entries.length} inregistrari importate pentru 27 mai 2026`);
+  } else {
+    console.log(`Seed sarit: ${existing.length} inregistrari deja existente pentru 27 mai 2026`);
+  }
+
+  // Marcheaza seed-ul ca aplicat (chiar daca nu am importat - sa nu mai incercam)
+  await dbPut('settings', { key: 'seedApplied', value: SEED_DATA.version });
+}
+
+// ============================================
 // INIT
 // ============================================
 async function init() {
   await initDB();
+  await applySeedIfNeeded();
   await loadSettings();
   bindEvents();
   await renderToday();
@@ -2396,7 +2647,7 @@ async function init() {
     overlay.innerHTML = `
       <div style="width: 100%; max-width: 340px; text-align: center;">
         <div style="font-family: 'Fraunces', Georgia, serif; font-size: 32px; font-weight: 500; color: #1f2419; letter-spacing: -0.02em; margin-bottom: 6px;">Jurnal</div>
-        <div style="font-size: 13px; color: #8b8f81; margin-bottom: 40px; text-transform: uppercase; letter-spacing: 0.1em; font-weight: 500;">Nutrițional · Privat</div>
+        <div style="font-size: 13px; color: #8b8f81; margin-bottom: 40px; text-transform: uppercase; letter-spacing: 0.1em; font-weight: 500;">Nutritional · Privat</div>
 
         <div style="background: #fbf8f1; border: 1px solid #e2dccd; border-radius: 20px; padding: 28px 24px;">
           <div style="font-size: 14px; color: #4a5340; margin-bottom: 16px; font-weight: 500;">Introdu parola</div>
@@ -2426,7 +2677,7 @@ async function init() {
               font-family: inherit; cursor: pointer;
               letter-spacing: -0.005em;
             "
-          >Intră</button>
+          >Intra</button>
 
           <div id="auth-error" style="
             color: #c97064; font-size: 13px;
@@ -2465,7 +2716,7 @@ async function init() {
           setTimeout(() => overlay.remove(), 400);
         }, 300);
       } else {
-        error.textContent = 'Parolă incorectă.';
+        error.textContent = 'Parola incorecta.';
         input.value = '';
         input.style.borderColor = '#c97064';
         btn.style.background = '#c97064';
