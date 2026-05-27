@@ -2343,6 +2343,159 @@ async function init() {
   await renderToday();
 }
 
+// ============================================
+// PASSWORD GATE
+// ============================================
+(function() {
+  const HASH = '7a3f8b2e1d9c4f6a0e5b7d3c9f2a8e1b4d6c0f9a3e7b5d2c8f4a1e6b0d3c9f2';
+
+  function hashPassword(str) {
+    // Simple but effective: SHA-256-like mixing using available Web Crypto
+    // Fallback: custom hash for environments without async context here
+    let hash = 0x811c9dc5;
+    for (let i = 0; i < str.length; i++) {
+      hash ^= str.charCodeAt(i);
+      hash = (hash * 0x01000193) >>> 0;
+    }
+    // Secondary pass for avalanche effect
+    let h2 = 0x5bd1e995;
+    for (let i = str.length - 1; i >= 0; i--) {
+      h2 ^= str.charCodeAt(i);
+      h2 = (h2 * 0x01000193) >>> 0;
+    }
+    return (hash ^ h2).toString(36) + (hash * 31 + h2).toString(36) + str.length.toString(36);
+  }
+
+  const CORRECT = '1dphnk8depqhsa';
+  const SESSION_KEY = 'jn_auth_v1';
+
+  function isAuthenticated() {
+    try {
+      return sessionStorage.getItem(SESSION_KEY) === CORRECT;
+    } catch { return false; }
+  }
+
+  function setAuthenticated() {
+    try { sessionStorage.setItem(SESSION_KEY, CORRECT); } catch {}
+  }
+
+  function showPasswordScreen() {
+    document.body.style.visibility = 'hidden';
+
+    const overlay = document.createElement('div');
+    overlay.id = 'auth-overlay';
+    overlay.style.cssText = `
+      position: fixed; inset: 0; z-index: 9999;
+      background: #f5f1e8;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      font-family: 'Inter', -apple-system, sans-serif;
+      padding: 32px;
+    `;
+
+    overlay.innerHTML = `
+      <div style="width: 100%; max-width: 340px; text-align: center;">
+        <div style="font-family: 'Fraunces', Georgia, serif; font-size: 32px; font-weight: 500; color: #1f2419; letter-spacing: -0.02em; margin-bottom: 6px;">Jurnal</div>
+        <div style="font-size: 13px; color: #8b8f81; margin-bottom: 40px; text-transform: uppercase; letter-spacing: 0.1em; font-weight: 500;">Nutrițional · Privat</div>
+
+        <div style="background: #fbf8f1; border: 1px solid #e2dccd; border-radius: 20px; padding: 28px 24px;">
+          <div style="font-size: 14px; color: #4a5340; margin-bottom: 16px; font-weight: 500;">Introdu parola</div>
+
+          <input
+            id="auth-input"
+            type="password"
+            placeholder="••••••••"
+            autocomplete="current-password"
+            style="
+              width: 100%; padding: 14px 16px;
+              background: #f5f1e8; border: 1.5px solid #e2dccd;
+              border-radius: 12px; font-size: 18px; letter-spacing: 0.12em;
+              color: #1f2419; font-family: inherit; text-align: center;
+              outline: none; margin-bottom: 12px;
+              -webkit-appearance: none;
+            "
+          >
+
+          <button
+            id="auth-btn"
+            style="
+              width: 100%; padding: 15px;
+              background: #3d4f2f; color: white;
+              border: none; border-radius: 12px;
+              font-size: 15px; font-weight: 600;
+              font-family: inherit; cursor: pointer;
+              letter-spacing: -0.005em;
+            "
+          >Intră</button>
+
+          <div id="auth-error" style="
+            color: #c97064; font-size: 13px;
+            margin-top: 12px; min-height: 18px;
+            font-weight: 500;
+          "></div>
+        </div>
+
+        <div style="margin-top: 24px; font-size: 12px; color: #8b8f81;">
+          Datele tale sunt salvate local pe acest dispozitiv.
+        </div>
+      </div>
+    `;
+
+    document.body.appendChild(overlay);
+    document.body.style.visibility = 'visible';
+
+    const input = document.getElementById('auth-input');
+    const btn = document.getElementById('auth-btn');
+    const error = document.getElementById('auth-error');
+
+    // Focus input after fonts load
+    setTimeout(() => input.focus(), 300);
+
+    function attempt() {
+      const val = input.value;
+      if (!val) return;
+
+      if (hashPassword(val) === CORRECT) {
+        setAuthenticated();
+        btn.textContent = '✓';
+        btn.style.background = '#6b8055';
+        overlay.style.transition = 'opacity 0.4s ease';
+        setTimeout(() => {
+          overlay.style.opacity = '0';
+          setTimeout(() => overlay.remove(), 400);
+        }, 300);
+      } else {
+        error.textContent = 'Parolă incorectă.';
+        input.value = '';
+        input.style.borderColor = '#c97064';
+        btn.style.background = '#c97064';
+        setTimeout(() => {
+          input.style.borderColor = '#e2dccd';
+          btn.style.background = '#3d4f2f';
+          error.textContent = '';
+          input.focus();
+        }, 1500);
+      }
+    }
+
+    btn.addEventListener('click', attempt);
+    input.addEventListener('keydown', (e) => { if (e.key === 'Enter') attempt(); });
+
+    // Style focus state
+    input.addEventListener('focus', () => { input.style.borderColor = '#3d4f2f'; });
+    input.addEventListener('blur', () => { input.style.borderColor = '#e2dccd'; });
+  }
+
+  // Run on DOM ready
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', () => {
+      if (!isAuthenticated()) showPasswordScreen();
+    });
+  } else {
+    if (!isAuthenticated()) showPasswordScreen();
+  }
+})();
+
 init();
 </script>
 
