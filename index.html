@@ -517,6 +517,99 @@
     height: 14px;
   }
 
+  .copy-meal-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    width: 100%;
+    margin-top: 12px;
+    padding: 10px;
+    background: var(--bg);
+    border: 1.5px dashed var(--olive-soft);
+    border-radius: 10px;
+    color: var(--olive);
+    font-family: inherit;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    letter-spacing: -0.005em;
+    transition: all 0.15s;
+  }
+
+  .copy-meal-btn:active {
+    background: var(--olive);
+    color: white;
+    border-color: var(--olive);
+    border-style: solid;
+    transform: scale(0.98);
+  }
+
+  .copy-meal-btn svg {
+    width: 14px;
+    height: 14px;
+  }
+
+  /* ====== FOODS LIST VIEW ====== */
+  .foods-list-category {
+    margin-bottom: 20px;
+  }
+
+  .foods-list-category-title {
+    font-family: var(--font-display);
+    font-size: 17px;
+    font-weight: 500;
+    letter-spacing: -0.01em;
+    color: var(--ink);
+    margin-bottom: 8px;
+    padding-bottom: 6px;
+    border-bottom: 1px solid var(--line);
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+  }
+
+  .foods-list-category-count {
+    font-size: 11px;
+    color: var(--ink-faint);
+    font-weight: 500;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    font-family: var(--font-body);
+  }
+
+  .foods-list-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 0;
+    border-bottom: 1px solid var(--line-soft);
+  }
+
+  .foods-list-item:last-child {
+    border-bottom: none;
+  }
+
+  .foods-list-name {
+    font-size: 14px;
+    color: var(--ink);
+    font-weight: 500;
+    flex: 1;
+  }
+
+  .foods-list-name .warn {
+    color: var(--salmon);
+    margin-left: 4px;
+  }
+
+  .foods-list-macros {
+    font-size: 11px;
+    color: var(--ink-faint);
+    margin-top: 2px;
+    font-family: var(--font-body);
+    font-feature-settings: "lnum";
+  }
+
   /* ====== METRICS SECTION ====== */
   .metrics-input {
     background: var(--bg-elev);
@@ -603,7 +696,8 @@
     border-top-right-radius: 24px;
     width: 100%;
     max-width: 520px;
-    max-height: 88vh;
+    max-height: 92vh;
+    height: 92vh;
     display: flex;
     flex-direction: column;
     animation: slideUp 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
@@ -1144,6 +1238,7 @@
 <div class="tabs">
   <button class="tab active" data-view="today">Astazi</button>
   <button class="tab" data-view="metrics">Masuratori</button>
+  <button class="tab" data-view="foods">Alimente</button>
   <button class="tab" data-view="history">Istoric</button>
   <button class="tab" data-view="settings">Setari</button>
 </div>
@@ -1334,6 +1429,23 @@
   </div>
 </div>
 
+<!-- FOODS VIEW (Alimente permise - pentru cumparaturi) -->
+<div class="view" id="view-foods">
+  <div class="dashboard">
+    <div class="section-header">
+      <div class="section-title">Alimente permise</div>
+      <div class="section-sub" id="foodsCount">- alimente</div>
+    </div>
+    <div style="background: var(--bg-elev); border: 1px solid var(--line); border-radius: var(--radius-md); padding: 14px 16px; margin-bottom: 16px; font-size: 13px; color: var(--ink-soft); line-height: 1.5;">
+      Lista pentru cumparaturile tale - doar ce ai voie sa cumperi conform planului. La mese poti adauga si alte alimente (din cumparaturi facute de altii). Atentie la avertismentele de fier (⚠) - feritina ta este crescuta.
+    </div>
+    <div class="search-bar" style="padding: 0; border: none; margin-bottom: 12px;">
+      <input type="text" class="search-input" id="foodsSearchInput" placeholder="Cauta in lista..." autocomplete="off">
+    </div>
+    <div id="foodsListView"></div>
+  </div>
+</div>
+
 <!-- HISTORY VIEW -->
 <div class="view" id="view-history">
   <div class="dashboard">
@@ -1501,98 +1613,212 @@
 // Format: { id, name, category, kcal, p, c, f, fiber, iron, unit, defaultQty, presets, warning }
 // ============================================
 const FOOD_DB = [
-  // PROTEINE ANIMALE
-  { id: 'pui', name: 'Piept de pui (negatit)', category: 'Proteine animale', kcal: 110, p: 23, c: 0, f: 1.2, fiber: 0, iron: 0.4, defaultQty: 180, presets: [120, 150, 180, 200] },
-  { id: 'curcan', name: 'Piept de curcan (negatit)', category: 'Proteine animale', kcal: 105, p: 24, c: 0, f: 1, fiber: 0, iron: 0.7, defaultQty: 180, presets: [120, 150, 180, 200] },
-  { id: 'cod', name: 'Cod sau merluciu', category: 'Proteine animale', kcal: 82, p: 18, c: 0, f: 0.7, fiber: 0, iron: 0.3, defaultQty: 180, presets: [120, 150, 180, 200] },
-  { id: 'somon', name: 'Somon salbatic', category: 'Proteine animale', kcal: 180, p: 20, c: 0, f: 11, fiber: 0, iron: 0.5, defaultQty: 150, presets: [120, 150, 180] },
-  { id: 'macrou', name: 'Macrou proaspat', category: 'Proteine animale', kcal: 205, p: 19, c: 0, f: 14, fiber: 0, iron: 1.6, defaultQty: 150, presets: [120, 150, 180], warning: 'Fier mediu' },
-  { id: 'pastrav', name: 'Pastrav', category: 'Proteine animale', kcal: 140, p: 20, c: 0, f: 6, fiber: 0, iron: 0.7, defaultQty: 150, presets: [120, 150, 180] },
-  { id: 'ton', name: 'Ton conserva in apa (scurs)', category: 'Proteine animale', kcal: 116, p: 26, c: 0, f: 1, fiber: 0, iron: 1, defaultQty: 150, presets: [80, 120, 150] },
-  { id: 'hering', name: 'Hering proaspat', category: 'Proteine animale', kcal: 158, p: 18, c: 0, f: 9, fiber: 0, iron: 1.1, defaultQty: 150, presets: [100, 150, 180], warning: 'Max 1x/2 sapt' },
-  { id: 'ou', name: 'Ou intreg (1 buc ~55g)', category: 'Proteine animale', kcal: 78, p: 6.3, c: 0.6, f: 5.3, fiber: 0, iron: 0.9, unit: 'buc', defaultQty: 1, presets: [1, 2, 3, 4] },
-  { id: 'albus', name: 'Albus de ou (1 buc ~33g)', category: 'Proteine animale', kcal: 17, p: 3.6, c: 0.2, f: 0.1, fiber: 0, iron: 0, unit: 'buc', defaultQty: 2, presets: [2, 3, 4, 6] },
+  // ============== PROTEINE ANIMALE (carne) ==============
+  { id: 'pui', name: 'Piept de pui (negatit)', category: 'Proteine animale', kcal: 120, p: 23, c: 0, f: 2.6, fiber: 0, iron: 0.4, defaultQty: 180, presets: [120, 150, 180, 200], shop: true },
+  { id: 'pui-pulpe', name: 'Pulpe de pui fara os si piele (negatit)', category: 'Proteine animale', kcal: 121, p: 19, c: 0, f: 4.5, fiber: 0, iron: 0.9, defaultQty: 180, presets: [120, 150, 180, 200], shop: true },
+  { id: 'curcan', name: 'Piept de curcan (negatit)', category: 'Proteine animale', kcal: 114, p: 24, c: 0, f: 1.7, fiber: 0, iron: 0.7, defaultQty: 180, presets: [120, 150, 180, 200], shop: true },
+  { id: 'curcan-pulpe', name: 'Pulpe de curcan fara piele (negatit)', category: 'Proteine animale', kcal: 144, p: 20, c: 0, f: 6.6, fiber: 0, iron: 1.3, defaultQty: 150, presets: [120, 150, 180], shop: true },
+  { id: 'vita-slaba', name: 'Carne vita slaba (muschi/antricot)', category: 'Proteine animale', kcal: 175, p: 22, c: 0, f: 9, fiber: 0, iron: 2.6, defaultQty: 120, presets: [80, 100, 120, 150], warning: 'Fier mare - max 1x/luna', shop: true },
+  { id: 'porc-slab', name: 'Muschi de porc slab (negatit)', category: 'Proteine animale', kcal: 143, p: 21, c: 0, f: 6, fiber: 0, iron: 1, defaultQty: 120, presets: [100, 120, 150], warning: 'Max 1-2x/luna', shop: true },
 
-  // LACTATE
-  { id: 'iaurt2', name: 'Iaurt grecesc 2%', category: 'Lactate', kcal: 73, p: 10, c: 4, f: 2, fiber: 0, iron: 0.1, defaultQty: 200, presets: [100, 150, 200] },
-  { id: 'iaurt0', name: 'Iaurt grecesc 0%', category: 'Lactate', kcal: 58, p: 10.3, c: 3.6, f: 0.4, fiber: 0, iron: 0.1, defaultQty: 200, presets: [100, 150, 200] },
-  { id: 'cottage', name: 'Cottage cheese degresat', category: 'Lactate', kcal: 72, p: 12, c: 2.7, f: 1, fiber: 0, iron: 0.1, defaultQty: 200, presets: [100, 150, 200] },
-  { id: 'lapte', name: 'Lapte degresat', category: 'Lactate', kcal: 35, p: 3.4, c: 5, f: 0.1, fiber: 0, iron: 0, defaultQty: 200, presets: [100, 200, 250] },
+  // ============== PROTEINE ANIMALE (peste) ==============
+  { id: 'cod', name: 'Cod (negatit)', category: 'Proteine animale', kcal: 82, p: 18, c: 0, f: 0.7, fiber: 0, iron: 0.4, defaultQty: 180, presets: [120, 150, 180, 200], shop: true },
+  { id: 'merluciu', name: 'Merluciu (negatit)', category: 'Proteine animale', kcal: 88, p: 18, c: 0, f: 1.3, fiber: 0, iron: 0.3, defaultQty: 180, presets: [120, 150, 180, 200], shop: true },
+  { id: 'salau', name: 'Salau (negatit)', category: 'Proteine animale', kcal: 84, p: 19, c: 0, f: 1, fiber: 0, iron: 0.3, defaultQty: 180, presets: [120, 150, 180], shop: true },
+  { id: 'biban', name: 'Biban (negatit)', category: 'Proteine animale', kcal: 96, p: 19, c: 0, f: 2, fiber: 0, iron: 0.4, defaultQty: 180, presets: [120, 150, 180], shop: true },
+  { id: 'somon', name: 'Somon salbatic (negatit)', category: 'Proteine animale', kcal: 180, p: 20, c: 0, f: 11, fiber: 0, iron: 0.5, defaultQty: 150, presets: [120, 150, 180], shop: true },
+  { id: 'macrou', name: 'Macrou proaspat (negatit)', category: 'Proteine animale', kcal: 205, p: 19, c: 0, f: 14, fiber: 0, iron: 1.6, defaultQty: 150, presets: [120, 150, 180], warning: 'Fier mediu', shop: true },
+  { id: 'pastrav', name: 'Pastrav (negatit)', category: 'Proteine animale', kcal: 140, p: 20, c: 0, f: 6, fiber: 0, iron: 0.7, defaultQty: 150, presets: [120, 150, 180], shop: true },
+  { id: 'hering', name: 'Hering proaspat (negatit)', category: 'Proteine animale', kcal: 158, p: 18, c: 0, f: 9, fiber: 0, iron: 1.1, defaultQty: 150, presets: [100, 150, 180], warning: 'Max 1x/2 sapt', shop: true },
+  { id: 'sardine', name: 'Sardine in apa (scurse)', category: 'Proteine animale', kcal: 185, p: 25, c: 0, f: 9, fiber: 0, iron: 2.9, defaultQty: 100, presets: [60, 80, 100], warning: 'Fier mare + purine', shop: true },
+  { id: 'ton', name: 'Ton conserva in apa (scurs)', category: 'Proteine animale', kcal: 116, p: 26, c: 0, f: 1, fiber: 0, iron: 1.3, defaultQty: 150, presets: [80, 120, 150], shop: true },
 
-  // PROTEINA PUDRA + SHAKE
-  { id: 'whey', name: 'Whey isolate', category: 'Shake', kcal: 380, p: 88, c: 4, f: 1.5, fiber: 0, iron: 0.3, defaultQty: 40, presets: [30, 35, 40, 45] },
-  { id: 'creatina', name: 'Creatina monohidrat', category: 'Shake', kcal: 0, p: 0, c: 0, f: 0, fiber: 0, iron: 0, defaultQty: 5, presets: [5] },
+  // ============== PROTEINE ANIMALE (oua) ==============
+  { id: 'ou', name: 'Ou intreg (1 buc ~55g)', category: 'Proteine animale', kcal: 78, p: 6.3, c: 0.6, f: 5.3, fiber: 0, iron: 0.9, unit: 'buc', defaultQty: 1, presets: [1, 2, 3, 4], shop: true },
+  { id: 'albus', name: 'Albus de ou (1 buc ~33g)', category: 'Proteine animale', kcal: 17, p: 3.6, c: 0.2, f: 0.1, fiber: 0, iron: 0, unit: 'buc', defaultQty: 2, presets: [2, 3, 4, 6], shop: true },
+  { id: 'omleta-3oua', name: 'Omleta 3 oua intregi (cu 5ml ulei)', category: 'Proteine animale', kcal: 280, p: 19, c: 2, f: 22, fiber: 0, iron: 2.7, defaultQty: 1, unit: 'portie', presets: [1] },
 
-  // PROTEINE VEGETALE
-  { id: 'tofu', name: 'Tofu ferm', category: 'Proteine vegetale', kcal: 144, p: 17, c: 3, f: 9, fiber: 2, iron: 1.5, defaultQty: 150, presets: [100, 150, 180, 200] },
-  { id: 'tempeh', name: 'Tempeh', category: 'Proteine vegetale', kcal: 190, p: 19, c: 9, f: 11, fiber: 7, iron: 2.7, defaultQty: 100, presets: [80, 100, 130] },
-  { id: 'linte-uscata', name: 'Linte verde uscata', category: 'Proteine vegetale', kcal: 353, p: 25, c: 60, f: 1, fiber: 11, iron: 7.5, defaultQty: 50, presets: [30, 40, 50, 60] },
-  { id: 'naut-uscat', name: 'Naut uscat', category: 'Proteine vegetale', kcal: 364, p: 19, c: 61, f: 6, fiber: 17, iron: 6.2, defaultQty: 50, presets: [30, 40, 50, 60] },
-  { id: 'fasole-alba', name: 'Fasole alba uscata', category: 'Proteine vegetale', kcal: 333, p: 23, c: 60, f: 1, fiber: 16, iron: 5.5, defaultQty: 50, presets: [30, 40, 50, 60] },
+  // ============== CARNE PROCESATA / MICI (consum ocazional, nu cumpar) ==============
+  { id: 'mici-mangalita-vita', name: 'Mici mangalita cu vita (Lidl, 1 buc ~50g)', category: 'Carne procesata', kcal: 130, p: 8, c: 1, f: 10.5, fiber: 0, iron: 1, unit: 'buc', defaultQty: 3, presets: [2, 3, 4, 5], warning: 'Ocazional - grasime + fier' },
+  { id: 'carnati-porc', name: 'Carnati de porc la gratar (1 buc ~70g)', category: 'Carne procesata', kcal: 210, p: 12, c: 1, f: 18, fiber: 0, iron: 1, unit: 'buc', defaultQty: 1, presets: [1, 2, 3], warning: 'Ocazional - grasime mare' },
+  { id: 'sunca-slaba', name: 'Sunca slaba de pui/curcan', category: 'Carne procesata', kcal: 110, p: 18, c: 1.5, f: 3.5, fiber: 0, iron: 0.7, defaultQty: 50, presets: [30, 50, 80], warning: 'Procesat - sodiu' },
 
-  // CARBOHIDRATI
-  { id: 'orez-brun', name: 'Orez brun uscat', category: 'Carbohidrati', kcal: 360, p: 7.5, c: 76, f: 2.7, fiber: 3.4, iron: 1.5, defaultQty: 70, presets: [50, 60, 70, 80] },
-  { id: 'orez-basmati', name: 'Orez basmati uscat', category: 'Carbohidrati', kcal: 350, p: 7.5, c: 78, f: 0.8, fiber: 1.4, iron: 1, defaultQty: 70, presets: [50, 60, 70, 80] },
-  { id: 'quinoa-uscata', name: 'Quinoa uscata', category: 'Carbohidrati', kcal: 368, p: 14, c: 64, f: 6, fiber: 7, iron: 4.6, defaultQty: 70, presets: [50, 60, 70] },
-  { id: 'ovaz', name: 'Ovaz integral uscat', category: 'Carbohidrati', kcal: 389, p: 17, c: 66, f: 7, fiber: 11, iron: 4.7, defaultQty: 40, presets: [30, 40, 50] },
-  { id: 'cartof-dulce', name: 'Cartof dulce crud', category: 'Carbohidrati', kcal: 86, p: 1.6, c: 20, f: 0.1, fiber: 3, iron: 0.6, defaultQty: 200, presets: [150, 200, 250] },
-  { id: 'cartof-alb', name: 'Cartof alb crud', category: 'Carbohidrati', kcal: 77, p: 2, c: 17, f: 0.1, fiber: 2.2, iron: 0.8, defaultQty: 200, presets: [150, 200, 250] },
-  { id: 'paine-int', name: 'Paine integrala 100%', category: 'Carbohidrati', kcal: 247, p: 13, c: 41, f: 3.4, fiber: 7, iron: 2.5, defaultQty: 60, presets: [30, 60, 90] },
+  // ============== SUPE / CIORBE / PREPARATE ==============
+  { id: 'supa-pui', name: 'Supa pui cu legume radacinoase (de casa)', category: 'Supe si ciorbe', kcal: 38, p: 3.5, c: 3, f: 1.3, fiber: 0.7, iron: 0.4, defaultQty: 400, presets: [300, 350, 400, 500] },
+  { id: 'ciorba-burta', name: 'Ciorba de burta', category: 'Supe si ciorbe', kcal: 75, p: 5, c: 4, f: 4.5, fiber: 0.4, iron: 0.8, defaultQty: 400, presets: [300, 400, 500], warning: 'Ocazional - grasime + sodiu' },
+  { id: 'ciorba-fasole-ciolan', name: 'Ciorba de fasole cu ciolan', category: 'Supe si ciorbe', kcal: 95, p: 6, c: 11, f: 3, fiber: 3.5, iron: 1.2, defaultQty: 400, presets: [300, 400, 500], warning: 'Ocazional - sodiu' },
+  { id: 'ciorba-legume', name: 'Ciorba de legume (fara carne)', category: 'Supe si ciorbe', kcal: 25, p: 1, c: 5, f: 0.3, fiber: 1.5, iron: 0.4, defaultQty: 400, presets: [300, 400, 500] },
+  { id: 'ciorba-perisoare', name: 'Ciorba de perisoare', category: 'Supe si ciorbe', kcal: 65, p: 4.5, c: 6, f: 2.8, fiber: 0.8, iron: 0.7, defaultQty: 400, presets: [300, 400, 500], warning: 'Ocazional' },
+  { id: 'supa-rece-castravete', name: 'Supa rece castraveti cu iaurt', category: 'Supe si ciorbe', kcal: 45, p: 3, c: 5, f: 1.5, fiber: 0.5, iron: 0.2, defaultQty: 350, presets: [250, 350, 400] },
 
-  // LEGUME
-  { id: 'broccoli', name: 'Broccoli', category: 'Legume', kcal: 34, p: 2.8, c: 7, f: 0.4, fiber: 2.6, iron: 0.7, defaultQty: 200, presets: [100, 150, 200, 250] },
-  { id: 'conopida', name: 'Conopida', category: 'Legume', kcal: 25, p: 1.9, c: 5, f: 0.3, fiber: 2, iron: 0.4, defaultQty: 200, presets: [100, 150, 200, 250] },
-  { id: 'spanac', name: 'Spanac proaspat', category: 'Legume', kcal: 23, p: 2.9, c: 3.6, f: 0.4, fiber: 2.2, iron: 2.7, defaultQty: 150, presets: [100, 150, 200], warning: 'Fier mediu' },
-  { id: 'kale', name: 'Varza kale', category: 'Legume', kcal: 35, p: 2.9, c: 4.4, f: 1.5, fiber: 4.1, iron: 1.5, defaultQty: 100, presets: [50, 100, 150] },
-  { id: 'sparanghel', name: 'Sparanghel', category: 'Legume', kcal: 20, p: 2.2, c: 3.9, f: 0.1, fiber: 2.1, iron: 2.1, defaultQty: 150, presets: [100, 150, 200] },
-  { id: 'dovlecel', name: 'Dovlecel', category: 'Legume', kcal: 17, p: 1.2, c: 3.1, f: 0.3, fiber: 1, iron: 0.4, defaultQty: 200, presets: [100, 200, 300] },
-  { id: 'vinete', name: 'Vinete', category: 'Legume', kcal: 25, p: 1, c: 6, f: 0.2, fiber: 3, iron: 0.2, defaultQty: 200, presets: [100, 200, 300] },
-  { id: 'ardei', name: 'Ardei (capia/gras)', category: 'Legume', kcal: 31, p: 1, c: 7, f: 0.3, fiber: 2.1, iron: 0.4, defaultQty: 150, presets: [100, 150, 200] },
-  { id: 'rosii', name: 'Rosii', category: 'Legume', kcal: 18, p: 0.9, c: 3.9, f: 0.2, fiber: 1.2, iron: 0.5, defaultQty: 150, presets: [100, 150, 200, 300] },
-  { id: 'castraveti', name: 'Castraveti', category: 'Legume', kcal: 15, p: 0.7, c: 3.6, f: 0.1, fiber: 0.5, iron: 0.3, defaultQty: 150, presets: [100, 150, 200] },
-  { id: 'salata', name: 'Salata verde mix', category: 'Legume', kcal: 15, p: 1.4, c: 2.9, f: 0.2, fiber: 1.3, iron: 0.9, defaultQty: 100, presets: [50, 100, 150] },
-  { id: 'morcovi', name: 'Morcovi', category: 'Legume', kcal: 41, p: 0.9, c: 10, f: 0.2, fiber: 2.8, iron: 0.3, defaultQty: 100, presets: [50, 100, 150] },
-  { id: 'sfecla', name: 'Sfecla rosie', category: 'Legume', kcal: 43, p: 1.6, c: 10, f: 0.2, fiber: 2.8, iron: 0.8, defaultQty: 100, presets: [50, 100] },
-  { id: 'ceapa', name: 'Ceapa', category: 'Legume', kcal: 40, p: 1.1, c: 9.3, f: 0.1, fiber: 1.7, iron: 0.2, defaultQty: 30, presets: [20, 30, 50] },
+  // ============== LACTATE ==============
+  { id: 'iaurt2', name: 'Iaurt grecesc 2%', category: 'Lactate', kcal: 73, p: 10, c: 4, f: 2, fiber: 0, iron: 0.1, defaultQty: 200, presets: [100, 150, 200], shop: true },
+  { id: 'iaurt0', name: 'Iaurt grecesc 0%', category: 'Lactate', kcal: 58, p: 10.3, c: 3.6, f: 0.4, fiber: 0, iron: 0.1, defaultQty: 200, presets: [100, 150, 200], shop: true },
+  { id: 'iaurt-normal', name: 'Iaurt natural simplu 3%', category: 'Lactate', kcal: 61, p: 3.5, c: 4.7, f: 3.3, fiber: 0, iron: 0.1, defaultQty: 200, presets: [125, 200, 300], shop: true },
+  { id: 'kefir', name: 'Kefir simplu', category: 'Lactate', kcal: 41, p: 3.4, c: 4.7, f: 1, fiber: 0, iron: 0.1, defaultQty: 250, presets: [200, 250, 300], shop: true },
+  { id: 'cottage', name: 'Cottage cheese degresat', category: 'Lactate', kcal: 72, p: 12, c: 2.7, f: 1, fiber: 0, iron: 0.1, defaultQty: 200, presets: [100, 150, 200], shop: true },
+  { id: 'branza-vaci', name: 'Branza de vaci slaba', category: 'Lactate', kcal: 98, p: 11, c: 3.4, f: 4.3, fiber: 0, iron: 0.2, defaultQty: 150, presets: [100, 150, 200], shop: true },
+  { id: 'mozzarella-light', name: 'Mozzarella light', category: 'Lactate', kcal: 254, p: 24, c: 2.8, f: 16, fiber: 0, iron: 0.2, defaultQty: 30, presets: [20, 30, 50], shop: true },
+  { id: 'feta', name: 'Branza feta', category: 'Lactate', kcal: 264, p: 14, c: 4.1, f: 21, fiber: 0, iron: 0.7, defaultQty: 30, presets: [20, 30, 50], shop: true },
+  { id: 'telemea-vaca', name: 'Telemea de vaca slaba', category: 'Lactate', kcal: 230, p: 17, c: 1, f: 18, fiber: 0, iron: 0.5, defaultQty: 30, presets: [20, 30, 50], shop: true },
+  { id: 'cascaval', name: 'Cascaval', category: 'Lactate', kcal: 350, p: 25, c: 1, f: 27, fiber: 0, iron: 0.4, defaultQty: 30, presets: [20, 30, 50], warning: 'Grasimi saturate - max 30g' },
+  { id: 'lapte-deg', name: 'Lapte degresat 0.1-1.5%', category: 'Lactate', kcal: 35, p: 3.4, c: 5, f: 0.1, fiber: 0, iron: 0, defaultQty: 200, presets: [100, 200, 250], shop: true },
 
-  // FRUCTE RECOMANDATE
-  { id: 'afine', name: 'Afine', category: 'Fructe recomandate', kcal: 57, p: 0.7, c: 14, f: 0.3, fiber: 2.4, iron: 0.3, defaultQty: 100, presets: [50, 100, 150] },
-  { id: 'zmeura', name: 'Zmeura', category: 'Fructe recomandate', kcal: 52, p: 1.2, c: 12, f: 0.7, fiber: 6.5, iron: 0.7, defaultQty: 100, presets: [50, 100, 150] },
-  { id: 'mure', name: 'Mure', category: 'Fructe recomandate', kcal: 43, p: 1.4, c: 10, f: 0.5, fiber: 5.3, iron: 0.6, defaultQty: 100, presets: [50, 100, 150] },
-  { id: 'capsuni', name: 'Capsuni', category: 'Fructe recomandate', kcal: 32, p: 0.7, c: 7.7, f: 0.3, fiber: 2, iron: 0.4, defaultQty: 150, presets: [100, 150, 200] },
-  { id: 'cirese', name: 'Cirese', category: 'Fructe recomandate', kcal: 63, p: 1.1, c: 16, f: 0.2, fiber: 2.1, iron: 0.4, defaultQty: 150, presets: [100, 150, 200] },
-  { id: 'visine', name: 'Visine', category: 'Fructe recomandate', kcal: 50, p: 1, c: 12, f: 0.3, fiber: 1.6, iron: 0.3, defaultQty: 150, presets: [100, 150, 200] },
-  { id: 'agrise', name: 'Agrise', category: 'Fructe recomandate', kcal: 44, p: 0.9, c: 10, f: 0.6, fiber: 4.3, iron: 0.3, defaultQty: 100, presets: [50, 100, 150] },
-  { id: 'coacaze-rosii', name: 'Coacaze rosii', category: 'Fructe recomandate', kcal: 56, p: 1.4, c: 14, f: 0.2, fiber: 4.3, iron: 1, defaultQty: 100, presets: [50, 100, 150] },
-  { id: 'coacaze-negre', name: 'Coacaze negre', category: 'Fructe recomandate', kcal: 63, p: 1.4, c: 15, f: 0.4, fiber: 5.3, iron: 1.5, defaultQty: 100, presets: [50, 100, 150] },
-  { id: 'banana', name: 'Banana', category: 'Fructe recomandate', kcal: 89, p: 1.1, c: 23, f: 0.3, fiber: 2.6, iron: 0.3, defaultQty: 100, presets: [80, 100, 120, 150] },
-  { id: 'mar', name: 'Mar', category: 'Fructe recomandate', kcal: 52, p: 0.3, c: 14, f: 0.2, fiber: 2.4, iron: 0.1, defaultQty: 150, presets: [100, 150, 200] },
-  { id: 'para', name: 'Para', category: 'Fructe recomandate', kcal: 57, p: 0.4, c: 15, f: 0.1, fiber: 3.1, iron: 0.2, defaultQty: 150, presets: [100, 150, 200] },
-  { id: 'kiwi', name: 'Kiwi (1 buc ~75g)', category: 'Fructe recomandate', kcal: 61, p: 1.1, c: 15, f: 0.5, fiber: 3, iron: 0.3, unit: 'buc', defaultQty: 2, presets: [1, 2, 3] },
-  { id: 'portocala', name: 'Portocala', category: 'Fructe recomandate', kcal: 47, p: 0.9, c: 12, f: 0.1, fiber: 2.4, iron: 0.1, defaultQty: 150, presets: [100, 150, 200] },
-  { id: 'grapefruit', name: 'Grapefruit', category: 'Fructe recomandate', kcal: 42, p: 0.8, c: 11, f: 0.1, fiber: 1.6, iron: 0.1, defaultQty: 200, presets: [100, 200, 300] },
+  // ============== SHAKE / SUPLIMENTE ==============
+  { id: 'whey', name: 'Whey isolate', category: 'Shake', kcal: 380, p: 88, c: 4, f: 1.5, fiber: 0, iron: 0.3, defaultQty: 40, presets: [30, 35, 40, 45], shop: true },
+  { id: 'creatina', name: 'Creatina monohidrat', category: 'Shake', kcal: 0, p: 0, c: 0, f: 0, fiber: 0, iron: 0, defaultQty: 5, presets: [5], shop: true },
 
-  // FRUCTE DE VARA (mai dulci - consuma moderat)
-  { id: 'caise', name: 'Caise', category: 'Fructe de vara', kcal: 48, p: 1.4, c: 11, f: 0.4, fiber: 2, iron: 0.4, defaultQty: 150, presets: [80, 100, 150, 200] },
-  { id: 'piersici', name: 'Piersici', category: 'Fructe de vara', kcal: 39, p: 0.9, c: 10, f: 0.3, fiber: 1.5, iron: 0.3, defaultQty: 150, presets: [100, 150, 200] },
-  { id: 'nectarine', name: 'Nectarine', category: 'Fructe de vara', kcal: 44, p: 1.1, c: 11, f: 0.3, fiber: 1.7, iron: 0.3, defaultQty: 150, presets: [100, 150, 200] },
-  { id: 'prune', name: 'Prune', category: 'Fructe de vara', kcal: 46, p: 0.7, c: 11, f: 0.3, fiber: 1.4, iron: 0.2, defaultQty: 150, presets: [80, 100, 150, 200] },
-  { id: 'pepene-rosu', name: 'Pepene rosu', category: 'Fructe de vara', kcal: 30, p: 0.6, c: 7.6, f: 0.2, fiber: 0.4, iron: 0.2, defaultQty: 300, presets: [150, 200, 300, 400] },
-  { id: 'pepene-galben', name: 'Pepene galben', category: 'Fructe de vara', kcal: 34, p: 0.8, c: 8, f: 0.2, fiber: 0.9, iron: 0.2, defaultQty: 200, presets: [150, 200, 300] },
-  { id: 'smochine', name: 'Smochine proaspete', category: 'Fructe de vara', kcal: 74, p: 0.8, c: 19, f: 0.3, fiber: 2.9, iron: 0.4, defaultQty: 100, presets: [50, 100, 150] },
-  { id: 'struguri', name: 'Struguri (albi/rosii)', category: 'Fructe de vara', kcal: 69, p: 0.7, c: 18, f: 0.2, fiber: 0.9, iron: 0.4, defaultQty: 150, presets: [80, 100, 150, 200] },
+  // ============== PROTEINE VEGETALE / LEGUMINOASE ==============
+  { id: 'tofu', name: 'Tofu ferm', category: 'Proteine vegetale', kcal: 144, p: 17, c: 3, f: 9, fiber: 2, iron: 1.5, defaultQty: 150, presets: [100, 150, 180, 200], shop: true },
+  { id: 'tempeh', name: 'Tempeh', category: 'Proteine vegetale', kcal: 190, p: 19, c: 9, f: 11, fiber: 7, iron: 2.7, defaultQty: 100, presets: [80, 100, 130], shop: true },
+  { id: 'edamame', name: 'Edamame (boabe soia verzi, fierte)', category: 'Proteine vegetale', kcal: 122, p: 11, c: 10, f: 5, fiber: 5, iron: 2.3, defaultQty: 100, presets: [80, 100, 150], shop: true },
+  { id: 'linte-uscata', name: 'Linte verde uscata', category: 'Proteine vegetale', kcal: 353, p: 25, c: 60, f: 1, fiber: 11, iron: 7.5, defaultQty: 50, presets: [30, 40, 50, 60], shop: true },
+  { id: 'linte-fiarta', name: 'Linte fiarta (gata gatita)', category: 'Proteine vegetale', kcal: 116, p: 9, c: 20, f: 0.4, fiber: 8, iron: 3.3, defaultQty: 150, presets: [100, 150, 200] },
+  { id: 'naut-uscat', name: 'Naut uscat', category: 'Proteine vegetale', kcal: 364, p: 19, c: 61, f: 6, fiber: 17, iron: 6.2, defaultQty: 50, presets: [30, 40, 50, 60], shop: true },
+  { id: 'naut-fiert', name: 'Naut fiert (gata gatit)', category: 'Proteine vegetale', kcal: 164, p: 9, c: 27, f: 2.6, fiber: 8, iron: 2.9, defaultQty: 150, presets: [100, 150, 200] },
+  { id: 'fasole-alba', name: 'Fasole alba uscata', category: 'Proteine vegetale', kcal: 333, p: 23, c: 60, f: 1, fiber: 16, iron: 5.5, defaultQty: 50, presets: [30, 40, 50, 60], shop: true },
+  { id: 'fasole-rosie', name: 'Fasole rosie uscata', category: 'Proteine vegetale', kcal: 333, p: 24, c: 60, f: 0.8, fiber: 15, iron: 8.2, defaultQty: 50, presets: [30, 40, 50, 60], shop: true },
+  { id: 'mazare-uscata', name: 'Mazare uscata (galbena)', category: 'Proteine vegetale', kcal: 341, p: 25, c: 60, f: 1.2, fiber: 25, iron: 5, defaultQty: 50, presets: [30, 40, 50, 60], shop: true },
 
-  // GRASIMI / SEMINTE
-  { id: 'ulei-masline', name: 'Ulei masline extravirgin', category: 'Grasimi', kcal: 884, p: 0, c: 0, f: 100, fiber: 0, iron: 0, unit: 'ml', defaultQty: 10, presets: [5, 10, 15, 20] },
-  { id: 'avocado', name: 'Avocado', category: 'Grasimi', kcal: 160, p: 2, c: 9, f: 15, fiber: 7, iron: 0.6, defaultQty: 80, presets: [40, 80, 120] },
-  { id: 'nuci', name: 'Nuci', category: 'Grasimi', kcal: 654, p: 15, c: 14, f: 65, fiber: 6.7, iron: 2.9, defaultQty: 15, presets: [10, 15, 20, 30] },
-  { id: 'migdale', name: 'Migdale', category: 'Grasimi', kcal: 579, p: 21, c: 22, f: 50, fiber: 12.5, iron: 3.7, defaultQty: 15, presets: [10, 15, 20, 30] },
-  { id: 'chia', name: 'Seminte chia', category: 'Grasimi', kcal: 486, p: 17, c: 42, f: 31, fiber: 34, iron: 7.7, defaultQty: 12, presets: [10, 12, 15], warning: 'Fier mare' },
-  { id: 'in', name: 'Seminte in macinate', category: 'Grasimi', kcal: 534, p: 18, c: 29, f: 42, fiber: 27, iron: 5.7, defaultQty: 10, presets: [5, 10, 15] },
-  { id: 'dovleac', name: 'Seminte dovleac', category: 'Grasimi', kcal: 559, p: 30, c: 11, f: 49, fiber: 6, iron: 8.8, defaultQty: 10, presets: [5, 10, 15], warning: 'Fier MARE' },
-  { id: 'unt-arah', name: 'Unt arahide natural', category: 'Grasimi', kcal: 588, p: 25, c: 20, f: 50, fiber: 6, iron: 2, defaultQty: 15, presets: [10, 15, 20] },
-  { id: 'tahini', name: 'Tahini', category: 'Grasimi', kcal: 595, p: 17, c: 21, f: 53, fiber: 9, iron: 8.9, defaultQty: 10, presets: [5, 10, 15], warning: 'Fier MARE' },
-  { id: 'cacao', name: 'Cacao pura fara zahar', category: 'Grasimi', kcal: 228, p: 20, c: 58, f: 14, fiber: 33, iron: 13.9, defaultQty: 5, presets: [3, 5, 10], warning: 'Fier MARE' }
+  // ============== CARBOHIDRATI ==============
+  { id: 'orez-brun', name: 'Orez brun uscat', category: 'Carbohidrati', kcal: 360, p: 7.5, c: 76, f: 2.7, fiber: 3.4, iron: 1.5, defaultQty: 70, presets: [50, 60, 70, 80], shop: true },
+  { id: 'orez-basmati', name: 'Orez basmati uscat', category: 'Carbohidrati', kcal: 350, p: 7.5, c: 78, f: 0.8, fiber: 1.4, iron: 1, defaultQty: 70, presets: [50, 60, 70, 80], shop: true },
+  { id: 'orez-jasmin', name: 'Orez jasmin uscat', category: 'Carbohidrati', kcal: 356, p: 7, c: 80, f: 0.7, fiber: 1.6, iron: 0.9, defaultQty: 70, presets: [50, 60, 70, 80] },
+  { id: 'orez-alb', name: 'Orez alb uscat', category: 'Carbohidrati', kcal: 360, p: 7, c: 80, f: 0.6, fiber: 1.3, iron: 0.8, defaultQty: 70, presets: [50, 60, 70, 80] },
+  { id: 'quinoa-uscata', name: 'Quinoa uscata', category: 'Carbohidrati', kcal: 368, p: 14, c: 64, f: 6, fiber: 7, iron: 4.6, defaultQty: 70, presets: [50, 60, 70], shop: true },
+  { id: 'hrisca-uscata', name: 'Hrisca uscata', category: 'Carbohidrati', kcal: 343, p: 13, c: 72, f: 3.4, fiber: 10, iron: 2.2, defaultQty: 60, presets: [40, 50, 60, 70], shop: true },
+  { id: 'mei-uscat', name: 'Mei uscat', category: 'Carbohidrati', kcal: 378, p: 11, c: 73, f: 4.2, fiber: 8.5, iron: 3, defaultQty: 60, presets: [40, 50, 60, 70] },
+  { id: 'paste-int', name: 'Paste integrale uscate', category: 'Carbohidrati', kcal: 348, p: 13, c: 71, f: 2.5, fiber: 7, iron: 3.6, defaultQty: 70, presets: [50, 70, 90], shop: true },
+  { id: 'paste-albe', name: 'Paste albe uscate', category: 'Carbohidrati', kcal: 358, p: 12, c: 75, f: 1.5, fiber: 3, iron: 1.3, defaultQty: 70, presets: [50, 70, 90] },
+  { id: 'ovaz', name: 'Ovaz integral uscat', category: 'Carbohidrati', kcal: 389, p: 17, c: 66, f: 7, fiber: 11, iron: 4.7, defaultQty: 40, presets: [30, 40, 50], shop: true },
+  { id: 'cartof-dulce', name: 'Cartof dulce crud', category: 'Carbohidrati', kcal: 86, p: 1.6, c: 20, f: 0.1, fiber: 3, iron: 0.6, defaultQty: 200, presets: [150, 200, 250], shop: true },
+  { id: 'cartof-alb', name: 'Cartof alb crud', category: 'Carbohidrati', kcal: 77, p: 2, c: 17, f: 0.1, fiber: 2.2, iron: 0.8, defaultQty: 200, presets: [150, 200, 250], shop: true },
+  { id: 'cartofi-prajiti', name: 'Cartofi prajiti', category: 'Carbohidrati', kcal: 312, p: 3.4, c: 41, f: 15, fiber: 3.8, iron: 0.8, defaultQty: 150, presets: [100, 150, 200], warning: 'Ocazional - prajit' },
+  { id: 'mamaliga', name: 'Mamaliga (fiarta)', category: 'Carbohidrati', kcal: 88, p: 2, c: 19, f: 0.6, fiber: 1.2, iron: 0.5, defaultQty: 150, presets: [100, 150, 200] },
+  { id: 'paine-int', name: 'Paine integrala 100%', category: 'Carbohidrati', kcal: 247, p: 13, c: 41, f: 3.4, fiber: 7, iron: 2.5, defaultQty: 60, presets: [30, 60, 90], shop: true },
+  { id: 'paine-maia', name: 'Paine cu maia (Prospero)', category: 'Carbohidrati', kcal: 250, p: 8.5, c: 49, f: 1.5, fiber: 2.8, iron: 2.2, defaultQty: 30, presets: [25, 30, 50, 60], shop: true },
+  { id: 'paine-secara', name: 'Paine de secara integrala', category: 'Carbohidrati', kcal: 259, p: 8.5, c: 48, f: 3.3, fiber: 5.8, iron: 2.8, defaultQty: 30, presets: [25, 30, 50, 60], shop: true },
+  { id: 'paine-alba', name: 'Paine alba', category: 'Carbohidrati', kcal: 265, p: 9, c: 49, f: 3.2, fiber: 2.7, iron: 3.6, defaultQty: 30, presets: [30, 50, 60], warning: 'Ocazional' },
+  { id: 'lipie-int', name: 'Lipie integrala (1 buc ~60g)', category: 'Carbohidrati', kcal: 265, p: 9, c: 50, f: 3.4, fiber: 6, iron: 2.5, defaultQty: 60, presets: [40, 60, 80] },
+
+  // ============== TARATE SI FIBRE ==============
+  { id: 'tarate-grau', name: 'Tarate de grau', category: 'Tarate si fibre', kcal: 216, p: 16, c: 65, f: 4.3, fiber: 43, iron: 10.6, defaultQty: 10, presets: [5, 10, 15, 20], warning: 'Fier MARE', shop: true },
+  { id: 'tarate-ovaz', name: 'Tarate de ovaz', category: 'Tarate si fibre', kcal: 246, p: 17.3, c: 66, f: 7, fiber: 15, iron: 5.4, defaultQty: 15, presets: [10, 15, 20, 25], shop: true },
+  { id: 'tarate-secara', name: 'Tarate de secara', category: 'Tarate si fibre', kcal: 200, p: 15, c: 56, f: 3.5, fiber: 39, iron: 6.5, defaultQty: 10, presets: [5, 10, 15], warning: 'Fier mare', shop: true },
+  { id: 'tarate-mix-dig', name: 'Mix digestiv (tarate amestec + psyllium)', category: 'Tarate si fibre', kcal: 230, p: 14, c: 60, f: 5, fiber: 35, iron: 7, defaultQty: 10, presets: [5, 10, 15, 20], warning: 'Fier mare', shop: true },
+  { id: 'psyllium', name: 'Psyllium husk (pulbere)', category: 'Tarate si fibre', kcal: 200, p: 1.5, c: 71, f: 0.5, fiber: 70, iron: 1.2, defaultQty: 7, presets: [5, 7, 10], shop: true },
+
+  // ============== LEGUME ==============
+  { id: 'broccoli', name: 'Broccoli', category: 'Legume', kcal: 34, p: 2.8, c: 7, f: 0.4, fiber: 2.6, iron: 0.7, defaultQty: 200, presets: [100, 150, 200, 250], shop: true },
+  { id: 'conopida', name: 'Conopida', category: 'Legume', kcal: 25, p: 1.9, c: 5, f: 0.3, fiber: 2, iron: 0.4, defaultQty: 200, presets: [100, 150, 200, 250], shop: true },
+  { id: 'spanac', name: 'Spanac proaspat', category: 'Legume', kcal: 23, p: 2.9, c: 3.6, f: 0.4, fiber: 2.2, iron: 2.7, defaultQty: 150, presets: [100, 150, 200], warning: 'Fier mediu', shop: true },
+  { id: 'kale', name: 'Varza kale', category: 'Legume', kcal: 35, p: 2.9, c: 4.4, f: 1.5, fiber: 4.1, iron: 1.5, defaultQty: 100, presets: [50, 100, 150], shop: true },
+  { id: 'varza-alba', name: 'Varza alba', category: 'Legume', kcal: 25, p: 1.3, c: 5.8, f: 0.1, fiber: 2.5, iron: 0.5, defaultQty: 150, presets: [100, 150, 200], shop: true },
+  { id: 'varza-rosie', name: 'Varza rosie', category: 'Legume', kcal: 31, p: 1.4, c: 7.4, f: 0.2, fiber: 2.1, iron: 0.8, defaultQty: 150, presets: [100, 150, 200], shop: true },
+  { id: 'varza-murata', name: 'Varza murata', category: 'Legume', kcal: 19, p: 0.9, c: 4.3, f: 0.1, fiber: 2.9, iron: 1.5, defaultQty: 100, presets: [50, 100, 150] },
+  { id: 'sparanghel', name: 'Sparanghel', category: 'Legume', kcal: 20, p: 2.2, c: 3.9, f: 0.1, fiber: 2.1, iron: 2.1, defaultQty: 150, presets: [100, 150, 200], shop: true },
+  { id: 'dovlecel', name: 'Dovlecel', category: 'Legume', kcal: 17, p: 1.2, c: 3.1, f: 0.3, fiber: 1, iron: 0.4, defaultQty: 200, presets: [100, 200, 300], shop: true },
+  { id: 'dovleac', name: 'Dovleac copt', category: 'Legume', kcal: 26, p: 1, c: 6.5, f: 0.1, fiber: 0.5, iron: 0.8, defaultQty: 200, presets: [100, 200, 300] },
+  { id: 'vinete', name: 'Vinete', category: 'Legume', kcal: 25, p: 1, c: 6, f: 0.2, fiber: 3, iron: 0.2, defaultQty: 200, presets: [100, 200, 300], shop: true },
+  { id: 'salata-vinete', name: 'Salata de vinete (cu maioneza minima)', category: 'Legume', kcal: 110, p: 1.5, c: 7, f: 9, fiber: 3, iron: 0.4, defaultQty: 100, presets: [50, 100, 150] },
+  { id: 'zacusca', name: 'Zacusca (de casa, fara zahar)', category: 'Legume', kcal: 95, p: 1.2, c: 8, f: 6.5, fiber: 2.5, iron: 0.5, defaultQty: 60, presets: [30, 50, 60, 80] },
+  { id: 'ardei', name: 'Ardei gras (capia/galben/verde)', category: 'Legume', kcal: 31, p: 1, c: 7, f: 0.3, fiber: 2.1, iron: 0.4, defaultQty: 150, presets: [100, 150, 200], shop: true },
+  { id: 'ardei-iute', name: 'Ardei iute proaspat', category: 'Legume', kcal: 40, p: 1.9, c: 9, f: 0.4, fiber: 1.5, iron: 1, defaultQty: 10, presets: [5, 10, 20] },
+  { id: 'rosii', name: 'Rosii', category: 'Legume', kcal: 18, p: 0.9, c: 3.9, f: 0.2, fiber: 1.2, iron: 0.5, defaultQty: 150, presets: [100, 150, 200, 300], shop: true },
+  { id: 'rosii-cherry', name: 'Rosii cherry', category: 'Legume', kcal: 18, p: 0.9, c: 3.9, f: 0.2, fiber: 1.2, iron: 0.3, defaultQty: 100, presets: [50, 100, 150], shop: true },
+  { id: 'castraveti', name: 'Castraveti', category: 'Legume', kcal: 15, p: 0.7, c: 3.6, f: 0.1, fiber: 0.5, iron: 0.3, defaultQty: 150, presets: [100, 150, 200], shop: true },
+  { id: 'salata-verde', name: 'Salata verde mix', category: 'Legume', kcal: 15, p: 1.4, c: 2.9, f: 0.2, fiber: 1.3, iron: 0.9, defaultQty: 100, presets: [50, 100, 150], shop: true },
+  { id: 'rucola', name: 'Rucola', category: 'Legume', kcal: 25, p: 2.6, c: 3.7, f: 0.7, fiber: 1.6, iron: 1.5, defaultQty: 50, presets: [30, 50, 80], shop: true },
+  { id: 'morcovi', name: 'Morcovi cruzi', category: 'Legume', kcal: 41, p: 0.9, c: 10, f: 0.2, fiber: 2.8, iron: 0.3, defaultQty: 100, presets: [50, 100, 150], shop: true },
+  { id: 'patrunjel-rad', name: 'Patrunjel radacina', category: 'Legume', kcal: 75, p: 2.5, c: 17, f: 0.5, fiber: 5, iron: 0.8, defaultQty: 80, presets: [50, 80, 100], shop: true },
+  { id: 'patrunjel-verde', name: 'Patrunjel verde (frunze)', category: 'Legume', kcal: 36, p: 3, c: 6.3, f: 0.8, fiber: 3.3, iron: 6.2, defaultQty: 10, presets: [5, 10, 20], shop: true },
+  { id: 'telina-rad', name: 'Telina radacina', category: 'Legume', kcal: 42, p: 1.5, c: 9.2, f: 0.3, fiber: 1.8, iron: 0.7, defaultQty: 80, presets: [50, 80, 100], shop: true },
+  { id: 'sfecla', name: 'Sfecla rosie', category: 'Legume', kcal: 43, p: 1.6, c: 10, f: 0.2, fiber: 2.8, iron: 0.8, defaultQty: 100, presets: [50, 100], shop: true },
+  { id: 'ridichi', name: 'Ridichi', category: 'Legume', kcal: 16, p: 0.7, c: 3.4, f: 0.1, fiber: 1.6, iron: 0.3, defaultQty: 80, presets: [50, 80, 100], shop: true },
+  { id: 'ceapa', name: 'Ceapa', category: 'Legume', kcal: 40, p: 1.1, c: 9.3, f: 0.1, fiber: 1.7, iron: 0.2, defaultQty: 30, presets: [20, 30, 50], shop: true },
+  { id: 'ceapa-verde', name: 'Ceapa verde / arpagic', category: 'Legume', kcal: 32, p: 1.8, c: 7.3, f: 0.2, fiber: 2.6, iron: 1.5, defaultQty: 30, presets: [10, 20, 30], shop: true },
+  { id: 'usturoi', name: 'Usturoi (1 catel ~3g)', category: 'Legume', kcal: 149, p: 6.4, c: 33, f: 0.5, fiber: 2.1, iron: 1.7, defaultQty: 6, presets: [3, 6, 9], shop: true },
+  { id: 'praz', name: 'Praz', category: 'Legume', kcal: 61, p: 1.5, c: 14, f: 0.3, fiber: 1.8, iron: 2.1, defaultQty: 80, presets: [50, 80, 100], shop: true },
+  { id: 'ciuperci', name: 'Ciuperci champignon', category: 'Legume', kcal: 22, p: 3.1, c: 3.3, f: 0.3, fiber: 1, iron: 0.5, defaultQty: 150, presets: [100, 150, 200], shop: true },
+
+  // ============== GRATAR / PREPARATE TRADITIONALE ROMANESTI ==============
+  { id: 'pui-gratar', name: 'Piept de pui la gratar (cu 5ml ulei)', category: 'Preparate gratar', kcal: 165, p: 31, c: 0, f: 4.5, fiber: 0, iron: 0.5, defaultQty: 150, presets: [100, 120, 150, 180] },
+  { id: 'pulpe-gratar', name: 'Pulpe pui dezosate la gratar', category: 'Preparate gratar', kcal: 175, p: 25, c: 0, f: 8, fiber: 0, iron: 1.2, defaultQty: 150, presets: [120, 150, 180] },
+  { id: 'curcan-gratar', name: 'Piept de curcan la gratar', category: 'Preparate gratar', kcal: 155, p: 32, c: 0, f: 3.2, fiber: 0, iron: 0.9, defaultQty: 150, presets: [100, 120, 150, 180] },
+  { id: 'somon-gratar', name: 'Somon la gratar', category: 'Preparate gratar', kcal: 215, p: 24, c: 0, f: 13, fiber: 0, iron: 0.6, defaultQty: 150, presets: [100, 120, 150] },
+  { id: 'pastrav-gratar', name: 'Pastrav intreg la gratar', category: 'Preparate gratar', kcal: 175, p: 25, c: 0, f: 8, fiber: 0, iron: 0.9, defaultQty: 200, presets: [150, 200, 250] },
+  { id: 'macrou-gratar', name: 'Macrou la gratar', category: 'Preparate gratar', kcal: 240, p: 23, c: 0, f: 17, fiber: 0, iron: 1.9, defaultQty: 150, presets: [100, 150, 200], warning: 'Fier mediu' },
+  { id: 'frigarui-pui', name: 'Frigarui pui cu legume', category: 'Preparate gratar', kcal: 145, p: 22, c: 4, f: 4.5, fiber: 1.2, iron: 0.7, defaultQty: 200, presets: [150, 200, 250] },
+  { id: 'cotlet-porc-gratar', name: 'Cotlet de porc slab la gratar', category: 'Preparate gratar', kcal: 195, p: 28, c: 0, f: 9, fiber: 0, iron: 1.2, defaultQty: 120, presets: [100, 120, 150], warning: 'Max 1-2x/luna' },
+  { id: 'vita-gratar', name: 'Muschi de vita la gratar', category: 'Preparate gratar', kcal: 220, p: 30, c: 0, f: 11, fiber: 0, iron: 3, defaultQty: 120, presets: [80, 100, 120], warning: 'Fier MARE - max 1x/luna' },
+  { id: 'legume-gratar', name: 'Legume mix la gratar', category: 'Preparate gratar', kcal: 55, p: 1.5, c: 7, f: 2.8, fiber: 2.5, iron: 0.5, defaultQty: 200, presets: [150, 200, 300] },
+  { id: 'ciuperci-gratar', name: 'Ciuperci la gratar', category: 'Preparate gratar', kcal: 45, p: 3.2, c: 4, f: 2.2, fiber: 1.2, iron: 0.6, defaultQty: 150, presets: [100, 150, 200] },
+  { id: 'porumb-gratar', name: 'Porumb fiert/copt (1 stiulete ~150g)', category: 'Preparate gratar', kcal: 96, p: 3.4, c: 21, f: 1.5, fiber: 2.4, iron: 0.5, defaultQty: 150, presets: [100, 150, 200] },
+
+  // ============== FRUCTE RECOMANDATE ==============
+  { id: 'afine', name: 'Afine', category: 'Fructe recomandate', kcal: 57, p: 0.7, c: 14, f: 0.3, fiber: 2.4, iron: 0.3, defaultQty: 100, presets: [50, 100, 150], shop: true },
+  { id: 'zmeura', name: 'Zmeura', category: 'Fructe recomandate', kcal: 52, p: 1.2, c: 12, f: 0.7, fiber: 6.5, iron: 0.7, defaultQty: 100, presets: [50, 100, 150], shop: true },
+  { id: 'mure', name: 'Mure', category: 'Fructe recomandate', kcal: 43, p: 1.4, c: 10, f: 0.5, fiber: 5.3, iron: 0.6, defaultQty: 100, presets: [50, 100, 150], shop: true },
+  { id: 'capsuni', name: 'Capsuni', category: 'Fructe recomandate', kcal: 32, p: 0.7, c: 7.7, f: 0.3, fiber: 2, iron: 0.4, defaultQty: 150, presets: [100, 150, 200], shop: true },
+  { id: 'cirese', name: 'Cirese', category: 'Fructe recomandate', kcal: 63, p: 1.1, c: 16, f: 0.2, fiber: 2.1, iron: 0.4, defaultQty: 150, presets: [100, 150, 200], shop: true },
+  { id: 'visine', name: 'Visine', category: 'Fructe recomandate', kcal: 50, p: 1, c: 12, f: 0.3, fiber: 1.6, iron: 0.3, defaultQty: 150, presets: [100, 150, 200], shop: true },
+  { id: 'agrise', name: 'Agrise', category: 'Fructe recomandate', kcal: 44, p: 0.9, c: 10, f: 0.6, fiber: 4.3, iron: 0.3, defaultQty: 100, presets: [50, 100, 150], shop: true },
+  { id: 'coacaze-rosii', name: 'Coacaze rosii', category: 'Fructe recomandate', kcal: 56, p: 1.4, c: 14, f: 0.2, fiber: 4.3, iron: 1, defaultQty: 100, presets: [50, 100, 150], shop: true },
+  { id: 'coacaze-negre', name: 'Coacaze negre', category: 'Fructe recomandate', kcal: 63, p: 1.4, c: 15, f: 0.4, fiber: 5.3, iron: 1.5, defaultQty: 100, presets: [50, 100, 150], shop: true },
+  { id: 'banana', name: 'Banana', category: 'Fructe recomandate', kcal: 89, p: 1.1, c: 23, f: 0.3, fiber: 2.6, iron: 0.3, defaultQty: 100, presets: [80, 100, 120, 150], shop: true },
+  { id: 'mar', name: 'Mar (cu coaja)', category: 'Fructe recomandate', kcal: 52, p: 0.3, c: 14, f: 0.2, fiber: 2.4, iron: 0.1, defaultQty: 150, presets: [100, 150, 200], shop: true },
+  { id: 'para', name: 'Para', category: 'Fructe recomandate', kcal: 57, p: 0.4, c: 15, f: 0.1, fiber: 3.1, iron: 0.2, defaultQty: 150, presets: [100, 150, 200], shop: true },
+  { id: 'kiwi', name: 'Kiwi (1 buc ~75g)', category: 'Fructe recomandate', kcal: 61, p: 1.1, c: 15, f: 0.5, fiber: 3, iron: 0.3, unit: 'buc', defaultQty: 2, presets: [1, 2, 3], shop: true },
+  { id: 'portocala', name: 'Portocala', category: 'Fructe recomandate', kcal: 47, p: 0.9, c: 12, f: 0.1, fiber: 2.4, iron: 0.1, defaultQty: 150, presets: [100, 150, 200], shop: true },
+  { id: 'mandarina', name: 'Mandarine', category: 'Fructe recomandate', kcal: 53, p: 0.8, c: 13, f: 0.3, fiber: 1.8, iron: 0.2, defaultQty: 150, presets: [100, 150, 200], shop: true },
+  { id: 'grapefruit', name: 'Grapefruit', category: 'Fructe recomandate', kcal: 42, p: 0.8, c: 11, f: 0.1, fiber: 1.6, iron: 0.1, defaultQty: 200, presets: [100, 200, 300], shop: true },
+
+  // ============== FRUCTE DE VARA ==============
+  { id: 'caise', name: 'Caise', category: 'Fructe de vara', kcal: 48, p: 1.4, c: 11, f: 0.4, fiber: 2, iron: 0.4, defaultQty: 150, presets: [80, 100, 150, 200], shop: true },
+  { id: 'piersici', name: 'Piersici', category: 'Fructe de vara', kcal: 39, p: 0.9, c: 10, f: 0.3, fiber: 1.5, iron: 0.3, defaultQty: 150, presets: [100, 150, 200], shop: true },
+  { id: 'nectarine', name: 'Nectarine', category: 'Fructe de vara', kcal: 44, p: 1.1, c: 11, f: 0.3, fiber: 1.7, iron: 0.3, defaultQty: 150, presets: [100, 150, 200], shop: true },
+  { id: 'prune', name: 'Prune', category: 'Fructe de vara', kcal: 46, p: 0.7, c: 11, f: 0.3, fiber: 1.4, iron: 0.2, defaultQty: 150, presets: [80, 100, 150, 200], shop: true },
+  { id: 'pepene-rosu', name: 'Pepene rosu', category: 'Fructe de vara', kcal: 30, p: 0.6, c: 7.6, f: 0.2, fiber: 0.4, iron: 0.2, defaultQty: 300, presets: [150, 200, 300, 400], shop: true },
+  { id: 'pepene-galben', name: 'Pepene galben', category: 'Fructe de vara', kcal: 34, p: 0.8, c: 8, f: 0.2, fiber: 0.9, iron: 0.2, defaultQty: 200, presets: [150, 200, 300], shop: true },
+  { id: 'smochine', name: 'Smochine proaspete', category: 'Fructe de vara', kcal: 74, p: 0.8, c: 19, f: 0.3, fiber: 2.9, iron: 0.4, defaultQty: 100, presets: [50, 100, 150], shop: true },
+  { id: 'struguri', name: 'Struguri (albi/rosii)', category: 'Fructe de vara', kcal: 69, p: 0.7, c: 18, f: 0.2, fiber: 0.9, iron: 0.4, defaultQty: 150, presets: [80, 100, 150, 200], shop: true },
+
+  // ============== GRASIMI / SEMINTE / NUCI ==============
+  { id: 'ulei-masline', name: 'Ulei masline extravirgin', category: 'Grasimi', kcal: 884, p: 0, c: 0, f: 100, fiber: 0, iron: 0, unit: 'ml', defaultQty: 10, presets: [5, 10, 15, 20], shop: true },
+  { id: 'avocado', name: 'Avocado', category: 'Grasimi', kcal: 160, p: 2, c: 9, f: 15, fiber: 7, iron: 0.6, defaultQty: 80, presets: [40, 80, 120], shop: true },
+  { id: 'masline', name: 'Masline (negre sau verzi)', category: 'Grasimi', kcal: 115, p: 0.8, c: 6, f: 11, fiber: 3.2, iron: 3.3, defaultQty: 30, presets: [20, 30, 50], warning: 'Fier mediu + sodiu', shop: true },
+  { id: 'nuci', name: 'Nuci', category: 'Grasimi', kcal: 654, p: 15, c: 14, f: 65, fiber: 6.7, iron: 2.9, defaultQty: 15, presets: [10, 15, 20, 30], shop: true },
+  { id: 'migdale', name: 'Migdale', category: 'Grasimi', kcal: 579, p: 21, c: 22, f: 50, fiber: 12.5, iron: 3.7, defaultQty: 15, presets: [10, 15, 20, 30], shop: true },
+  { id: 'alune-padure', name: 'Alune de padure', category: 'Grasimi', kcal: 628, p: 15, c: 17, f: 61, fiber: 9.7, iron: 4.7, defaultQty: 15, presets: [10, 15, 20], shop: true },
+  { id: 'fistic', name: 'Fistic (nesarat)', category: 'Grasimi', kcal: 560, p: 20, c: 28, f: 45, fiber: 10, iron: 4, defaultQty: 15, presets: [10, 15, 20], shop: true },
+  { id: 'caju', name: 'Caju (nesarat)', category: 'Grasimi', kcal: 553, p: 18, c: 30, f: 44, fiber: 3.3, iron: 6.7, defaultQty: 15, presets: [10, 15, 20], warning: 'Fier mare', shop: true },
+  { id: 'pecan', name: 'Nuci pecan', category: 'Grasimi', kcal: 691, p: 9, c: 14, f: 72, fiber: 9.6, iron: 2.5, defaultQty: 15, presets: [10, 15, 20], shop: true },
+  { id: 'chia', name: 'Seminte chia', category: 'Grasimi', kcal: 486, p: 17, c: 42, f: 31, fiber: 34, iron: 7.7, defaultQty: 12, presets: [10, 12, 15], warning: 'Fier mare', shop: true },
+  { id: 'in', name: 'Seminte in macinate', category: 'Grasimi', kcal: 534, p: 18, c: 29, f: 42, fiber: 27, iron: 5.7, defaultQty: 10, presets: [5, 10, 15], shop: true },
+  { id: 'sem-dovleac', name: 'Seminte de dovleac', category: 'Grasimi', kcal: 559, p: 30, c: 11, f: 49, fiber: 6, iron: 8.8, defaultQty: 10, presets: [5, 10, 15], warning: 'Fier MARE', shop: true },
+  { id: 'sem-floarea-soarelui', name: 'Seminte floarea-soarelui', category: 'Grasimi', kcal: 584, p: 21, c: 20, f: 51, fiber: 8.6, iron: 5.3, defaultQty: 15, presets: [10, 15, 20], shop: true },
+  { id: 'unt-arah', name: 'Unt arahide natural (doar arahide)', category: 'Grasimi', kcal: 588, p: 25, c: 20, f: 50, fiber: 6, iron: 2, defaultQty: 15, presets: [10, 15, 20], shop: true },
+  { id: 'unt-migdale', name: 'Unt de migdale natural', category: 'Grasimi', kcal: 614, p: 21, c: 19, f: 56, fiber: 10, iron: 3.7, defaultQty: 15, presets: [10, 15, 20], shop: true },
+  { id: 'tahini', name: 'Tahini (pasta susan)', category: 'Grasimi', kcal: 595, p: 17, c: 21, f: 53, fiber: 9, iron: 8.9, defaultQty: 10, presets: [5, 10, 15], warning: 'Fier MARE', shop: true },
+  { id: 'cacao', name: 'Cacao pura fara zahar', category: 'Grasimi', kcal: 228, p: 20, c: 58, f: 14, fiber: 33, iron: 13.9, defaultQty: 5, presets: [3, 5, 10], warning: 'Fier MARE', shop: true },
+
+  // ============== CIOCOLATA NEAGRA ==============
+  { id: 'cioc-70', name: 'Ciocolata neagra 70%', category: 'Ciocolata neagra', kcal: 580, p: 7.8, c: 46, f: 38, fiber: 11, iron: 8, defaultQty: 15, presets: [10, 15, 20, 25], warning: 'Fier mare - portii mici', shop: true },
+  { id: 'cioc-80', name: 'Ciocolata neagra 80%', category: 'Ciocolata neagra', kcal: 595, p: 8.5, c: 28, f: 48, fiber: 12, iron: 10, defaultQty: 12, presets: [10, 12, 20], warning: 'Fier mare - portii mici', shop: true },
+  { id: 'cioc-85', name: 'Ciocolata neagra 85%', category: 'Ciocolata neagra', kcal: 600, p: 9, c: 22, f: 51, fiber: 12.5, iron: 11, defaultQty: 12, presets: [10, 12, 20], warning: 'Fier mare - portii mici', shop: true },
+  { id: 'cioc-90', name: 'Ciocolata neagra 90%+', category: 'Ciocolata neagra', kcal: 600, p: 10, c: 14, f: 55, fiber: 13, iron: 12, defaultQty: 10, presets: [5, 10, 20], warning: 'Fier MARE - max 10g/zi', shop: true },
+
+  // ============== BAUTURI ==============
+  { id: 'cafea-neagra', name: 'Cafea neagra (fara zahar, fara lapte)', category: 'Bauturi', kcal: 2, p: 0.3, c: 0, f: 0, fiber: 0, iron: 0, unit: 'ml', defaultQty: 200, presets: [150, 200, 250, 300], shop: true },
+  { id: 'ceai-verde', name: 'Ceai verde', category: 'Bauturi', kcal: 1, p: 0, c: 0, f: 0, fiber: 0, iron: 0, unit: 'ml', defaultQty: 250, presets: [200, 250, 300], shop: true },
+  { id: 'ceai-negru', name: 'Ceai negru', category: 'Bauturi', kcal: 1, p: 0, c: 0, f: 0, fiber: 0, iron: 0, unit: 'ml', defaultQty: 250, presets: [200, 250, 300], shop: true },
+  { id: 'apa-minerala', name: 'Apa minerala / plata', category: 'Bauturi', kcal: 0, p: 0, c: 0, f: 0, fiber: 0, iron: 0, unit: 'ml', defaultQty: 500, presets: [250, 500, 750, 1000], shop: true },
+  { id: 'vin-rosu-sec', name: 'Vin rosu sec (150ml)', category: 'Bauturi', kcal: 85, p: 0.1, c: 2.6, f: 0, fiber: 0, iron: 0.5, unit: 'ml', defaultQty: 150, presets: [100, 150], warning: 'Max 1 pahar/saptamana', shop: true },
+
+  // ============== CONDIMENTE / ALTE ==============
+  { id: 'otet-mere', name: 'Otet de mere', category: 'Condimente', kcal: 22, p: 0, c: 0.9, f: 0, fiber: 0, iron: 0.2, unit: 'ml', defaultQty: 10, presets: [5, 10, 15], shop: true },
+  { id: 'mustar-dijon', name: 'Mustar Dijon (fara zahar)', category: 'Condimente', kcal: 66, p: 4.4, c: 5, f: 4, fiber: 3.3, iron: 1.5, defaultQty: 10, presets: [5, 10, 15], shop: true },
+  { id: 'lamaie', name: 'Lamaie (zeama)', category: 'Condimente', kcal: 22, p: 0.4, c: 7, f: 0.2, fiber: 0.3, iron: 0.1, unit: 'ml', defaultQty: 15, presets: [5, 10, 15, 30], shop: true }
 ];
 
 
@@ -1814,6 +2040,15 @@ async function renderToday() {
     const entries = await getMealEntries(currentDate, meal.id);
     const mealKcal = entries.reduce((s, e) => s + e.kcal, 0);
 
+    // Verificam daca trebuie afisat butonul "Copiaza la Cina"
+    let showCopyBtn = false;
+    if (meal.id === 'pranz' && entries.length > 0) {
+      const cinaEntries = await getMealEntries(currentDate, 'cina');
+      if (cinaEntries.length === 0) {
+        showCopyBtn = true;
+      }
+    }
+
     const card = document.createElement('div');
     card.className = 'meal-card' + (entries.length > 0 ? ' has-items' : '');
     card.innerHTML = `
@@ -1844,6 +2079,11 @@ async function renderToday() {
             </div>
           </div>
         `).join('')}
+        ${showCopyBtn ? `
+          <button class="copy-meal-btn" data-from="pranz" data-to="cina">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5,15H4a2,2,0,0,1-2-2V4A2,2,0,0,1,4,2h9a2,2,0,0,1,2,2V5"/></svg>
+            Copiaza la Cina
+          </button>` : ''}
       </div>` : ''}
     `;
     mealsList.appendChild(card);
@@ -1867,6 +2107,44 @@ async function renderToday() {
       renderToday();
     });
   });
+
+  // Bind copy-meal buttons
+  document.querySelectorAll('.copy-meal-btn').forEach(btn => {
+    btn.addEventListener('click', async (e) => {
+      e.stopPropagation();
+      await copyMeal(btn.dataset.from, btn.dataset.to);
+    });
+  });
+}
+
+async function copyMeal(fromMealId, toMealId) {
+  const sourceEntries = await getMealEntries(currentDate, fromMealId);
+  if (sourceEntries.length === 0) {
+    showToast('Nimic de copiat');
+    return;
+  }
+
+  for (const e of sourceEntries) {
+    const newEntry = {
+      date: e.date,
+      meal: toMealId,
+      foodId: e.foodId,
+      foodName: e.foodName,
+      qty: e.qty,
+      unit: e.unit,
+      kcal: e.kcal,
+      p: e.p,
+      c: e.c,
+      f: e.f,
+      fiber: e.fiber,
+      iron: e.iron,
+      timestamp: Date.now()
+    };
+    await dbAdd('entries', newEntry);
+  }
+
+  showToast(`${sourceEntries.length} alimente copiate`);
+  renderToday();
 }
 
 function updateMacro(key, val, target, unit) {
@@ -1990,6 +2268,62 @@ function renderFoodList(filter) {
       item.addEventListener('click', () => openQtyModal(food));
       list.appendChild(item);
     });
+  });
+}
+
+// ============================================
+// FOODS LIST VIEW (Tab Alimente - pentru cumparaturi)
+// ============================================
+function renderFoodsListView(filter) {
+  const container = document.getElementById('foodsListView');
+  if (!container) return;
+  container.innerHTML = '';
+
+  const q = (filter || '').trim().toLowerCase();
+  // Lista de cumparaturi = doar alimentele marcate shop: true (ce ai voie sa cumperi)
+  const shopFoods = FOOD_DB.filter(f => f.shop === true);
+  const filtered = q
+    ? shopFoods.filter(f => f.name.toLowerCase().includes(q))
+    : shopFoods;
+
+  // Group by category
+  const byCategory = {};
+  filtered.forEach(f => {
+    if (!byCategory[f.category]) byCategory[f.category] = [];
+    byCategory[f.category].push(f);
+  });
+
+  // Update count badge
+  document.getElementById('foodsCount').textContent = `${filtered.length} alimente`;
+
+  if (filtered.length === 0) {
+    container.innerHTML = '<div class="empty-state"><div class="empty-state-text">Niciun aliment gasit</div></div>';
+    return;
+  }
+
+  Object.entries(byCategory).forEach(([cat, foods]) => {
+    const section = document.createElement('div');
+    section.className = 'foods-list-category';
+
+    const title = document.createElement('div');
+    title.className = 'foods-list-category-title';
+    title.innerHTML = `<span>${cat}</span><span class="foods-list-category-count">${foods.length}</span>`;
+    section.appendChild(title);
+
+    foods.forEach(food => {
+      const item = document.createElement('div');
+      item.className = 'foods-list-item';
+      const unitLabel = food.unit === 'buc' ? 'per buc' : (food.unit === 'ml' ? 'per 100ml' : 'per 100g');
+      item.innerHTML = `
+        <div style="flex: 1; min-width: 0;">
+          <div class="foods-list-name">${food.name}${food.warning ? `<span class="warn">⚠</span>` : ''}</div>
+          <div class="foods-list-macros">${unitLabel} · ${food.kcal}kcal · ${food.p}P ${food.c}C ${food.f}G · Fe ${food.iron}mg</div>
+        </div>
+      `;
+      section.appendChild(item);
+    });
+
+    container.appendChild(section);
   });
 }
 
@@ -2435,6 +2769,7 @@ function bindEvents() {
       if (view === 'metrics') loadMetricsForDay();
       if (view === 'history') renderHistory();
       if (view === 'today') renderToday();
+      if (view === 'foods') renderFoodsListView('');
     });
   });
 
@@ -2470,6 +2805,15 @@ function bindEvents() {
     const list = document.getElementById('foodList');
     if (list) list.scrollTop = 0;
   });
+
+  // Foods list view search
+  const foodsSearch = document.getElementById('foodsSearchInput');
+  if (foodsSearch) {
+    foodsSearch.addEventListener('input', (e) => {
+      renderFoodsListView(e.target.value);
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+  }
 
   document.getElementById('closeQtyModal').addEventListener('click', closeQtyModal);
 
