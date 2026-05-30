@@ -4,6 +4,9 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <meta name="theme-color" content="#3d4f2f">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="0">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
 <meta name="apple-mobile-web-app-title" content="Jurnal Bogdan">
@@ -1344,12 +1347,12 @@
       <div style="font-size: 11px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--ink-faint); font-weight: 600; margin-bottom: 10px;">Activitate zilnica</div>
       <div class="metrics-row">
         <div class="metric-input-group">
-          <div class="metric-label">Pasi (Apple Watch)</div>
-          <input type="number" class="metric-input" id="stepsInput" placeholder="8000">
-        </div>
-        <div class="metric-input-group">
           <div class="metric-label">Cal. arse (Apple Watch)</div>
           <input type="number" class="metric-input" id="activeCalInput" placeholder="450">
+        </div>
+        <div class="metric-input-group">
+          <div class="metric-label">Min. miscare (Apple Watch)</div>
+          <input type="number" class="metric-input" id="exerciseMinutesInput" placeholder="30">
         </div>
       </div>
       <div class="metrics-row">
@@ -1375,16 +1378,6 @@
 
     <div class="metrics-input" style="margin-top: 12px;">
       <div style="font-size: 11px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--ink-faint); font-weight: 600; margin-bottom: 10px;">Fasting</div>
-      <div class="metrics-row">
-        <div class="metric-input-group">
-          <div class="metric-label">Ore fasting azi</div>
-          <input type="number" step="0.5" class="metric-input" id="fastingHoursInput" placeholder="14">
-        </div>
-        <div class="metric-input-group">
-          <div class="metric-label">Fereastra mancat (ore)</div>
-          <input type="number" step="0.5" class="metric-input" id="eatingWindowInput" placeholder="10">
-        </div>
-      </div>
       <div class="metrics-row">
         <div class="metric-input-group">
           <div class="metric-label">Prima masa la ora</div>
@@ -1544,6 +1537,7 @@
     <button class="btn-secondary" id="exportBtn">⬇ Exporta tot istoricul (JSON)</button>
     <button class="btn-secondary" id="importBtn">⬆ Importa date (JSON)</button>
     <input type="file" id="importFile" accept=".json" style="display: none;">
+    <button class="btn-secondary" id="diagBtn" style="margin-top: 12px;">🔍 Diagnostic baza de date</button>
     <button class="btn-danger" id="resetBtn" style="margin-top: 12px;">Sterge toate datele</button>
 
     <div style="margin-top: 24px; padding: 16px; background: var(--bg-elev); border: 1px solid var(--line); border-radius: var(--radius-md); font-size: 13px; color: var(--ink-soft); line-height: 1.6;">
@@ -1661,6 +1655,7 @@ const FOOD_DB = [
   { id: 'mozzarella-light', name: 'Mozzarella light', category: 'Lactate', kcal: 254, p: 24, c: 2.8, f: 16, fiber: 0, iron: 0.2, defaultQty: 30, presets: [20, 30, 50], shop: true },
   { id: 'feta', name: 'Branza feta', category: 'Lactate', kcal: 264, p: 14, c: 4.1, f: 21, fiber: 0, iron: 0.7, defaultQty: 30, presets: [20, 30, 50], shop: true },
   { id: 'telemea-vaca', name: 'Telemea de vaca slaba', category: 'Lactate', kcal: 230, p: 17, c: 1, f: 18, fiber: 0, iron: 0.5, defaultQty: 30, presets: [20, 30, 50], shop: true },
+  { id: 'branza-capra', name: 'Branza de capra (proaspata)', category: 'Lactate', kcal: 264, p: 18.5, c: 0.9, f: 21, fiber: 0, iron: 1.9, defaultQty: 30, presets: [20, 30, 50], warning: 'Fier mediu', shop: true },
   { id: 'cascaval', name: 'Cascaval', category: 'Lactate', kcal: 350, p: 25, c: 1, f: 27, fiber: 0, iron: 0.4, defaultQty: 30, presets: [20, 30, 50], warning: 'Grasimi saturate - max 30g' },
   { id: 'lapte-deg', name: 'Lapte degresat 0.1-1.5%', category: 'Lactate', kcal: 35, p: 3.4, c: 5, f: 0.1, fiber: 0, iron: 0, defaultQty: 200, presets: [100, 200, 250], shop: true },
 
@@ -1732,6 +1727,7 @@ const FOOD_DB = [
   { id: 'rosii-cherry', name: 'Rosii cherry', category: 'Legume', kcal: 18, p: 0.9, c: 3.9, f: 0.2, fiber: 1.2, iron: 0.3, defaultQty: 100, presets: [50, 100, 150], shop: true },
   { id: 'castraveti', name: 'Castraveti', category: 'Legume', kcal: 15, p: 0.7, c: 3.6, f: 0.1, fiber: 0.5, iron: 0.3, defaultQty: 150, presets: [100, 150, 200], shop: true },
   { id: 'salata-verde', name: 'Salata verde mix', category: 'Legume', kcal: 15, p: 1.4, c: 2.9, f: 0.2, fiber: 1.3, iron: 0.9, defaultQty: 100, presets: [50, 100, 150], shop: true },
+  { id: 'salata-cruditati', name: 'Salata cruditati (rosii, castraveti, ceapa verde)', category: 'Legume', kcal: 22, p: 1.1, c: 5, f: 0.2, fiber: 1.5, iron: 0.8, defaultQty: 200, presets: [100, 150, 200, 300] },
   { id: 'rucola', name: 'Rucola', category: 'Legume', kcal: 25, p: 2.6, c: 3.7, f: 0.7, fiber: 1.6, iron: 1.5, defaultQty: 50, presets: [30, 50, 80], shop: true },
   { id: 'morcovi', name: 'Morcovi cruzi', category: 'Legume', kcal: 41, p: 0.9, c: 10, f: 0.2, fiber: 2.8, iron: 0.3, defaultQty: 100, presets: [50, 100, 150], shop: true },
   { id: 'patrunjel-rad', name: 'Patrunjel radacina', category: 'Legume', kcal: 75, p: 2.5, c: 17, f: 0.5, fiber: 5, iron: 0.8, defaultQty: 80, presets: [50, 80, 100], shop: true },
@@ -2438,12 +2434,10 @@ async function loadMetricsForDay() {
   document.getElementById('muscleMassInput').value = m?.muscleMass || '';
   document.getElementById('fatMassInput').value = m?.fatMass || '';
   document.getElementById('leanMassInput').value = m?.leanMass || '';
-  document.getElementById('stepsInput').value = m?.steps || '';
   document.getElementById('activeCalInput').value = m?.activeCal || '';
+  document.getElementById('exerciseMinutesInput').value = m?.exerciseMinutes || '';
   document.getElementById('sleepInput').value = m?.sleep || '';
   document.getElementById('workoutInput').value = m?.workout || '';
-  document.getElementById('fastingHoursInput').value = m?.fastingHours || '';
-  document.getElementById('eatingWindowInput').value = m?.eatingWindow || '';
   document.getElementById('firstMealInput').value = m?.firstMeal || '';
   document.getElementById('lastMealInput').value = m?.lastMeal || '';
 
@@ -2511,12 +2505,10 @@ async function saveMetricsForDay() {
     muscleMass: parseFloat(document.getElementById('muscleMassInput').value) || null,
     fatMass: parseFloat(document.getElementById('fatMassInput').value) || null,
     leanMass: parseFloat(document.getElementById('leanMassInput').value) || null,
-    steps: parseInt(document.getElementById('stepsInput').value) || null,
     activeCal: parseInt(document.getElementById('activeCalInput').value) || null,
+    exerciseMinutes: parseInt(document.getElementById('exerciseMinutesInput').value) || null,
     sleep: parseFloat(document.getElementById('sleepInput').value) || null,
     workout: document.getElementById('workoutInput').value || null,
-    fastingHours: parseFloat(document.getElementById('fastingHoursInput').value) || null,
-    eatingWindow: parseFloat(document.getElementById('eatingWindowInput').value) || null,
     firstMeal: document.getElementById('firstMealInput').value || null,
     lastMeal: document.getElementById('lastMealInput').value || null,
     timestamp: Date.now()
@@ -2797,6 +2789,42 @@ async function resetAll() {
   setTimeout(() => location.reload(), 800);
 }
 
+async function runDiagnostic() {
+  const allEntries = await dbGetAll('entries');
+  const allMetrics = await dbGetAll('metrics');
+  const today = formatDate(new Date());
+  const todayEntries = allEntries.filter(e => e.date === today);
+
+  // Group entries per date
+  const byDate = {};
+  allEntries.forEach(e => {
+    if (!byDate[e.date]) byDate[e.date] = 0;
+    byDate[e.date]++;
+  });
+
+  const datesSummary = Object.entries(byDate)
+    .sort((a, b) => a[0].localeCompare(b[0]))
+    .map(([d, n]) => `  ${d}: ${n}`)
+    .join('\n');
+
+  const todaySample = todayEntries.slice(0, 3).map(e =>
+    `  ${e.meal}: ${e.foodName} ${e.qty}${e.unit} (${e.kcal}kcal)`
+  ).join('\n');
+
+  const msg =
+    `=== DIAGNOSTIC ===\n\n` +
+    `Data dispozitiv: ${new Date().toString()}\n` +
+    `currentDate (folosit de app): ${today}\n` +
+    `Fus orar: ${Intl.DateTimeFormat().resolvedOptions().timeZone}\n\n` +
+    `Total entries: ${allEntries.length}\n` +
+    `Total metrics: ${allMetrics.length}\n\n` +
+    `Entries pe zi:\n${datesSummary || '  (none)'}\n\n` +
+    `Entries pentru AZI (${today}): ${todayEntries.length}\n` +
+    (todayEntries.length > 0 ? `Exemplu:\n${todaySample}` : 'NIMIC pe ziua de azi.');
+
+  alert(msg);
+}
+
 // ============================================
 // TOAST
 // ============================================
@@ -2929,6 +2957,7 @@ function bindEvents() {
     e.target.value = '';
   });
   document.getElementById('resetBtn').addEventListener('click', resetAll);
+  document.getElementById('diagBtn').addEventListener('click', runDiagnostic);
 
   // Sticky header on scroll
   window.addEventListener('scroll', () => {
@@ -2941,7 +2970,7 @@ function bindEvents() {
 // Se importa o singura data, prima oara cand utilizatorul deschide aceasta versiune.
 // ============================================
 const SEED_DATA = {
-  version: '2026-05-29-seed-v3',
+  version: '2026-05-30-seed-v4',
   entries: [
     { date: "2026-05-27", meal: "shake1", foodId: "whey", foodName: "Whey isolate", qty: 40, unit: "g", kcal: 152, p: 35.2, c: 1.6, f: 0.6, fiber: 0, iron: 0.12, timestamp: 1779865796087 },
     { date: "2026-05-27", meal: "shake1", foodId: "creatina", foodName: "Creatina monohidrat", qty: 5, unit: "g", kcal: 0, p: 0, c: 0, f: 0, fiber: 0, iron: 0, timestamp: 1779865859828 },
@@ -3077,7 +3106,7 @@ async function init() {
     return (hash ^ h2).toString(36) + (hash * 31 + h2).toString(36) + str.length.toString(36);
   }
 
-  const CORRECT = '1dphnk8depqhsa';
+  const CORRECT = 'oubv12sapgg2e3';
   const SESSION_KEY = 'jn_auth_v1';
 
   function isAuthenticated() {
