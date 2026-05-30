@@ -1539,6 +1539,7 @@
     <input type="file" id="importFile" accept=".json" style="display: none;">
     <button class="btn-secondary" id="diagBtn" style="margin-top: 12px;">🔍 Diagnostic baza de date</button>
     <button class="btn-secondary" id="dedupBtn" style="margin-top: 8px;">🧹 Curata duplicatele din istoric</button>
+    <button class="btn-secondary" id="reseedBtn" style="margin-top: 8px;">🌱 Reaplica datele seed (istoric)</button>
     <button class="btn-danger" id="resetBtn" style="margin-top: 12px;">Sterge toate datele</button>
 
     <div style="margin-top: 24px; padding: 16px; background: var(--bg-elev); border: 1px solid var(--line); border-radius: var(--radius-md); font-size: 13px; color: var(--ink-soft); line-height: 1.6;">
@@ -2829,6 +2830,31 @@ async function runDiagnostic() {
   alert(msg);
 }
 
+async function forceReseed() {
+  if (!confirm(`Voi reaplica seed-ul de istoric (versiune ${SEED_DATA.version}).\n\nAsta NU va sterge datele tale existente.\nVa adauga doar inregistrarile din seed care lipsesc.\n\nContinui?`)) return;
+
+  // Sterge flag-ul de seed aplicat pentru a forta reaplicarea
+  try {
+    await dbDelete('settings', 'seedApplied');
+  } catch (e) {}
+
+  // Reaplica seed-ul
+  await applySeedIfNeeded();
+
+  // Arata rezultatul
+  const all = await dbGetAll('entries');
+  const byDate = {};
+  all.forEach(e => { byDate[e.date] = (byDate[e.date] || 0) + 1; });
+  const summary = Object.entries(byDate)
+    .sort((a, b) => a[0].localeCompare(b[0]))
+    .map(([d, n]) => `  ${d}: ${n}`)
+    .join('\n');
+
+  alert(`Reaplicat seed v${SEED_DATA.version}.\n\nTotal entries acum: ${all.length}\n\nPe zi:\n${summary}`);
+
+  setTimeout(() => location.reload(), 800);
+}
+
 async function dedupHistory() {
   const all = await dbGetAll('entries');
 
@@ -3007,6 +3033,7 @@ function bindEvents() {
   document.getElementById('resetBtn').addEventListener('click', resetAll);
   document.getElementById('diagBtn').addEventListener('click', runDiagnostic);
   document.getElementById('dedupBtn').addEventListener('click', dedupHistory);
+  document.getElementById('reseedBtn').addEventListener('click', forceReseed);
 
   // Sticky header on scroll
   window.addEventListener('scroll', () => {
@@ -3019,7 +3046,7 @@ function bindEvents() {
 // Se importa o singura data, prima oara cand utilizatorul deschide aceasta versiune.
 // ============================================
 const SEED_DATA = {
-  version: '2026-05-30-seed-v5',
+  version: '2026-05-30-seed-v6',
   entries: [
     { date: "2026-05-27", meal: "shake1", foodId: "whey", foodName: "Whey isolate", qty: 40, unit: "g", kcal: 152, p: 35.2, c: 1.6, f: 0.6, fiber: 0, iron: 0.12, timestamp: 1779865796087 },
     { date: "2026-05-27", meal: "shake1", foodId: "creatina", foodName: "Creatina monohidrat", qty: 5, unit: "g", kcal: 0, p: 0, c: 0, f: 0, fiber: 0, iron: 0, timestamp: 1779865859828 },
