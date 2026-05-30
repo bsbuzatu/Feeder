@@ -1538,6 +1538,7 @@
     <button class="btn-secondary" id="importBtn">⬆ Importa date (JSON)</button>
     <input type="file" id="importFile" accept=".json" style="display: none;">
     <button class="btn-secondary" id="diagBtn" style="margin-top: 12px;">🔍 Diagnostic baza de date</button>
+    <button class="btn-secondary" id="dedupBtn" style="margin-top: 8px;">🧹 Curata duplicatele din istoric</button>
     <button class="btn-danger" id="resetBtn" style="margin-top: 12px;">Sterge toate datele</button>
 
     <div style="margin-top: 24px; padding: 16px; background: var(--bg-elev); border: 1px solid var(--line); border-radius: var(--radius-md); font-size: 13px; color: var(--ink-soft); line-height: 1.6;">
@@ -2825,6 +2826,50 @@ async function runDiagnostic() {
   alert(msg);
 }
 
+async function dedupHistory() {
+  const all = await dbGetAll('entries');
+
+  // Grupeaza dupa cheia structurala (date + meal + foodId + qty)
+  const groups = {};
+  all.forEach(e => {
+    const k = `${e.date}|${e.meal}|${e.foodId}|${e.qty}`;
+    if (!groups[k]) groups[k] = [];
+    groups[k].push(e);
+  });
+
+  // Pentru fiecare grup cu mai mult de 1, pastreaza-l pe primul (cu cel mai mic timestamp/id)
+  let toDelete = [];
+  for (const [key, items] of Object.entries(groups)) {
+    if (items.length > 1) {
+      // Sorteaza dupa timestamp (sau id daca timestamp lipseste)
+      items.sort((a, b) => (a.timestamp || a.id || 0) - (b.timestamp || b.id || 0));
+      // Pastreaza primul, marcheaza restul pentru stergere
+      toDelete.push(...items.slice(1));
+    }
+  }
+
+  if (toDelete.length === 0) {
+    alert('Niciun duplicat gasit.');
+    return;
+  }
+
+  // Preview
+  const preview = toDelete.slice(0, 10).map(e =>
+    `  ${e.date} · ${e.meal}: ${e.foodName} ${e.qty}${e.unit || 'g'}`
+  ).join('\n');
+
+  if (!confirm(`Voi sterge ${toDelete.length} inregistrari duplicate.\n\nExemple (max 10):\n${preview}\n\nContinui?`)) {
+    return;
+  }
+
+  for (const e of toDelete) {
+    await dbDelete('entries', e.id);
+  }
+
+  showToast(`Sterse ${toDelete.length} duplicate`);
+  setTimeout(() => location.reload(), 1000);
+}
+
 // ============================================
 // TOAST
 // ============================================
@@ -2958,6 +3003,7 @@ function bindEvents() {
   });
   document.getElementById('resetBtn').addEventListener('click', resetAll);
   document.getElementById('diagBtn').addEventListener('click', runDiagnostic);
+  document.getElementById('dedupBtn').addEventListener('click', dedupHistory);
 
   // Sticky header on scroll
   window.addEventListener('scroll', () => {
@@ -3032,26 +3078,59 @@ async function applySeedIfNeeded() {
   }
 
   // ====== ENTRIES (mese) ======
-  // Pentru fiecare entry din seed, verificam daca exista deja unul identic
-  // Cheia de duplicat: date + meal + foodId + qty + timestamp
+  // Folosim DOUA chei de deduplicare:
+  // 1. Cheia "completa" cu timestamp - prinde duplicate exacte
+  // 2. Cheia "structurala" fara timestamp - prinde aceeasi inregistrare reapllicata din seed la versiune noua
+  // Asta previne dublarea atunci cand bumpem versiunea seed-ului.
   const allExisting = await dbGetAll('entries');
-  const entryKey = (e) => `${e.date}|${e.meal}|${e.foodId}|${e.qty}|${e.timestamp || ''}`;
-  const existingKeys = new Set(allExisting.map(entryKey));
+  const fullKey = (e) => `${e.date}|${e.meal}|${e.foodId}|${e.qty}|${e.timestamp || ''}`;
+  const structKey = (e) => `${e.date}|${e.meal}|${e.foodId}|${e.qty}`;
+
+  const existingFullKeys = new Set(allExisting.map(fullKey));
+  // Pentru chei structurale, contorizam cate exista de fiecare (pot fi mai multe duplicate legitime)
+  const existingStructCount = {};
+  allExisting.forEach(e => {
+    const k = structKey(e);
+    existingStructCount[k] = (existingStructCount[k] || 0) + 1;
+  });
+
+  // Contorizam cate are seed-ul de fiecare cheie structurala
+  const seedStructCount = {};
+  SEED_DATA.entries.forEach(e => {
+    const k = structKey(e);
+    seedStructCount[k] = (seedStructCount[k] || 0) + 1;
+  });
 
   let addedEntries = 0;
   let skippedEntries = 0;
+  // Track cati am adaugat in aceasta rulare per cheie structurala
+  const addedStructCount = {};
+
   for (const entry of SEED_DATA.entries) {
-    if (existingKeys.has(entryKey(entry))) {
+    const fK = fullKey(entry);
+    const sK = structKey(entry);
+
+    // Sare daca exista deja cu acelasi timestamp exact
+    if (existingFullKeys.has(fK)) {
       skippedEntries++;
-    } else {
-      await dbAdd('entries', { ...entry });
-      addedEntries++;
+      continue;
     }
+
+    // Sare daca exista deja suficiente intrari cu aceeasi structura
+    // (pentru a evita dublarea cand seed-ul se re-aplica la versiune noua)
+    const alreadyHave = (existingStructCount[sK] || 0) + (addedStructCount[sK] || 0);
+    const seedHas = seedStructCount[sK];
+    if (alreadyHave >= seedHas) {
+      skippedEntries++;
+      continue;
+    }
+
+    await dbAdd('entries', { ...entry });
+    addedStructCount[sK] = (addedStructCount[sK] || 0) + 1;
+    addedEntries++;
   }
 
   // ====== METRICS (masuratori) ======
-  // Pentru metrics, cheia este 'date'. Folosim dbPut care suprascrie,
-  // DAR daca exista deja date pentru ziua respectiva, NU le suprascriem.
   let addedMetrics = 0;
   let skippedMetrics = 0;
   if (SEED_DATA.metrics) {
