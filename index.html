@@ -1809,6 +1809,9 @@ const FOOD_DB = [
   { id: 'cioc-85', name: 'Ciocolata neagra 85%', category: 'Ciocolata neagra', kcal: 600, p: 9, c: 22, f: 51, fiber: 12.5, iron: 11, defaultQty: 12, presets: [10, 12, 20], warning: 'Fier mare - portii mici', shop: true },
   { id: 'cioc-90', name: 'Ciocolata neagra 90%+', category: 'Ciocolata neagra', kcal: 600, p: 10, c: 14, f: 55, fiber: 13, iron: 12, defaultQty: 10, presets: [5, 10, 20], warning: 'Fier MARE - max 10g/zi', shop: true },
 
+  // ============== DESERTURI DE CASA ==============
+  { id: 'tiramisu-casa', name: 'Tiramisu de casa (mascarpone, oua, cafea, savoiardi)', category: 'Deserturi', kcal: 295, p: 5.5, c: 28, f: 18, fiber: 0.6, iron: 0.9, defaultQty: 100, presets: [60, 80, 100, 150], warning: 'Ocazional - zahar + grasimi' },
+
   // ============== BAUTURI ==============
   { id: 'cafea-neagra', name: 'Cafea neagra (fara zahar, fara lapte)', category: 'Bauturi', kcal: 2, p: 0.3, c: 0, f: 0, fiber: 0, iron: 0, unit: 'ml', defaultQty: 200, presets: [150, 200, 250, 300], shop: true },
   { id: 'ceai-verde', name: 'Ceai verde', category: 'Bauturi', kcal: 1, p: 0, c: 0, f: 0, fiber: 0, iron: 0, unit: 'ml', defaultQty: 250, presets: [200, 250, 300], shop: true },
@@ -3016,7 +3019,7 @@ function bindEvents() {
 // Se importa o singura data, prima oara cand utilizatorul deschide aceasta versiune.
 // ============================================
 const SEED_DATA = {
-  version: '2026-05-30-seed-v4',
+  version: '2026-05-30-seed-v5',
   entries: [
     { date: "2026-05-27", meal: "shake1", foodId: "whey", foodName: "Whey isolate", qty: 40, unit: "g", kcal: 152, p: 35.2, c: 1.6, f: 0.6, fiber: 0, iron: 0.12, timestamp: 1779865796087 },
     { date: "2026-05-27", meal: "shake1", foodId: "creatina", foodName: "Creatina monohidrat", qty: 5, unit: "g", kcal: 0, p: 0, c: 0, f: 0, fiber: 0, iron: 0, timestamp: 1779865859828 },
@@ -3051,23 +3054,33 @@ const SEED_DATA = {
     { date: "2026-05-29", meal: "shake1", foodId: "banana", foodName: "Banana", qty: 88, unit: "g", kcal: 78.32, p: 0.968, c: 20.24, f: 0.264, fiber: 2.288, iron: 0.264, timestamp: 1780041475416 },
     { date: "2026-05-29", meal: "shake1", foodId: "in", foodName: "Seminte in macinate", qty: 11, unit: "g", kcal: 58.74, p: 1.98, c: 3.19, f: 4.62, fiber: 2.97, iron: 0.627, timestamp: 1780041496885 },
     { date: "2026-05-29", meal: "shake1", foodId: "nuci", foodName: "Nuci", qty: 10, unit: "g", kcal: 65.4, p: 1.5, c: 1.4, f: 6.5, fiber: 0.67, iron: 0.29, timestamp: 1780041633983 },
-    { date: "2026-05-29", meal: "pranz", foodId: "pui", foodName: "Piept de pui (negatit)", qty: 263.5, unit: "g", kcal: 316.2, p: 60.605, c: 0.0, f: 6.851, fiber: 0.0, iron: 1.054, timestamp: 1780045000000 },
-    { date: "2026-05-29", meal: "pranz", foodId: "morcovi", foodName: "Morcovi cruzi", qty: 200, unit: "g", kcal: 82.0, p: 1.8, c: 20.0, f: 0.4, fiber: 5.6, iron: 0.6, timestamp: 1780045001000 },
-    { date: "2026-05-29", meal: "pranz", foodId: "telina-rad", foodName: "Telina radacina", qty: 100, unit: "g", kcal: 42.0, p: 1.5, c: 9.2, f: 0.3, fiber: 1.8, iron: 0.7, timestamp: 1780045002000 },
-    { date: "2026-05-29", meal: "pranz", foodId: "patrunjel-rad", foodName: "Patrunjel radacina", qty: 100, unit: "g", kcal: 75.0, p: 2.5, c: 17.0, f: 0.5, fiber: 5.0, iron: 0.8, timestamp: 1780045003000 },
-    { date: "2026-05-29", meal: "pranz", foodId: "ceapa", foodName: "Ceapa", qty: 60, unit: "g", kcal: 24.0, p: 0.66, c: 5.58, f: 0.06, fiber: 1.02, iron: 0.12, timestamp: 1780045004000 },
+    { date: "2026-05-29", meal: "pranz", foodId: "pui", foodName: "Piept de pui (negatit)", qty: 263.5, unit: "g", kcal: 316.2, p: 60.605, c: 0, f: 6.851, fiber: 0, iron: 1.054, timestamp: 1780045000000 },
+    { date: "2026-05-29", meal: "pranz", foodId: "morcovi", foodName: "Morcovi cruzi", qty: 200, unit: "g", kcal: 82, p: 1.8, c: 20, f: 0.4, fiber: 5.6, iron: 0.6, timestamp: 1780045001000 },
+    { date: "2026-05-29", meal: "pranz", foodId: "telina-rad", foodName: "Telina radacina", qty: 100, unit: "g", kcal: 42, p: 1.5, c: 9.2, f: 0.3, fiber: 1.8, iron: 0.7, timestamp: 1780045002000 },
+    { date: "2026-05-29", meal: "pranz", foodId: "patrunjel-rad", foodName: "Patrunjel radacina", qty: 100, unit: "g", kcal: 75, p: 2.5, c: 17, f: 0.5, fiber: 5, iron: 0.8, timestamp: 1780045003000 },
+    { date: "2026-05-29", meal: "pranz", foodId: "ceapa", foodName: "Ceapa", qty: 60, unit: "g", kcal: 24, p: 0.66, c: 5.58, f: 0.06, fiber: 1.02, iron: 0.12, timestamp: 1780045004000 },
     { date: "2026-05-29", meal: "pranz", foodId: "banana", foodName: "Banana", qty: 90, unit: "g", kcal: 80.1, p: 0.99, c: 20.7, f: 0.27, fiber: 2.34, iron: 0.27, timestamp: 1780045005000 },
     { date: "2026-05-29", meal: "pranz", foodId: "nuci", foodName: "Nuci", qty: 13, unit: "g", kcal: 85.02, p: 1.95, c: 1.82, f: 8.45, fiber: 0.871, iron: 0.377, timestamp: 1780045006000 },
-    { date: "2026-05-29", meal: "cina", foodId: "pui", foodName: "Piept de pui (negatit)", qty: 263.5, unit: "g", kcal: 316.2, p: 60.605, c: 0.0, f: 6.851, fiber: 0.0, iron: 1.054, timestamp: 1780045005000 },
-    { date: "2026-05-29", meal: "cina", foodId: "morcovi", foodName: "Morcovi cruzi", qty: 200, unit: "g", kcal: 82.0, p: 1.8, c: 20.0, f: 0.4, fiber: 5.6, iron: 0.6, timestamp: 1780045006000 },
-    { date: "2026-05-29", meal: "cina", foodId: "telina-rad", foodName: "Telina radacina", qty: 100, unit: "g", kcal: 42.0, p: 1.5, c: 9.2, f: 0.3, fiber: 1.8, iron: 0.7, timestamp: 1780045007000 },
-    { date: "2026-05-29", meal: "cina", foodId: "patrunjel-rad", foodName: "Patrunjel radacina", qty: 100, unit: "g", kcal: 75.0, p: 2.5, c: 17.0, f: 0.5, fiber: 5.0, iron: 0.8, timestamp: 1780045008000 },
-    { date: "2026-05-29", meal: "cina", foodId: "ceapa", foodName: "Ceapa", qty: 60, unit: "g", kcal: 24.0, p: 0.66, c: 5.58, f: 0.06, fiber: 1.02, iron: 0.12, timestamp: 1780045009000 }
+    { date: "2026-05-29", meal: "cina", foodId: "pui", foodName: "Piept de pui (negatit)", qty: 263.5, unit: "g", kcal: 316.2, p: 60.605, c: 0, f: 6.851, fiber: 0, iron: 1.054, timestamp: 1780045005000 },
+    { date: "2026-05-29", meal: "cina", foodId: "morcovi", foodName: "Morcovi cruzi", qty: 200, unit: "g", kcal: 82, p: 1.8, c: 20, f: 0.4, fiber: 5.6, iron: 0.6, timestamp: 1780045006000 },
+    { date: "2026-05-29", meal: "cina", foodId: "telina-rad", foodName: "Telina radacina", qty: 100, unit: "g", kcal: 42, p: 1.5, c: 9.2, f: 0.3, fiber: 1.8, iron: 0.7, timestamp: 1780045007000 },
+    { date: "2026-05-29", meal: "cina", foodId: "patrunjel-rad", foodName: "Patrunjel radacina", qty: 100, unit: "g", kcal: 75, p: 2.5, c: 17, f: 0.5, fiber: 5, iron: 0.8, timestamp: 1780045008000 },
+    { date: "2026-05-29", meal: "cina", foodId: "ceapa", foodName: "Ceapa", qty: 60, unit: "g", kcal: 24, p: 0.66, c: 5.58, f: 0.06, fiber: 1.02, iron: 0.12, timestamp: 1780045009000 },
+    { date: "2026-05-30", meal: "shake1", foodId: "cafea-neagra", foodName: "Cafea neagra (fara zahar, fara lapte)", qty: 150, unit: "ml", kcal: 3, p: 0.45, c: 0, f: 0, fiber: 0, iron: 0, timestamp: 1780137355384 },
+    { date: "2026-05-30", meal: "pranz", foodId: "omleta-3oua", foodName: "Omleta 3 oua intregi (cu 5ml ulei)", qty: 1, unit: "portie", kcal: 280, p: 19, c: 2, f: 22, fiber: 0, iron: 2.7, timestamp: 1780137364178 },
+    { date: "2026-05-30", meal: "pranz", foodId: "branza-vaci", foodName: "Branza de vaci slaba", qty: 50, unit: "g", kcal: 49, p: 5.5, c: 1.7, f: 2.15, fiber: 0, iron: 0.1, timestamp: 1780137384910 },
+    { date: "2026-05-30", meal: "pranz", foodId: "rosii", foodName: "Rosii", qty: 30, unit: "g", kcal: 5.4, p: 0.27, c: 1.17, f: 0.06, fiber: 0.36, iron: 0.15, timestamp: 1780137409169 },
+    { date: "2026-05-30", meal: "pranz", foodId: "ceapa-verde", foodName: "Ceapa verde / arpagic", qty: 50, unit: "g", kcal: 16, p: 0.9, c: 3.65, f: 0.1, fiber: 1.3, iron: 0.75, timestamp: 1780137419857 },
+    { date: "2026-05-30", meal: "pranz", foodId: "nuci", foodName: "Nuci", qty: 7, unit: "g", kcal: 45.78, p: 1.05, c: 0.98, f: 4.55, fiber: 0.469, iron: 0.203, timestamp: 1780137433581 },
+    { date: "2026-05-30", meal: "pranz", foodId: "capsuni", foodName: "Capsuni", qty: 47, unit: "g", kcal: 15.04, p: 0.329, c: 3.619, f: 0.141, fiber: 0.94, iron: 0.188, timestamp: 1780137444651 },
+    { date: "2026-05-30", meal: "pranz", foodId: "cirese", foodName: "Cirese", qty: 47, unit: "g", kcal: 29.61, p: 0.517, c: 7.52, f: 0.094, fiber: 0.987, iron: 0.188, timestamp: 1780137465499 },
+    { date: "2026-05-30", meal: "pranz", foodId: "paine-maia", foodName: "Paine cu maia (Prospero)", qty: 77, unit: "g", kcal: 192.5, p: 6.545, c: 37.73, f: 1.155, fiber: 2.156, iron: 1.694, timestamp: 1780137491439 },
+    { date: "2026-05-30", meal: "suplimente", foodId: "omega3-softgel", foodName: "Omega-3 (1 softgel = 660mg EPA+DHA)", qty: 1, unit: "softgel", kcal: 9, p: 0, c: 0, f: 1.1, fiber: 0, iron: 0, timestamp: 1780137690503 }
   ],
   metrics: [
-    { date: "2026-05-27", weight: null, waist: null, fatPct: null, muscleMass: null, fatMass: null, leanMass: null, steps: 4700, activeCal: 501, sleep: 7.21, workout: null, fastingHours: 16, eatingWindow: 8, firstMeal: "11:13", lastMeal: "17:13", timestamp: 1779911480026 },
-    { date: "2026-05-28", weight: null, waist: null, fatPct: null, muscleMass: null, fatMass: null, leanMass: null, steps: 6400, activeCal: 860, sleep: null, workout: "upper-b", fastingHours: 17.2, eatingWindow: null, firstMeal: "10:31", lastMeal: "18:30", timestamp: 1779998422850 },
-    { date: "2026-05-29", weight: 95.1, waist: 108, fatPct: 18.6, muscleMass: 77.8, fatMass: null, leanMass: null, steps: null, activeCal: null, sleep: 6.18, workout: null, fastingHours: null, eatingWindow: null, firstMeal: null, lastMeal: null, timestamp: 1780026113034 }
+    { date: "2026-05-27", weight: null, waist: null, fatPct: null, muscleMass: null, fatMass: null, leanMass: null, activeCal: 501, exerciseMinutes: null, sleep: 7.21, workout: null, firstMeal: "11:13", lastMeal: "17:13", timestamp: 1779911480026 },
+    { date: "2026-05-28", weight: null, waist: null, fatPct: null, muscleMass: null, fatMass: null, leanMass: null, activeCal: 860, exerciseMinutes: null, sleep: null, workout: "upper-b", firstMeal: "10:31", lastMeal: "18:30", timestamp: 1779998422850 },
+    { date: "2026-05-29", weight: 95.1, waist: 108, fatPct: 18.6, muscleMass: 77.8, fatMass: null, leanMass: null, activeCal: null, exerciseMinutes: null, sleep: 6.18, workout: null, firstMeal: null, lastMeal: null, timestamp: 1780026113034 }
   ]
 };
 
