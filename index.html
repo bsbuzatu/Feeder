@@ -1469,23 +1469,7 @@
     </div>
 
     <div class="setting-section">
-      <h3>Compozitie corporala</h3>
-      <div class="setting-row">
-        <div class="setting-label">Greutate (kg)</div>
-        <input type="number" step="0.1" class="setting-value" id="settingWeight" style="background: var(--bg); border: 1px solid var(--line); border-radius: 8px; padding: 6px 10px; width: 90px; text-align: right;" value="97.4">
-      </div>
-      <div class="setting-row">
-        <div class="setting-label">Proteine (g/kg)</div>
-        <input type="number" step="0.1" class="setting-value" id="settingProteinRatio" style="background: var(--bg); border: 1px solid var(--line); border-radius: 8px; padding: 6px 10px; width: 90px; text-align: right;" value="2.0">
-      </div>
-      <div class="setting-row">
-        <div class="setting-label">Calorii tinta</div>
-        <input type="number" class="setting-value" id="settingCalories" style="background: var(--bg); border: 1px solid var(--line); border-radius: 8px; padding: 6px 10px; width: 90px; text-align: right;" value="2000">
-      </div>
-      <div class="setting-row">
-        <div class="setting-label">Grasimi (g)</div>
-        <input type="number" class="setting-value" id="settingFat" style="background: var(--bg); border: 1px solid var(--line); border-radius: 8px; padding: 6px 10px; width: 90px; text-align: right;" value="80">
-      </div>
+      <h3>Limite stricte (manuale)</h3>
       <div class="setting-row">
         <div class="setting-label">Fier max (mg)</div>
         <input type="number" step="0.5" class="setting-value" id="settingIron" style="background: var(--bg); border: 1px solid var(--line); border-radius: 8px; padding: 6px 10px; width: 90px; text-align: right;" value="10">
@@ -1497,14 +1481,39 @@
     </div>
 
     <div class="setting-section">
-      <h3>Calculate automat</h3>
-      <div class="setting-row">
-        <div class="setting-label">Proteine zilnice</div>
-        <div class="setting-value" id="calcProtein">195 g</div>
+      <h3>Tinte dinamice (calculate)</h3>
+      <div style="font-size: 12px; color: var(--ink-faint); margin-bottom: 12px; line-height: 1.5;">
+        Calculate automat din greutatea actuala si daca azi e zi cu antrenament.
+        Antrenament = min 30 minute miscare sau 250 calorii arse (Apple Watch).
+        Recalculate la fiecare salvare de masuratori.
       </div>
       <div class="setting-row">
-        <div class="setting-label">Carbohidrati zilnici</div>
-        <div class="setting-value" id="calcCarbs">190 g</div>
+        <div class="setting-label">Greutate curenta</div>
+        <div class="setting-value" id="calcWeight">- kg</div>
+      </div>
+      <div class="setting-row">
+        <div class="setting-label">TDEE estimat</div>
+        <div class="setting-value" id="calcTDEE">- kcal</div>
+      </div>
+      <div class="setting-row">
+        <div class="setting-label">Mod azi</div>
+        <div class="setting-value" id="calcMode">-</div>
+      </div>
+      <div class="setting-row">
+        <div class="setting-label">Calorii tinta azi</div>
+        <div class="setting-value" id="calcCalories">- kcal</div>
+      </div>
+      <div class="setting-row">
+        <div class="setting-label">Proteine azi (2g/kg)</div>
+        <div class="setting-value" id="calcProtein">- g</div>
+      </div>
+      <div class="setting-row">
+        <div class="setting-label">Carbohidrati azi</div>
+        <div class="setting-value" id="calcCarbs">- g</div>
+      </div>
+      <div class="setting-row">
+        <div class="setting-label">Grasimi azi</div>
+        <div class="setting-value" id="calcFat">- g</div>
       </div>
       <div class="setting-row">
         <div class="setting-label">Fibre tinta</div>
@@ -1946,26 +1955,111 @@ function displayDate(dateStr) {
 // ============================================
 // COMPUTE TARGETS
 // ============================================
-function computeTargets() {
-  const proteinG = Math.round(settings.weight * settings.proteinRatio);
+// Returneaza cea mai recenta greutate din metrics, sau fallback la settings
+async function getCurrentWeight() {
+  try {
+    const all = await dbGetAll('metrics');
+    const withWeight = all.filter(m => m.weight && m.weight > 0).sort((a, b) => b.date.localeCompare(a.date));
+    if (withWeight.length > 0) return withWeight[0].weight;
+  } catch (e) {}
+  return settings.weight || 95;
+}
+
+// Returneaza true daca ziua curenta are antrenament inregistrat in metrics
+async function isTrainingDay(date) {
+  try {
+    const m = await dbGet('metrics', date);
+    if (!m) return false;
+    // Antrenament = minute miscare >= 30 SAU calorii arse >= 250
+    const exerciseMin = m.exerciseMinutes || 0;
+    const activeCal = m.activeCal || 0;
+    return exerciseMin >= 30 || activeCal >= 250;
+  } catch (e) { return false; }
+}
+
+// Calcul dinamic al tintelor in functie de greutate si antrenament
+async function computeTargetsAsync(date) {
+  const weight = await getCurrentWeight();
+  const training = await isTrainingDay(date || currentDate);
+
+  // TDEE estimat = 26 kcal/kg corp (sedentar moderat)
+  const tdee = Math.round(weight * 26);
+
+  // Deficit diferit pentru zile cu/fara antrenament
+  // Antrenament: deficit moderat 350 kcal (sustinem performanta + recovery)
+  // Pasiv: deficit mai mare 700 kcal (compensam aportul scazut din antrenament)
+  const deficit = training ? 350 : 700;
+  const calories = Math.max(1500, tdee - deficit);
+
+  // Proteine: 2.0 g/kg (preservare + usor castig)
+  const proteinG = Math.round(weight * 2.0);
   const proteinKcal = proteinG * 4;
-  const fatKcal = settings.fat * 9;
-  const carbsKcal = settings.calories - proteinKcal - fatKcal;
-  const carbsG = Math.round(carbsKcal / 4);
+
+  // Grasimi: 0.65 g/kg in zile cu antrenament, 0.6 g/kg pasiv
+  // Permite mai multi carbohidrati in zile antrenament
+  const fatRatio = training ? 0.65 : 0.6;
+  const fatG = Math.round(weight * fatRatio);
+  const fatKcal = fatG * 9;
+
+  // Carbohidrati: restul caloriilor
+  const carbsKcal = calories - proteinKcal - fatKcal;
+  const carbsG = Math.max(50, Math.round(carbsKcal / 4));
 
   return {
-    calories: settings.calories,
+    calories: calories,
     protein: proteinG,
-    carbs: Math.max(50, carbsG),
-    fat: settings.fat,
+    carbs: carbsG,
+    fat: fatG,
     fiber: 35,
     iron: settings.iron,
-    chol: settings.chol || 200
+    chol: settings.chol || 200,
+    weight: weight,
+    training: training,
+    tdee: tdee
   };
 }
 
+// Versiune sincrona pentru loc-uri unde async nu e usor (foloseste cache-ul)
+let _cachedTargets = null;
+let _cachedTargetsKey = null;
+
+async function refreshTargetsCache(date) {
+  _cachedTargets = await computeTargetsAsync(date);
+  _cachedTargetsKey = date;
+  return _cachedTargets;
+}
+
 function getTargets() {
-  return computeTargets();
+  // Returneaza ultimele targets calculate
+  if (_cachedTargets) return _cachedTargets;
+  // Fallback la calculul vechi daca cache-ul nu e populat
+  return computeTargetsSync();
+}
+
+// Calcul sincron de rezerva (fallback)
+function computeTargetsSync() {
+  const weight = settings.weight || 95;
+  const calories = 2000;
+  const proteinG = Math.round(weight * 2.0);
+  const fatG = Math.round(weight * 0.65);
+  const carbsG = Math.max(50, Math.round((calories - proteinG * 4 - fatG * 9) / 4));
+  return {
+    calories: calories,
+    protein: proteinG,
+    carbs: carbsG,
+    fat: fatG,
+    fiber: 35,
+    iron: settings.iron,
+    chol: settings.chol || 200,
+    weight: weight,
+    training: false,
+    tdee: Math.round(weight * 26)
+  };
+}
+
+// Pastrare retrocompatibilitate
+function computeTargets() {
+  return computeTargetsSync();
 }
 
 // ============================================
@@ -1995,6 +2089,7 @@ async function getMealEntries(date, mealId) {
 // RENDER
 // ============================================
 async function renderToday() {
+  await refreshTargetsCache(currentDate);
   const targets = getTargets();
   const totals = await getDayTotals(currentDate);
 
@@ -2012,8 +2107,12 @@ async function renderToday() {
   if (totals.kcal > targets.calories) calBar.classList.add('over');
   else calBar.classList.remove('over');
 
+  const deficit = targets.tdee - targets.calories;
+  const modeLabel = targets.training ? 'Antrenament' : 'Pasiv';
   document.getElementById('calorieStatus').textContent =
-    remaining < 0 ? `Depasit cu ${Math.abs(remaining)} kcal` : `Tinta: ${targets.calories} kcal · Deficit ~500 kcal`;
+    remaining < 0
+      ? `Depasit cu ${Math.abs(remaining)} kcal · ${modeLabel}`
+      : `${modeLabel} · Tinta: ${targets.calories} kcal · Deficit ${deficit} kcal`;
 
   // Macros
   updateMacro('protein', totals.p, targets.protein, 'g');
@@ -2519,7 +2618,9 @@ async function saveMetricsForDay() {
   };
 
   await dbPut('metrics', data);
-  showToast('Salvat');
+  // Tintele se recalculeaza pe baza noii greutati / activitati
+  await refreshTargetsCache(currentDate);
+  showToast('Salvat - tinte actualizate');
   loadMetricsForDay();
 }
 
@@ -2653,30 +2754,28 @@ async function loadSettings() {
 }
 
 function applySettingsToUI() {
-  document.getElementById('settingWeight').value = settings.weight;
-  document.getElementById('settingProteinRatio').value = settings.proteinRatio;
-  document.getElementById('settingCalories').value = settings.calories;
-  document.getElementById('settingFat').value = settings.fat;
   document.getElementById('settingIron').value = settings.iron;
   document.getElementById('settingChol').value = settings.chol || 200;
 }
 
-function computeAndDisplay() {
-  const t = computeTargets();
+async function computeAndDisplay() {
+  // Calcul dinamic pe baza greutatii din masuratori + zi antrenament/pasiv
+  const t = await computeTargetsAsync(currentDate);
+  document.getElementById('calcWeight').textContent = `${t.weight} kg`;
+  document.getElementById('calcTDEE').textContent = `${t.tdee} kcal`;
+  document.getElementById('calcMode').textContent = t.training ? 'Antrenament' : 'Pasiv';
+  document.getElementById('calcCalories').textContent = `${t.calories} kcal`;
   document.getElementById('calcProtein').textContent = `${t.protein} g`;
   document.getElementById('calcCarbs').textContent = `${t.carbs} g`;
+  document.getElementById('calcFat').textContent = `${t.fat} g`;
 }
 
 async function saveSettings() {
-  settings.weight = parseFloat(document.getElementById('settingWeight').value) || 97.4;
-  settings.proteinRatio = parseFloat(document.getElementById('settingProteinRatio').value) || 2.0;
-  settings.calories = parseInt(document.getElementById('settingCalories').value) || 2000;
-  settings.fat = parseInt(document.getElementById('settingFat').value) || 80;
   settings.iron = parseFloat(document.getElementById('settingIron').value) || 10;
   settings.chol = parseInt(document.getElementById('settingChol').value) || 200;
 
   await dbPut('settings', { key: 'main', data: settings });
-  computeAndDisplay();
+  await computeAndDisplay();
   showToast('Setari salvate');
   renderToday();
 }
@@ -3007,20 +3106,10 @@ function bindEvents() {
   // Settings
   document.getElementById('saveSettings').addEventListener('click', saveSettings);
 
-  // Live calc on input change in settings
-  ['settingWeight', 'settingProteinRatio', 'settingCalories', 'settingFat'].forEach(id => {
-    document.getElementById(id).addEventListener('input', () => {
-      const tmp = {
-        weight: parseFloat(document.getElementById('settingWeight').value) || 97.4,
-        proteinRatio: parseFloat(document.getElementById('settingProteinRatio').value) || 2.0,
-        calories: parseInt(document.getElementById('settingCalories').value) || 2000,
-        fat: parseInt(document.getElementById('settingFat').value) || 80,
-        iron: settings.iron
-      };
-      const oldSettings = { ...settings };
-      settings = tmp;
-      computeAndDisplay();
-      settings = oldSettings;
+  // Refresh calculated targets when switching to Setari tab
+  document.querySelectorAll('.tab').forEach(t => {
+    t.addEventListener('click', () => {
+      if (t.dataset.view === 'settings') computeAndDisplay();
     });
   });
 
