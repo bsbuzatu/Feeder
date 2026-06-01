@@ -253,6 +253,94 @@
     box-shadow: 0 0 8px rgba(201, 112, 100, 0.5);
   }
 
+  /* ====== TRAINING TOGGLE ====== */
+  .training-toggle-card {
+    background: var(--bg-elev);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-md);
+    padding: 14px 18px;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+  }
+
+  .training-toggle-card.active {
+    background: linear-gradient(135deg, #f0ead5, #e8e0c8);
+    border-color: var(--olive-soft);
+  }
+
+  .training-toggle-info {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .training-toggle-title {
+    font-family: var(--font-display);
+    font-size: 17px;
+    font-weight: 500;
+    color: var(--ink);
+    letter-spacing: -0.01em;
+  }
+
+  .training-toggle-sub {
+    font-size: 12px;
+    color: var(--ink-faint);
+    margin-top: 2px;
+    line-height: 1.4;
+  }
+
+  .training-toggle-card.active .training-toggle-sub {
+    color: var(--olive);
+    font-weight: 500;
+  }
+
+  /* iOS-style switch */
+  .switch {
+    position: relative;
+    display: inline-block;
+    width: 52px;
+    height: 32px;
+    flex-shrink: 0;
+  }
+
+  .switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+  }
+
+  .switch-slider {
+    position: absolute;
+    cursor: pointer;
+    inset: 0;
+    background: var(--line);
+    border-radius: 32px;
+    transition: 0.25s;
+  }
+
+  .switch-slider:before {
+    position: absolute;
+    content: "";
+    height: 26px;
+    width: 26px;
+    left: 3px;
+    bottom: 3px;
+    background: white;
+    border-radius: 50%;
+    transition: 0.25s;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.15);
+  }
+
+  .switch input:checked + .switch-slider {
+    background: var(--olive);
+  }
+
+  .switch input:checked + .switch-slider:before {
+    transform: translateX(20px);
+  }
+
   /* ====== MACRO CARDS ====== */
   .macros-grid {
     display: grid;
@@ -1261,6 +1349,17 @@
       </div>
     </div>
 
+    <div class="training-toggle-card">
+      <div class="training-toggle-info">
+        <div class="training-toggle-title">Antrenament azi</div>
+        <div class="training-toggle-sub" id="trainingToggleSub">Pasiv - calorii reduse</div>
+      </div>
+      <label class="switch">
+        <input type="checkbox" id="trainingToggle">
+        <span class="switch-slider"></span>
+      </label>
+    </div>
+
     <div class="macros-grid">
       <div class="macro-card">
         <div class="macro-name">Proteine</div>
@@ -1965,16 +2064,22 @@ async function getCurrentWeight() {
   return settings.weight || 95;
 }
 
-// Returneaza true daca ziua curenta are antrenament inregistrat in metrics
+// Returneaza true daca utilizatorul a marcat ziua ca zi cu antrenament
 async function isTrainingDay(date) {
   try {
     const m = await dbGet('metrics', date);
     if (!m) return false;
-    // Antrenament = minute miscare >= 30 SAU calorii arse >= 250
-    const exerciseMin = m.exerciseMinutes || 0;
-    const activeCal = m.activeCal || 0;
-    return exerciseMin >= 30 || activeCal >= 250;
+    // Flag explicit setat de utilizator de dimineata
+    return m.trainingDay === true;
   } catch (e) { return false; }
+}
+
+// Seteaza/dezactiveaza flag-ul de zi cu antrenament pentru o data data
+async function setTrainingDay(date, isTraining) {
+  let m = await dbGet('metrics', date);
+  if (!m) m = { date: date, timestamp: Date.now() };
+  m.trainingDay = !!isTraining;
+  await dbPut('metrics', m);
 }
 
 // Calcul dinamic al tintelor in functie de greutate si antrenament
@@ -2091,6 +2196,21 @@ async function getMealEntries(date, mealId) {
 async function renderToday() {
   await refreshTargetsCache(currentDate);
   const targets = getTargets();
+
+  // Update training toggle state
+  const toggle = document.getElementById('trainingToggle');
+  const toggleCard = document.querySelector('.training-toggle-card');
+  const toggleSub = document.getElementById('trainingToggleSub');
+  if (toggle) {
+    toggle.checked = targets.training;
+    if (targets.training) {
+      toggleCard.classList.add('active');
+      toggleSub.textContent = `Antrenament - mai multi carbohidrati (+${Math.round((targets.tdee - 350) - (targets.tdee - 700))} kcal)`;
+    } else {
+      toggleCard.classList.remove('active');
+      toggleSub.textContent = 'Pasiv - calorii reduse · activeaza daca faci sport azi';
+    }
+  }
   const totals = await getDayTotals(currentDate);
 
   // Update date header
@@ -3102,6 +3222,13 @@ function bindEvents() {
 
   // Metrics
   document.getElementById('saveMetrics').addEventListener('click', saveMetricsForDay);
+
+  // Training day toggle (dashboard)
+  document.getElementById('trainingToggle').addEventListener('change', async (e) => {
+    await setTrainingDay(currentDate, e.target.checked);
+    await refreshTargetsCache(currentDate);
+    await renderToday();
+  });
 
   // Settings
   document.getElementById('saveSettings').addEventListener('click', saveSettings);
