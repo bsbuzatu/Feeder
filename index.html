@@ -929,6 +929,84 @@
     padding: 20px;
   }
 
+  /* ====== CUSTOM FOOD MODAL ====== */
+  .custom-food-content {
+    padding: 18px 20px 24px;
+    overflow-y: auto;
+    flex: 1;
+  }
+
+  .custom-food-field {
+    flex: 1;
+    margin-bottom: 12px;
+  }
+
+  .custom-food-row {
+    display: flex;
+    gap: 10px;
+  }
+
+  .custom-food-label {
+    display: block;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--ink-faint);
+    font-weight: 600;
+    margin-bottom: 4px;
+  }
+
+  .custom-food-input {
+    width: 100%;
+    padding: 11px 14px;
+    background: var(--bg);
+    border: 1.5px solid var(--line);
+    border-radius: 10px;
+    font-family: inherit;
+    font-size: 16px;
+    color: var(--ink);
+    outline: none;
+    -webkit-appearance: none;
+  }
+
+  .custom-food-input:focus {
+    border-color: var(--olive);
+  }
+
+  .custom-food-preview {
+    padding: 12px 14px;
+    background: var(--bg);
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    font-size: 13px;
+    color: var(--ink-soft);
+    line-height: 1.5;
+    font-family: var(--font-body);
+  }
+
+  .custom-food-preview strong {
+    color: var(--ink);
+    font-weight: 600;
+  }
+
+  .custom-food-checkbox {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 16px;
+    font-size: 13px;
+    color: var(--ink-soft);
+    cursor: pointer;
+  }
+
+  .custom-food-checkbox input {
+    width: 18px;
+    height: 18px;
+    accent-color: var(--olive);
+    cursor: pointer;
+  }
+
+
   .qty-selected {
     text-align: center;
     margin-bottom: 20px;
@@ -1692,6 +1770,87 @@
   </div>
 </div>
 
+<!-- CUSTOM FOOD MODAL (aliment ambalat, manual) -->
+<div class="modal-overlay" id="customFoodModal">
+  <div class="modal">
+    <div class="modal-handle"></div>
+    <div class="modal-header">
+      <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 12px;">
+        <div style="flex: 1;">
+          <div class="modal-title">Aliment ambalat</div>
+          <div class="modal-sub">Introdu valorile de pe eticheta (per 100g)</div>
+        </div>
+        <button class="modal-close-btn" id="closeCustomFoodModal" aria-label="Inchide">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+      </div>
+    </div>
+    <div class="custom-food-content">
+      <div class="custom-food-field">
+        <label class="custom-food-label">Denumire</label>
+        <input type="text" class="custom-food-input" id="cfName" placeholder="ex. Iaurt Activia capsuni" autocomplete="off">
+      </div>
+
+      <div class="custom-food-field">
+        <label class="custom-food-label">Gramaj consumat (g)</label>
+        <input type="number" class="custom-food-input" id="cfQty" placeholder="ex. 150" inputmode="decimal">
+      </div>
+
+      <div style="font-size: 11px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--ink-faint); font-weight: 600; margin: 16px 0 8px; padding-top: 12px; border-top: 1px solid var(--line);">Nutritional per 100g</div>
+
+      <div class="custom-food-row">
+        <div class="custom-food-field">
+          <label class="custom-food-label">Kcal</label>
+          <input type="number" class="custom-food-input" id="cfKcal" placeholder="0" inputmode="decimal">
+        </div>
+        <div class="custom-food-field">
+          <label class="custom-food-label">Proteine (g)</label>
+          <input type="number" step="0.1" class="custom-food-input" id="cfP" placeholder="0" inputmode="decimal">
+        </div>
+      </div>
+
+      <div class="custom-food-row">
+        <div class="custom-food-field">
+          <label class="custom-food-label">Carbo (g)</label>
+          <input type="number" step="0.1" class="custom-food-input" id="cfC" placeholder="0" inputmode="decimal">
+        </div>
+        <div class="custom-food-field">
+          <label class="custom-food-label">Grasimi (g)</label>
+          <input type="number" step="0.1" class="custom-food-input" id="cfF" placeholder="0" inputmode="decimal">
+        </div>
+      </div>
+
+      <div class="custom-food-row">
+        <div class="custom-food-field">
+          <label class="custom-food-label">Fibre (g)</label>
+          <input type="number" step="0.1" class="custom-food-input" id="cfFiber" placeholder="0" inputmode="decimal">
+        </div>
+        <div class="custom-food-field">
+          <label class="custom-food-label">Fier (mg)</label>
+          <input type="number" step="0.1" class="custom-food-input" id="cfIron" placeholder="0" inputmode="decimal">
+        </div>
+      </div>
+
+      <div class="custom-food-row">
+        <div class="custom-food-field">
+          <label class="custom-food-label">Colesterol (mg)</label>
+          <input type="number" step="1" class="custom-food-input" id="cfChol" placeholder="0" inputmode="decimal">
+        </div>
+        <div class="custom-food-field" style="visibility: hidden;"></div>
+      </div>
+
+      <div class="custom-food-preview" id="cfPreview" style="margin-top: 16px;">Pentru portia consumata: -</div>
+
+      <label class="custom-food-checkbox">
+        <input type="checkbox" id="cfSaveToDB" checked>
+        <span>Salveaza in baza de date pentru reutilizare</span>
+      </label>
+
+      <button class="btn-primary" id="cfSave" style="margin-top: 16px;">Adauga la ziua de azi</button>
+    </div>
+  </div>
+</div>
+
 <div class="toast" id="toast"></div>
 
 <script>
@@ -2032,7 +2191,8 @@ const MEALS = [
   { id: 'pranz', name: 'Pranz', time: '13:00' },
   { id: 'cina', name: 'Cina', time: '17:30' },
   { id: 'shake2', name: 'Shake seara', time: '20:30' },
-  { id: 'suplimente', name: 'Suplimente', time: '21:00' }
+  { id: 'suplimente', name: 'Suplimente', time: '21:00' },
+  { id: 'manual', name: 'Adaugate manual', time: 'oricand' }
 ];
 
 function formatDate(d) {
@@ -2306,7 +2466,11 @@ async function renderToday() {
   document.querySelectorAll('.add-btn').forEach(btn => {
     btn.addEventListener('click', (e) => {
       e.stopPropagation();
-      openFoodPicker(btn.dataset.meal);
+      if (btn.dataset.meal === 'manual') {
+        openCustomFoodModal();
+      } else {
+        openFoodPicker(btn.dataset.meal);
+      }
     });
   });
 
@@ -2425,6 +2589,145 @@ function openFoodPicker(mealId) {
 
 function closeFoodPicker() {
   document.getElementById('foodModal').classList.remove('show');
+}
+
+// ============================================
+// CUSTOM FOOD MODAL (aliment ambalat / manual)
+// ============================================
+function openCustomFoodModal() {
+  // Reset campuri
+  ['cfName', 'cfQty', 'cfKcal', 'cfP', 'cfC', 'cfF', 'cfFiber', 'cfIron', 'cfChol'].forEach(id => {
+    document.getElementById(id).value = '';
+  });
+  document.getElementById('cfSaveToDB').checked = true;
+  document.getElementById('cfPreview').innerHTML = 'Pentru portia consumata: -';
+  document.getElementById('customFoodModal').classList.add('show');
+  // Focus pe nume dupa o scurta intarziere
+  setTimeout(() => document.getElementById('cfName').focus(), 300);
+}
+
+function closeCustomFoodModal() {
+  document.getElementById('customFoodModal').classList.remove('show');
+}
+
+function updateCustomFoodPreview() {
+  const qty = parseFloat(document.getElementById('cfQty').value) || 0;
+  if (qty <= 0) {
+    document.getElementById('cfPreview').innerHTML = 'Pentru portia consumata: -';
+    return;
+  }
+  const mult = qty / 100;
+  const kcal = Math.round((parseFloat(document.getElementById('cfKcal').value) || 0) * mult);
+  const p = ((parseFloat(document.getElementById('cfP').value) || 0) * mult).toFixed(1);
+  const c = ((parseFloat(document.getElementById('cfC').value) || 0) * mult).toFixed(1);
+  const f = ((parseFloat(document.getElementById('cfF').value) || 0) * mult).toFixed(1);
+  const fiber = ((parseFloat(document.getElementById('cfFiber').value) || 0) * mult).toFixed(1);
+  const iron = ((parseFloat(document.getElementById('cfIron').value) || 0) * mult).toFixed(2);
+  const chol = Math.round((parseFloat(document.getElementById('cfChol').value) || 0) * mult);
+  document.getElementById('cfPreview').innerHTML =
+    `Pentru <strong>${qty}g</strong>: <strong>${kcal} kcal</strong> · ${p}P ${c}C ${f}G ${fiber}fibre · Fe ${iron}mg · Col ${chol}mg`;
+}
+
+async function saveCustomFood() {
+  const name = document.getElementById('cfName').value.trim();
+  const qty = parseFloat(document.getElementById('cfQty').value) || 0;
+  const kcal100 = parseFloat(document.getElementById('cfKcal').value) || 0;
+  const p100 = parseFloat(document.getElementById('cfP').value) || 0;
+  const c100 = parseFloat(document.getElementById('cfC').value) || 0;
+  const f100 = parseFloat(document.getElementById('cfF').value) || 0;
+  const fiber100 = parseFloat(document.getElementById('cfFiber').value) || 0;
+  const iron100 = parseFloat(document.getElementById('cfIron').value) || 0;
+  const chol100 = parseFloat(document.getElementById('cfChol').value) || 0;
+  const saveToDB = document.getElementById('cfSaveToDB').checked;
+
+  if (!name) { alert('Introdu o denumire pentru aliment.'); return; }
+  if (qty <= 0) { alert('Introdu un gramaj valid.'); return; }
+
+  // Calculam valorile pentru portia consumata
+  const mult = qty / 100;
+  const entry = {
+    date: currentDate,
+    meal: 'manual',
+    foodId: 'custom_' + Date.now(),
+    foodName: name,
+    qty: qty,
+    unit: 'g',
+    kcal: Math.round(kcal100 * mult * 100) / 100,
+    p: Math.round(p100 * mult * 1000) / 1000,
+    c: Math.round(c100 * mult * 1000) / 1000,
+    f: Math.round(f100 * mult * 1000) / 1000,
+    fiber: Math.round(fiber100 * mult * 1000) / 1000,
+    iron: Math.round(iron100 * mult * 10000) / 10000,
+    chol: Math.round(chol100 * mult * 100) / 100,
+    timestamp: Date.now()
+  };
+
+  // Adaugam entry-ul ca de obicei
+  await dbAdd('entries', entry);
+
+  // Daca user-ul vrea sa salveze in baza de date pentru reutilizare
+  if (saveToDB) {
+    await saveCustomFoodToDB(name, kcal100, p100, c100, f100, fiber100, iron100, chol100);
+  }
+
+  closeCustomFoodModal();
+  showToast(saveToDB ? 'Adaugat si salvat in DB' : 'Adaugat');
+  renderToday();
+}
+
+// Salveaza un aliment custom in IndexedDB sub cheia 'customFoods' din settings store
+async function saveCustomFoodToDB(name, kcal, p, c, f, fiber, iron, chol) {
+  // Generam un ID unic, lizibil
+  const slug = name.toLowerCase()
+    .replace(/[^a-z0-9 ]/g, '')
+    .trim()
+    .replace(/\s+/g, '-')
+    .substring(0, 30);
+  const id = 'cust-' + slug + '-' + Date.now().toString(36).slice(-4);
+
+  const food = {
+    id: id,
+    name: name,
+    category: 'Alimente ambalate (mine)',
+    kcal: kcal,
+    p: p,
+    c: c,
+    f: f,
+    fiber: fiber,
+    iron: iron,
+    chol: chol,
+    defaultQty: 100,
+    presets: [50, 100, 150, 200],
+    custom: true
+  };
+
+  // Citim lista existenta din settings
+  const existing = await dbGet('settings', 'customFoods');
+  const list = (existing && existing.value) ? existing.value : [];
+
+  // Verificam daca nu exista deja un aliment cu acelasi nume
+  if (list.some(f => f.name.toLowerCase() === name.toLowerCase())) {
+    return; // nu duplica
+  }
+
+  list.push(food);
+  await dbPut('settings', { key: 'customFoods', value: list });
+
+  // Adaugam si in FOOD_DB runtime pentru a fi disponibil imediat
+  FOOD_DB.push(food);
+}
+
+// Incarca alimentele custom salvate la pornire
+async function loadCustomFoods() {
+  const existing = await dbGet('settings', 'customFoods');
+  if (existing && existing.value && Array.isArray(existing.value)) {
+    existing.value.forEach(food => {
+      // Adaugam in FOOD_DB doar daca nu exista deja
+      if (!FOOD_DB.some(f => f.id === food.id)) {
+        FOOD_DB.push(food);
+      }
+    });
+  }
 }
 
 function renderFoodList(filter) {
@@ -3195,6 +3498,16 @@ function bindEvents() {
 
   document.getElementById('closeQtyModal').addEventListener('click', closeQtyModal);
 
+  // Custom food modal (manual food entry)
+  document.getElementById('customFoodModal').addEventListener('click', (e) => {
+    if (e.target.id === 'customFoodModal') closeCustomFoodModal();
+  });
+  document.getElementById('closeCustomFoodModal').addEventListener('click', closeCustomFoodModal);
+  document.getElementById('cfSave').addEventListener('click', saveCustomFood);
+  ['cfQty', 'cfKcal', 'cfP', 'cfC', 'cfF', 'cfFiber', 'cfIron', 'cfChol'].forEach(id => {
+    document.getElementById(id).addEventListener('input', updateCustomFoodPreview);
+  });
+
   // Quantity modal
   document.getElementById('qtyModal').addEventListener('click', (e) => {
     if (e.target.id === 'qtyModal') closeQtyModal();
@@ -3415,6 +3728,7 @@ async function init() {
   await initDB();
   await applySeedIfNeeded();
   await loadSettings();
+  await loadCustomFoods();
   bindEvents();
   await renderToday();
 }
