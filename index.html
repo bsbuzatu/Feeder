@@ -1498,31 +1498,31 @@
       <div class="metrics-row">
         <div class="metric-input-group">
           <div class="metric-label">Greutate (kg)</div>
-          <input type="number" step="0.1" class="metric-input" id="weightInput" placeholder="97.4">
+          <input type="text" class="metric-input" id="weightInput" placeholder="97.4" inputmode="decimal" autocomplete="off">
         </div>
         <div class="metric-input-group">
           <div class="metric-label">Talie max (cm)</div>
-          <input type="number" step="0.5" class="metric-input" id="waistInput" placeholder="113">
+          <input type="text" class="metric-input" id="waistInput" placeholder="113" inputmode="decimal" autocomplete="off">
         </div>
       </div>
       <div class="metrics-row">
         <div class="metric-input-group">
           <div class="metric-label">% Grasime</div>
-          <input type="number" step="0.1" class="metric-input" id="fatPctInput" placeholder="18.9">
+          <input type="text" class="metric-input" id="fatPctInput" placeholder="18.9" inputmode="decimal" autocomplete="off">
         </div>
         <div class="metric-input-group">
           <div class="metric-label">Masa musculara (kg)</div>
-          <input type="number" step="0.1" class="metric-input" id="muscleMassInput" placeholder="76.4">
+          <input type="text" class="metric-input" id="muscleMassInput" placeholder="76.4" inputmode="decimal" autocomplete="off">
         </div>
       </div>
       <div class="metrics-row">
         <div class="metric-input-group">
           <div class="metric-label">Masa grasa (kg)</div>
-          <input type="number" step="0.1" class="metric-input" id="fatMassInput" placeholder="18.4">
+          <input type="text" class="metric-input" id="fatMassInput" placeholder="18.4" inputmode="decimal" autocomplete="off">
         </div>
         <div class="metric-input-group">
           <div class="metric-label">Masa slaba (kg)</div>
-          <input type="number" step="0.1" class="metric-input" id="leanMassInput" placeholder="79.0">
+          <input type="text" class="metric-input" id="leanMassInput" placeholder="79.0" inputmode="decimal" autocomplete="off">
         </div>
       </div>
     </div>
@@ -1532,17 +1532,17 @@
       <div class="metrics-row">
         <div class="metric-input-group">
           <div class="metric-label">Cal. arse (Apple Watch)</div>
-          <input type="number" class="metric-input" id="activeCalInput" placeholder="450">
+          <input type="text" class="metric-input" id="activeCalInput" placeholder="450" inputmode="decimal" autocomplete="off">
         </div>
         <div class="metric-input-group">
           <div class="metric-label">Min. miscare (Apple Watch)</div>
-          <input type="number" class="metric-input" id="exerciseMinutesInput" placeholder="30">
+          <input type="text" class="metric-input" id="exerciseMinutesInput" placeholder="30" inputmode="decimal" autocomplete="off">
         </div>
       </div>
       <div class="metrics-row">
         <div class="metric-input-group">
           <div class="metric-label">Somn (ore)</div>
-          <input type="number" step="0.1" class="metric-input" id="sleepInput" placeholder="7.5">
+          <input type="text" class="metric-input" id="sleepInput" placeholder="7.5" inputmode="decimal" autocomplete="off">
         </div>
       </div>
     </div>
@@ -1649,11 +1649,11 @@
       <h3>Limite stricte (manuale)</h3>
       <div class="setting-row">
         <div class="setting-label">Fier max (mg)</div>
-        <input type="number" step="0.5" class="setting-value" id="settingIron" style="background: var(--bg); border: 1px solid var(--line); border-radius: 8px; padding: 6px 10px; width: 90px; text-align: right;" value="10">
+        <input type="text" class="setting-value" id="settingIron" style="background: var(--bg); border: 1px solid var(--line); border-radius: 8px; padding: 6px 10px; width: 90px; text-align: right;" value="10" inputmode="decimal" autocomplete="off">
       </div>
       <div class="setting-row">
         <div class="setting-label">Colesterol max (mg)</div>
-        <input type="number" step="10" class="setting-value" id="settingChol" style="background: var(--bg); border: 1px solid var(--line); border-radius: 8px; padding: 6px 10px; width: 90px; text-align: right;" value="200">
+        <input type="text" class="setting-value" id="settingChol" style="background: var(--bg); border: 1px solid var(--line); border-radius: 8px; padding: 6px 10px; width: 90px; text-align: right;" value="200" inputmode="decimal" autocomplete="off">
       </div>
     </div>
 
@@ -1759,7 +1759,7 @@
       </div>
       <div class="qty-input-wrap">
         <button class="qty-btn" id="qtyMinus">-</button>
-        <input type="number" class="qty-input" id="qtyInput" value="100" min="1" max="999">
+        <input type="text" class="qty-input" id="qtyInput" value="100" min="1" max="999" inputmode="decimal" autocomplete="off">
         <span class="qty-unit" id="qtyUnit">g</span>
         <button class="qty-btn" id="qtyPlus">+</button>
       </div>
@@ -1793,7 +1793,7 @@
 
       <div class="custom-food-field">
         <label class="custom-food-label">Gramaj consumat (g)</label>
-        <input type="number" class="custom-food-input" id="cfQty" placeholder="ex. 150" inputmode="decimal">
+        <input type="text" class="custom-food-input" id="cfQty" placeholder="ex. 150" inputmode="decimal" autocomplete="off">
       </div>
 
       <div style="font-size: 11px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--ink-faint); font-weight: 600; margin: 16px 0 8px; padding-top: 12px; border-top: 1px solid var(--line);">Nutritional per 100g</div>
@@ -1801,40 +1801,40 @@
       <div class="custom-food-row">
         <div class="custom-food-field">
           <label class="custom-food-label">Kcal</label>
-          <input type="number" class="custom-food-input" id="cfKcal" placeholder="0" inputmode="decimal">
+          <input type="text" class="custom-food-input" id="cfKcal" placeholder="0" inputmode="decimal" autocomplete="off">
         </div>
         <div class="custom-food-field">
           <label class="custom-food-label">Proteine (g)</label>
-          <input type="number" step="0.1" class="custom-food-input" id="cfP" placeholder="0" inputmode="decimal">
+          <input type="text" class="custom-food-input" id="cfP" placeholder="0" inputmode="decimal" autocomplete="off">
         </div>
       </div>
 
       <div class="custom-food-row">
         <div class="custom-food-field">
           <label class="custom-food-label">Carbo (g)</label>
-          <input type="number" step="0.1" class="custom-food-input" id="cfC" placeholder="0" inputmode="decimal">
+          <input type="text" class="custom-food-input" id="cfC" placeholder="0" inputmode="decimal" autocomplete="off">
         </div>
         <div class="custom-food-field">
           <label class="custom-food-label">Grasimi (g)</label>
-          <input type="number" step="0.1" class="custom-food-input" id="cfF" placeholder="0" inputmode="decimal">
+          <input type="text" class="custom-food-input" id="cfF" placeholder="0" inputmode="decimal" autocomplete="off">
         </div>
       </div>
 
       <div class="custom-food-row">
         <div class="custom-food-field">
           <label class="custom-food-label">Fibre (g)</label>
-          <input type="number" step="0.1" class="custom-food-input" id="cfFiber" placeholder="0" inputmode="decimal">
+          <input type="text" class="custom-food-input" id="cfFiber" placeholder="0" inputmode="decimal" autocomplete="off">
         </div>
         <div class="custom-food-field">
           <label class="custom-food-label">Fier (mg)</label>
-          <input type="number" step="0.1" class="custom-food-input" id="cfIron" placeholder="0" inputmode="decimal">
+          <input type="text" class="custom-food-input" id="cfIron" placeholder="0" inputmode="decimal" autocomplete="off">
         </div>
       </div>
 
       <div class="custom-food-row">
         <div class="custom-food-field">
           <label class="custom-food-label">Colesterol (mg)</label>
-          <input type="number" step="1" class="custom-food-input" id="cfChol" placeholder="0" inputmode="decimal">
+          <input type="text" class="custom-food-input" id="cfChol" placeholder="0" inputmode="decimal" autocomplete="off">
         </div>
         <div class="custom-food-field" style="visibility: hidden;"></div>
       </div>
@@ -1919,6 +1919,9 @@ const FOOD_DB = [
   // ============== SUPLIMENTE (vitamine, minerale) ==============
   { id: 'omega3-softgel', name: 'Omega-3 (1 softgel = 660mg EPA+DHA)', category: 'Suplimente', kcal: 9, p: 0, c: 0, f: 1.1, fiber: 0, iron: 0, unit: 'softgel', chol: 0, defaultQty: 2, presets: [1, 2, 3], shop: true },
   { id: 'magneziu-bisglicinat', name: 'Magneziu bisglicinat (1 cp = 250mg Mg)', category: 'Suplimente', kcal: 0, p: 0, c: 0, f: 0, fiber: 0, iron: 0, unit: 'cp', chol: 0, defaultQty: 1, presets: [1, 2], shop: true },
+  { id: 'atorvastatina-10', name: 'Atorvastatina 10mg (seara, NU cu grapefruit)', category: 'Suplimente', kcal: 0, p: 0, c: 0, f: 0, fiber: 0, iron: 0, unit: 'cp', chol: 0, defaultQty: 1, presets: [1], warning: 'NU combina cu berberina, grapefruit, claritromicina', shop: true },
+  { id: 'coq10-ubiquinol', name: 'CoQ10 Ubiquinol 100mg (cu cina, contracareaza statina)', category: 'Suplimente', kcal: 5, p: 0, c: 0, f: 0.5, fiber: 0, iron: 0, unit: 'cp', chol: 0, defaultQty: 1, presets: [1, 2], shop: true },
+  { id: 'vit-d-k2', name: 'Vitamina D3 2000UI + K2 75mcg (cu masa grasa)', category: 'Suplimente', kcal: 2, p: 0, c: 0, f: 0.2, fiber: 0, iron: 0, unit: 'cp', chol: 0, defaultQty: 2, presets: [1, 2], shop: true },
 
   // ============== PROTEINE VEGETALE / LEGUMINOASE ==============
   { id: 'tofu', name: 'Tofu ferm', category: 'Proteine vegetale', kcal: 144, p: 17, c: 3, f: 9, fiber: 2, iron: 1.5, chol: 0, defaultQty: 150, presets: [100, 150, 180, 200], shop: true },
@@ -2024,7 +2027,7 @@ const FOOD_DB = [
   { id: 'kiwi', name: 'Kiwi (1 buc ~75g)', category: 'Fructe recomandate', kcal: 61, p: 1.1, c: 15, f: 0.5, fiber: 3, iron: 0.3, unit: 'buc', chol: 0, defaultQty: 2, presets: [1, 2, 3], shop: true },
   { id: 'portocala', name: 'Portocala', category: 'Fructe recomandate', kcal: 47, p: 0.9, c: 12, f: 0.1, fiber: 2.4, iron: 0.1, chol: 0, defaultQty: 150, presets: [100, 150, 200], shop: true },
   { id: 'mandarina', name: 'Mandarine', category: 'Fructe recomandate', kcal: 53, p: 0.8, c: 13, f: 0.3, fiber: 1.8, iron: 0.2, chol: 0, defaultQty: 150, presets: [100, 150, 200], shop: true },
-  { id: 'grapefruit', name: 'Grapefruit', category: 'Fructe recomandate', kcal: 42, p: 0.8, c: 11, f: 0.1, fiber: 1.6, iron: 0.1, chol: 0, defaultQty: 200, presets: [100, 200, 300], shop: true },
+  { id: 'grapefruit', name: 'Grapefruit', category: 'Fructe recomandate', kcal: 42, p: 0.8, c: 11, f: 0.1, fiber: 1.6, iron: 0.1, chol: 0, defaultQty: 200, presets: [100, 200, 300], warning: 'INTERZIS cu atorvastatina - inhiba CYP3A4', shop: false },
 
   // ============== FRUCTE DE VARA ==============
   { id: 'caise', name: 'Caise', category: 'Fructe de vara', kcal: 48, p: 1.4, c: 11, f: 0.4, fiber: 2, iron: 0.4, chol: 0, defaultQty: 150, presets: [80, 100, 150, 200], shop: true },
@@ -2200,6 +2203,30 @@ function formatDate(d) {
   const m = String(d.getMonth() + 1).padStart(2, '0');
   const day = String(d.getDate()).padStart(2, '0');
   return `${y}-${m}-${day}`;
+}
+
+// Accepta atat virgula cat si punct ca separator decimal
+// Returneaza NaN daca input-ul e invalid sau gol
+function parseDecimal(value) {
+  if (value === null || value === undefined) return NaN;
+  const s = String(value).trim().replace(',', '.');
+  if (s === '') return NaN;
+  return parseFloat(s);
+}
+
+// Versiune cu fallback la 0 pentru loc-uri unde NaN ar strica
+function parseDecimalOrZero(value) {
+  const n = parseDecimal(value);
+  return isNaN(n) ? 0 : n;
+}
+
+// Pentru intregi (pasi, calorii arse, minute)
+function parseIntOrNull(value) {
+  if (value === null || value === undefined) return null;
+  const s = String(value).trim().replace(',', '.');
+  if (s === '') return null;
+  const n = parseInt(s, 10);
+  return isNaN(n) ? null : n;
 }
 
 function displayDate(dateStr) {
@@ -2611,33 +2638,33 @@ function closeCustomFoodModal() {
 }
 
 function updateCustomFoodPreview() {
-  const qty = parseFloat(document.getElementById('cfQty').value) || 0;
+  const qty = parseDecimal(document.getElementById('cfQty').value) || 0;
   if (qty <= 0) {
     document.getElementById('cfPreview').innerHTML = 'Pentru portia consumata: -';
     return;
   }
   const mult = qty / 100;
-  const kcal = Math.round((parseFloat(document.getElementById('cfKcal').value) || 0) * mult);
-  const p = ((parseFloat(document.getElementById('cfP').value) || 0) * mult).toFixed(1);
-  const c = ((parseFloat(document.getElementById('cfC').value) || 0) * mult).toFixed(1);
-  const f = ((parseFloat(document.getElementById('cfF').value) || 0) * mult).toFixed(1);
-  const fiber = ((parseFloat(document.getElementById('cfFiber').value) || 0) * mult).toFixed(1);
-  const iron = ((parseFloat(document.getElementById('cfIron').value) || 0) * mult).toFixed(2);
-  const chol = Math.round((parseFloat(document.getElementById('cfChol').value) || 0) * mult);
+  const kcal = Math.round((parseDecimal(document.getElementById('cfKcal').value) || 0) * mult);
+  const p = ((parseDecimal(document.getElementById('cfP').value) || 0) * mult).toFixed(1);
+  const c = ((parseDecimal(document.getElementById('cfC').value) || 0) * mult).toFixed(1);
+  const f = ((parseDecimal(document.getElementById('cfF').value) || 0) * mult).toFixed(1);
+  const fiber = ((parseDecimal(document.getElementById('cfFiber').value) || 0) * mult).toFixed(1);
+  const iron = ((parseDecimal(document.getElementById('cfIron').value) || 0) * mult).toFixed(2);
+  const chol = Math.round((parseDecimal(document.getElementById('cfChol').value) || 0) * mult);
   document.getElementById('cfPreview').innerHTML =
     `Pentru <strong>${qty}g</strong>: <strong>${kcal} kcal</strong> · ${p}P ${c}C ${f}G ${fiber}fibre · Fe ${iron}mg · Col ${chol}mg`;
 }
 
 async function saveCustomFood() {
   const name = document.getElementById('cfName').value.trim();
-  const qty = parseFloat(document.getElementById('cfQty').value) || 0;
-  const kcal100 = parseFloat(document.getElementById('cfKcal').value) || 0;
-  const p100 = parseFloat(document.getElementById('cfP').value) || 0;
-  const c100 = parseFloat(document.getElementById('cfC').value) || 0;
-  const f100 = parseFloat(document.getElementById('cfF').value) || 0;
-  const fiber100 = parseFloat(document.getElementById('cfFiber').value) || 0;
-  const iron100 = parseFloat(document.getElementById('cfIron').value) || 0;
-  const chol100 = parseFloat(document.getElementById('cfChol').value) || 0;
+  const qty = parseDecimal(document.getElementById('cfQty').value) || 0;
+  const kcal100 = parseDecimal(document.getElementById('cfKcal').value) || 0;
+  const p100 = parseDecimal(document.getElementById('cfP').value) || 0;
+  const c100 = parseDecimal(document.getElementById('cfC').value) || 0;
+  const f100 = parseDecimal(document.getElementById('cfF').value) || 0;
+  const fiber100 = parseDecimal(document.getElementById('cfFiber').value) || 0;
+  const iron100 = parseDecimal(document.getElementById('cfIron').value) || 0;
+  const chol100 = parseDecimal(document.getElementById('cfChol').value) || 0;
   const saveToDB = document.getElementById('cfSaveToDB').checked;
 
   if (!name) { alert('Introdu o denumire pentru aliment.'); return; }
@@ -2902,7 +2929,7 @@ function closeQtyModal() {
 
 function updateQtyPreview() {
   if (!selectedFood) return;
-  const qty = parseFloat(document.getElementById('qtyInput').value) || 0;
+  const qty = parseDecimal(document.getElementById('qtyInput').value) || 0;
   const unit = selectedFood.unit || 'g';
   const isPerPiece = unit !== 'g' && unit !== 'ml';
   const mult = isPerPiece ? qty : qty / 100;
@@ -2926,7 +2953,7 @@ function updateQtyPreview() {
 
 async function saveEntry() {
   if (!selectedFood || !currentMeal) return;
-  const qty = parseFloat(document.getElementById('qtyInput').value) || 0;
+  const qty = parseDecimal(document.getElementById('qtyInput').value) || 0;
   if (qty <= 0) return;
 
   const unit = selectedFood.unit || 'g';
@@ -3032,15 +3059,15 @@ async function saveMetricsForDay() {
 
   const data = {
     date: currentDate,
-    weight: parseFloat(document.getElementById('weightInput').value) || null,
-    waist: parseFloat(document.getElementById('waistInput').value) || null,
-    fatPct: parseFloat(document.getElementById('fatPctInput').value) || null,
-    muscleMass: parseFloat(document.getElementById('muscleMassInput').value) || null,
-    fatMass: parseFloat(document.getElementById('fatMassInput').value) || null,
-    leanMass: parseFloat(document.getElementById('leanMassInput').value) || null,
-    activeCal: parseInt(document.getElementById('activeCalInput').value) || null,
-    exerciseMinutes: parseInt(document.getElementById('exerciseMinutesInput').value) || null,
-    sleep: parseFloat(document.getElementById('sleepInput').value) || null,
+    weight: parseDecimal(document.getElementById('weightInput').value) || null,
+    waist: parseDecimal(document.getElementById('waistInput').value) || null,
+    fatPct: parseDecimal(document.getElementById('fatPctInput').value) || null,
+    muscleMass: parseDecimal(document.getElementById('muscleMassInput').value) || null,
+    fatMass: parseDecimal(document.getElementById('fatMassInput').value) || null,
+    leanMass: parseDecimal(document.getElementById('leanMassInput').value) || null,
+    activeCal: parseIntOrNull(document.getElementById('activeCalInput').value) || null,
+    exerciseMinutes: parseIntOrNull(document.getElementById('exerciseMinutesInput').value) || null,
+    sleep: parseDecimal(document.getElementById('sleepInput').value) || null,
     trainingDay: existingTraining,
     timestamp: Date.now()
   };
@@ -3199,8 +3226,8 @@ async function computeAndDisplay() {
 }
 
 async function saveSettings() {
-  settings.iron = parseFloat(document.getElementById('settingIron').value) || 10;
-  settings.chol = parseInt(document.getElementById('settingChol').value) || 200;
+  settings.iron = parseDecimal(document.getElementById('settingIron').value) || 10;
+  settings.chol = parseIntOrNull(document.getElementById('settingChol').value) || 200;
 
   await dbPut('settings', { key: 'main', data: settings });
   await computeAndDisplay();
@@ -3524,7 +3551,8 @@ function bindEvents() {
     const input = document.getElementById('qtyInput');
     const u = selectedFood?.unit || 'g';
     const step = (u !== 'g' && u !== 'ml') ? 1 : 10;
-    input.value = Math.max(1, (parseFloat(input.value) || 0) - step);
+    const current = parseDecimal(input.value) || 0;
+    input.value = Math.max(1, current - step);
     updateQtyPreview();
   });
 
@@ -3532,7 +3560,8 @@ function bindEvents() {
     const input = document.getElementById('qtyInput');
     const u = selectedFood?.unit || 'g';
     const step = (u !== 'g' && u !== 'ml') ? 1 : 10;
-    input.value = (parseFloat(input.value) || 0) + step;
+    const current = parseDecimal(input.value) || 0;
+    input.value = current + step;
     updateQtyPreview();
   });
 
