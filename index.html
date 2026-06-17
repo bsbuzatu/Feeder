@@ -147,11 +147,16 @@
     border: 1px solid var(--line);
     border-radius: 14px;
     margin: 0 20px 20px;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
   }
+  .tabs::-webkit-scrollbar { display: none; }
 
   .tab {
-    flex: 1;
-    padding: 10px 8px;
+    flex: 1 0 auto;
+    white-space: nowrap;
+    padding: 10px 14px;
     text-align: center;
     font-size: 13px;
     font-weight: 500;
@@ -1456,6 +1461,105 @@
   }
   .shop-row strong { color: var(--olive); }
 
+  /* ====== WORKOUT (sala) ====== */
+  .wo-card {
+    background: var(--bg-elev);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-md);
+    padding: 16px;
+    margin-bottom: 12px;
+  }
+  .wo-card-name {
+    font-family: var(--font-display);
+    font-size: 17px;
+    font-weight: 600;
+    color: var(--ink);
+    margin-bottom: 3px;
+  }
+  .wo-card-sub { font-size: 12.5px; color: var(--ink-soft); margin-bottom: 12px; line-height: 1.4; }
+  .wo-start-btn {
+    width: 100%;
+    background: var(--olive);
+    color: #fbf8f1;
+    border: none;
+    border-radius: var(--radius-sm);
+    padding: 12px;
+    font-family: var(--font-body);
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+  }
+  .wo-start-btn:active { background: var(--olive-deep); transform: scale(0.99); }
+  .wo-start-btn.zone2 { background: var(--olive-soft); }
+
+  .wo-timerbar {
+    position: sticky; top: 8px; z-index: 5;
+    display: flex; justify-content: space-between; align-items: center;
+    background: var(--olive); color: #fbf8f1;
+    border-radius: var(--radius-md); padding: 14px 18px; margin-bottom: 12px;
+    box-shadow: var(--shadow-md);
+  }
+  .wo-active-name { font-family: var(--font-display); font-size: 16px; font-weight: 600; }
+  .wo-active-sub { font-size: 12px; opacity: 0.85; margin-top: 2px; }
+  .wo-session-time { font-size: 26px; font-weight: 700; font-variant-numeric: tabular-nums; }
+
+  .wo-rest {
+    position: sticky; top: 90px; z-index: 5;
+    display: flex; align-items: center; gap: 10px;
+    background: var(--amber); color: var(--olive-deep);
+    border-radius: var(--radius-sm); padding: 10px 16px; margin-bottom: 14px;
+    font-size: 14px; font-weight: 600;
+  }
+  .wo-rest strong { font-size: 20px; font-variant-numeric: tabular-nums; margin-left: auto; }
+  .wo-rest-skip {
+    background: rgba(0,0,0,0.12); border: none; color: var(--olive-deep);
+    border-radius: 8px; padding: 5px 10px; font-size: 12px; font-weight: 600; cursor: pointer;
+  }
+
+  .wo-ex {
+    background: var(--bg-elev); border: 1px solid var(--line);
+    border-radius: var(--radius-md); padding: 14px 16px; margin-bottom: 10px;
+  }
+  .wo-ex.superset { border-left: 3px solid var(--sage); }
+  .wo-ex-head { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; }
+  .wo-ex-name { font-weight: 600; font-size: 14.5px; color: var(--ink); }
+  .wo-ex-tag {
+    font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.03em;
+    color: var(--olive-soft); white-space: nowrap;
+  }
+  .wo-ex-target { font-size: 12px; color: var(--ink-faint); margin: 3px 0 2px; }
+  .wo-ex-last { font-size: 11.5px; color: var(--olive-soft); margin-bottom: 10px; }
+  .wo-set {
+    display: flex; align-items: center; gap: 8px; margin-bottom: 7px;
+  }
+  .wo-set-num { width: 18px; font-size: 12px; color: var(--ink-faint); font-weight: 600; }
+  .wo-set input {
+    width: 100%; background: var(--bg); border: 1px solid var(--line);
+    border-radius: 8px; padding: 9px 10px; font-size: 15px; font-family: inherit;
+    text-align: center; color: var(--ink);
+  }
+  .wo-set input:focus { outline: none; border-color: var(--olive-soft); }
+  .wo-set-x { color: var(--ink-faint); font-size: 13px; }
+  .wo-set-go {
+    flex: 0 0 auto; background: var(--olive); color: #fbf8f1; border: none;
+    border-radius: 8px; padding: 9px 12px; font-size: 13px; font-weight: 600; cursor: pointer; white-space: nowrap;
+  }
+  .wo-set-go.done { background: var(--sage); }
+  .wo-set-go:active { transform: scale(0.96); }
+  .wo-zone2-field { margin-bottom: 12px; }
+  .wo-zone2-field label { display:block; font-size: 12px; color: var(--ink-soft); margin-bottom: 5px; font-weight: 600; }
+  .wo-zone2-field input, .wo-zone2-field select {
+    width: 100%; background: var(--bg); border: 1px solid var(--line);
+    border-radius: 8px; padding: 10px 12px; font-size: 15px; font-family: inherit; color: var(--ink);
+  }
+  .wo-hist-row {
+    display: flex; justify-content: space-between; align-items: center;
+    background: var(--bg-elev); border: 1px solid var(--line);
+    border-radius: var(--radius-sm); padding: 11px 14px; margin-bottom: 8px; font-size: 13.5px;
+  }
+  .wo-hist-row .wo-hist-name { font-weight: 600; color: var(--ink); }
+  .wo-hist-row .wo-hist-meta { font-size: 12px; color: var(--ink-faint); }
+
   /* ====== VIEWS ====== */
   .view {
     display: none;
@@ -1494,6 +1598,7 @@
 <div class="tabs">
   <button class="tab active" data-view="today">Astazi</button>
   <button class="tab" data-view="meniuri">Meniuri</button>
+  <button class="tab" data-view="workout">Sala</button>
   <button class="tab" data-view="metrics">Masuratori</button>
   <button class="tab" data-view="foods">Alimente</button>
   <button class="tab" data-view="history">Istoric</button>
@@ -1699,6 +1804,52 @@
     </div>
 
     <div id="shopResult" style="margin-top: 12px;"></div>
+
+  </div>
+</div>
+
+<!-- WORKOUT VIEW (antrenament: forta + Zone 2) -->
+<div class="view" id="view-workout">
+  <div class="dashboard">
+
+    <!-- PICKER (cand nu e sesiune activa) -->
+    <div id="workoutPicker">
+      <div class="section-header">
+        <div class="section-title">Antrenament</div>
+        <div class="section-sub" id="workoutPickerSub">alege sesiunea</div>
+      </div>
+      <div style="background: var(--bg-elev); border: 1px solid var(--line); border-radius: var(--radius-md); padding: 14px 16px; margin-bottom: 16px; font-size: 13px; color: var(--ink-soft); line-height: 1.5;">
+        Alege o sesiune si apasa Start. Forta marcheaza automat ziua ca <strong>antrenament</strong> (carb-up). Datele raman pe telefon.
+      </div>
+      <div id="sessionList"></div>
+
+      <div class="section-header" style="margin-top: 24px;">
+        <div class="section-title">Recente</div>
+      </div>
+      <div id="workoutHistory"></div>
+    </div>
+
+    <!-- SESIUNE ACTIVA -->
+    <div id="workoutActive" style="display:none;">
+      <div class="wo-timerbar">
+        <div>
+          <div class="wo-active-name" id="woActiveName">-</div>
+          <div class="wo-active-sub" id="woActiveSub">-</div>
+        </div>
+        <div class="wo-session-time" id="woSessionTime">00:00</div>
+      </div>
+
+      <div class="wo-rest" id="woRest" style="display:none;">
+        <span>Pauza ramasa</span>
+        <strong id="woRestTime">00:00</strong>
+        <button class="wo-rest-skip" onclick="stopRest()">Skip</button>
+      </div>
+
+      <div id="woExercises"></div>
+
+      <button class="btn-primary" id="woFinishBtn" style="margin: 8px 0 12px;">Termina si salveaza</button>
+      <button class="btn-secondary" id="woCancelBtn">Anuleaza sesiunea</button>
+    </div>
 
   </div>
 </div>
@@ -2229,7 +2380,7 @@ const FOOD_DB = [
 // DATABASE (IndexedDB)
 // ============================================
 const DB_NAME = 'bogdan_nutrition_tracker';
-const DB_VERSION = 1;
+const DB_VERSION = 2;
 let db;
 
 function initDB() {
@@ -2252,6 +2403,11 @@ function initDB() {
       }
       if (!_db.objectStoreNames.contains('settings')) {
         _db.createObjectStore('settings', { keyPath: 'key' });
+      }
+      if (!_db.objectStoreNames.contains('workouts')) {
+        const ws = _db.createObjectStore('workouts', { keyPath: 'id', autoIncrement: true });
+        ws.createIndex('date', 'date', { unique: false });
+        ws.createIndex('sessionId', 'sessionId', { unique: false });
       }
     };
   });
@@ -3833,6 +3989,370 @@ function renderShopResult() {
   out.innerHTML = html;
 }
 
+// ============================================
+// WORKOUT (sala): forta + Zone 2
+// ============================================
+const WORKOUT_TEMPLATES = {
+  upperA: { name: 'Upper A - Impins + Tras orizontal', type: 'strength', estMin: 45, exercises: [
+    { name: 'Incline DB Press (30°)', sets: 3, reps: 8, rest: 120, tag: '' },
+    { name: 'Chest-Supported DB Row', sets: 3, reps: 10, rest: 120, tag: '' },
+    { name: 'Weighted Dip (usor inclinat)', sets: 3, reps: 8, rest: 0, tag: 'SS A1' },
+    { name: 'Lat Pulldown / Tractiuni', sets: 3, reps: 10, rest: 90, tag: 'SS A2' },
+    { name: 'DB Lateral Raise', sets: 3, reps: 12, rest: 0, tag: 'SS B1' },
+    { name: 'Incline DB Curl', sets: 3, reps: 10, rest: 75, tag: 'SS B2' },
+    { name: 'Overhead Triceps Extension', sets: 3, reps: 12, rest: 60, tag: '' }
+  ]},
+  lowerA: { name: 'Lower A - Cvadriceps', type: 'strength', estMin: 38, exercises: [
+    { name: 'Back Squat (high-bar, sub paralel)', sets: 3, reps: 8, rest: 150, tag: '' },
+    { name: 'Leg Press', sets: 3, reps: 10, rest: 120, tag: '' },
+    { name: 'Lying Leg Curl', sets: 3, reps: 12, rest: 0, tag: 'SS A1' },
+    { name: 'Standing Calf Raise', sets: 3, reps: 12, rest: 75, tag: 'SS A2' },
+    { name: 'Hanging Knee Raise', sets: 3, reps: 12, rest: 45, tag: '' }
+  ]},
+  upperB: { name: 'Upper B - Impins + Tras vertical', type: 'strength', estMin: 48, exercises: [
+    { name: 'Standing Barbell OHP', sets: 3, reps: 6, rest: 150, tag: '' },
+    { name: 'Weighted Pull-Up', sets: 3, reps: 8, rest: 150, tag: '' },
+    { name: 'Weighted Dip (inclinat - piept)', sets: 3, reps: 8, rest: 0, tag: 'SS A1' },
+    { name: 'Single-Arm DB Row', sets: 3, reps: 10, rest: 90, tag: 'SS A2' },
+    { name: 'Cable Lateral Raise (un brat)', sets: 3, reps: 12, rest: 0, tag: 'SS B1' },
+    { name: 'Face Pull / Reverse Fly', sets: 3, reps: 15, rest: 60, tag: 'SS B2' },
+    { name: 'Hammer Curl', sets: 3, reps: 10, rest: 0, tag: 'SS C1' },
+    { name: 'EZ-Bar Skull Crusher', sets: 3, reps: 10, rest: 60, tag: 'SS C2' }
+  ]},
+  lowerB: { name: 'Lower B - Lant posterior', type: 'strength', estMin: 34, exercises: [
+    { name: 'Romanian Deadlift', sets: 3, reps: 8, rest: 150, tag: '' },
+    { name: 'Barbell Hip Thrust', sets: 3, reps: 10, rest: 120, tag: '' },
+    { name: 'Seated Leg Curl', sets: 3, reps: 12, rest: 0, tag: 'SS A1' },
+    { name: 'Seated Calf Raise (pauza 2s)', sets: 3, reps: 12, rest: 75, tag: 'SS A2' },
+    { name: 'Cable Crunch', sets: 3, reps: 12, rest: 45, tag: '' }
+  ]},
+  zone2: { name: 'Zone 2 cardio', type: 'zone2', estMin: 35, exercises: [] }
+};
+const SESSION_ORDER = ['upperA', 'lowerA', 'upperB', 'lowerB', 'zone2'];
+
+let currentWorkout = null;
+let workoutTickId = null;
+
+function mmss(totalSec) {
+  totalSec = Math.max(0, Math.floor(totalSec));
+  const m = Math.floor(totalSec / 60);
+  const s = totalSec % 60;
+  return `${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`;
+}
+
+async function persistActiveWorkout() {
+  try { await dbPut('settings', { key: 'activeWorkout', value: currentWorkout }); } catch (e) {}
+}
+async function clearActiveWorkout() {
+  try { await dbDelete('settings', 'activeWorkout'); } catch (e) {}
+}
+async function restoreActiveWorkout() {
+  try {
+    const rec = await dbGet('settings', 'activeWorkout');
+    if (rec && rec.value && rec.value.startTs) {
+      currentWorkout = rec.value;
+      startWorkoutTick();
+    }
+  } catch (e) {}
+}
+
+// Performanta de la ultima sesiune cu acelasi sessionId (pt "data trecuta")
+async function getLastPerformance(sessionId) {
+  try {
+    const all = await dbGetAll('workouts');
+    const past = all.filter(w => w.sessionId === sessionId && (!currentWorkout || w.id !== currentWorkout.id))
+                    .sort((a, b) => b.startTs - a.startTs);
+    if (!past.length) return null;
+    const last = past[0];
+    const map = {};
+    (last.exercises || []).forEach(ex => {
+      const done = (ex.sets || []).filter(s => s.done && (s.weight != null || s.reps != null));
+      if (done.length) map[ex.name] = done.map(s => `${s.weight != null ? s.weight : '-'}x${s.reps != null ? s.reps : '-'}`).join(', ');
+    });
+    return { date: last.date, map: map };
+  } catch (e) { return null; }
+}
+
+// Ultima data cand a fost facuta fiecare sesiune
+async function getSessionLastDates() {
+  const out = {};
+  try {
+    const all = await dbGetAll('workouts');
+    all.forEach(w => { if (!out[w.sessionId] || w.startTs > out[w.sessionId]) out[w.sessionId] = w.startTs; });
+  } catch (e) {}
+  return out;
+}
+
+function daysAgoLabel(ts) {
+  if (!ts) return 'niciodata';
+  const days = Math.floor((Date.now() - ts) / 86400000);
+  if (days <= 0) return 'azi';
+  if (days === 1) return 'ieri';
+  return `acum ${days} zile`;
+}
+
+async function renderWorkout() {
+  const picker = document.getElementById('workoutPicker');
+  const active = document.getElementById('workoutActive');
+  if (currentWorkout) {
+    picker.style.display = 'none';
+    active.style.display = 'block';
+    renderActiveWorkout();
+    return;
+  }
+  picker.style.display = 'block';
+  active.style.display = 'none';
+
+  const t = getTargets();
+  document.getElementById('workoutPickerSub').textContent = t.training ? 'azi: zi de antrenament' : 'azi: zi pasiva';
+
+  const lastDates = await getSessionLastDates();
+  let html = '';
+  for (const sid of SESSION_ORDER) {
+    const tpl = WORKOUT_TEMPLATES[sid];
+    const sub = tpl.type === 'zone2'
+      ? '30-40 min, intensitate joasa (poti vorbi). Atac pe grasimea viscerala.'
+      : `${tpl.exercises.length} exercitii &middot; ~${tpl.estMin} min &middot; marcheaza ziua antrenament`;
+    html += `
+      <div class="wo-card">
+        <div class="wo-card-name">${tpl.name}</div>
+        <div class="wo-card-sub">${sub}<br>Ultima data: ${daysAgoLabel(lastDates[sid])}</div>
+        <button class="wo-start-btn${tpl.type === 'zone2' ? ' zone2' : ''}" onclick="startWorkout('${sid}')">Start</button>
+      </div>`;
+  }
+  document.getElementById('sessionList').innerHTML = html;
+
+  renderWorkoutHistory();
+}
+
+async function renderWorkoutHistory() {
+  const wrap = document.getElementById('workoutHistory');
+  if (!wrap) return;
+  let all = [];
+  try { all = await dbGetAll('workouts'); } catch (e) {}
+  all.sort((a, b) => b.startTs - a.startTs);
+  const recent = all.slice(0, 8);
+  if (!recent.length) { wrap.innerHTML = '<div style="font-size:13px;color:var(--ink-faint);">Nicio sesiune salvata inca.</div>'; return; }
+  let html = '';
+  for (const w of recent) {
+    let meta;
+    if (w.type === 'zone2') {
+      meta = `${w.modality || 'cardio'} &middot; ${w.durationMin || Math.round((w.durationSec || 0) / 60)} min`;
+    } else {
+      let setsDone = 0, tonnage = 0;
+      (w.exercises || []).forEach(ex => (ex.sets || []).forEach(s => {
+        if (s.done) { setsDone++; if (s.weight && s.reps) tonnage += s.weight * s.reps; }
+      }));
+      meta = `${setsDone} serii &middot; ${Math.round(tonnage)} kg tonaj &middot; ${mmss(w.durationSec || 0)}`;
+    }
+    const d = new Date(w.date);
+    const dlabel = d.toLocaleDateString('ro-RO', { day: 'numeric', month: 'short' });
+    html += `<div class="wo-hist-row"><div><div class="wo-hist-name">${WORKOUT_TEMPLATES[w.sessionId] ? WORKOUT_TEMPLATES[w.sessionId].name : w.sessionName}</div><div class="wo-hist-meta">${dlabel}</div></div><div class="wo-hist-meta">${meta}</div></div>`;
+  }
+  wrap.innerHTML = html;
+}
+
+async function startWorkout(sessionId) {
+  const tpl = WORKOUT_TEMPLATES[sessionId];
+  if (!tpl) return;
+  currentWorkout = {
+    date: currentDate,
+    type: tpl.type,
+    sessionId: sessionId,
+    sessionName: tpl.name,
+    startTs: Date.now(),
+    endTs: null,
+    restEndTs: null,
+    exercises: tpl.exercises.map(ex => ({
+      name: ex.name, tag: ex.tag, targetReps: ex.reps, targetSets: ex.sets, rest: ex.rest,
+      sets: Array.from({ length: ex.sets }, () => ({ weight: null, reps: null, done: false }))
+    })),
+    modality: tpl.type === 'zone2' ? 'Mers' : null,
+    durationMin: tpl.type === 'zone2' ? 35 : null,
+    hr: null,
+    notes: ''
+  };
+  // Auto carb-up: forta marcheaza ziua ca antrenament
+  if (tpl.type === 'strength') {
+    await setTrainingDay(currentDate, true);
+    await refreshTargetsCache(currentDate);
+  }
+  // pre-incarca performanta trecuta
+  currentWorkout._last = await getLastPerformance(sessionId);
+  await persistActiveWorkout();
+  startWorkoutTick();
+  renderWorkout();
+}
+
+function startWorkoutTick() {
+  if (workoutTickId) clearInterval(workoutTickId);
+  workoutTickId = setInterval(tickWorkout, 1000);
+  tickWorkout();
+}
+
+function tickWorkout() {
+  if (!currentWorkout) { if (workoutTickId) { clearInterval(workoutTickId); workoutTickId = null; } return; }
+  const now = Date.now();
+  const stEl = document.getElementById('woSessionTime');
+  if (stEl) stEl.textContent = mmss((now - currentWorkout.startTs) / 1000);
+  const restBar = document.getElementById('woRest');
+  const restEl = document.getElementById('woRestTime');
+  if (currentWorkout.restEndTs && restBar && restEl) {
+    const rem = (currentWorkout.restEndTs - now) / 1000;
+    restBar.style.display = 'flex';
+    restEl.textContent = mmss(rem);
+    if (rem <= 0) { restBar.querySelector('span').textContent = 'Pauza gata'; }
+    else { restBar.querySelector('span').textContent = 'Pauza ramasa'; }
+  } else if (restBar) {
+    restBar.style.display = 'none';
+  }
+}
+
+function startRest(sec) {
+  if (!currentWorkout) return;
+  if (sec && sec > 0) currentWorkout.restEndTs = Date.now() + sec * 1000;
+  else currentWorkout.restEndTs = null;
+  tickWorkout();
+}
+function stopRest() {
+  if (!currentWorkout) return;
+  currentWorkout.restEndTs = null;
+  tickWorkout();
+}
+
+// Citeste valorile din inputuri inapoi in state (inainte de re-render)
+function syncWorkoutInputsToState() {
+  if (!currentWorkout) return;
+  if (currentWorkout.type === 'zone2') {
+    const mod = document.getElementById('woZ2Mod'); if (mod) currentWorkout.modality = mod.value;
+    const dur = document.getElementById('woZ2Dur'); if (dur) currentWorkout.durationMin = parseDecimal(dur.value) || null;
+    const hr = document.getElementById('woZ2Hr'); if (hr) currentWorkout.hr = parseDecimal(hr.value) || null;
+    const nt = document.getElementById('woZ2Notes'); if (nt) currentWorkout.notes = nt.value;
+    return;
+  }
+  currentWorkout.exercises.forEach((ex, i) => {
+    ex.sets.forEach((s, j) => {
+      const w = document.getElementById(`wo-w-${i}-${j}`);
+      const r = document.getElementById(`wo-r-${i}-${j}`);
+      if (w) { const v = parseDecimal(w.value); s.weight = isNaN(v) ? null : v; }
+      if (r) { const v = parseDecimal(r.value); s.reps = isNaN(v) ? null : v; }
+    });
+  });
+}
+
+function renderActiveWorkout() {
+  if (!currentWorkout) return;
+  document.getElementById('woActiveName').textContent = currentWorkout.sessionName;
+  const t = getTargets();
+  document.getElementById('woActiveSub').textContent = currentWorkout.type === 'strength'
+    ? 'Zi antrenament (carb-up activat)'
+    : 'Zone 2 - intensitate joasa';
+
+  const wrap = document.getElementById('woExercises');
+
+  if (currentWorkout.type === 'zone2') {
+    wrap.innerHTML = `
+      <div class="wo-ex">
+        <div class="wo-zone2-field">
+          <label>Modalitate</label>
+          <select id="woZ2Mod">
+            ${['Mers / banda inclinata', 'Bicicleta / spinning', 'Eliptic', 'Inot', 'Altul'].map(o => `<option${currentWorkout.modality === o ? ' selected' : ''}>${o}</option>`).join('')}
+          </select>
+        </div>
+        <div class="wo-zone2-field">
+          <label>Durata (minute)</label>
+          <input type="text" id="woZ2Dur" inputmode="decimal" value="${currentWorkout.durationMin || ''}" placeholder="35">
+        </div>
+        <div class="wo-zone2-field">
+          <label>FC medie (optional)</label>
+          <input type="text" id="woZ2Hr" inputmode="decimal" value="${currentWorkout.hr || ''}" placeholder="bpm">
+        </div>
+        <div class="wo-zone2-field">
+          <label>Note (optional)</label>
+          <input type="text" id="woZ2Notes" value="${currentWorkout.notes || ''}" placeholder="cum a fost">
+        </div>
+        <div style="font-size:12px;color:var(--ink-faint);line-height:1.5;">Timerul de sus iti masoara sesiunea. Tine intensitatea joasa - sa poti vorbi.</div>
+      </div>`;
+    return;
+  }
+
+  const last = currentWorkout._last;
+  let html = '';
+  currentWorkout.exercises.forEach((ex, i) => {
+    const isSS = ex.tag && ex.tag.indexOf('SS') === 0;
+    const restTxt = ex.rest > 0 ? `pauza ${ex.rest >= 60 ? (ex.rest / 60).toFixed(ex.rest % 60 ? 1 : 0) + ' min' : ex.rest + ' s'}` : 'fara pauza (superset)';
+    const lastTxt = last && last.map[ex.name] ? `Ultima: ${last.map[ex.name]}` : '';
+    let setsHtml = '';
+    // sugestie greutate = ultima serie facuta din acest exercitiu
+    let suggest = '';
+    ex.sets.forEach((s, j) => {
+      if (s.done && s.weight != null) suggest = s.weight;
+      const goneClass = s.done ? ' done' : '';
+      const goneTxt = s.done ? 'OK' : 'Fa';
+      setsHtml += `
+        <div class="wo-set">
+          <span class="wo-set-num">${j + 1}</span>
+          <input type="text" id="wo-w-${i}-${j}" inputmode="decimal" value="${s.weight != null ? s.weight : ''}" placeholder="${suggest !== '' ? suggest : 'kg'}">
+          <span class="wo-set-x">x</span>
+          <input type="text" id="wo-r-${i}-${j}" inputmode="numeric" value="${s.reps != null ? s.reps : ''}" placeholder="${ex.targetReps}">
+          <button class="wo-set-go${goneClass}" onclick="logSet(${i},${j})">${goneTxt}</button>
+        </div>`;
+    });
+    html += `
+      <div class="wo-ex${isSS ? ' superset' : ''}">
+        <div class="wo-ex-head">
+          <div class="wo-ex-name">${ex.name}</div>
+          ${ex.tag ? `<div class="wo-ex-tag">${ex.tag}</div>` : ''}
+        </div>
+        <div class="wo-ex-target">${ex.targetSets} x ${ex.targetReps} &middot; ${restTxt}</div>
+        ${lastTxt ? `<div class="wo-ex-last">${lastTxt}</div>` : ''}
+        ${setsHtml}
+      </div>`;
+  });
+  wrap.innerHTML = html;
+}
+
+async function logSet(i, j) {
+  if (!currentWorkout) return;
+  syncWorkoutInputsToState();
+  const ex = currentWorkout.exercises[i];
+  const s = ex.sets[j];
+  s.done = !s.done;
+  await persistActiveWorkout();
+  if (s.done) startRest(ex.rest);
+  renderActiveWorkout();
+}
+
+async function finishWorkout() {
+  if (!currentWorkout) return;
+  syncWorkoutInputsToState();
+  currentWorkout.endTs = Date.now();
+  currentWorkout.durationSec = Math.round((currentWorkout.endTs - currentWorkout.startTs) / 1000);
+  const rec = { ...currentWorkout };
+  delete rec._last;
+  delete rec.restEndTs;
+  delete rec.id;
+  try {
+    await dbAdd('workouts', rec);
+  } catch (e) { alert('Eroare la salvare: ' + e); return; }
+  await clearActiveWorkout();
+  if (workoutTickId) { clearInterval(workoutTickId); workoutTickId = null; }
+  const wasStrength = currentWorkout.type === 'strength';
+  currentWorkout = null;
+  showToast(wasStrength ? 'Antrenament salvat. Ziua e marcata antrenament.' : 'Sesiune Zone 2 salvata.');
+  await renderToday();
+  renderWorkout();
+}
+
+async function cancelWorkout() {
+  if (!currentWorkout) return;
+  if (!confirm('Anulezi sesiunea? Datele neterminate nu se salveaza.')) return;
+  await clearActiveWorkout();
+  if (workoutTickId) { clearInterval(workoutTickId); workoutTickId = null; }
+  currentWorkout = null;
+  renderWorkout();
+}
+
 // EVENT BINDINGS
 // ============================================
 function bindEvents() {
@@ -3850,6 +4370,7 @@ function bindEvents() {
       if (view === 'today') renderToday();
       if (view === 'foods') renderFoodsListView('');
       if (view === 'meniuri') renderMeniuri();
+      if (view === 'workout') renderWorkout();
     });
   });
 
@@ -3946,6 +4467,10 @@ function bindEvents() {
 
   // Settings
   document.getElementById('saveSettings').addEventListener('click', saveSettings);
+
+  // Workout (sala)
+  document.getElementById('woFinishBtn').addEventListener('click', finishWorkout);
+  document.getElementById('woCancelBtn').addEventListener('click', cancelWorkout);
 
   // Refresh calculated targets when switching to Setari tab
   document.querySelectorAll('.tab').forEach(t => {
@@ -4165,6 +4690,7 @@ async function init() {
   await applySeedIfNeeded();
   await loadSettings();
   await loadCustomFoods();
+  await restoreActiveWorkout();
   bindEvents();
   await renderToday();
 }
