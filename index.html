@@ -17,23 +17,25 @@
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
 <style>
   :root {
-    --bg: #f5f1e8;
-    --bg-elev: #fbf8f1;
-    --ink: #1f2419;
-    --ink-soft: #4a5340;
-    --ink-faint: #8b8f81;
-    --line: #e2dccd;
-    --line-soft: #ebe5d6;
-    --olive: #3d4f2f;
-    --olive-deep: #2a3820;
-    --olive-soft: #6b8055;
-    --amber: #d4a574;
-    --salmon: #c97064;
-    --sage: #9bb088;
-    --gold: #b89968;
-    --shadow-sm: 0 1px 2px rgba(31, 36, 25, 0.04);
-    --shadow-md: 0 4px 12px rgba(31, 36, 25, 0.06);
-    --shadow-lg: 0 12px 32px rgba(31, 36, 25, 0.08);
+    --bg: #080b08;
+    --bg-elev: #121912;
+    --bg-elev2: #1b241b;
+    --ink: #f3fff3;
+    --ink-soft: #c2d4c2;
+    --ink-faint: #869686;
+    --line: #2a382a;
+    --line-soft: #1e281e;
+    --olive: #39ff14;
+    --olive-deep: #2bd60d;
+    --olive-soft: #86ff66;
+    --amber: #ffd23f;
+    --salmon: #ff5c5c;
+    --sage: #39ff14;
+    --gold: #ffd23f;
+    --on-accent: #05160a;
+    --shadow-sm: 0 1px 2px rgba(0,0,0,0.5);
+    --shadow-md: 0 4px 12px rgba(0,0,0,0.55);
+    --shadow-lg: 0 12px 32px rgba(0,0,0,0.6);
     --radius-sm: 10px;
     --radius-md: 16px;
     --radius-lg: 24px;
@@ -52,7 +54,7 @@
     background: var(--bg);
     color: var(--ink);
     font-family: var(--font-body);
-    font-size: 15px;
+    font-size: 18px;
     line-height: 1.5;
     overscroll-behavior-y: none;
     min-height: 100vh;
@@ -92,7 +94,7 @@
 
   .date-label {
     font-family: var(--font-display);
-    font-size: 26px;
+    font-size: 31px;
     font-weight: 500;
     color: var(--ink);
     line-height: 1.15;
@@ -100,7 +102,7 @@
   }
 
   .date-sub {
-    font-size: 13px;
+    font-size: 15px;
     color: var(--ink-faint);
     margin-top: 2px;
     text-transform: uppercase;
@@ -130,7 +132,7 @@
   .date-btn:active {
     transform: scale(0.92);
     background: var(--olive);
-    color: white;
+    color: var(--on-accent);
   }
 
   .date-btn svg {
@@ -158,7 +160,7 @@
     white-space: nowrap;
     padding: 10px 14px;
     text-align: center;
-    font-size: 13px;
+    font-size: 15px;
     font-weight: 500;
     color: var(--ink-faint);
     border-radius: 10px;
@@ -172,7 +174,7 @@
 
   .tab.active {
     background: var(--olive);
-    color: white;
+    color: var(--on-accent);
     box-shadow: var(--shadow-sm);
   }
 
@@ -183,7 +185,7 @@
 
   .calorie-card {
     background: var(--olive);
-    color: white;
+    color: var(--on-accent);
     border-radius: var(--radius-lg);
     padding: 28px 24px;
     margin-bottom: 16px;
@@ -205,7 +207,7 @@
   }
 
   .calorie-label {
-    font-size: 11px;
+    font-size: 13px;
     text-transform: uppercase;
     letter-spacing: 0.12em;
     opacity: 0.7;
@@ -215,7 +217,7 @@
 
   .calorie-remaining {
     font-family: var(--font-display);
-    font-size: 52px;
+    font-size: 61px;
     font-weight: 400;
     line-height: 1;
     letter-spacing: -0.03em;
@@ -224,14 +226,14 @@
   }
 
   .calorie-unit {
-    font-size: 16px;
+    font-size: 19px;
     opacity: 0.6;
     font-weight: 400;
     margin-left: 2px;
   }
 
   .calorie-status {
-    font-size: 13px;
+    font-size: 15px;
     opacity: 0.85;
     margin-top: 6px;
   }
@@ -283,14 +285,14 @@
 
   .training-toggle-title {
     font-family: var(--font-display);
-    font-size: 17px;
+    font-size: 20px;
     font-weight: 500;
     color: var(--ink);
     letter-spacing: -0.01em;
   }
 
   .training-toggle-sub {
-    font-size: 12px;
+    font-size: 14px;
     color: var(--ink-faint);
     margin-top: 2px;
     line-height: 1.4;
@@ -376,8 +378,8 @@
     width: 18px;
     height: 18px;
     background: var(--salmon);
-    color: white;
-    font-size: 12px;
+    color: var(--on-accent);
+    font-size: 14px;
     font-weight: 700;
     border-radius: 50%;
     display: flex;
@@ -386,7 +388,7 @@
   }
 
   .macro-name {
-    font-size: 11px;
+    font-size: 13px;
     text-transform: uppercase;
     letter-spacing: 0.08em;
     color: var(--ink-faint);
@@ -396,7 +398,7 @@
 
   .macro-value {
     font-family: var(--font-display);
-    font-size: 24px;
+    font-size: 28px;
     font-weight: 500;
     line-height: 1.1;
     letter-spacing: -0.02em;
@@ -405,7 +407,7 @@
   }
 
   .macro-target {
-    font-size: 13px;
+    font-size: 15px;
     color: var(--ink-faint);
     margin-top: 2px;
   }
@@ -443,14 +445,14 @@
 
   .section-title {
     font-family: var(--font-display);
-    font-size: 20px;
+    font-size: 24px;
     font-weight: 500;
     color: var(--ink);
     letter-spacing: -0.02em;
   }
 
   .section-sub {
-    font-size: 12px;
+    font-size: 14px;
     color: var(--ink-faint);
     text-transform: uppercase;
     letter-spacing: 0.06em;
@@ -485,14 +487,14 @@
 
   .meal-name {
     font-family: var(--font-display);
-    font-size: 17px;
+    font-size: 20px;
     font-weight: 500;
     letter-spacing: -0.01em;
     color: var(--ink);
   }
 
   .meal-time {
-    font-size: 12px;
+    font-size: 14px;
     color: var(--ink-faint);
     margin-top: 1px;
   }
@@ -505,7 +507,7 @@
 
   .meal-kcal {
     font-family: var(--font-display);
-    font-size: 16px;
+    font-size: 19px;
     font-weight: 500;
     color: var(--ink-soft);
     font-feature-settings: "lnum";
@@ -516,7 +518,7 @@
     height: 32px;
     border-radius: 50%;
     background: var(--olive);
-    color: white;
+    color: var(--on-accent);
     border: none;
     display: flex;
     align-items: center;
@@ -568,13 +570,13 @@
   }
 
   .item-name {
-    font-size: 14px;
+    font-size: 17px;
     font-weight: 500;
     color: var(--ink);
   }
 
   .item-detail {
-    font-size: 12px;
+    font-size: 14px;
     color: var(--ink-faint);
     margin-top: 1px;
   }
@@ -586,7 +588,7 @@
   }
 
   .item-kcal {
-    font-size: 13px;
+    font-size: 15px;
     font-weight: 500;
     color: var(--ink-soft);
     font-feature-settings: "lnum";
@@ -627,7 +629,7 @@
     border-radius: 10px;
     color: var(--olive);
     font-family: inherit;
-    font-size: 13px;
+    font-size: 15px;
     font-weight: 600;
     cursor: pointer;
     letter-spacing: -0.005em;
@@ -636,7 +638,7 @@
 
   .copy-meal-btn:active {
     background: var(--olive);
-    color: white;
+    color: var(--on-accent);
     border-color: var(--olive);
     border-style: solid;
     transform: scale(0.98);
@@ -654,7 +656,7 @@
 
   .foods-list-category-title {
     font-family: var(--font-display);
-    font-size: 17px;
+    font-size: 20px;
     font-weight: 500;
     letter-spacing: -0.01em;
     color: var(--ink);
@@ -667,7 +669,7 @@
   }
 
   .foods-list-category-count {
-    font-size: 11px;
+    font-size: 13px;
     color: var(--ink-faint);
     font-weight: 500;
     letter-spacing: 0.05em;
@@ -688,7 +690,7 @@
   }
 
   .foods-list-name {
-    font-size: 14px;
+    font-size: 17px;
     color: var(--ink);
     font-weight: 500;
     flex: 1;
@@ -700,7 +702,7 @@
   }
 
   .foods-list-macros {
-    font-size: 11px;
+    font-size: 13px;
     color: var(--ink-faint);
     margin-top: 2px;
     font-family: var(--font-body);
@@ -733,7 +735,7 @@
   }
 
   .metric-label {
-    font-size: 11px;
+    font-size: 13px;
     text-transform: uppercase;
     letter-spacing: 0.08em;
     color: var(--ink-faint);
@@ -747,7 +749,7 @@
     border-radius: var(--radius-sm);
     padding: 10px 12px;
     font-family: inherit;
-    font-size: 16px;
+    font-size: 19px;
     font-weight: 500;
     color: var(--ink);
     font-feature-settings: "lnum";
@@ -831,7 +833,7 @@
 
   .modal-close-btn:active {
     background: var(--salmon);
-    color: white;
+    color: var(--on-accent);
     border-color: var(--salmon);
     transform: scale(0.92);
   }
@@ -848,14 +850,14 @@
 
   .modal-title {
     font-family: var(--font-display);
-    font-size: 22px;
+    font-size: 26px;
     font-weight: 500;
     letter-spacing: -0.02em;
     color: var(--ink);
   }
 
   .modal-sub {
-    font-size: 13px;
+    font-size: 15px;
     color: var(--ink-faint);
     margin-top: 2px;
   }
@@ -872,7 +874,7 @@
     border-radius: var(--radius-sm);
     padding: 12px 14px;
     font-family: inherit;
-    font-size: 15px;
+    font-size: 18px;
     color: var(--ink);
   }
 
@@ -889,7 +891,7 @@
 
   .food-category {
     padding: 12px 20px 6px;
-    font-size: 11px;
+    font-size: 13px;
     text-transform: uppercase;
     letter-spacing: 0.08em;
     color: var(--ink-faint);
@@ -911,13 +913,13 @@
   }
 
   .food-name {
-    font-size: 15px;
+    font-size: 18px;
     font-weight: 500;
     color: var(--ink);
   }
 
   .food-macros {
-    font-size: 12px;
+    font-size: 14px;
     color: var(--ink-faint);
     margin-top: 2px;
   }
@@ -953,7 +955,7 @@
 
   .custom-food-label {
     display: block;
-    font-size: 11px;
+    font-size: 13px;
     text-transform: uppercase;
     letter-spacing: 0.06em;
     color: var(--ink-faint);
@@ -968,7 +970,7 @@
     border: 1.5px solid var(--line);
     border-radius: 10px;
     font-family: inherit;
-    font-size: 16px;
+    font-size: 19px;
     color: var(--ink);
     outline: none;
     -webkit-appearance: none;
@@ -983,7 +985,7 @@
     background: var(--bg);
     border: 1px solid var(--line);
     border-radius: 10px;
-    font-size: 13px;
+    font-size: 15px;
     color: var(--ink-soft);
     line-height: 1.5;
     font-family: var(--font-body);
@@ -999,7 +1001,7 @@
     align-items: center;
     gap: 10px;
     margin-top: 16px;
-    font-size: 13px;
+    font-size: 15px;
     color: var(--ink-soft);
     cursor: pointer;
   }
@@ -1019,14 +1021,14 @@
 
   .qty-selected-name {
     font-family: var(--font-display);
-    font-size: 22px;
+    font-size: 26px;
     font-weight: 500;
     color: var(--ink);
     letter-spacing: -0.02em;
   }
 
   .qty-selected-info {
-    font-size: 13px;
+    font-size: 15px;
     color: var(--ink-faint);
     margin-top: 4px;
   }
@@ -1047,9 +1049,9 @@
     height: 44px;
     border-radius: 12px;
     background: var(--olive);
-    color: white;
+    color: var(--on-accent);
     border: none;
-    font-size: 22px;
+    font-size: 26px;
     font-weight: 400;
     cursor: pointer;
     display: flex;
@@ -1067,7 +1069,7 @@
     border: none;
     text-align: center;
     font-family: var(--font-display);
-    font-size: 32px;
+    font-size: 38px;
     font-weight: 500;
     color: var(--ink);
     font-feature-settings: "lnum";
@@ -1085,7 +1087,7 @@
   }
 
   .qty-unit {
-    font-size: 16px;
+    font-size: 19px;
     color: var(--ink-faint);
     padding-right: 12px;
   }
@@ -1102,7 +1104,7 @@
     border: 1px solid var(--line);
     border-radius: 8px;
     padding: 8px 14px;
-    font-size: 13px;
+    font-size: 15px;
     font-weight: 500;
     color: var(--ink-soft);
     cursor: pointer;
@@ -1111,7 +1113,7 @@
 
   .qty-preset:active {
     background: var(--olive);
-    color: white;
+    color: var(--on-accent);
     border-color: var(--olive);
   }
 
@@ -1127,7 +1129,7 @@
     display: flex;
     justify-content: space-between;
     padding: 4px 0;
-    font-size: 14px;
+    font-size: 17px;
   }
 
   .qty-preview-label {
@@ -1143,12 +1145,12 @@
   .btn-primary {
     width: 100%;
     background: var(--olive);
-    color: white;
+    color: var(--on-accent);
     border: none;
     border-radius: var(--radius-md);
     padding: 16px;
     font-family: inherit;
-    font-size: 15px;
+    font-size: 18px;
     font-weight: 600;
     cursor: pointer;
     letter-spacing: -0.005em;
@@ -1170,7 +1172,7 @@
 
   .chart-title {
     font-family: var(--font-display);
-    font-size: 17px;
+    font-size: 20px;
     font-weight: 500;
     letter-spacing: -0.01em;
     color: var(--ink);
@@ -1178,7 +1180,7 @@
   }
 
   .chart-sub {
-    font-size: 12px;
+    font-size: 14px;
     color: var(--ink-faint);
     margin-bottom: 14px;
   }
@@ -1203,7 +1205,7 @@
   }
 
   .stat-label {
-    font-size: 11px;
+    font-size: 13px;
     text-transform: uppercase;
     letter-spacing: 0.08em;
     color: var(--ink-faint);
@@ -1213,7 +1215,7 @@
 
   .stat-value {
     font-family: var(--font-display);
-    font-size: 22px;
+    font-size: 26px;
     font-weight: 500;
     color: var(--ink);
     letter-spacing: -0.02em;
@@ -1221,7 +1223,7 @@
   }
 
   .stat-change {
-    font-size: 12px;
+    font-size: 14px;
     margin-top: 2px;
     font-weight: 500;
   }
@@ -1241,7 +1243,7 @@
 
   .setting-section h3 {
     font-family: var(--font-display);
-    font-size: 16px;
+    font-size: 19px;
     font-weight: 500;
     letter-spacing: -0.01em;
     margin-bottom: 12px;
@@ -1261,13 +1263,13 @@
   }
 
   .setting-label {
-    font-size: 14px;
+    font-size: 17px;
     color: var(--ink-soft);
   }
 
   .setting-value {
     font-family: var(--font-display);
-    font-size: 16px;
+    font-size: 19px;
     font-weight: 500;
     color: var(--ink);
     font-feature-settings: "lnum";
@@ -1281,7 +1283,7 @@
     border-radius: var(--radius-md);
     padding: 14px;
     font-family: inherit;
-    font-size: 14px;
+    font-size: 17px;
     font-weight: 600;
     cursor: pointer;
     margin-bottom: 8px;
@@ -1289,7 +1291,7 @@
 
   .btn-secondary:active {
     background: var(--olive);
-    color: white;
+    color: var(--on-accent);
   }
 
   .btn-danger {
@@ -1300,14 +1302,14 @@
     border-radius: var(--radius-md);
     padding: 12px;
     font-family: inherit;
-    font-size: 13px;
+    font-size: 15px;
     font-weight: 600;
     cursor: pointer;
   }
 
   .btn-danger:active {
     background: var(--salmon);
-    color: white;
+    color: var(--on-accent);
   }
 
   /* ====== EMPTY STATE ====== */
@@ -1318,13 +1320,13 @@
   }
 
   .empty-state-icon {
-    font-size: 36px;
+    font-size: 42px;
     margin-bottom: 8px;
     opacity: 0.4;
   }
 
   .empty-state-text {
-    font-size: 14px;
+    font-size: 17px;
   }
 
   /* ====== TOAST ====== */
@@ -1334,10 +1336,10 @@
     left: 50%;
     transform: translateX(-50%) translateY(20px);
     background: var(--olive-deep);
-    color: white;
+    color: var(--on-accent);
     padding: 12px 20px;
     border-radius: 12px;
-    font-size: 14px;
+    font-size: 17px;
     font-weight: 500;
     opacity: 0;
     transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
@@ -1385,25 +1387,25 @@
   }
   .preset-name {
     font-family: var(--font-display);
-    font-size: 17px;
+    font-size: 20px;
     font-weight: 600;
     color: var(--ink);
     margin-bottom: 4px;
   }
   .preset-summary {
-    font-size: 13px;
+    font-size: 15px;
     color: var(--olive);
     font-weight: 600;
     margin-bottom: 6px;
   }
   .preset-desc {
-    font-size: 12.5px;
+    font-size: 15px;
     color: var(--ink-soft);
     line-height: 1.45;
     margin-bottom: 8px;
   }
   .preset-items {
-    font-size: 11.5px;
+    font-size: 14px;
     color: var(--ink-faint);
     line-height: 1.4;
     margin-bottom: 12px;
@@ -1413,12 +1415,12 @@
     flex: 1;
     min-width: 110px;
     background: var(--olive);
-    color: #fbf8f1;
+    color: var(--on-accent);
     border: none;
     border-radius: var(--radius-sm);
     padding: 11px 14px;
     font-family: var(--font-body);
-    font-size: 14px;
+    font-size: 17px;
     font-weight: 600;
     cursor: pointer;
   }
@@ -1429,12 +1431,12 @@
     border-radius: 999px;
     padding: 6px 13px;
     font-family: var(--font-body);
-    font-size: 14px;
+    font-size: 17px;
     font-weight: 600;
     color: var(--ink-soft);
     cursor: pointer;
   }
-  .chip-on { background: var(--olive); color: #fbf8f1; border-color: var(--olive); }
+  .chip-on { background: var(--olive); color: var(--on-accent); border-color: var(--olive); }
   .shop-list {
     background: var(--bg-elev);
     border: 1px solid var(--line);
@@ -1442,7 +1444,7 @@
     overflow: hidden;
   }
   .shop-cat {
-    font-size: 11px;
+    font-size: 13px;
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 0.04em;
@@ -1456,7 +1458,7 @@
     align-items: center;
     padding: 10px 16px;
     border-top: 1px solid var(--line-soft);
-    font-size: 14px;
+    font-size: 17px;
     color: var(--ink);
   }
   .shop-row strong { color: var(--olive); }
@@ -1471,21 +1473,21 @@
   }
   .wo-card-name {
     font-family: var(--font-display);
-    font-size: 17px;
+    font-size: 20px;
     font-weight: 600;
     color: var(--ink);
     margin-bottom: 3px;
   }
-  .wo-card-sub { font-size: 12.5px; color: var(--ink-soft); margin-bottom: 12px; line-height: 1.4; }
+  .wo-card-sub { font-size: 15px; color: var(--ink-soft); margin-bottom: 12px; line-height: 1.4; }
   .wo-start-btn {
     width: 100%;
     background: var(--olive);
-    color: #fbf8f1;
+    color: var(--on-accent);
     border: none;
     border-radius: var(--radius-sm);
     padding: 12px;
     font-family: var(--font-body);
-    font-size: 14px;
+    font-size: 17px;
     font-weight: 600;
     cursor: pointer;
   }
@@ -1495,28 +1497,29 @@
   .wo-timerbar {
     position: sticky; top: 8px; z-index: 5;
     display: flex; justify-content: space-between; align-items: center;
-    background: var(--olive); color: #fbf8f1;
+    background: var(--olive); color: var(--on-accent);
     border-radius: var(--radius-md); padding: 14px 18px; margin-bottom: 12px;
-    box-shadow: var(--shadow-md);
+    box-shadow: 0 0 20px rgba(57,255,20,0.3);
   }
-  .wo-active-name { font-family: var(--font-display); font-size: 16px; font-weight: 600; }
-  .wo-active-sub { font-size: 12px; opacity: 0.85; margin-top: 2px; }
-  .wo-session-time { font-size: 26px; font-weight: 700; font-variant-numeric: tabular-nums; }
+  .wo-active-name { font-family: var(--font-display); font-size: 19px; font-weight: 600; }
+  .wo-active-sub { font-size: 14px; opacity: 0.85; margin-top: 2px; }
+  .wo-session-time { font-size: 31px; font-weight: 700; font-variant-numeric: tabular-nums; }
 
   .wo-rest {
     position: sticky; top: 92px; z-index: 5;
     display: flex; flex-direction: column; align-items: center; gap: 2px;
-    background: var(--amber); color: var(--olive-deep);
+    background: var(--bg-elev2); color: var(--olive);
+    border: 2px solid var(--olive);
     border-radius: var(--radius-md); padding: 16px 18px 14px; margin-bottom: 14px;
-    box-shadow: var(--shadow-md);
+    box-shadow: 0 0 22px rgba(57,255,20,0.28);
   }
-  .wo-rest-label { font-size: 13px; font-weight: 600; letter-spacing: 0.02em; opacity: 0.9; }
-  .wo-rest-time { font-size: 52px; font-weight: 700; font-variant-numeric: tabular-nums; line-height: 1.05; }
-  .wo-rest.superset .wo-rest-time { font-size: 22px; line-height: 1.3; text-align: center; }
+  .wo-rest-label { font-size: 16px; font-weight: 600; letter-spacing: 0.02em; color: var(--ink-soft); }
+  .wo-rest-time { font-size: 66px; font-weight: 800; font-variant-numeric: tabular-nums; line-height: 1.05; color: var(--olive); text-shadow: 0 0 16px rgba(57,255,20,0.45); }
+  .wo-rest.superset .wo-rest-time { font-size: 28px; line-height: 1.3; text-align: center; text-shadow: none; }
   .wo-rest-skip {
-    margin-top: 6px;
-    background: rgba(0,0,0,0.14); border: none; color: var(--olive-deep);
-    border-radius: 10px; padding: 8px 22px; font-size: 14px; font-weight: 700; cursor: pointer;
+    margin-top: 8px;
+    background: var(--olive); border: none; color: var(--on-accent);
+    border-radius: 10px; padding: 10px 26px; font-size: 18px; font-weight: 800; cursor: pointer;
   }
   .wo-rest-skip:active { transform: scale(0.96); }
 
@@ -1526,43 +1529,53 @@
   }
   .wo-ex.superset { border-left: 3px solid var(--sage); }
   .wo-ex-head { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; }
-  .wo-ex-name { font-weight: 600; font-size: 14.5px; color: var(--ink); }
+  .wo-ex-name { font-weight: 600; font-size: 17px; color: var(--ink); }
   .wo-ex-tag {
-    font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.03em;
+    font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.03em;
     color: var(--olive-soft); white-space: nowrap;
   }
-  .wo-ex-target { font-size: 12px; color: var(--ink-faint); margin: 3px 0 2px; }
-  .wo-ex-last { font-size: 11.5px; color: var(--olive-soft); margin-bottom: 10px; }
+  .wo-ex-target { font-size: 14px; color: var(--ink-faint); margin: 3px 0 2px; }
+  .wo-ex-last { font-size: 14px; color: var(--olive-soft); margin-bottom: 10px; }
+  .wo-ex-sugg {
+    font-size: 14px; color: var(--ink); margin: 4px 0 8px;
+    background: rgba(57,255,20,0.08); border: 1px solid var(--line);
+    border-left: 3px solid var(--olive); border-radius: 8px; padding: 8px 10px; line-height: 1.35;
+  }
+  .wo-ex-sugg strong { color: var(--olive); }
+  .wo-sugg-why { color: var(--ink-faint); font-size: 13px; }
+  .wo-warm-note { color: var(--amber); }
+  .wo-set.warm .wo-set-num { color: var(--amber); font-weight: 700; }
+  .wo-set.warm input { opacity: 0.8; }
   .wo-set {
     display: flex; align-items: center; gap: 8px; margin-bottom: 7px;
   }
-  .wo-set-num { width: 18px; font-size: 12px; color: var(--ink-faint); font-weight: 600; }
+  .wo-set-num { width: 18px; font-size: 14px; color: var(--ink-faint); font-weight: 600; }
   .wo-set input {
     width: 100%; background: var(--bg); border: 1px solid var(--line);
-    border-radius: 8px; padding: 9px 10px; font-size: 15px; font-family: inherit;
+    border-radius: 8px; padding: 9px 10px; font-size: 18px; font-family: inherit;
     text-align: center; color: var(--ink);
   }
   .wo-set input:focus { outline: none; border-color: var(--olive-soft); }
-  .wo-set-x { color: var(--ink-faint); font-size: 13px; }
+  .wo-set-x { color: var(--ink-faint); font-size: 15px; }
   .wo-set-go {
-    flex: 0 0 auto; background: var(--olive); color: #fbf8f1; border: none;
-    border-radius: 8px; padding: 9px 12px; font-size: 13px; font-weight: 600; cursor: pointer; white-space: nowrap;
+    flex: 0 0 auto; background: var(--olive); color: var(--on-accent); border: none;
+    border-radius: 8px; padding: 9px 12px; font-size: 15px; font-weight: 600; cursor: pointer; white-space: nowrap;
   }
   .wo-set-go.done { background: var(--sage); }
   .wo-set-go:active { transform: scale(0.96); }
   .wo-zone2-field { margin-bottom: 12px; }
-  .wo-zone2-field label { display:block; font-size: 12px; color: var(--ink-soft); margin-bottom: 5px; font-weight: 600; }
+  .wo-zone2-field label { display:block; font-size: 14px; color: var(--ink-soft); margin-bottom: 5px; font-weight: 600; }
   .wo-zone2-field input, .wo-zone2-field select {
     width: 100%; background: var(--bg); border: 1px solid var(--line);
-    border-radius: 8px; padding: 10px 12px; font-size: 15px; font-family: inherit; color: var(--ink);
+    border-radius: 8px; padding: 10px 12px; font-size: 18px; font-family: inherit; color: var(--ink);
   }
   .wo-hist-row {
     display: flex; justify-content: space-between; align-items: center;
     background: var(--bg-elev); border: 1px solid var(--line);
-    border-radius: var(--radius-sm); padding: 11px 14px; margin-bottom: 8px; font-size: 13.5px;
+    border-radius: var(--radius-sm); padding: 11px 14px; margin-bottom: 8px; font-size: 16px;
   }
   .wo-hist-row .wo-hist-name { font-weight: 600; color: var(--ink); }
-  .wo-hist-row .wo-hist-meta { font-size: 12px; color: var(--ink-faint); }
+  .wo-hist-row .wo-hist-meta { font-size: 14px; color: var(--ink-faint); }
 
   /* ====== VIEWS ====== */
   .view {
@@ -1601,9 +1614,7 @@
 
 <div class="tabs">
   <button class="tab active" data-view="today">Astazi</button>
-  <button class="tab" data-view="meniuri">Meniuri</button>
   <button class="tab" data-view="workout">Sala</button>
-  <button class="tab" data-view="metrics">Masuratori</button>
   <button class="tab" data-view="foods">Alimente</button>
   <button class="tab" data-view="history">Istoric</button>
   <button class="tab" data-view="settings">Setari</button>
@@ -1679,136 +1690,6 @@
     </div>
 
     <div id="mealsList"></div>
-  </div>
-</div>
-
-<!-- METRICS VIEW -->
-<div class="view" id="view-metrics">
-  <div class="dashboard">
-    <div class="section-header">
-      <div class="section-title">Masuratori de azi</div>
-    </div>
-
-    <div class="metrics-input">
-      <div style="font-size: 11px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--ink-faint); font-weight: 600; margin-bottom: 10px;">Greutate si corp</div>
-      <div class="metrics-row">
-        <div class="metric-input-group">
-          <div class="metric-label">Greutate (kg)</div>
-          <input type="text" class="metric-input" id="weightInput" placeholder="97.4" inputmode="decimal" autocomplete="off">
-        </div>
-        <div class="metric-input-group">
-          <div class="metric-label">Talie max (cm)</div>
-          <input type="text" class="metric-input" id="waistInput" placeholder="113" inputmode="decimal" autocomplete="off">
-        </div>
-      </div>
-      <div class="metrics-row">
-        <div class="metric-input-group">
-          <div class="metric-label">% Grasime</div>
-          <input type="text" class="metric-input" id="fatPctInput" placeholder="18.9" inputmode="decimal" autocomplete="off">
-        </div>
-        <div class="metric-input-group">
-          <div class="metric-label">Masa musculara (kg)</div>
-          <input type="text" class="metric-input" id="muscleMassInput" placeholder="76.4" inputmode="decimal" autocomplete="off">
-        </div>
-      </div>
-      <div class="metrics-row">
-        <div class="metric-input-group">
-          <div class="metric-label">Masa grasa (kg)</div>
-          <input type="text" class="metric-input" id="fatMassInput" placeholder="18.4" inputmode="decimal" autocomplete="off">
-        </div>
-        <div class="metric-input-group">
-          <div class="metric-label">Masa slaba (kg)</div>
-          <input type="text" class="metric-input" id="leanMassInput" placeholder="79.0" inputmode="decimal" autocomplete="off">
-        </div>
-      </div>
-    </div>
-
-    <div class="metrics-input" style="margin-top: 12px;">
-      <div style="font-size: 11px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--ink-faint); font-weight: 600; margin-bottom: 10px;">Activitate zilnica</div>
-      <div class="metrics-row">
-        <div class="metric-input-group">
-          <div class="metric-label">Cal. arse (Apple Watch)</div>
-          <input type="text" class="metric-input" id="activeCalInput" placeholder="450" inputmode="decimal" autocomplete="off">
-        </div>
-        <div class="metric-input-group">
-          <div class="metric-label">Min. miscare (Apple Watch)</div>
-          <input type="text" class="metric-input" id="exerciseMinutesInput" placeholder="30" inputmode="decimal" autocomplete="off">
-        </div>
-      </div>
-      <div class="metrics-row">
-        <div class="metric-input-group">
-          <div class="metric-label">Somn (ore)</div>
-          <input type="text" class="metric-input" id="sleepInput" placeholder="7.5" inputmode="decimal" autocomplete="off">
-        </div>
-      </div>
-    </div>
-
-    <button class="btn-primary" id="saveMetrics" style="margin-top: 12px;">Salveaza masuratori</button>
-
-    <div style="margin-top: 24px;">
-      <div class="section-header">
-        <div class="section-title">Ultimele valori</div>
-      </div>
-      <div class="stat-grid">
-        <div class="stat-card">
-          <div class="stat-label">Greutate</div>
-          <div class="stat-value" id="weightCurrent">- kg</div>
-          <div class="stat-change neutral" id="weightChange">-</div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-label">Talie</div>
-          <div class="stat-value" id="waistCurrent">- cm</div>
-          <div class="stat-change neutral" id="waistChange">-</div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-label">Masa musculara</div>
-          <div class="stat-value" id="muscleCurrent">- kg</div>
-          <div class="stat-change neutral" id="muscleChange">-</div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-label">% Grasime</div>
-          <div class="stat-value" id="fatPctCurrent">- %</div>
-          <div class="stat-change neutral" id="fatPctChange">-</div>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- MENIURI VIEW (presetari mese + planificator cumparaturi) -->
-<div class="view" id="view-meniuri">
-  <div class="dashboard">
-
-    <div class="section-header">
-      <div class="section-title">Meniuri rapide</div>
-      <div class="section-sub" id="meniuriMode">-</div>
-    </div>
-    <div style="background: var(--bg-elev); border: 1px solid var(--line); border-radius: var(--radius-md); padding: 14px 16px; margin-bottom: 16px; font-size: 13px; color: var(--ink-soft); line-height: 1.5;">
-      Alege un meniu si se adauga automat in ziua de azi, in masa potrivita. Refoloseste alimentele tale din lista - poti edita oricand portiile dupa adaugare.
-    </div>
-    <div id="presetList"></div>
-
-    <div class="section-header" style="margin-top: 28px;">
-      <div class="section-title">Cumparaturi</div>
-      <div class="section-sub">cat mananci -&gt; cat cumperi</div>
-    </div>
-    <div style="background: var(--bg-elev); border: 1px solid var(--line); border-radius: var(--radius-md); padding: 14px 16px; margin-bottom: 16px; font-size: 13px; color: var(--ink-soft); line-height: 1.5;">
-      Spune pentru cate zile cumperi si din cate sunt cu antrenament. Iti arat exact ce sa pui in cos.
-    </div>
-
-    <div class="setting-section">
-      <div class="setting-row">
-        <div class="setting-label">Zile pentru care cumpar</div>
-        <div style="display:flex; gap:6px;" id="shopDaysBtns"></div>
-      </div>
-      <div class="setting-row">
-        <div class="setting-label">Din care cu antrenament</div>
-        <div style="display:flex; gap:6px;" id="shopTrainBtns"></div>
-      </div>
-    </div>
-
-    <div id="shopResult" style="margin-top: 12px;"></div>
-
   </div>
 </div>
 
@@ -3293,99 +3174,7 @@ async function saveEntry() {
 // ============================================
 // METRICS
 // ============================================
-async function loadMetricsForDay() {
-  const m = await dbGet('metrics', currentDate);
-  document.getElementById('weightInput').value = m?.weight || '';
-  document.getElementById('waistInput').value = m?.waist || '';
-  document.getElementById('fatPctInput').value = m?.fatPct || '';
-  document.getElementById('muscleMassInput').value = m?.muscleMass || '';
-  document.getElementById('fatMassInput').value = m?.fatMass || '';
-  document.getElementById('leanMassInput').value = m?.leanMass || '';
-  document.getElementById('activeCalInput').value = m?.activeCal || '';
-  document.getElementById('exerciseMinutesInput').value = m?.exerciseMinutes || '';
-  document.getElementById('sleepInput').value = m?.sleep || '';
 
-  // Show current values
-  const all = await dbGetAll('metrics');
-  const sorted = all.filter(x => x.weight).sort((a, b) => a.date.localeCompare(b.date));
-  if (sorted.length > 0) {
-    const latest = sorted[sorted.length - 1];
-    document.getElementById('weightCurrent').textContent = `${latest.weight} kg`;
-    if (sorted.length > 1) {
-      const prev = sorted[0];
-      const change = latest.weight - prev.weight;
-      const el = document.getElementById('weightChange');
-      el.textContent = `${change > 0 ? '+' : ''}${change.toFixed(1)} kg din ${prev.date}`;
-      el.className = 'stat-change ' + (change < 0 ? 'positive' : change > 0 ? 'negative' : 'neutral');
-    }
-  }
-
-  const waistSorted = all.filter(x => x.waist).sort((a, b) => a.date.localeCompare(b.date));
-  if (waistSorted.length > 0) {
-    const latest = waistSorted[waistSorted.length - 1];
-    document.getElementById('waistCurrent').textContent = `${latest.waist} cm`;
-    if (waistSorted.length > 1) {
-      const prev = waistSorted[0];
-      const change = latest.waist - prev.waist;
-      const el = document.getElementById('waistChange');
-      el.textContent = `${change > 0 ? '+' : ''}${change.toFixed(1)} cm din ${prev.date}`;
-      el.className = 'stat-change ' + (change < 0 ? 'positive' : change > 0 ? 'negative' : 'neutral');
-    }
-  }
-
-  const muscleSorted = all.filter(x => x.muscleMass).sort((a, b) => a.date.localeCompare(b.date));
-  if (muscleSorted.length > 0) {
-    const latest = muscleSorted[muscleSorted.length - 1];
-    document.getElementById('muscleCurrent').textContent = `${latest.muscleMass} kg`;
-    if (muscleSorted.length > 1) {
-      const prev = muscleSorted[0];
-      const change = latest.muscleMass - prev.muscleMass;
-      const el = document.getElementById('muscleChange');
-      el.textContent = `${change > 0 ? '+' : ''}${change.toFixed(1)} kg din ${prev.date}`;
-      el.className = 'stat-change ' + (change > 0 ? 'positive' : change < 0 ? 'negative' : 'neutral');
-    }
-  }
-
-  const fatPctSorted = all.filter(x => x.fatPct).sort((a, b) => a.date.localeCompare(b.date));
-  if (fatPctSorted.length > 0) {
-    const latest = fatPctSorted[fatPctSorted.length - 1];
-    document.getElementById('fatPctCurrent').textContent = `${latest.fatPct} %`;
-    if (fatPctSorted.length > 1) {
-      const prev = fatPctSorted[0];
-      const change = latest.fatPct - prev.fatPct;
-      const el = document.getElementById('fatPctChange');
-      el.textContent = `${change > 0 ? '+' : ''}${change.toFixed(1)}% din ${prev.date}`;
-      el.className = 'stat-change ' + (change < 0 ? 'positive' : change > 0 ? 'negative' : 'neutral');
-    }
-  }
-}
-
-async function saveMetricsForDay() {
-  // Preserva flag-ul trainingDay daca a fost setat
-  const existing = await dbGet('metrics', currentDate);
-  const existingTraining = existing?.trainingDay || false;
-
-  const data = {
-    date: currentDate,
-    weight: parseDecimal(document.getElementById('weightInput').value) || null,
-    waist: parseDecimal(document.getElementById('waistInput').value) || null,
-    fatPct: parseDecimal(document.getElementById('fatPctInput').value) || null,
-    muscleMass: parseDecimal(document.getElementById('muscleMassInput').value) || null,
-    fatMass: parseDecimal(document.getElementById('fatMassInput').value) || null,
-    leanMass: parseDecimal(document.getElementById('leanMassInput').value) || null,
-    activeCal: parseIntOrNull(document.getElementById('activeCalInput').value) || null,
-    exerciseMinutes: parseIntOrNull(document.getElementById('exerciseMinutesInput').value) || null,
-    sleep: parseDecimal(document.getElementById('sleepInput').value) || null,
-    trainingDay: existingTraining,
-    timestamp: Date.now()
-  };
-
-  await dbPut('metrics', data);
-  // Tintele se recalculeaza pe baza noii greutati / activitati
-  await refreshTargetsCache(currentDate);
-  showToast('Salvat - tinte actualizate');
-  loadMetricsForDay();
-}
 
 // ============================================
 // HISTORY / CHARTS
@@ -3442,9 +3231,9 @@ async function renderHistory() {
 
   const targets = getTargets();
 
-  drawChart('weightChart', labels, weightData, '#3d4f2f', null);
+  drawChart('weightChart', labels, weightData, '#39ff14', null);
   drawChart('waistChart', labels, waistData, '#c97064', null);
-  drawChart('proteinChart', labels, proteinData, '#3d4f2f', targets.protein);
+  drawChart('proteinChart', labels, proteinData, '#39ff14', targets.protein);
   drawChart('caloriesChart', labels, caloriesData, '#b89968', targets.calories);
 }
 
@@ -3460,7 +3249,7 @@ function drawChart(canvasId, labels, data, color, targetLine) {
     borderWidth: 2,
     pointRadius: 3,
     pointBackgroundColor: color,
-    pointBorderColor: '#fbf8f1',
+    pointBorderColor: '#080b08',
     pointBorderWidth: 2,
     tension: 0.3,
     fill: true,
@@ -3470,7 +3259,7 @@ function drawChart(canvasId, labels, data, color, targetLine) {
   if (targetLine) {
     datasets.push({
       data: labels.map(() => targetLine),
-      borderColor: '#8b8f81',
+      borderColor: '#869686',
       borderWidth: 1,
       borderDash: [4, 4],
       pointRadius: 0,
@@ -3485,7 +3274,7 @@ function drawChart(canvasId, labels, data, color, targetLine) {
       responsive: true,
       maintainAspectRatio: false,
       plugins: { legend: { display: false }, tooltip: {
-        backgroundColor: '#1f2419',
+        backgroundColor: '#1b241b',
         padding: 10,
         titleFont: { family: 'Inter', size: 12 },
         bodyFont: { family: 'Inter', size: 13, weight: '600' },
@@ -3494,11 +3283,11 @@ function drawChart(canvasId, labels, data, color, targetLine) {
       scales: {
         x: {
           grid: { display: false },
-          ticks: { font: { family: 'Inter', size: 10 }, color: '#8b8f81', maxRotation: 0, autoSkipPadding: 20 }
+          ticks: { font: { family: 'Inter', size: 10 }, color: '#869686', maxRotation: 0, autoSkipPadding: 20 }
         },
         y: {
-          grid: { color: '#ebe5d6' },
-          ticks: { font: { family: 'Inter', size: 10 }, color: '#8b8f81' },
+          grid: { color: '#2a382a' },
+          ticks: { font: { family: 'Inter', size: 12 }, color: '#869686' },
           beginAtZero: false
         }
       }
@@ -3784,251 +3573,41 @@ function showToast(msg) {
 
 // ============================================
 // ============================================
-// MENIURI: PRESETARI MESE + CUMPARATURI
-// ============================================
-// Fiecare preset refoloseste alimente din FOOD_DB (fara duplicare).
-// items: [{ foodId, qty }] ; pickMeal=true -> user alege Pranz/Cina.
-const PRESETS = [
-  { id: 'shake', name: 'Shake dimineata', desc: 'Whey, banana, tarate ovaz, in. (psyllium il adaugi separat, in rampa)', meal: 'shake1', pickMeal: false,
-    items: [ { foodId: 'whey', qty: 40 }, { foodId: 'banana', qty: 120 }, { foodId: 'tarate-ovaz', qty: 25 }, { foodId: 'in', qty: 12 } ] },
-  { id: 'masa', name: 'Masa de baza (1 portie)', desc: 'Pui, ou, linte, broccoli, morcovi, ceapa, rosii, ulei. Gatesti dublu = 2 portii identice.', meal: 'pranz', pickMeal: true,
-    items: [ { foodId: 'pui', qty: 200 }, { foodId: 'ou', qty: 1 }, { foodId: 'linte-uscata', qty: 40 }, { foodId: 'broccoli', qty: 150 }, { foodId: 'morcovi', qty: 75 }, { foodId: 'ceapa', qty: 50 }, { foodId: 'rosii', qty: 100 }, { foodId: 'ulei-masline', qty: 13 } ] },
-  { id: 'orez', name: 'Side orez negru (doar zi antrenament)', desc: 'Orez brun integral, 1 portie. Adaugi cate unul la fiecare masa in zilele cu antrenament.', meal: 'pranz', pickMeal: true,
-    items: [ { foodId: 'orez-brun', qty: 50 } ] },
-  { id: 'nuci', name: 'Gustare nuci', desc: 'Nuci 30g - grasimi bune, in fereastra de masa.', meal: 'manual', pickMeal: false,
-    items: [ { foodId: 'nuci', qty: 30 } ] },
-  { id: 'supl', name: 'Suplimente seara', desc: 'Omega-3, CoQ10 (contracareaza statina), D3+K2, Magneziu.', meal: 'suplimente', pickMeal: false,
-    items: [ { foodId: 'omega3-softgel', qty: 2 }, { foodId: 'coq10-ubiquinol', qty: 1 }, { foodId: 'vit-d-k2', qty: 2 }, { foodId: 'magneziu-bisglicinat', qty: 1 } ] }
-];
-
-const MEAL_LABEL = { shake1: 'Shake', pranz: 'Pranz', cina: 'Cina', shake2: 'Shake seara', suplimente: 'Suplimente', manual: 'Adaugate manual' };
-
-// Calculeaza macro pentru o lista de items (pe baza FOOD_DB)
-function presetMacros(items) {
-  const t = { kcal: 0, p: 0, c: 0, f: 0, fiber: 0, iron: 0, chol: 0 };
-  for (const it of items) {
-    const food = FOOD_DB.find(f => f.id === it.foodId);
-    if (!food) continue;
-    const unit = food.unit || 'g';
-    const isPerPiece = unit !== 'g' && unit !== 'ml';
-    const mult = isPerPiece ? it.qty : it.qty / 100;
-    t.kcal += (food.kcal || 0) * mult;
-    t.p += (food.p || 0) * mult;
-    t.c += (food.c || 0) * mult;
-    t.f += (food.f || 0) * mult;
-    t.fiber += (food.fiber || 0) * mult;
-    t.iron += (food.iron || 0) * mult;
-    t.chol += (food.chol || 0) * mult;
-  }
-  return t;
-}
-
-function renderMeniuri() {
-  // Eticheta mod azi
-  const modeEl = document.getElementById('meniuriMode');
-  if (modeEl) {
-    const t = getTargets();
-    modeEl.textContent = t.training ? 'Azi: antrenament' : 'Azi: pasiv';
-  }
-
-  const wrap = document.getElementById('presetList');
-  if (!wrap) return;
-  let html = '';
-  for (const p of PRESETS) {
-    const m = presetMacros(p.items);
-    const ironWarn = m.iron > 4 ? ` &middot; <span style="color: var(--salmon);">Fe ${m.iron.toFixed(1)}mg</span>` : (m.iron > 0 ? ` &middot; Fe ${m.iron.toFixed(1)}mg` : '');
-    const summary = `${Math.round(m.kcal)} kcal &middot; ${Math.round(m.p)}P ${Math.round(m.c)}C ${Math.round(m.f)}G &middot; ${m.fiber.toFixed(0)} fibre${ironWarn}`;
-    const itemsTxt = p.items.map(it => {
-      const f = FOOD_DB.find(x => x.id === it.foodId);
-      const u = f && f.unit && f.unit !== 'g' && f.unit !== 'ml' ? (f.unit === 'buc' ? 'buc' : f.unit) : (f && f.unit === 'ml' ? 'ml' : 'g');
-      return `${f ? f.name : it.foodId} ${it.qty}${u === 'buc' ? ' buc' : u}`;
-    }).join(' &middot; ');
-    let buttons;
-    if (p.pickMeal) {
-      buttons = `<button class="preset-btn" onclick="addPreset('${p.id}','pranz')">+ Pranz</button>
-                 <button class="preset-btn" onclick="addPreset('${p.id}','cina')">+ Cina</button>`;
-    } else {
-      buttons = `<button class="preset-btn" onclick="addPreset('${p.id}')">Adauga la ${MEAL_LABEL[p.meal]}</button>`;
-    }
-    html += `
-      <div class="preset-card">
-        <div class="preset-name">${p.name}</div>
-        <div class="preset-summary">${summary}</div>
-        <div class="preset-desc">${p.desc}</div>
-        <div class="preset-items">${itemsTxt}</div>
-        <div class="preset-actions">${buttons}</div>
-      </div>`;
-  }
-  wrap.innerHTML = html;
-
-  renderShopControls();
-}
-
-// Adauga un preset in ziua curenta
-async function addPreset(presetId, mealOverride) {
-  const p = PRESETS.find(x => x.id === presetId);
-  if (!p) return;
-  const meal = mealOverride || p.meal;
-  let kcalAdded = 0;
-  const baseTs = Date.now();
-  let i = 0;
-  for (const it of p.items) {
-    const food = FOOD_DB.find(f => f.id === it.foodId);
-    if (!food) continue;
-    const unit = food.unit || 'g';
-    const isPerPiece = unit !== 'g' && unit !== 'ml';
-    const mult = isPerPiece ? it.qty : it.qty / 100;
-    const entry = {
-      date: currentDate,
-      meal: meal,
-      foodId: food.id,
-      foodName: food.name,
-      qty: it.qty,
-      unit: unit,
-      kcal: (food.kcal || 0) * mult,
-      p: (food.p || 0) * mult,
-      c: (food.c || 0) * mult,
-      f: (food.f || 0) * mult,
-      fiber: (food.fiber || 0) * mult,
-      iron: (food.iron || 0) * mult,
-      chol: (food.chol || 0) * mult,
-      timestamp: baseTs + (i++)
-    };
-    kcalAdded += entry.kcal;
-    await dbAdd('entries', entry);
-  }
-  showToast(`${p.name}: +${Math.round(kcalAdded)} kcal in ${MEAL_LABEL[meal]}`);
-  await renderToday();
-  // Trece pe tabul Astazi ca sa vada rezultatul
-  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-  document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
-  document.querySelector('.tab[data-view="today"]').classList.add('active');
-  document.getElementById('view-today').classList.add('active');
-}
-
-// ---------- Planificator cumparaturi ----------
-let shopDays = 2;
-let shopTrain = 1;
-
-// Compozitia unei zile (in items {foodId, qty}); training adauga 2x side orez
-function dayComposition(training) {
-  const items = [];
-  const add = (arr) => arr.forEach(it => items.push({ ...it }));
-  add(PRESETS.find(p => p.id === 'shake').items);
-  add(PRESETS.find(p => p.id === 'nuci').items);
-  // 2 mese identice
-  add(PRESETS.find(p => p.id === 'masa').items);
-  add(PRESETS.find(p => p.id === 'masa').items);
-  if (training) {
-    add(PRESETS.find(p => p.id === 'orez').items);
-    add(PRESETS.find(p => p.id === 'orez').items);
-  }
-  return items;
-}
-
-function renderShopControls() {
-  const daysWrap = document.getElementById('shopDaysBtns');
-  const trainWrap = document.getElementById('shopTrainBtns');
-  if (!daysWrap || !trainWrap) return;
-  daysWrap.innerHTML = [1, 2, 3, 4].map(n =>
-    `<button class="chip${n === shopDays ? ' chip-on' : ''}" onclick="setShopDays(${n})">${n}</button>`).join('');
-  trainWrap.innerHTML = [];
-  let th = '';
-  for (let n = 0; n <= shopDays; n++) {
-    th += `<button class="chip${n === shopTrain ? ' chip-on' : ''}" onclick="setShopTrain(${n})">${n}</button>`;
-  }
-  trainWrap.innerHTML = th;
-  renderShopResult();
-}
-
-function setShopDays(n) {
-  shopDays = n;
-  if (shopTrain > shopDays) shopTrain = shopDays;
-  renderShopControls();
-}
-function setShopTrain(n) { shopTrain = n; renderShopControls(); }
-
-function renderShopResult() {
-  const out = document.getElementById('shopResult');
-  if (!out) return;
-  const passive = shopDays - shopTrain;
-  // Agregam pe foodId
-  const agg = {};
-  const addItems = (items) => items.forEach(it => { agg[it.foodId] = (agg[it.foodId] || 0) + it.qty; });
-  for (let i = 0; i < passive; i++) addItems(dayComposition(false));
-  for (let i = 0; i < shopTrain; i++) addItems(dayComposition(true));
-
-  // Totaluri nutritionale
-  const flat = Object.entries(agg).map(([foodId, qty]) => ({ foodId, qty }));
-  const tot = presetMacros(flat);
-
-  // Grupare pe categorie
-  const rows = Object.entries(agg).map(([foodId, qty]) => {
-    const f = FOOD_DB.find(x => x.id === foodId) || { name: foodId, category: 'Altele', unit: 'g' };
-    const u = (f.unit && f.unit !== 'g' && f.unit !== 'ml') ? f.unit : (f.unit === 'ml' ? 'ml' : 'g');
-    let disp;
-    if (u === 'g' || u === 'ml') {
-      disp = qty >= 1000 ? `${(qty / 1000).toFixed(qty % 1000 === 0 ? 0 : 2)} ${u === 'ml' ? 'l' : 'kg'}` : `${Math.round(qty)} ${u}`;
-    } else {
-      disp = `${qty} ${u === 'buc' ? 'buc' : u}`;
-    }
-    return { name: f.name, cat: f.category || 'Altele', disp };
-  });
-  rows.sort((a, b) => a.cat.localeCompare(b.cat) || a.name.localeCompare(b.name));
-
-  let html = `<div style="background: var(--bg-elev); border: 1px solid var(--line); border-radius: var(--radius-md); padding: 14px 16px; margin-bottom: 14px; font-size: 13px; color: var(--ink-soft); line-height: 1.5;">
-    Pentru <strong>${shopDays} ${shopDays === 1 ? 'zi' : 'zile'}</strong> (${shopTrain} antrenament, ${passive} pasiv) mananci aprox.
-    <strong>${Math.round(tot.kcal)} kcal</strong> total &middot; ${Math.round(tot.p)}g proteine &middot; ${tot.fiber.toFixed(0)}g fibre.
-  </div>`;
-  let lastCat = '';
-  html += '<div class="shop-list">';
-  for (const r of rows) {
-    if (r.cat !== lastCat) { html += `<div class="shop-cat">${r.cat}</div>`; lastCat = r.cat; }
-    html += `<div class="shop-row"><span>${r.name}</span><strong>${r.disp}</strong></div>`;
-  }
-  html += '</div>';
-  html += `<div style="margin-top: 12px; font-size: 12px; color: var(--ink-faint); line-height: 1.5;">
-    Psyllium si suplimentele (Omega-3, CoQ10, D3+K2, Mg, creatina) - per stoc, nu se recalculeaza aici.
-  </div>`;
-  out.innerHTML = html;
-}
-
-// ============================================
 // WORKOUT (sala): forta + Zone 2
 // ============================================
 const WORKOUT_TEMPLATES = {
-  upperA: { name: 'Upper A - Impins + Tras orizontal', type: 'strength', estMin: 50, exercises: [
-    { name: 'Incline DB Press (30°)', sets: 3, reps: 8, rest: 120, tag: '' },
-    { name: 'Chest-Supported DB Row', sets: 3, reps: 10, rest: 120, tag: '' },
-    { name: 'Weighted Dip (usor inclinat)', sets: 3, reps: 8, rest: 90, tag: '' },
-    { name: 'Lat Pulldown / Tractiuni', sets: 3, reps: 10, rest: 90, tag: '' },
-    { name: 'DB Lateral Raise', sets: 3, reps: 12, rest: 60, tag: '' },
-    { name: 'Incline DB Curl', sets: 3, reps: 10, rest: 60, tag: '' },
-    { name: 'Overhead Triceps Extension', sets: 3, reps: 12, rest: 60, tag: '' }
+  upperA: { name: 'Upper A - Impins + Tras orizontal', type: 'strength', estMin: 52, exercises: [
+    { name: 'Incline DB Press (30°)', sets: 3, reps: 8, rest: 120, inc: 2.5, warmup: 2 },
+    { name: 'Chest-Supported DB Row', sets: 3, reps: 10, rest: 120, inc: 2.5, warmup: 1 },
+    { name: 'Weighted Dip (usor inclinat)', sets: 3, reps: 8, rest: 90, inc: 2.5, warmup: 1 },
+    { name: 'Lat Pulldown / Tractiuni', sets: 3, reps: 10, rest: 90, inc: 2.5, warmup: 1 },
+    { name: 'DB Lateral Raise', sets: 3, reps: 12, rest: 60, inc: 2.5, warmup: 0 },
+    { name: 'Incline DB Curl', sets: 3, reps: 10, rest: 60, inc: 2.5, warmup: 0 },
+    { name: 'Overhead Triceps Extension', sets: 3, reps: 12, rest: 60, inc: 2.5, warmup: 0 }
   ]},
-  lowerA: { name: 'Lower A - Cvadriceps', type: 'strength', estMin: 42, exercises: [
-    { name: 'Back Squat (high-bar, sub paralel)', sets: 3, reps: 8, rest: 150, tag: '' },
-    { name: 'Leg Press', sets: 3, reps: 10, rest: 120, tag: '' },
-    { name: 'Lying Leg Curl', sets: 3, reps: 12, rest: 75, tag: '' },
-    { name: 'Standing Calf Raise', sets: 3, reps: 12, rest: 75, tag: '' },
-    { name: 'Hanging Knee Raise', sets: 3, reps: 12, rest: 45, tag: '' }
+  lowerA: { name: 'Lower A - Cvadriceps', type: 'strength', estMin: 46, exercises: [
+    { name: 'Back Squat (high-bar, sub paralel)', sets: 3, reps: 8, rest: 150, inc: 5, warmup: 3 },
+    { name: 'Leg Press', sets: 3, reps: 10, rest: 120, inc: 5, warmup: 2 },
+    { name: 'Lying Leg Curl', sets: 3, reps: 12, rest: 75, inc: 2.5, warmup: 0 },
+    { name: 'Standing Calf Raise', sets: 3, reps: 12, rest: 75, inc: 2.5, warmup: 0 },
+    { name: 'Hanging Knee Raise', sets: 3, reps: 12, rest: 45, inc: 0, warmup: 0 }
   ]},
-  upperB: { name: 'Upper B - Impins + Tras vertical', type: 'strength', estMin: 54, exercises: [
-    { name: 'Standing Barbell OHP', sets: 3, reps: 6, rest: 150, tag: '' },
-    { name: 'Weighted Pull-Up', sets: 3, reps: 8, rest: 150, tag: '' },
-    { name: 'Weighted Dip (inclinat - piept)', sets: 3, reps: 8, rest: 90, tag: '' },
-    { name: 'Single-Arm DB Row', sets: 3, reps: 10, rest: 90, tag: '' },
-    { name: 'Cable Lateral Raise (un brat)', sets: 3, reps: 12, rest: 60, tag: '' },
-    { name: 'Face Pull / Reverse Fly', sets: 3, reps: 15, rest: 60, tag: '' },
-    { name: 'Hammer Curl', sets: 3, reps: 10, rest: 60, tag: '' },
-    { name: 'EZ-Bar Skull Crusher', sets: 3, reps: 10, rest: 60, tag: '' }
+  upperB: { name: 'Upper B - Impins + Tras vertical', type: 'strength', estMin: 56, exercises: [
+    { name: 'Standing Barbell OHP', sets: 3, reps: 6, rest: 150, inc: 5, warmup: 3 },
+    { name: 'Weighted Pull-Up', sets: 3, reps: 8, rest: 150, inc: 2.5, warmup: 2 },
+    { name: 'Weighted Dip (inclinat - piept)', sets: 3, reps: 8, rest: 90, inc: 2.5, warmup: 1 },
+    { name: 'Single-Arm DB Row', sets: 3, reps: 10, rest: 90, inc: 2.5, warmup: 1 },
+    { name: 'Cable Lateral Raise (un brat)', sets: 3, reps: 12, rest: 60, inc: 2.5, warmup: 0 },
+    { name: 'Face Pull / Reverse Fly', sets: 3, reps: 15, rest: 60, inc: 2.5, warmup: 0 },
+    { name: 'Hammer Curl', sets: 3, reps: 10, rest: 60, inc: 2.5, warmup: 0 },
+    { name: 'EZ-Bar Skull Crusher', sets: 3, reps: 10, rest: 60, inc: 2.5, warmup: 0 }
   ]},
-  lowerB: { name: 'Lower B - Lant posterior', type: 'strength', estMin: 38, exercises: [
-    { name: 'Romanian Deadlift', sets: 3, reps: 8, rest: 150, tag: '' },
-    { name: 'Barbell Hip Thrust', sets: 3, reps: 10, rest: 120, tag: '' },
-    { name: 'Seated Leg Curl', sets: 3, reps: 12, rest: 75, tag: '' },
-    { name: 'Seated Calf Raise (pauza 2s)', sets: 3, reps: 12, rest: 75, tag: '' },
-    { name: 'Cable Crunch', sets: 3, reps: 12, rest: 45, tag: '' }
+  lowerB: { name: 'Lower B - Lant posterior', type: 'strength', estMin: 42, exercises: [
+    { name: 'Romanian Deadlift', sets: 3, reps: 8, rest: 150, inc: 5, warmup: 3 },
+    { name: 'Barbell Hip Thrust', sets: 3, reps: 10, rest: 120, inc: 5, warmup: 2 },
+    { name: 'Seated Leg Curl', sets: 3, reps: 12, rest: 75, inc: 2.5, warmup: 0 },
+    { name: 'Seated Calf Raise (pauza 2s)', sets: 3, reps: 12, rest: 75, inc: 2.5, warmup: 0 },
+    { name: 'Cable Crunch', sets: 3, reps: 12, rest: 45, inc: 2.5, warmup: 0 }
   ]},
   zone2: { name: 'Zone 2 cardio', type: 'zone2', estMin: 35, exercises: [] }
 };
@@ -4071,11 +3650,54 @@ async function getLastPerformance(sessionId) {
     const last = past[0];
     const map = {};
     (last.exercises || []).forEach(ex => {
-      const done = (ex.sets || []).filter(s => s.done && (s.weight != null || s.reps != null));
+      const done = (ex.sets || []).filter(s => s.done && !s.warm && (s.weight != null || s.reps != null));
       if (done.length) map[ex.name] = done.map(s => `${s.weight != null ? s.weight : '-'}x${s.reps != null ? s.reps : '-'}`).join(', ');
     });
     return { date: last.date, map: map };
   } catch (e) { return null; }
+}
+
+// Motor de sugestii - dubla progresie, principii stiintifice
+// Interval de repetari = [reps-2, reps]. Cand toate seturile de lucru ating varful -> +inc kg, cobori la baza.
+// Altfel -> aceeasi greutate, tinta = varful. RIR ~1-2 implicit (nu la cedare).
+async function getSuggestions(sessionId) {
+  const tpl = WORKOUT_TEMPLATES[sessionId];
+  if (!tpl || tpl.type !== 'strength') return {};
+  let last = null;
+  try {
+    const all = await dbGetAll('workouts');
+    const past = all.filter(w => w.sessionId === sessionId && (!currentWorkout || w.id !== currentWorkout.id))
+                    .sort((a, b) => b.startTs - a.startTs);
+    last = past[0] || null;
+  } catch (e) {}
+  const out = {};
+  tpl.exercises.forEach((ex, i) => {
+    const top = ex.reps;
+    const low = Math.max(1, ex.reps - 2);
+    const inc = ex.inc || 2.5;
+    let sugg = { w: null, low: low, top: top, reason: '' };
+    let lastEx = null;
+    if (last) lastEx = (last.exercises || []).find(e => e.name === ex.name);
+    if (lastEx) {
+      const work = (lastEx.sets || []).filter(s => s.done && !s.warm && s.weight != null && s.reps != null);
+      if (work.length) {
+        const maxW = Math.max(...work.map(s => s.weight));
+        const setsAtTop = work.filter(s => s.weight >= maxW && s.reps >= top).length;
+        const allTop = work.length >= ex.sets && work.every(s => s.reps >= top);
+        if (allTop) {
+          sugg.w = +(maxW + inc).toFixed(1);
+          sugg.low = low; sugg.top = top;
+          sugg.reason = `progres: ai atins ${top} rep la toate -> +${inc} kg`;
+        } else {
+          sugg.w = maxW;
+          sugg.reason = `mentii ${maxW} kg, tinta ${top} rep la toate seturile`;
+        }
+      }
+    }
+    if (sugg.w == null) sugg.reason = 'prima data - alege o greutate cu ~2 rep in rezerva';
+    out[ex.name] = sugg;
+  });
+  return out;
 }
 
 // Ultima data cand a fost facuta fiecare sesiune
@@ -4146,7 +3768,7 @@ async function renderWorkoutHistory() {
     } else {
       let setsDone = 0, tonnage = 0;
       (w.exercises || []).forEach(ex => (ex.sets || []).forEach(s => {
-        if (s.done) { setsDone++; if (s.weight && s.reps) tonnage += s.weight * s.reps; }
+        if (s.done && !s.warm) { setsDone++; if (s.weight && s.reps) tonnage += s.weight * s.reps; }
       }));
       meta = `${setsDone} serii &middot; ${Math.round(tonnage)} kg tonaj &middot; ${mmss(w.durationSec || 0)}`;
     }
@@ -4172,8 +3794,11 @@ async function startWorkout(sessionId) {
     restEndTs: null,
     restMode: null,
     exercises: tpl.exercises.map(ex => ({
-      name: ex.name, tag: ex.tag, targetReps: ex.reps, targetSets: ex.sets, rest: ex.rest,
-      sets: Array.from({ length: ex.sets }, () => ({ weight: null, reps: null, done: false }))
+      name: ex.name, targetReps: ex.reps, targetSets: ex.sets, rest: ex.rest, inc: ex.inc || 2.5, warmup: ex.warmup || 0,
+      sets: [
+        ...Array.from({ length: ex.warmup || 0 }, () => ({ weight: null, reps: null, done: false, warm: true })),
+        ...Array.from({ length: ex.sets }, () => ({ weight: null, reps: null, done: false, warm: false }))
+      ]
     })),
     modality: tpl.type === 'zone2' ? 'Mers' : null,
     durationMin: tpl.type === 'zone2' ? 35 : null,
@@ -4185,8 +3810,9 @@ async function startWorkout(sessionId) {
     await setTrainingDay(currentDate, true);
     await refreshTargetsCache(currentDate);
   }
-  // pre-incarca performanta trecuta
+  // pre-incarca performanta trecuta + sugestii
   currentWorkout._last = await getLastPerformance(sessionId);
+  currentWorkout._sugg = await getSuggestions(sessionId);
   await persistActiveWorkout();
   startWorkoutTick();
   renderWorkout();
@@ -4328,34 +3954,51 @@ function renderActiveWorkout() {
   }
 
   const last = currentWorkout._last;
+  const sugg = currentWorkout._sugg || {};
   let html = '';
   currentWorkout.exercises.forEach((ex, i) => {
-    const isSS = ex.tag && ex.tag.indexOf('SS') === 0;
-    const restTxt = ex.rest > 0 ? `pauza ${ex.rest >= 60 ? (ex.rest / 60).toFixed(ex.rest % 60 ? 1 : 0) + ' min' : ex.rest + ' s'}` : 'fara pauza (superset)';
+    const restTxt = `pauza ${ex.rest >= 60 ? (ex.rest / 60).toFixed(ex.rest % 60 ? 1 : 0) + ' min' : ex.rest + ' s'}`;
     const lastTxt = last && last.map[ex.name] ? `Ultima: ${last.map[ex.name]}` : '';
+    const sg = sugg[ex.name];
+    let suggTxt = '';
+    if (sg) {
+      const wtxt = sg.w != null ? `${sg.w} kg x ${sg.low}-${sg.top}` : `${sg.low}-${sg.top} rep`;
+      suggTxt = `<div class="wo-ex-sugg">Sugestie: <strong>${wtxt}</strong><span class="wo-sugg-why"> - ${sg.reason}</span></div>`;
+    }
     let setsHtml = '';
-    // sugestie greutate = ultima serie facuta din acest exercitiu
-    let suggest = '';
+    let workIdx = 0;
     ex.sets.forEach((s, j) => {
-      if (s.done && s.weight != null) suggest = s.weight;
+      const isWarm = s.warm;
+      let ph = 'kg';
+      if (isWarm && sg && sg.w != null) {
+        // sugestie incalzire: ramp 50%/70%/85% din greutatea de lucru
+        const nW = ex.warmup || 1;
+        const pct = [0.5, 0.7, 0.85, 0.9][Math.min(j, 3)];
+        ph = Math.round((sg.w * pct) / 2.5) * 2.5 + '';
+      } else if (!isWarm && sg && sg.w != null) {
+        ph = sg.w + '';
+      }
+      const numLabel = isWarm ? 'W' : (++workIdx);
       const goneClass = s.done ? ' done' : '';
       const goneTxt = s.done ? 'OK' : 'Fa';
+      const repPh = isWarm ? '~' : (sg ? sg.top : ex.targetReps);
       setsHtml += `
-        <div class="wo-set">
-          <span class="wo-set-num">${j + 1}</span>
-          <input type="text" id="wo-w-${i}-${j}" inputmode="decimal" value="${s.weight != null ? s.weight : ''}" placeholder="${suggest !== '' ? suggest : 'kg'}">
+        <div class="wo-set${isWarm ? ' warm' : ''}">
+          <span class="wo-set-num">${numLabel}</span>
+          <input type="text" id="wo-w-${i}-${j}" inputmode="decimal" value="${s.weight != null ? s.weight : ''}" placeholder="${ph}">
           <span class="wo-set-x">x</span>
-          <input type="text" id="wo-r-${i}-${j}" inputmode="numeric" value="${s.reps != null ? s.reps : ''}" placeholder="${ex.targetReps}">
+          <input type="text" id="wo-r-${i}-${j}" inputmode="numeric" value="${s.reps != null ? s.reps : ''}" placeholder="${repPh}">
           <button class="wo-set-go${goneClass}" onclick="logSet(${i},${j})">${goneTxt}</button>
         </div>`;
     });
+    const warmNote = ex.warmup > 0 ? `<span class="wo-warm-note"> &middot; ${ex.warmup} incalzire</span>` : '';
     html += `
-      <div class="wo-ex${isSS ? ' superset' : ''}">
+      <div class="wo-ex">
         <div class="wo-ex-head">
           <div class="wo-ex-name">${ex.name}</div>
-          ${ex.tag ? `<div class="wo-ex-tag">${ex.tag}</div>` : ''}
         </div>
-        <div class="wo-ex-target">${ex.targetSets} x ${ex.targetReps} &middot; ${restTxt}</div>
+        <div class="wo-ex-target">${ex.targetSets} x ${ex.targetReps} &middot; ${restTxt}${warmNote}</div>
+        ${suggTxt}
         ${lastTxt ? `<div class="wo-ex-last">${lastTxt}</div>` : ''}
         ${setsHtml}
       </div>`;
@@ -4370,7 +4013,7 @@ async function logSet(i, j) {
   const s = ex.sets[j];
   s.done = !s.done;
   await persistActiveWorkout();
-  if (s.done) startRest(ex.rest);
+  if (s.done) startRest(s.warm ? 30 : ex.rest);
   renderActiveWorkout();
 }
 
@@ -4381,6 +4024,7 @@ async function finishWorkout() {
   currentWorkout.durationSec = Math.round((currentWorkout.endTs - currentWorkout.startTs) / 1000);
   const rec = { ...currentWorkout };
   delete rec._last;
+  delete rec._sugg;
   delete rec.restEndTs;
   delete rec.restMode;
   delete rec.id;
@@ -4419,11 +4063,9 @@ function bindEvents() {
       tab.classList.add('active');
       document.getElementById(`view-${view}`).classList.add('active');
 
-      if (view === 'metrics') loadMetricsForDay();
       if (view === 'history') renderHistory();
       if (view === 'today') renderToday();
       if (view === 'foods') renderFoodsListView('');
-      if (view === 'meniuri') renderMeniuri();
       if (view === 'workout') renderWorkout();
     });
   });
@@ -4434,7 +4076,6 @@ function bindEvents() {
     d.setDate(d.getDate() - 1);
     currentDate = formatDate(d);
     renderToday();
-    if (document.getElementById('view-metrics').classList.contains('active')) loadMetricsForDay();
   });
 
   document.getElementById('nextDay').addEventListener('click', () => {
@@ -4443,7 +4084,6 @@ function bindEvents() {
     if (formatDate(d) <= formatDate(new Date())) {
       currentDate = formatDate(d);
       renderToday();
-      if (document.getElementById('view-metrics').classList.contains('active')) loadMetricsForDay();
     }
   });
 
@@ -4510,7 +4150,6 @@ function bindEvents() {
   document.getElementById('qtySave').addEventListener('click', saveEntry);
 
   // Metrics
-  document.getElementById('saveMetrics').addEventListener('click', saveMetricsForDay);
 
   // Training day toggle (dashboard)
   document.getElementById('trainingToggle').addEventListener('change', async (e) => {
@@ -4793,7 +4432,7 @@ async function init() {
     overlay.id = 'auth-overlay';
     overlay.style.cssText = `
       position: fixed; inset: 0; z-index: 9999;
-      background: #f5f1e8;
+      background: #080b08;
       display: flex; flex-direction: column;
       align-items: center; justify-content: center;
       font-family: 'Inter', -apple-system, sans-serif;
@@ -4802,11 +4441,11 @@ async function init() {
 
     overlay.innerHTML = `
       <div style="width: 100%; max-width: 340px; text-align: center;">
-        <div style="font-family: 'Fraunces', Georgia, serif; font-size: 32px; font-weight: 500; color: #1f2419; letter-spacing: -0.02em; margin-bottom: 6px;">Jurnal</div>
-        <div style="font-size: 13px; color: #8b8f81; margin-bottom: 40px; text-transform: uppercase; letter-spacing: 0.1em; font-weight: 500;">Nutritional · Privat</div>
+        <div style="font-family: 'Fraunces', Georgia, serif; font-size: 34px; font-weight: 500; color: #39ff14; letter-spacing: -0.02em; margin-bottom: 6px; text-shadow: 0 0 18px rgba(57,255,20,0.5);">Jurnal</div>
+        <div style="font-size: 14px; color: #869686; margin-bottom: 40px; text-transform: uppercase; letter-spacing: 0.1em; font-weight: 500;">Nutritional · Privat</div>
 
-        <div style="background: #fbf8f1; border: 1px solid #e2dccd; border-radius: 20px; padding: 28px 24px;">
-          <div style="font-size: 14px; color: #4a5340; margin-bottom: 16px; font-weight: 500;">Introdu parola</div>
+        <div style="background: #121912; border: 1px solid #2a382a; border-radius: 20px; padding: 28px 24px;">
+          <div style="font-size: 16px; color: #c2d4c2; margin-bottom: 16px; font-weight: 500;">Introdu parola</div>
 
           <input
             id="auth-input"
@@ -4815,9 +4454,9 @@ async function init() {
             autocomplete="current-password"
             style="
               width: 100%; padding: 14px 16px;
-              background: #f5f1e8; border: 1.5px solid #e2dccd;
-              border-radius: 12px; font-size: 18px; letter-spacing: 0.12em;
-              color: #1f2419; font-family: inherit; text-align: center;
+              background: #05160a; border: 1.5px solid #2a382a;
+              border-radius: 12px; font-size: 20px; letter-spacing: 0.12em;
+              color: #f3fff3; font-family: inherit; text-align: center;
               outline: none; margin-bottom: 12px;
               -webkit-appearance: none;
             "
@@ -4827,22 +4466,22 @@ async function init() {
             id="auth-btn"
             style="
               width: 100%; padding: 15px;
-              background: #3d4f2f; color: white;
+              background: #39ff14; color: #05160a;
               border: none; border-radius: 12px;
-              font-size: 15px; font-weight: 600;
+              font-size: 17px; font-weight: 700;
               font-family: inherit; cursor: pointer;
               letter-spacing: -0.005em;
             "
           >Intra</button>
 
           <div id="auth-error" style="
-            color: #c97064; font-size: 13px;
+            color: #ff5c5c; font-size: 14px;
             margin-top: 12px; min-height: 18px;
             font-weight: 500;
           "></div>
         </div>
 
-        <div style="margin-top: 24px; font-size: 12px; color: #8b8f81;">
+        <div style="margin-top: 24px; font-size: 13px; color: #869686;">
           Datele tale sunt salvate local pe acest dispozitiv.
         </div>
       </div>
@@ -4865,7 +4504,7 @@ async function init() {
       if (hashPassword(val) === CORRECT) {
         setAuthenticated();
         btn.textContent = '✓';
-        btn.style.background = '#6b8055';
+        btn.style.background = '#2bd60d';
         overlay.style.transition = 'opacity 0.4s ease';
         setTimeout(() => {
           overlay.style.opacity = '0';
@@ -4874,11 +4513,11 @@ async function init() {
       } else {
         error.textContent = 'Parola incorecta.';
         input.value = '';
-        input.style.borderColor = '#c97064';
-        btn.style.background = '#c97064';
+        input.style.borderColor = '#ff5c5c';
+        btn.style.background = '#ff5c5c';
         setTimeout(() => {
-          input.style.borderColor = '#e2dccd';
-          btn.style.background = '#3d4f2f';
+          input.style.borderColor = '#2a382a';
+          btn.style.background = '#39ff14';
           error.textContent = '';
           input.focus();
         }, 1500);
@@ -4889,8 +4528,8 @@ async function init() {
     input.addEventListener('keydown', (e) => { if (e.key === 'Enter') attempt(); });
 
     // Style focus state
-    input.addEventListener('focus', () => { input.style.borderColor = '#3d4f2f'; });
-    input.addEventListener('blur', () => { input.style.borderColor = '#e2dccd'; });
+    input.addEventListener('focus', () => { input.style.borderColor = '#39ff14'; });
+    input.addEventListener('blur', () => { input.style.borderColor = '#2a382a'; });
   }
 
   // Run on DOM ready
