@@ -71,16 +71,14 @@
   .header {
     padding: 24px 20px 16px;
     background: var(--bg);
-    position: sticky;
-    top: 0;
-    z-index: 50;
+    position: static;
     border-bottom: 1px solid transparent;
     transition: border-color 0.2s;
   }
 
   .header.scrolled {
     border-bottom-color: var(--line);
-    background: rgba(245, 241, 232, 0.92);
+    background: rgba(8, 11, 8, 0.92);
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
   }
@@ -1559,10 +1557,15 @@
   .wo-set-x { color: var(--ink-faint); font-size: 15px; }
   .wo-set-go {
     flex: 0 0 auto; background: var(--olive); color: var(--on-accent); border: none;
-    border-radius: 8px; padding: 9px 12px; font-size: 15px; font-weight: 600; cursor: pointer; white-space: nowrap;
+    border-radius: 8px; padding: 11px 16px; font-size: 17px; font-weight: 800; cursor: pointer; white-space: nowrap; min-width: 52px;
   }
-  .wo-set-go.done { background: var(--sage); }
+  .wo-set-go.done {
+    background: var(--bg-elev2); color: var(--olive-soft);
+    border: 1px solid var(--line); font-size: 19px;
+  }
   .wo-set-go:active { transform: scale(0.96); }
+  .wo-set.done input { opacity: 0.45; }
+  .wo-set.done .wo-set-num { opacity: 0.55; }
   .wo-zone2-field { margin-bottom: 12px; }
   .wo-zone2-field label { display:block; font-size: 14px; color: var(--ink-soft); margin-bottom: 5px; font-weight: 600; }
   .wo-zone2-field input, .wo-zone2-field select {
@@ -1614,7 +1617,7 @@
 
 <div class="tabs">
   <button class="tab active" data-view="today">Astazi</button>
-  <button class="tab" data-view="workout">Sala</button>
+  <button class="tab" data-view="workout">Gym</button>
   <button class="tab" data-view="foods">Alimente</button>
   <button class="tab" data-view="history">Istoric</button>
   <button class="tab" data-view="settings">Setari</button>
@@ -1700,16 +1703,16 @@
     <!-- PICKER (cand nu e sesiune activa) -->
     <div id="workoutPicker">
       <div class="section-header">
-        <div class="section-title">Antrenament</div>
-        <div class="section-sub" id="workoutPickerSub">alege sesiunea</div>
+        <div class="section-title">Training</div>
+        <div class="section-sub" id="workoutPickerSub">choose a session</div>
       </div>
       <div style="background: var(--bg-elev); border: 1px solid var(--line); border-radius: var(--radius-md); padding: 14px 16px; margin-bottom: 16px; font-size: 13px; color: var(--ink-soft); line-height: 1.5;">
-        Alege o sesiune si apasa Start. Forta marcheaza automat ziua ca <strong>antrenament</strong> (carb-up). Datele raman pe telefon.
+        Pick a session and hit Start. Strength days auto-mark the day as <strong>training</strong> (carb-up). Data stays on your phone.
       </div>
       <div id="sessionList"></div>
 
       <div class="section-header" style="margin-top: 24px;">
-        <div class="section-title">Recente</div>
+        <div class="section-title">Recent</div>
       </div>
       <div id="workoutHistory"></div>
     </div>
@@ -1725,15 +1728,15 @@
       </div>
 
       <div class="wo-rest" id="woRest" style="display:none;">
-        <div class="wo-rest-label" id="woRestLabel">Pauza ramasa</div>
+        <div class="wo-rest-label" id="woRestLabel">Rest remaining</div>
         <div class="wo-rest-time" id="woRestTime">00:00</div>
-        <button class="wo-rest-skip" onclick="stopRest()">Gata</button>
+        <button class="wo-rest-skip" onclick="stopRest()">Skip</button>
       </div>
 
       <div id="woExercises"></div>
 
-      <button class="btn-primary" id="woFinishBtn" style="margin: 8px 0 12px;">Termina si salveaza</button>
-      <button class="btn-secondary" id="woCancelBtn">Anuleaza sesiunea</button>
+      <button class="btn-primary" id="woFinishBtn" style="margin: 8px 0 12px;">Finish & save</button>
+      <button class="btn-secondary" id="woCancelBtn">Cancel session</button>
     </div>
 
   </div>
@@ -3576,40 +3579,40 @@ function showToast(msg) {
 // WORKOUT (sala): forta + Zone 2
 // ============================================
 const WORKOUT_TEMPLATES = {
-  upperA: { name: 'Upper A - Impins + Tras orizontal', type: 'strength', estMin: 52, exercises: [
+  upperA: { name: 'Upper A - Horizontal Push + Pull', type: 'strength', estMin: 52, exercises: [
     { name: 'Incline DB Press (30°)', sets: 3, reps: 8, rest: 120, inc: 2.5, warmup: 2 },
     { name: 'Chest-Supported DB Row', sets: 3, reps: 10, rest: 120, inc: 2.5, warmup: 1 },
-    { name: 'Weighted Dip (usor inclinat)', sets: 3, reps: 8, rest: 90, inc: 2.5, warmup: 1 },
-    { name: 'Lat Pulldown / Tractiuni', sets: 3, reps: 10, rest: 90, inc: 2.5, warmup: 1 },
+    { name: 'Weighted Dip (slight lean)', sets: 3, reps: 8, rest: 90, inc: 2.5, warmup: 1 },
+    { name: 'Lat Pulldown / Pull-Up', sets: 3, reps: 10, rest: 90, inc: 2.5, warmup: 1 },
     { name: 'DB Lateral Raise', sets: 3, reps: 12, rest: 60, inc: 2.5, warmup: 0 },
     { name: 'Incline DB Curl', sets: 3, reps: 10, rest: 60, inc: 2.5, warmup: 0 },
     { name: 'Overhead Triceps Extension', sets: 3, reps: 12, rest: 60, inc: 2.5, warmup: 0 }
   ]},
-  lowerA: { name: 'Lower A - Cvadriceps', type: 'strength', estMin: 46, exercises: [
-    { name: 'Back Squat (high-bar, sub paralel)', sets: 3, reps: 8, rest: 150, inc: 5, warmup: 3 },
+  lowerA: { name: 'Lower A - Quads', type: 'strength', estMin: 46, exercises: [
+    { name: 'Back Squat (high-bar, below parallel)', sets: 3, reps: 8, rest: 150, inc: 5, warmup: 3 },
     { name: 'Leg Press', sets: 3, reps: 10, rest: 120, inc: 5, warmup: 2 },
     { name: 'Lying Leg Curl', sets: 3, reps: 12, rest: 75, inc: 2.5, warmup: 0 },
     { name: 'Standing Calf Raise', sets: 3, reps: 12, rest: 75, inc: 2.5, warmup: 0 },
     { name: 'Hanging Knee Raise', sets: 3, reps: 12, rest: 45, inc: 0, warmup: 0 }
   ]},
-  upperB: { name: 'Upper B - Impins + Tras vertical', type: 'strength', estMin: 56, exercises: [
+  upperB: { name: 'Upper B - Vertical Push + Pull', type: 'strength', estMin: 56, exercises: [
     { name: 'Standing Barbell OHP', sets: 3, reps: 6, rest: 150, inc: 5, warmup: 3 },
     { name: 'Weighted Pull-Up', sets: 3, reps: 8, rest: 150, inc: 2.5, warmup: 2 },
-    { name: 'Weighted Dip (inclinat - piept)', sets: 3, reps: 8, rest: 90, inc: 2.5, warmup: 1 },
+    { name: 'Weighted Dip (forward lean - chest)', sets: 3, reps: 8, rest: 90, inc: 2.5, warmup: 1 },
     { name: 'Single-Arm DB Row', sets: 3, reps: 10, rest: 90, inc: 2.5, warmup: 1 },
-    { name: 'Cable Lateral Raise (un brat)', sets: 3, reps: 12, rest: 60, inc: 2.5, warmup: 0 },
+    { name: 'Cable Lateral Raise (one arm)', sets: 3, reps: 12, rest: 60, inc: 2.5, warmup: 0 },
     { name: 'Face Pull / Reverse Fly', sets: 3, reps: 15, rest: 60, inc: 2.5, warmup: 0 },
     { name: 'Hammer Curl', sets: 3, reps: 10, rest: 60, inc: 2.5, warmup: 0 },
     { name: 'EZ-Bar Skull Crusher', sets: 3, reps: 10, rest: 60, inc: 2.5, warmup: 0 }
   ]},
-  lowerB: { name: 'Lower B - Lant posterior', type: 'strength', estMin: 42, exercises: [
+  lowerB: { name: 'Lower B - Posterior Chain', type: 'strength', estMin: 42, exercises: [
     { name: 'Romanian Deadlift', sets: 3, reps: 8, rest: 150, inc: 5, warmup: 3 },
-    { name: 'Barbell Hip Thrust', sets: 3, reps: 10, rest: 120, inc: 5, warmup: 2 },
+    { name: 'Machine Hip Thrust', sets: 3, reps: 10, rest: 120, inc: 5, warmup: 1 },
     { name: 'Seated Leg Curl', sets: 3, reps: 12, rest: 75, inc: 2.5, warmup: 0 },
-    { name: 'Seated Calf Raise (pauza 2s)', sets: 3, reps: 12, rest: 75, inc: 2.5, warmup: 0 },
-    { name: 'Cable Crunch', sets: 3, reps: 12, rest: 45, inc: 2.5, warmup: 0 }
+    { name: 'Seated Calf Raise (2s pause)', sets: 3, reps: 12, rest: 75, inc: 2.5, warmup: 0 },
+    { name: 'Decline Sit-Up', sets: 3, reps: 12, rest: 45, inc: 0, warmup: 0 }
   ]},
-  zone2: { name: 'Zone 2 cardio', type: 'zone2', estMin: 35, exercises: [] }
+  zone2: { name: 'Zone 2 Cardio', type: 'zone2', estMin: 35, exercises: [] }
 };
 const SESSION_ORDER = ['upperA', 'lowerA', 'upperB', 'lowerB', 'zone2'];
 
@@ -3687,14 +3690,14 @@ async function getSuggestions(sessionId) {
         if (allTop) {
           sugg.w = +(maxW + inc).toFixed(1);
           sugg.low = low; sugg.top = top;
-          sugg.reason = `progres: ai atins ${top} rep la toate -> +${inc} kg`;
+          sugg.reason = `progress: hit ${top} reps on all -> +${inc} kg`;
         } else {
           sugg.w = maxW;
-          sugg.reason = `mentii ${maxW} kg, tinta ${top} rep la toate seturile`;
+          sugg.reason = `keep ${maxW} kg, aim for ${top} reps on all sets`;
         }
       }
     }
-    if (sugg.w == null) sugg.reason = 'prima data - alege o greutate cu ~2 rep in rezerva';
+    if (sugg.w == null) sugg.reason = 'first time - pick a weight with ~2 reps in reserve';
     out[ex.name] = sugg;
   });
   return out;
@@ -3711,11 +3714,11 @@ async function getSessionLastDates() {
 }
 
 function daysAgoLabel(ts) {
-  if (!ts) return 'niciodata';
+  if (!ts) return 'never';
   const days = Math.floor((Date.now() - ts) / 86400000);
-  if (days <= 0) return 'azi';
-  if (days === 1) return 'ieri';
-  return `acum ${days} zile`;
+  if (days <= 0) return 'today';
+  if (days === 1) return 'yesterday';
+  return `${days} days ago`;
 }
 
 async function renderWorkout() {
@@ -3731,19 +3734,19 @@ async function renderWorkout() {
   active.style.display = 'none';
 
   const t = getTargets();
-  document.getElementById('workoutPickerSub').textContent = t.training ? 'azi: zi de antrenament' : 'azi: zi pasiva';
+  document.getElementById('workoutPickerSub').textContent = t.training ? 'today: training day' : 'today: rest day';
 
   const lastDates = await getSessionLastDates();
   let html = '';
   for (const sid of SESSION_ORDER) {
     const tpl = WORKOUT_TEMPLATES[sid];
     const sub = tpl.type === 'zone2'
-      ? '30-40 min, intensitate joasa (poti vorbi). Atac pe grasimea viscerala.'
-      : `${tpl.exercises.length} exercitii &middot; ~${tpl.estMin} min &middot; marcheaza ziua antrenament`;
+      ? '30-40 min, low intensity (you can talk). Targets visceral fat.'
+      : `${tpl.exercises.length} exercises &middot; ~${tpl.estMin} min &middot; marks day as training`;
     html += `
       <div class="wo-card">
         <div class="wo-card-name">${tpl.name}</div>
-        <div class="wo-card-sub">${sub}<br>Ultima data: ${daysAgoLabel(lastDates[sid])}</div>
+        <div class="wo-card-sub">${sub}<br>Last time: ${daysAgoLabel(lastDates[sid])}</div>
         <button class="wo-start-btn${tpl.type === 'zone2' ? ' zone2' : ''}" onclick="startWorkout('${sid}')">Start</button>
       </div>`;
   }
@@ -3759,7 +3762,7 @@ async function renderWorkoutHistory() {
   try { all = await dbGetAll('workouts'); } catch (e) {}
   all.sort((a, b) => b.startTs - a.startTs);
   const recent = all.slice(0, 8);
-  if (!recent.length) { wrap.innerHTML = '<div style="font-size:13px;color:var(--ink-faint);">Nicio sesiune salvata inca.</div>'; return; }
+  if (!recent.length) { wrap.innerHTML = '<div style="font-size:13px;color:var(--ink-faint);">No sessions saved yet.</div>'; return; }
   let html = '';
   for (const w of recent) {
     let meta;
@@ -3770,10 +3773,10 @@ async function renderWorkoutHistory() {
       (w.exercises || []).forEach(ex => (ex.sets || []).forEach(s => {
         if (s.done && !s.warm) { setsDone++; if (s.weight && s.reps) tonnage += s.weight * s.reps; }
       }));
-      meta = `${setsDone} serii &middot; ${Math.round(tonnage)} kg tonaj &middot; ${mmss(w.durationSec || 0)}`;
+      meta = `${setsDone} sets &middot; ${Math.round(tonnage)} kg volume &middot; ${mmss(w.durationSec || 0)}`;
     }
     const d = new Date(w.date);
-    const dlabel = d.toLocaleDateString('ro-RO', { day: 'numeric', month: 'short' });
+    const dlabel = d.toLocaleDateString('en-GB', { day: 'numeric', month: 'short' });
     html += `<div class="wo-hist-row"><div><div class="wo-hist-name">${WORKOUT_TEMPLATES[w.sessionId] ? WORKOUT_TEMPLATES[w.sessionId].name : w.sessionName}</div><div class="wo-hist-meta">${dlabel}</div></div><div class="wo-hist-meta">${meta}</div></div>`;
   }
   wrap.innerHTML = html;
@@ -3800,7 +3803,7 @@ async function startWorkout(sessionId) {
         ...Array.from({ length: ex.sets }, () => ({ weight: null, reps: null, done: false, warm: false }))
       ]
     })),
-    modality: tpl.type === 'zone2' ? 'Mers' : null,
+    modality: tpl.type === 'zone2' ? 'Walk / incline treadmill' : null,
     durationMin: tpl.type === 'zone2' ? 35 : null,
     hr: null,
     notes: ''
@@ -3868,12 +3871,12 @@ function tickWorkout() {
     restBar.style.display = 'flex';
     restBar.classList.remove('superset');
     restEl.textContent = mmss(rem);
-    restLbl.textContent = rem <= 0 ? 'Pauza gata - poti continua' : 'Pauza ramasa';
+    restLbl.textContent = rem <= 0 ? 'Rest done - continue' : 'Rest remaining';
   } else if (mode === 'superset') {
     restBar.style.display = 'flex';
     restBar.classList.add('superset');
     restLbl.textContent = 'Superset';
-    restEl.textContent = 'Treci direct la urmatorul';
+    restEl.textContent = 'Go straight to next';
   } else {
     restBar.style.display = 'none';
   }
@@ -3922,8 +3925,8 @@ function renderActiveWorkout() {
   document.getElementById('woActiveName').textContent = currentWorkout.sessionName;
   const t = getTargets();
   document.getElementById('woActiveSub').textContent = currentWorkout.type === 'strength'
-    ? 'Zi antrenament (carb-up activat)'
-    : 'Zone 2 - intensitate joasa';
+    ? 'Training day (carb-up on)'
+    : 'Zone 2 - low intensity';
 
   const wrap = document.getElementById('woExercises');
 
@@ -3931,24 +3934,24 @@ function renderActiveWorkout() {
     wrap.innerHTML = `
       <div class="wo-ex">
         <div class="wo-zone2-field">
-          <label>Modalitate</label>
+          <label>Type</label>
           <select id="woZ2Mod">
-            ${['Mers / banda inclinata', 'Bicicleta / spinning', 'Eliptic', 'Inot', 'Altul'].map(o => `<option${currentWorkout.modality === o ? ' selected' : ''}>${o}</option>`).join('')}
+            ${['Walk / incline treadmill', 'Bike / spinning', 'Elliptical', 'Swim', 'Other'].map(o => `<option${currentWorkout.modality === o ? ' selected' : ''}>${o}</option>`).join('')}
           </select>
         </div>
         <div class="wo-zone2-field">
-          <label>Durata (minute)</label>
+          <label>Duration (minutes)</label>
           <input type="text" id="woZ2Dur" inputmode="decimal" value="${currentWorkout.durationMin || ''}" placeholder="35">
         </div>
         <div class="wo-zone2-field">
-          <label>FC medie (optional)</label>
+          <label>Avg HR (optional)</label>
           <input type="text" id="woZ2Hr" inputmode="decimal" value="${currentWorkout.hr || ''}" placeholder="bpm">
         </div>
         <div class="wo-zone2-field">
-          <label>Note (optional)</label>
-          <input type="text" id="woZ2Notes" value="${currentWorkout.notes || ''}" placeholder="cum a fost">
+          <label>Notes (optional)</label>
+          <input type="text" id="woZ2Notes" value="${currentWorkout.notes || ''}" placeholder="how it went">
         </div>
-        <div style="font-size:12px;color:var(--ink-faint);line-height:1.5;">Timerul de sus iti masoara sesiunea. Tine intensitatea joasa - sa poti vorbi.</div>
+        <div style="font-size:12px;color:var(--ink-faint);line-height:1.5;">The timer above tracks your session. Keep it low intensity - you should be able to talk.</div>
       </div>`;
     return;
   }
@@ -3957,13 +3960,13 @@ function renderActiveWorkout() {
   const sugg = currentWorkout._sugg || {};
   let html = '';
   currentWorkout.exercises.forEach((ex, i) => {
-    const restTxt = `pauza ${ex.rest >= 60 ? (ex.rest / 60).toFixed(ex.rest % 60 ? 1 : 0) + ' min' : ex.rest + ' s'}`;
-    const lastTxt = last && last.map[ex.name] ? `Ultima: ${last.map[ex.name]}` : '';
+    const restTxt = `rest ${ex.rest >= 60 ? (ex.rest / 60).toFixed(ex.rest % 60 ? 1 : 0) + ' min' : ex.rest + ' s'}`;
+    const lastTxt = last && last.map[ex.name] ? `Last: ${last.map[ex.name]}` : '';
     const sg = sugg[ex.name];
     let suggTxt = '';
     if (sg) {
       const wtxt = sg.w != null ? `${sg.w} kg x ${sg.low}-${sg.top}` : `${sg.low}-${sg.top} rep`;
-      suggTxt = `<div class="wo-ex-sugg">Sugestie: <strong>${wtxt}</strong><span class="wo-sugg-why"> - ${sg.reason}</span></div>`;
+      suggTxt = `<div class="wo-ex-sugg">Suggestion: <strong>${wtxt}</strong><span class="wo-sugg-why"> - ${sg.reason}</span></div>`;
     }
     let setsHtml = '';
     let workIdx = 0;
@@ -3980,10 +3983,10 @@ function renderActiveWorkout() {
       }
       const numLabel = isWarm ? 'W' : (++workIdx);
       const goneClass = s.done ? ' done' : '';
-      const goneTxt = s.done ? 'OK' : 'Fa';
+      const goneTxt = s.done ? '\u2713' : 'OK';
       const repPh = isWarm ? '~' : (sg ? sg.top : ex.targetReps);
       setsHtml += `
-        <div class="wo-set${isWarm ? ' warm' : ''}">
+        <div class="wo-set${isWarm ? ' warm' : ''}${s.done ? ' done' : ''}">
           <span class="wo-set-num">${numLabel}</span>
           <input type="text" id="wo-w-${i}-${j}" inputmode="decimal" value="${s.weight != null ? s.weight : ''}" placeholder="${ph}">
           <span class="wo-set-x">x</span>
@@ -3991,7 +3994,7 @@ function renderActiveWorkout() {
           <button class="wo-set-go${goneClass}" onclick="logSet(${i},${j})">${goneTxt}</button>
         </div>`;
     });
-    const warmNote = ex.warmup > 0 ? `<span class="wo-warm-note"> &middot; ${ex.warmup} incalzire</span>` : '';
+    const warmNote = ex.warmup > 0 ? `<span class="wo-warm-note"> &middot; ${ex.warmup} warm-up</span>` : '';
     html += `
       <div class="wo-ex">
         <div class="wo-ex-head">
@@ -4030,20 +4033,20 @@ async function finishWorkout() {
   delete rec.id;
   try {
     await dbAdd('workouts', rec);
-  } catch (e) { alert('Eroare la salvare: ' + e); return; }
+  } catch (e) { alert('Save error: ' + e); return; }
   await clearActiveWorkout();
   await releaseWakeLock();
   if (workoutTickId) { clearInterval(workoutTickId); workoutTickId = null; }
   const wasStrength = currentWorkout.type === 'strength';
   currentWorkout = null;
-  showToast(wasStrength ? 'Antrenament salvat. Ziua e marcata antrenament.' : 'Sesiune Zone 2 salvata.');
+  showToast(wasStrength ? 'Workout saved. Day marked as training.' : 'Zone 2 session saved.');
   await renderToday();
   renderWorkout();
 }
 
 async function cancelWorkout() {
   if (!currentWorkout) return;
-  if (!confirm('Anulezi sesiunea? Datele neterminate nu se salveaza.')) return;
+  if (!confirm('Cancel session? Unsaved data will be lost.')) return;
   await clearActiveWorkout();
   await releaseWakeLock();
   if (workoutTickId) { clearInterval(workoutTickId); workoutTickId = null; }
