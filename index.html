@@ -1461,6 +1461,19 @@
   }
   .shop-row strong { color: var(--olive); }
 
+  /* ====== WEEK COUNTER ====== */
+  .week-counter {
+    display: flex; align-items: center; justify-content: space-around;
+    background: var(--bg-elev); border: 1px solid var(--line);
+    border-radius: var(--radius-md); padding: 14px 16px; margin-bottom: 14px;
+    cursor: pointer;
+  }
+  .week-counter-item { display: flex; flex-direction: column; align-items: center; gap: 2px; }
+  .wc-label { font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; color: var(--ink-faint); }
+  .wc-val { font-size: 26px; font-weight: 800; color: var(--ink); font-variant-numeric: tabular-nums; }
+  .wc-val.wc-done { color: var(--olive); text-shadow: 0 0 12px rgba(57,255,20,0.4); }
+  .week-counter-sep { width: 1px; height: 34px; background: var(--line); }
+
   /* ====== WORKOUT (sala) ====== */
   .wo-card {
     background: var(--bg-elev);
@@ -1635,6 +1648,12 @@
       <div class="calorie-bar">
         <div class="calorie-bar-fill" id="calorieBar" style="width: 0%"></div>
       </div>
+    </div>
+
+    <div class="week-counter" id="weekCounter" onclick="document.querySelector('.tab[data-view=\'workout\']').click()">
+      <div class="week-counter-item"><span class="wc-label">Strength</span><span class="wc-val" id="wcStrength">0/4</span></div>
+      <div class="week-counter-sep"></div>
+      <div class="week-counter-item"><span class="wc-label">Zone 2</span><span class="wc-val" id="wcZone2">0/2</span></div>
     </div>
 
     <div class="training-toggle-card">
@@ -2572,9 +2591,39 @@ async function getMealEntries(date, mealId) {
 // ============================================
 // RENDER
 // ============================================
+// Contor saptamanal (luni-duminica, saptamana zilei curente vizualizate)
+async function renderWeekCounter() {
+  const elS = document.getElementById('wcStrength');
+  const elZ = document.getElementById('wcZone2');
+  if (!elS || !elZ) return;
+  let workouts = [];
+  try { workouts = await dbGetAll('workouts'); } catch (e) {}
+  const ref = new Date(currentDate + 'T12:00:00');
+  const dow = (ref.getDay() + 6) % 7; // 0 = luni
+  const monday = new Date(ref); monday.setDate(ref.getDate() - dow);
+  const sunday = new Date(monday); sunday.setDate(monday.getDate() + 6);
+  const mo = formatDate(monday), su = formatDate(sunday);
+  let s = 0, z = 0;
+  const seen = new Set();
+  workouts.forEach(w => {
+    if (w.date >= mo && w.date <= su) {
+      const key = w.type + '|' + w.date;
+      if (seen.has(key)) return; // max 1 pe zi per tip
+      seen.add(key);
+      if (w.type === 'strength') s++;
+      else if (w.type === 'zone2') z++;
+    }
+  });
+  elS.textContent = `${s}/4`;
+  elZ.textContent = `${z}/2`;
+  elS.classList.toggle('wc-done', s >= 4);
+  elZ.classList.toggle('wc-done', z >= 2);
+}
+
 async function renderToday() {
   await refreshTargetsCache(currentDate);
   const targets = getTargets();
+  renderWeekCounter();
 
   // Update training toggle state
   const toggle = document.getElementById('trainingToggle');
@@ -3349,15 +3398,18 @@ async function saveSettings() {
 async function exportData() {
   const entries = await dbGetAll('entries');
   const metrics = await dbGetAll('metrics');
+  let workouts = [];
+  try { workouts = await dbGetAll('workouts'); } catch (e) {}
   const settingsData = await dbGet('settings', 'main');
 
   const payload = {
     exportedAt: new Date().toISOString(),
-    version: 1,
+    version: 2,
     user: 'Bogdan',
     settings: settingsData?.data || settings,
     entries,
-    metrics
+    metrics,
+    workouts
   };
 
   const blob = new Blob([JSON.stringify(payload, null, 2)], { type: 'application/json' });
@@ -3589,14 +3641,14 @@ const WORKOUT_TEMPLATES = {
     { name: 'Overhead Triceps Extension', sets: 3, reps: 12, rest: 60, inc: 2.5, warmup: 0 }
   ]},
   lowerA: { name: 'Lower A - Quads', type: 'strength', estMin: 46, exercises: [
-    { name: 'Back Squat (high-bar, below parallel)', sets: 3, reps: 8, rest: 150, inc: 5, warmup: 3 },
+    { name: 'Back Squat (high-bar, below parallel)', sets: 3, reps: 8, rest: 150, inc: 5, warmup: 2 },
     { name: 'Leg Press', sets: 3, reps: 10, rest: 120, inc: 5, warmup: 2 },
     { name: 'Lying Leg Curl', sets: 3, reps: 12, rest: 75, inc: 2.5, warmup: 0 },
     { name: 'Standing Calf Raise', sets: 3, reps: 12, rest: 75, inc: 2.5, warmup: 0 },
     { name: 'Hanging Knee Raise', sets: 3, reps: 12, rest: 45, inc: 0, warmup: 0 }
   ]},
   upperB: { name: 'Upper B - Vertical Push + Pull', type: 'strength', estMin: 56, exercises: [
-    { name: 'Standing Barbell OHP', sets: 3, reps: 6, rest: 150, inc: 5, warmup: 3 },
+    { name: 'Standing Barbell OHP', sets: 3, reps: 6, rest: 150, inc: 5, warmup: 2 },
     { name: 'Weighted Pull-Up', sets: 3, reps: 8, rest: 150, inc: 2.5, warmup: 2 },
     { name: 'Weighted Dip (forward lean - chest)', sets: 3, reps: 8, rest: 90, inc: 2.5, warmup: 1 },
     { name: 'Single-Arm DB Row', sets: 3, reps: 10, rest: 90, inc: 2.5, warmup: 1 },
@@ -3606,7 +3658,7 @@ const WORKOUT_TEMPLATES = {
     { name: 'EZ-Bar Skull Crusher', sets: 3, reps: 10, rest: 60, inc: 2.5, warmup: 0 }
   ]},
   lowerB: { name: 'Lower B - Posterior Chain', type: 'strength', estMin: 42, exercises: [
-    { name: 'Romanian Deadlift', sets: 3, reps: 8, rest: 150, inc: 5, warmup: 3 },
+    { name: 'Romanian Deadlift', sets: 3, reps: 8, rest: 150, inc: 5, warmup: 2 },
     { name: 'Machine Hip Thrust', sets: 3, reps: 10, rest: 120, inc: 5, warmup: 1 },
     { name: 'Seated Leg Curl', sets: 3, reps: 12, rest: 75, inc: 2.5, warmup: 0 },
     { name: 'Seated Calf Raise (2s pause)', sets: 3, reps: 12, rest: 75, inc: 2.5, warmup: 0 },
