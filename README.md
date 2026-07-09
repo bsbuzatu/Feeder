@@ -1,283 +1,251 @@
-# Feeder — Jurnal Nutritional
+# Feeder — Jurnal de antrenament
+
+Aplicație PWA single-file pentru înregistrarea antrenamentelor de forță și urmărirea compoziției corporale.
+Toate datele rămân local, în IndexedDB. Zero servere, zero terți, zero telemetrie.
+
+**Live:** `https://bsbuzatu.github.io/Feeder/`
+**Build curent:** `2026-07-09-F` (afișat permanent în subtitlul din header)
+
+---
+
+## Arhitectură
+
+| Componentă | Detaliu |
+|---|---|
+| Fișiere | Un singur `index.html` (~46 KB), fără dependențe externe |
+| Stocare | IndexedDB — `bogdan_nutrition_tracker`, `DB_VERSION = 3` |
+| Object stores | `workouts`, `metrics`, `settings`, `entries` (legacy, păstrat pentru export) |
+| Hosting | GitHub Pages |
+| Acces | PWA, adăugat pe Home Screen (necesar pentru persistența IndexedDB pe iOS) |
+| Autentificare | Cod local, fără rețea |
+
+Datele sunt legate de **origine**. Deschiderea `index.html` din Files sau de pe disc (`file://`)
+rulează pe altă origine și nu vede baza de date. Este comportament normal, nu defect.
+
+---
+
+## Ecrane
+
+### Gym
+- Patru sesiuni Upper/Lower. Deschiderea unei zile intră în **mod consultare** — nimic nu se
+  înregistrează, cronometrul nu pornește.
+- **Start antrenament** activează logarea, cronometrul și Screen Wake Lock.
+- Casetele sunt **precompletate** cu valorile ultimei sesiuni, set cu set, afișate în gri.
+  `✓` confirmă valoarea ca atare. Scrisul peste o suprascrie.
+- Se salvează **doar seturile bifate**. O valoare precompletată neconfirmată nu ajunge în baza de date.
+- Timer de pauză, fără sunet și fără notificări.
+- Pagina nu derulează automat după bifarea unui set.
+- Banner roșu dacă store-ul `workouts` este gol.
+
+### Stats
+Input: greutate (kg), mușchi (kg), grăsime (kg), circumferință abdominală (cm).
+Derivate automat: procent grăsime, masă slabă.
+Dashboard: KPI cu delta față de măsurătoarea anterioară, grafic compoziție, grafic circumferință,
+grafic volum (seturi/săptămână), tabel istoric.
+
+`saveMetricsForDay()` face merge, nu suprascriere: câmpurile existente ale zilei (ex. `trainingDay`)
+sunt păstrate la actualizări parțiale.
+
+### Alimente
+Listă statică, filtrată pentru creștere de masă slabă și pierdere de grăsime viscerală.
+Opt categorii, inclusiv o secțiune **Interzis** (grapefruit — inhibitor CYP3A4, relevant sub atorvastatină).
+
+### Setări
+Export JSON, Import JSON, diagnostic (build, număr de antrenamente, măsurători, exerciții cu istoric mapat),
+ștergere totală.
+
+---
+
+## Program
+
+Upper/Lower, 4 zile. Zone 2 cardio 2–3×/săpt, **înregistrat pe ceas (Apple Health), nu în aplicație.**
+
+### Monday — Upper A · Horizontal Push + Pull
+
+| # | Exercise | Sets | Reps | RIR | Rest |
+|---|---|---|---|---|---|
+| 1 | Barbell Bench Press | 4 | 5–7 | 2 | 3 min |
+| 2 | Weighted Pull-Up | 4 | 6–8 | 2 | 2.5 min |
+| 3 | Standing Barbell OHP | 3 | 6–8 | 2 | 2.5 min |
+| 4 | Single-Arm DB Row | 3 | 8–12 /arm | 1–2 | 90 s |
+| 5 | Cable Lateral Raise (one arm) | 4 | 12–20 | 0–1 | 60 s |
+| 6 | Cable Reverse Fly | 3 | 12–20 | 0–1 | 60 s |
+| 7 | Incline DB Curl | 3 | 8–12 | 0–1 | 90 s |
+| 8 | Overhead Cable Triceps Extension | 2 | 10–12 | 0–1 | 60 s |
+
+### Tuesday — Lower A · Squat Emphasis
+
+| # | Exercise | Sets | Reps | RIR | Rest |
+|---|---|---|---|---|---|
+| 1 | Barbell Back Squat | 4 | 5–7 | 2 | 3 min |
+| 2 | Romanian Deadlift | 3 | 8–10 | 2 | 2.5 min |
+| 3 | Leg Press | 3 | 10–12 | 1 | 2 min |
+| 4 | Seated Leg Curl | 3 | 10–15 | 0–1 | 90 s |
+| 5 | Weighted One-Leg Standing Calf Raise | 4 | 10–15 /leg | 0–1 | 90 s |
+| 6 | Machine Ab Crunch | 3 | 10–15 | 0–1 | 60 s |
+
+### Thursday — Upper B · Incline / Vertical
+
+| # | Exercise | Sets | Reps | RIR | Rest |
+|---|---|---|---|---|---|
+| 1 | Incline DB Press (30°) | 4 | 8–10 | 2 | 2.5 min |
+| 2 | Chest-Supported DB Row | 4 | 8–12 | 1–2 | 2 min |
+| 3 | Cable Chest Fly | 3 | 12–15 | 0–1 | 90 s |
+| 4 | Close-Grip Lat Pulldown | 3 | 10–12 | 1 | 2 min |
+| 5 | DB Lateral Raise | 4 | 12–20 | 0–1 | 60 s |
+| 6 | Face Pull | 3 | 15–20 | 0–1 | 60 s |
+| 7 | Weighted Triceps Dip | 3 | 8–12 | 1–2 | 2 min |
+| 8 | Hammer Curl | 3 | 10–12 | 0–1 | 60 s |
+
+### Friday — Lower B · Hinge / Unilateral
+
+| # | Exercise | Sets | Reps | RIR | Rest |
+|---|---|---|---|---|---|
+| 1 | Barbell Back Squat | 4 | 8–10 | 2 | 3 min |
+| 2 | Conventional Deadlift | 4 | 3 | 2–3 | 4 min |
+| 3 | Bulgarian Split Squat | 3 | 8–10 /leg | 1–2 | 2 min |
+| 4 | Lying Leg Curl | 3 | 10–15 | 0–1 | 90 s |
+| 5 | Seated Calf Raise (2s pause) | 4 | 12–15 | 0–1 | 60 s |
+| 6 | Pallof Press | 3 | 10–12 /side | — | 45 s |
 
-Aplicatie web personala pentru tracking-ul zilnic al nutritiei, masuratorilor corporale si evolutiei compozitiei corporale. Construita ca single-page app, ruleaza local pe iPhone via GitHub Pages, datele se salveaza in IndexedDB pe dispozitiv.
+### Volum săptămânal
 
-**URL live:** <https://bsbuzatu.github.io/Feeder/>
+| Grupă | Seturi | Fereastră |
+|---|---|---|
+| Piept | 11 | 10–20 |
+| Spate | 14 | 10–20 |
+| Deltoid lateral | 8 | 8–12 |
+| Deltoid posterior | 6 | 6–10 |
+| Biceps (direct) | 6 | + indirect |
+| Triceps (direct) | 5 | + indirect |
+| Cvadriceps | 14 | 10–20 |
+| Ischiogambieri | 11 | 10–20 |
+| Gambe | 8 | — |
+| Core | 6 | — |
+| **Încărcare axială grea** | **15** | prag de monitorizare |
+
+Total: **94 seturi/săptămână**, frecvență 2×/grupă.
 
------
+---
 
-## Stack tehnic
+## Reguli de logare
 
-- **Frontend:** HTML/CSS/JS pur, un singur fisier `index.html` (~136 KB)
-- **Storage:** IndexedDB (browser local, fara backend)
-- **Visualizari:** Chart.js 4.4.1 (CDN)
-- **Fonturi:** Fraunces (display) + Inter (body) de la Google Fonts
-- **Hosting:** GitHub Pages (public repo, protejat cu parola JS hash)
-- **PWA:** Add to Home Screen support pe iOS pentru persistenta IndexedDB
+1. **Nu se loghează seturile de încălzire.** Doar seturile de lucru. Altfel precompletarea,
+   dubla progresie și volumul din Stats devin false.
+2. **Progresie dublă**, o dată pe săptămână, pe exercițiu:
 
------
+| Situație la ultimul set | Acțiune |
+|---|---|
+| Capătul de sus al intervalului atins la toate seturile | +2.5 kg (bară) / +1–2 kg (ganteră, cablu), revii la capătul de jos |
+| În interval | Aceeași greutate, +1 repetare pe cât de multe seturi poți |
+| Sub capătul de jos la ultimul set | Aceeași greutate, repeți săptămâna |
 
-## Acces
+Întâi repetările până la plafon, apoi greutatea. Niciodată ambele simultan.
 
-Aplicatia e protejata cu parola la nivel client-side:
+3. **Deadlift 4×3:** greutatea aleasă astfel încât 3 repetări să lase RIR 2–3. Dead stop între
+   repetări, nu touch-and-go. Dacă a treia repetare arată diferit de prima, setul se oprește.
 
-- Parola actuala: `bzt`
-- Stocata ca hash JS in cod (nu in plaintext)
-- Sesiunea persista pana la inchiderea tab-ului via `sessionStorage`
+---
 
------
+## Zone 2 cardio
 
-## Functionalitati
+Nu se înregistrează în aplicație.
 
-### Tab 1: Astazi
+| Parametru | Valoare |
+|---|---|
+| Frecvență | 2–3×/săptămână |
+| Durată | 30–45 min |
+| Modalitate | Bicicletă staționară sau mers înclinat. Nu alergare. |
+| Interval FC (Karvonen, HRmax est. 177, RHR 60) | 130–142 bpm |
+| Validare | Talk test: propoziții complete, respirație nazală susținută |
+| Zile | Miercuri, sâmbătă. Niciodată înainte de Lower. |
+| Plafon | ≤150 min/săptămână |
 
-Dashboard principal pentru ziua curenta.
+---
 
-**Card calorii** (verde, mare):
+## Backup și restaurare
 
-- Calorii ramase pentru ziua curenta vs tinta (default 2000 kcal)
-- Bara progres
-- Status: deficit estimat
+**Export înainte de fiecare deploy.** Fără excepții. Setări → Export JSON. ~120 KB.
 
-**6 carduri macro:**
+Formatul exportului (v3):
 
-1. **Proteine** — tinta 195g (2g/kg corp)
-1. **Carbohidrati** — calculat automat (~125g)
-1. **Grasimi** — tinta 80g
-1. **Fibre** — tinta 35g
-1. **Fier** — limita stricta 10mg/zi cu avertisment (feritina crescuta + HFE His63Asp heterozigot)
-1. **Colesterol** — limita stricta 200mg/zi cu avertisment (LDL 165 + statina + factor V Leiden)
+```
+{
+  exportedAt, version: 3, app, user,
+  settings, exerciseCatalog, program,
+  workouts[], metrics[], entries[]
+}
+```
 
-Ambele carduri (Fier, Colesterol) trec in stare “warning” cu fundal salmon cand se depaseste limita.
+Importul este **deduplicat** (cheie `date|sessionId`) și **nedistructiv** — valorile existente au
+prioritate, cele lipsă se completează din backup. Rularea de două ori nu creează dubluri.
 
-**5 sloturi pentru mese:**
+---
 
-- `shake1` — Shake post-workout (08:30)
-- `pranz` — Pranz (13:00)
-- `cina` — Cina (17:30)
-- `shake2` — Shake seara (20:30)
-- `suplimente` — Suplimente (21:00)
+## Cache — procedura corectă de deploy
 
-Fiecare slot:
+GitHub Pages servește HTML prin CDN (~10 min TTL), iar Safari cachează agresiv paginile PWA.
 
-- Buton `+` deschide modal de selectie aliment
-- Lista alimentelor adaugate cu macro per item
-- Buton “Copiaza la Cina” apare automat sub Pranz daca Pranz are alimente si Cina e goala
-- Buton de stergere pe fiecare entry
+| Metodă | Efect asupra IndexedDB |
+|---|---|
+| Deschide `.../Feeder/?v=N` cu N incrementat | **Sigur.** Query string nou = fișier nou. |
+| Șterge icoana de pe Home Screen și readaug-o | **Sigur.** |
+| Safari → Advanced → Website Data → șterge `github.io` | **Șterge datele.** Evită. |
+| Settings → Safari → Clear History and Website Data | **Șterge tot.** Niciodată. |
 
-### Tab 2: Masuratori
+Procedura:
 
-Trei sectiuni cu campuri pentru ziua selectata:
+1. Export JSON.
+2. Urcă `index.html`. Așteaptă ~1 minut.
+3. Deschide `bsbuzatu.github.io/Feeder/?v=N+1` în Safari.
+4. Verifică build-ul în subtitlul de sub „Gym".
+5. Setări → verifică `Antrenamente: N`.
+6. Add to Home Screen.
 
-**Greutate si corp:**
+---
 
-- Greutate (kg)
-- Talie max (cm)
-- % Grasime
-- Masa musculara (kg)
-- Masa grasa (kg)
-- Masa slaba (kg)
+## Mapare istoric
 
-**Activitate zilnica:**
+Exercițiile sunt identificate prin `exId` canonic. Numele vechi sunt rezolvate printr-un tabel de
+aliasuri, astfel încât redenumirile nu pierd istoricul.
 
-- Calorii arse (Apple Watch)
-- Minute miscare (Apple Watch)
-- Somn (ore)
+| exId | Nume canonic | Aliasuri recunoscute |
+|---|---|---|
+| `bbSquat` | Barbell Back Squat | Back Squat (high-bar, sub paralel / below parallel), Genuflexiuni |
+| `pullup` | Weighted Pull-Up | Lat Pulldown / Tractiuni, Lat Pulldown / Pull-Up |
+| `triDip` | Weighted Triceps Dip | Weighted Dip (4 variante) |
+| `facePull` | Face Pull | Face Pull / Reverse Fly |
+| `oneLegCalf` | Weighted One-Leg Standing Calf Raise | Standing Calf Raise, Ridicari pe varfuri |
+| `ohTri` | Overhead Cable Triceps Extension | Overhead Triceps Extension |
+| `sarow` | Single-Arm DB Row | Ramat cu haltera |
+| `csRow` | Chest-Supported DB Row | Ramat la cablu |
+| … | | vezi obiectul `EX` din `index.html` |
 
-**Ultimele valori** (auto-populate):
+Exerciții prezente în istoric dar scoase din program (`Hanging Knee Raise`, `EZ-Bar Skull Crusher`,
+`Barbell Hip Thrust`, `Cable Crunch`): datele rămân în IndexedDB și în export, dar nu se afișează.
 
-- Greutate curenta + diferenta fata de prima masuratoare
-- Talie curenta + diferenta
-- Masa musculara curenta + diferenta
-- % Grasime curent + diferenta
+`Machine Ab Crunch` nu este aliasat la `Cable Crunch` — încărcările nu sunt comparabile, iar o
+„ultimă valoare" falsă e mai rea decât absența ei.
 
-### Tab 3: Alimente (lista de cumparaturi)
+---
 
-- 134 alimente marcate cu flag `shop: true`
-- Reprezinta lista personala de cumparaturi (ce ai voie sa cumperi conform planului)
-- NU include preparate ocazionale (mici, ciorba burta, tiramisu etc.) pe care le mananci dar nu le cumperi tu
-- Cautare in timp real, grupare pe categorii
-- Afiseaza macro per portie standard si avertismente de fier
+## Convenții de cod
 
-### Tab 4: Istoric
+- **Fără diacritice în `index.html`.** Bug recurent. Textele vizibile folosesc forme fără diacritice.
+- Fără `scrollIntoView` nicăieri.
+- Bifarea unui set mută DOM-ul direct, fără re-render — poziția paginii și focus-ul rămân intacte.
+- `saveMetricsForDay()` face merge; nu suprascrie câmpuri existente.
+- Constanta `BUILD` se incrementează la fiecare modificare și este afișată în UI.
 
-Patru grafice Chart.js (linie, ultimele 30 zile):
+---
 
-- Greutate (kg)
-- Talie (cm)
-- Proteine zilnice (g) cu linia tinta 195g
-- Calorii zilnice (kcal) cu linia tinta 2000
+## Istoric build-uri
 
-Medii saptamanale calculate automat sub fiecare grafic.
-
-### Tab 5: Setari
-
-**Tinte (editabile):**
-
-- Greutate (kg) — folosita pentru calculul proteinei
-- Ratio proteine (g/kg)
-- Calorii (kcal/zi)
-- Grasimi (g/zi)
-- Fier max (mg/zi)
-- Colesterol max (mg/zi)
-
-**Calculate automat:**
-
-- Proteine zilnice
-- Carbohidrati zilnici
-- Fibre tinta (35g fix)
-
-**Date — backup si restore:**
-
-- Export tot istoricul (JSON) — descarca toate datele pe device
-- Importa date (JSON) — adauga doar inregistrarile noi (deduplicare automata)
-- Diagnostic baza de date — afiseaza statistici per zi
-- Curata duplicatele din istoric — sterge entries duplicate
-- Reaplica datele seed (istoric) — forteaza reaplicarea seed-ului v7
-- Sterge toate datele — reset complet (confirmare dubla)
-
------
-
-## Baza de date alimente (FOOD_DB)
-
-**176 alimente** organizate in 18 categorii:
-
-|Categorie         |Numar|Note                                            |
-|------------------|-----|------------------------------------------------|
-|Proteine animale  |19   |Carne, peste, oua                               |
-|Carne procesata   |3    |Mici Lidl, carnati, sunca — consum ocazional    |
-|Supe si ciorbe    |6    |De casa + ciorba burta, fasole cu ciolan        |
-|Lactate           |11   |+ branza de capra                               |
-|Shake             |2    |Whey, creatina                                  |
-|Suplimente        |2    |Omega-3 (per softgel), Magneziu (per cp)        |
-|Proteine vegetale |10   |Leguminoase uscate + fierte, tofu, tempeh       |
-|Carbohidrati      |17   |Cereale, paine (inclusiv maia Prospero), cartofi|
-|Tarate si fibre   |5    |Grau, ovaz, secara, psyllium                    |
-|Legume            |31   |+ salata cruditati                              |
-|Preparate gratar  |12   |Pui, peste, vita, legume                        |
-|Fructe recomandate|16   |Berries, mere, citrice                          |
-|Fructe de vara    |8    |Cirese, pepene, caise etc.                      |
-|Grasimi           |17   |Ulei, nuci, seminte, unt                        |
-|Ciocolata neagra  |4    |70%, 80%, 85%, 90%                              |
-|Deserturi         |1    |Tiramisu de casa                                |
-|Bauturi           |5    |Cafea neagra, ceai, apa, vin rosu               |
-|Condimente        |3    |Otet mere, mustar, lamaie                       |
-
-Fiecare aliment are: `kcal, p (proteine), c (carbo), f (grasimi), fiber, iron, chol`. Unitatile sunt: `g` (default), `ml`, `buc`, `softgel`, `cp`, `portie`.
-
-**Avertismente automate** pe alimente cu probleme pentru profilul utilizatorului:
-
-- Fier mare/MARE pe spanac, cacao, tahini, seminte dovleac, vita, sardine etc.
-- Grasimi saturate pe cascaval
-- Ocazional pe carne procesata, prajeli, deserturi
-
------
-
-## Profilul medical care defineste limitele
-
-**Bogdan-Sebastian Buzatu, 44 ani, M, 95.1 kg, 108cm talie**
-
-Constrangeri principale:
-
-- **Fier max 10 mg/zi** — feritina 368 + HFE His63Asp heterozigot (predispozitie hemocromatoza)
-- **Colesterol max 200 mg/zi** — LDL 165 + statina (Coltowan) + ezetimibe + berberina
-- **Factor V Leiden heterozigot** — hidratare 3L+/zi, evita imobilizare prelungita
-- **Vitamina D 16.89** — deficit, suplimentare 4000 UI/zi
-- **HbA1c 5.61** — pre-diabet, deficit caloric ~500 kcal/zi
-
-Targets calculate:
-
-- Greutate-pierdere: ~10kg in 6 luni (talie sub 94cm)
-- Deficit: ~500 kcal/zi (2000 vs TDEE ~2500)
-- Proteine: 2g/kg (195g/zi) pentru pastrarea masei musculare in deficit
-- Antrenament: 4x ridicari + 2x cardio Zone 2
-
------
-
-## Seed data (istoric incarcat automat)
-
-Aplicatia contine in cod 55 entries istorice (27-30 mai 2026) + 3 masuratori, care se aplica automat la prima deschidere:
-
-|Data      |Entries|Note                                                  |
-|----------|-------|------------------------------------------------------|
-|2026-05-27|15     |Pui 660g total (zi cu fier mare)                      |
-|2026-05-28|14     |3 oua seara (zi cu colesterol mare)                   |
-|2026-05-29|16     |Supa pui cu legume radacinoase, banana + nuci la pranz|
-|2026-05-30|10     |Omleta 3 oua, pranz mixt cu fructe, suplimente        |
-
-Logica de aplicare:
-
-- Flag `seedApplied` cu versiunea curenta (v7) in `settings`
-- Dublu sistem de deduplicare:
-1. **Cheie completa**: `date|meal|foodId|qty|timestamp` — prinde duplicate exacte
-1. **Cheie structurala**: `date|meal|foodId|qty` — limiteaza numarul de instante identice in DB la cat are seed-ul (preveine dublarea la bumpari de versiune)
-
------
-
-## Probleme cunoscute si solutii
-
-### IndexedDB efemeritate pe iOS Safari
-
-Safari pe iOS sterge IndexedDB-ul site-urilor dupa ~7 zile inactivitate sau cand storage-ul e plin. Singura solutie permanenta:
-
-- **Adauga la Home Screen** (Share -> Add to Home Screen)
-- Acceseaza aplicatia DOAR din icoana de Home Screen, niciodata din Safari direct
-- Datele Safari + datele PWA sunt sandboxuri separate
-
-### Cache HTTP pe GitHub Pages
-
-Fisierul are meta tags `Cache-Control: no-store, no-cache, must-revalidate` ca sa forteze browser-ul sa ia mereu versiunea proaspata.
-
-Daca dupa upload pe GitHub aplicatia tot afiseaza versiunea veche:
-
-- Hard refresh (kill PWA app + redeschide)
-- Sau Settings -> Safari -> Clear History (sterge si datele!)
-
-### Backup discipline
-
-**Recomandare:** Setari -> Exporta tot istoricul (JSON) la fiecare 2-3 zile. Salveaza in Files pe iPhone. In caz de pierdere date, reimporti.
-
------
-
-## Versioning seed
-
-|Versiune|Schimbari                                        |
-|--------|-------------------------------------------------|
-|v1      |Seed initial cu 15 entries (27 mai)              |
-|v2      |Adaugat 28 mai (14 entries)                      |
-|v3      |Adaugat 29 mai, supa pui + banana/nuci           |
-|v4      |Bug fix deduplicare seed                         |
-|v5      |Adaugat 30 mai (10 entries)                      |
-|v6      |Bumpat pentru forta reaplicare                   |
-|v7      |Adaugat camp `chol` (colesterol) la toate entries|
-
------
-
-## Conventii de cod
-
-- **Toate textele UI in romana fara diacritice** (a in loc de a, s in loc de s, etc.)
-- **Em-dashes inlocuite cu hyphens** (—  ->  -)
-- Macronutrienti per 100g/100ml pentru g/ml; per piesa pentru `buc`, `softgel`, `cp`, `portie`
-- Logica `isPerPiece = unit !== 'g' && unit !== 'ml'` pentru calcul multiplicator
-
------
-
-## Dezvoltare
-
-Modificarile se fac direct prin GitHub web editor (nu exista build pipeline). Fluxul de lucru:
-
-1. Edit `index.html` in browser pe github.com/bsbuzatu/Feeder
-1. Commit (deploy GitHub Pages automat in 1-2 min)
-1. Pe iPhone: kill app + redeschide din Home Screen
-1. Daca s-a schimbat versiunea seed, seed-ul se reaplica automat la deschidere
-
------
-
-## Date sensibile
-
-Repository-ul este public pe GitHub. Codul (HTML + JS) e vizibil. **Datele tale personale (mese, masuratori) sunt salvate doar pe device-ul tau in IndexedDB**, nu pe server. Singurul mod prin care altcineva poate accesa aplicatia este sa ghiceasca parola `bzt` din hash JS (banal de spart, dar suficient ca filtru pentru randomi).
-
-Daca vreodata vrei sa migrezi la backend real (sincronizare intre device-uri, cloud backup):
-
-- Supabase free tier — 500MB DB, autentificare inclusa, ~30 min setup
-- Sau Firestore — gratuit pentru uz personal
+| Build | Modificări |
+|---|---|
+| `2026-07-09-F` | Banner „baza de date goala"; build vizibil imediat la pornire |
+| `2026-07-09-E` | Meta tags `no-cache`; build afișat în subtitlu; cod mort eliminat |
+| `2026-07-09-D` | Precompletarea casetelor cu valorile ultimei sesiuni; caseta de istoric eliminată; se salvează doar seturile bifate |
+| `2026-07-09-C` | Deadlift 4×3; card „Split" eliminat; import deduplicat și nedistructiv |
+| `2026-07-09-B` | Buton Start; mod consultare separat de sesiunea activă |
+| `2026-07-09-A` | Rescriere: modul nutriție eliminat, program nou, Stats, Alimente, Export |
