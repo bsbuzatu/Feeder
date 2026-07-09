@@ -172,12 +172,20 @@ td{padding:8px 4px;border-bottom:1px solid #131813;text-align:right;font-variant
         <div class="card" style="display:flex;justify-content:space-between;align-items:center">
           <div>
             <div style="color:var(--green);font-weight:700" id="runName"></div>
-            <div class="muted" id="runTime">00:00</div>
+            <div class="muted" id="runTime">Nepornit</div>
           </div>
-          <button class="btn ghost" style="width:auto;padding:9px 14px" onclick="abortWorkout()">Anuleaza</button>
+          <button class="btn ghost" style="width:auto;padding:9px 14px" id="backBtn" onclick="leaveSession()">Inapoi</button>
         </div>
+
+        <div id="startBar" class="card" style="border-color:var(--green-dim)">
+          <div class="muted" style="margin-bottom:10px">
+            Program in modul consultare. Nimic nu se inregistreaza si cronometrul nu ruleaza pana la Start.
+          </div>
+          <button class="btn primary" onclick="beginWorkout()">&#9654;&nbsp; Start antrenament</button>
+        </div>
+
         <div id="exList"></div>
-        <button class="btn primary" onclick="finishWorkout()">Termina antrenamentul</button>
+        <button class="btn primary hidden" id="finishBtn" onclick="finishWorkout()">Termina antrenamentul</button>
         <div style="height:70px"></div>
       </div>
     </section>
@@ -488,7 +496,8 @@ const FOODS=[
 /* ============================================================
    State
    ============================================================ */
-let W=null;                 // antrenamentul curent
+let W=null;                 // antrenamentul curent (sau doar previzualizat)
+let RUNNING=false;          // false = mod consultare, true = sesiune pornita
 let wakeLock=null, runTimer=null, restTimer=null, restLeft=0;
 let lastMap={};             // exId -> {date, sets:[]}
 
@@ -594,24 +603,52 @@ async function renderRecent(){
   }).join('');
 }
 
+/* Deschide programul in modul consultare. Nu porneste nimic. */
 function startWorkout(sid){
   const S=SESSIONS.find(x=>x.id===sid);
-  W={date:isoToday(),type:'strength',sessionId:S.id,sessionName:S.name,startTs:Date.now(),endTs:null,
+  RUNNING=false;
+  W={date:isoToday(),type:'strength',sessionId:S.id,sessionName:S.name,startTs:null,endTs:null,
      exercises:S.ex.map(e=>({exId:e.id,name:EX[e.id].n,targetSets:e.sets,targetReps:e.reps,rir:e.rir,rest:e.rest,
        sets:Array.from({length:e.sets},()=>({weight:null,reps:null,done:false}))}))};
   document.getElementById('sessPick').classList.add('hidden');
   document.getElementById('sessRun').classList.remove('hidden');
   document.getElementById('runName').textContent=S.day+' \u2014 '+S.name;
+  document.getElementById('runTime').textContent='Nepornit';
+  document.getElementById('startBar').classList.remove('hidden');
+  document.getElementById('finishBtn').classList.add('hidden');
+  document.getElementById('backBtn').textContent='Inapoi';
+  renderRun();
+  window.scrollTo(0,0);
+}
+
+/* Start efectiv: cronometru, wake lock, inputuri active. */
+function beginWorkout(){
+  if(!W||RUNNING)return;
+  RUNNING=true;
+  W.startTs=Date.now();
+  document.getElementById('startBar').classList.add('hidden');
+  document.getElementById('finishBtn').classList.remove('hidden');
+  document.getElementById('backBtn').textContent='Anuleaza';
+  document.getElementById('runTime').textContent='00:00';
   renderRun();
   startRunClock();
   requestWakeLock();
+  toast('Antrenament pornit');
+}
+
+/* Buton unic: Inapoi (preview) sau Anuleaza (in desfasurare) */
+function leaveSession(){
+  if(RUNNING){abortWorkout();return}
+  W=null;
+  document.getElementById('sessRun').classList.add('hidden');
+  document.getElementById('sessPick').classList.remove('hidden');
   window.scrollTo(0,0);
 }
 
 function renderRun(){
   document.getElementById('exList').innerHTML=W.exercises.map((e,i)=>{
-    const doneAll=e.sets.every(s=>s.done);
-    const rows=e.sets.map((s,j)=>`
+    const doneAll=RUNNING&&e.sets.every(s=>s.done);
+    const rows=!RUNNING?'':e.sets.map((s,j)=>`
       <div class="setrow ${s.done?'ok':''}" id="sr-${i}-${j}">
         <div class="n">${j+1}</div>
         <input type="number" step="0.5" inputmode="decimal" placeholder="kg"
@@ -653,6 +690,7 @@ function toggleSet(i,j){
 }
 
 async function finishWorkout(){
+  if(!W||!RUNNING)return;
   const any=W.exercises.some(e=>e.sets.some(s=>s.done));
   if(!any){toast('Niciun set bifat');return}
   W.endTs=Date.now();
@@ -660,7 +698,7 @@ async function finishWorkout(){
   await put('workouts',W);
   await saveMetricsForDay(W.date,{workout:W.sessionId,trainingDay:true});
   stopRest();stopRunClock();releaseWakeLock();
-  W=null;
+  W=null;RUNNING=false;
   document.getElementById('sessRun').classList.add('hidden');
   document.getElementById('sessPick').classList.remove('hidden');
   await buildLastMap();await renderRecent();
@@ -668,9 +706,10 @@ async function finishWorkout(){
 }
 function abortWorkout(){
   if(!confirm('Anulezi antrenamentul? Datele nu se salveaza.'))return;
-  stopRest();stopRunClock();releaseWakeLock();W=null;
+  stopRest();stopRunClock();releaseWakeLock();W=null;RUNNING=false;
   document.getElementById('sessRun').classList.add('hidden');
   document.getElementById('sessPick').classList.remove('hidden');
+  window.scrollTo(0,0);
 }
 
 /* clock + rest (fara sunet, fara alerta) */
@@ -708,7 +747,7 @@ async function requestWakeLock(){
   try{if('wakeLock' in navigator)wakeLock=await navigator.wakeLock.request('screen')}catch(e){}
 }
 function releaseWakeLock(){try{wakeLock&&wakeLock.release()}catch(e){}wakeLock=null}
-document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='visible'&&W)requestWakeLock()});
+document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='visible'&&W&&RUNNING)requestWakeLock()});
 
 /* ============================================================
    Stats
