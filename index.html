@@ -6,6 +6,9 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black">
 <meta name="theme-color" content="#000000">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="0">
 <title>Jurnal Antrenament</title>
 <link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' fill='black'/><text y='72' x='50' font-size='64' text-anchor='middle' fill='%2339FF14'>G</text></svg>">
 <style>
@@ -157,6 +160,11 @@ td{padding:8px 4px;border-bottom:1px solid #131813;text-align:right;font-variant
     <!-- ============ GYM ============ -->
     <section id="v-gym">
       <div id="sessPick">
+        <div id="dbWarn" class="card hidden" style="border-color:#4a1f1f">
+          <h3 style="color:var(--red)">Baza de date e goala</h3>
+          <div class="muted">Zero antrenamente salvate pe aceasta origine. Nu exista istoric de precompletat
+          in casete. Mergi la <b>Setari &rarr; Import</b> si incarca ultimul export JSON.</div>
+        </div>
         <div id="sessList"></div>
         <div class="card">
           <h3>Antrenamente recente</h3>
@@ -489,6 +497,8 @@ const FOODS=[
  ]}
 ];
 
+const BUILD='2026-07-09-F';
+
 /* ============================================================
    State
    ============================================================ */
@@ -518,6 +528,7 @@ async function boot(){
   renderFoods();
   await renderStats();
   await renderDiag();
+  go('gym');   // afiseaza imediat build-ul in subtitlu
 }
 
 /* ============================================================
@@ -531,7 +542,7 @@ function go(v){
     document.getElementById('n-'+k).classList.toggle('on',k===v);
   });
   document.getElementById('hTitle').textContent=TITLES[v][0];
-  document.getElementById('hSub').textContent=TITLES[v][1];
+  document.getElementById('hSub').innerHTML=TITLES[v][1]+' \u00B7 <span style="color:var(--green-dim)">build '+BUILD+'</span>';
   if(v==='stats')renderStats();
   if(v==='set')renderDiag();
   window.scrollTo(0,0);
@@ -564,12 +575,6 @@ async function buildLastMap(){
     });
   });
 }
-function lastText(id){
-  const L=lastMap[id];
-  if(!L)return '<span class="muted">Fara istoric</span>';
-  const s=L.sets.map(x=>`<b>${x.w==null?'BW':x.w}</b>${x.r==null?'':' \u00D7 '+x.r}`).join(' &nbsp;\u00B7&nbsp; ');
-  return `Ultima data (${fmtD(L.date)}): ${s}`;
-}
 function fmtD(d){if(!d)return '';const p=d.split('-');return p[2]+'.'+p[1]}
 
 /* ============================================================
@@ -585,7 +590,9 @@ function renderSessions(){
 }
 
 async function renderRecent(){
-  const ws=(await all('workouts')).slice().sort((a,b)=>(b.date||'').localeCompare(a.date||'')).slice(0,8);
+  const raw=await all('workouts');
+  document.getElementById('dbWarn').classList.toggle('hidden',raw.length>0);
+  const ws=raw.slice().sort((a,b)=>(b.date||'').localeCompare(a.date||'')).slice(0,8);
   const el=document.getElementById('recentList');
   if(!ws.length){el.innerHTML='<div class="muted">Niciun antrenament inregistrat.</div>';return}
   el.innerHTML=ws.map(w=>{
@@ -915,7 +922,6 @@ function renderFoods(){
 /* ============================================================
    Setari
    ============================================================ */
-const BUILD='2026-07-09-D';
 async function renderDiag(){
   const [w,m,e]=await Promise.all([all('workouts'),all('metrics'),all('entries')]);
   const mapped=new Set();
