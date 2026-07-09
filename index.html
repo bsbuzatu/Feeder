@@ -70,15 +70,15 @@ label{display:block;color:var(--muted);font-size:.72rem;margin-bottom:5px;letter
 .ex-name{font-weight:700;font-size:1rem;line-height:1.25}
 .ex-meta{color:var(--muted);font-size:.72rem;margin-top:4px}
 .ex-idx{color:var(--green-dim);font-size:.72rem;font-weight:700;min-width:22px}
-.last{margin-top:8px;padding:7px 9px;background:#08120a;border:1px dashed var(--line);
-  border-radius:9px;color:var(--muted);font-size:.72rem;line-height:1.5}
-.last b{color:var(--txt);font-weight:600}
 .setrow{display:grid;grid-template-columns:26px 1fr 1fr 52px;gap:8px;align-items:center;margin-top:9px}
 .setrow .n{color:var(--muted);font-size:.75rem;text-align:center}
-.setrow input{padding:11px 8px;text-align:center}
+.setrow input{padding:12px 8px;text-align:center;font-size:1.15rem;font-weight:700;
+  font-variant-numeric:tabular-nums}
+.setrow input.pre{color:#5f7a5b;font-weight:600}
+.setrow input:disabled{opacity:1;-webkit-text-fill-color:#5f7a5b}
 .chk{background:var(--panel2);border:1px solid var(--line);border-radius:10px;
-  height:44px;font-size:1.05rem;line-height:1}
-.setrow.ok input{border-color:var(--green-dim);color:var(--green)}
+  height:46px;font-size:1.05rem;line-height:1}
+.setrow.ok input{border-color:var(--green-dim);color:var(--green);-webkit-text-fill-color:var(--green)}
 .setrow.ok .chk{background:var(--green);color:#000;border-color:var(--green)}
 
 /* rest timer */
@@ -175,7 +175,7 @@ td{padding:8px 4px;border-bottom:1px solid #131813;text-align:right;font-variant
 
         <div id="startBar" class="card" style="border-color:var(--green-dim)">
           <div class="muted" style="margin-bottom:10px">
-            Program in modul consultare. Nimic nu se inregistreaza si cronometrul nu ruleaza pana la Start.
+            Mod consultare. Casetele arata valorile de data trecuta. Nimic nu se inregistreaza pana la Start.
           </div>
           <button class="btn primary" onclick="beginWorkout()">&#9654;&nbsp; Start antrenament</button>
         </div>
@@ -402,7 +402,7 @@ const SESSIONS=[
   ]},
   {id:'lowerB', day:'Friday', name:'Lower B \u2014 Hinge / Unilateral', ex:[
     {id:'bbSquat',  sets:4, reps:'8\u201310',      rir:'2',   rest:180},
-    {id:'deadlift', sets:4, reps:'4\u20135',       rir:'2\u20133', rest:240},
+    {id:'deadlift', sets:4, reps:'3',            rir:'2\u20133', rest:240},
     {id:'bss',      sets:3, reps:'8\u201310 /leg', rir:'1\u20132', rest:120},
     {id:'lyCurl',   sets:3, reps:'10\u201315',     rir:'0\u20131', rest:90},
     {id:'seatCalf', sets:4, reps:'12\u201315',     rir:'0\u20131', rest:60},
@@ -644,15 +644,24 @@ function leaveSession(){
 function renderRun(){
   document.getElementById('exList').innerHTML=W.exercises.map((e,i)=>{
     const doneAll=RUNNING&&e.sets.every(s=>s.done);
-    const rows=!RUNNING?'':e.sets.map((s,j)=>`
-      <div class="setrow ${s.done?'ok':''}" id="sr-${i}-${j}">
+    const L=lastMap[e.exId];
+    const rows=e.sets.map((s,j)=>{
+      const pv=L&&L.sets[j]?L.sets[j]:null;              // valorile de data trecuta, pe acelasi index de set
+      const wSet=s.weight!=null, rSet=s.reps!=null;
+      const wVal=wSet?s.weight:(pv&&pv.w!=null?pv.w:'');
+      const rVal=rSet?s.reps :(pv&&pv.r!=null?pv.r:'');
+      const wPre=!wSet&&wVal!=='' ? 'pre':'';
+      const rPre=!rSet&&rVal!=='' ? 'pre':'';
+      const dis=RUNNING?'':'disabled';
+      return `<div class="setrow ${s.done?'ok':''}" id="sr-${i}-${j}">
         <div class="n">${j+1}</div>
-        <input type="number" step="0.5" inputmode="decimal" placeholder="kg"
-          id="w-${i}-${j}" value="${s.weight==null?'':s.weight}" onchange="setVal(${i},${j},'weight',this.value)">
-        <input type="number" step="1" inputmode="numeric" placeholder="reps"
-          id="r-${i}-${j}" value="${s.reps==null?'':s.reps}" onchange="setVal(${i},${j},'reps',this.value)">
-        <button class="chk" onclick="toggleSet(${i},${j})">${s.done?'\u2713':'\u25CB'}</button>
-      </div>`).join('');
+        <input type="number" step="0.5" inputmode="decimal" placeholder="kg" class="${wPre}" ${dis}
+          id="w-${i}-${j}" value="${wVal}" onfocus="clearPre(this)" onchange="setVal(${i},${j},'weight',this.value)">
+        <input type="number" step="1" inputmode="numeric" placeholder="reps" class="${rPre}" ${dis}
+          id="r-${i}-${j}" value="${rVal}" onfocus="clearPre(this)" onchange="setVal(${i},${j},'reps',this.value)">
+        <button class="chk" ${dis} onclick="toggleSet(${i},${j})">${s.done?'\u2713':'\u25CB'}</button>
+      </div>`;
+    }).join('');
     return `<div class="ex ${doneAll?'done':''}" id="ex-${i}">
       <div class="ex-h">
         <div style="flex:1">
@@ -660,23 +669,25 @@ function renderRun(){
           <div class="ex-meta">${e.targetSets} \u00D7 ${e.targetReps} \u00B7 RIR ${e.rir} \u00B7 pauza ${e.rest>=60?(e.rest/60)+' min':e.rest+' s'}</div>
         </div>
       </div>
-      <div class="last">${lastText(e.exId)}</div>
       ${rows}
     </div>`;
   }).join('');
 }
 
+function clearPre(el){el.classList.remove('pre')}
+
 function setVal(i,j,k,v){
   W.exercises[i].sets[j][k]= v===''?null:parseFloat(v);
 }
 function toggleSet(i,j){
+  if(!RUNNING)return;
   const s=W.exercises[i].sets[j];
   s.done=!s.done;
   // citeste inputurile fara re-render (fara scroll, fara pierdere focus)
-  const wv=document.getElementById(`w-${i}-${j}`).value;
-  const rv=document.getElementById(`r-${i}-${j}`).value;
-  s.weight= wv===''?null:parseFloat(wv);
-  s.reps  = rv===''?null:parseInt(rv,10);
+  const wi=document.getElementById(`w-${i}-${j}`), ri=document.getElementById(`r-${i}-${j}`);
+  s.weight= wi.value===''?null:parseFloat(wi.value);   // valoarea precompletata se salveaza ca atare
+  s.reps  = ri.value===''?null:parseInt(ri.value,10);
+  wi.classList.remove('pre');ri.classList.remove('pre');
   const row=document.getElementById(`sr-${i}-${j}`);
   row.classList.toggle('ok',s.done);
   row.querySelector('.chk').textContent=s.done?'\u2713':'\u25CB';
@@ -690,7 +701,7 @@ async function finishWorkout(){
   const any=W.exercises.some(e=>e.sets.some(s=>s.done));
   if(!any){toast('Niciun set bifat');return}
   W.endTs=Date.now();
-  W.exercises=W.exercises.map(e=>({...e,sets:e.sets.filter(s=>s.done||s.weight!=null||s.reps!=null)}));
+  W.exercises=W.exercises.map(e=>({...e,sets:e.sets.filter(s=>s.done)}));  // doar seturile confirmate cu bifa
   await put('workouts',W);
   await saveMetricsForDay(W.date,{workout:W.sessionId,trainingDay:true});
   stopRest();stopRunClock();releaseWakeLock();
@@ -904,12 +915,14 @@ function renderFoods(){
 /* ============================================================
    Setari
    ============================================================ */
+const BUILD='2026-07-09-D';
 async function renderDiag(){
   const [w,m,e]=await Promise.all([all('workouts'),all('metrics'),all('entries')]);
   const mapped=new Set();
   w.forEach(x=>(x.exercises||[]).forEach(y=>{const id=y.exId||resolveId(y.name);if(id)mapped.add(id)}));
   document.getElementById('diag').innerHTML=
-    `Antrenamente: <b style="color:var(--green)">${w.length}</b><br>
+    `Build: <b style="color:var(--green)">${BUILD}</b><br>
+     Antrenamente: <b style="color:var(--green)">${w.length}</b><br>
      Masuratori: <b style="color:var(--green)">${m.length}</b><br>
      Exercitii cu istoric mapat: <b style="color:var(--green)">${mapped.size}</b> / ${Object.keys(EX).length}<br>
      Intrari alimentare vechi (pastrate, neafisate): ${e.length}`;
@@ -933,12 +946,36 @@ async function exportJSON(){
 async function importJSON(){
   const f=document.getElementById('impFile').files[0];
   if(!f){toast('Alege un fisier');return}
-  if(!confirm('Importul adauga/suprascrie antrenamente si masuratori. Continui?'))return;
-  const d=JSON.parse(await f.text());
-  for(const w of (d.workouts||[])){const c={...w};delete c.id;await put('workouts',c)}
-  for(const m of (d.metrics||[])){const ex=await get1('metrics',m.date);await put('metrics',{...ex,...m})}
+  let d;
+  try{d=JSON.parse(await f.text())}catch(e){alert('Fisier JSON invalid.');return}
+  const nw=(d.workouts||[]).length, nm=(d.metrics||[]).length, ne=(d.entries||[]).length;
+  if(!nw&&!nm&&!ne){alert('Fisierul nu contine date.');return}
+  if(!confirm(`Import: ${nw} antrenamente, ${nm} masuratori, ${ne} intrari vechi.\nDatele existente cu aceeasi data se completeaza, nu se sterg. Continui?`))return;
+
+  let okW=0,okM=0,okE=0;
+  // antrenamente: id nou (autoIncrement) ca sa nu suprascrie ce exista deja
+  const seen=new Set();
+  for(const w of (await all('workouts'))) seen.add((w.date||'')+'|'+(w.sessionId||''));
+  for(const w of (d.workouts||[])){
+    const key=(w.date||'')+'|'+(w.sessionId||'');
+    if(seen.has(key))continue;            // deduplicare
+    const c={...w};delete c.id;
+    await put('workouts',c);seen.add(key);okW++;
+  }
+  // metrici: merge pe camp, nu suprascriere bruta
+  for(const m of (d.metrics||[])){
+    if(!m.date)continue;
+    const ex=await get1('metrics',m.date)||{};
+    const merged={...m,...ex};            // valorile deja existente au prioritate
+    Object.keys(m).forEach(k=>{if(merged[k]==null&&m[k]!=null)merged[k]=m[k]});
+    merged.date=m.date;
+    await put('metrics',merged);okM++;
+  }
+  // intrari vechi: pastrate integral, doar pentru export
+  for(const e of (d.entries||[])){await put('entries',e);okE++}
+
   await buildLastMap();await renderRecent();await renderStats();await renderDiag();
-  toast('Import complet');
+  alert(`Restaurat.\nAntrenamente adaugate: ${okW}\nMasuratori: ${okM}\nIntrari vechi: ${okE}`);
 }
 
 async function wipe(){
