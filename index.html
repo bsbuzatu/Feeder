@@ -201,10 +201,10 @@ td{padding:8px 4px;border-bottom:1px solid #131813;text-align:right;font-variant
         <label>Data</label>
         <input type="date" id="mDate">
         <div class="grid2" style="margin-top:10px">
-          <div><label>Greutate (kg)</label><input type="number" step="0.1" inputmode="decimal" id="mWeight"></div>
-          <div><label>Muschi (kg)</label><input type="number" step="0.1" inputmode="decimal" id="mMuscle"></div>
-          <div><label>Grasime (kg)</label><input type="number" step="0.1" inputmode="decimal" id="mFat"></div>
-          <div><label>Burta (cm)</label><input type="number" step="0.1" inputmode="decimal" id="mWaist"></div>
+          <div><label>Greutate (kg)</label><input type="text" inputmode="decimal" id="mWeight"></div>
+          <div><label>Muschi (kg)</label><input type="text" inputmode="decimal" id="mMuscle"></div>
+          <div><label>Grasime (kg)</label><input type="text" inputmode="decimal" id="mFat"></div>
+          <div><label>Burta (cm)</label><input type="text" inputmode="decimal" id="mWaist"></div>
         </div>
         <button class="btn primary" style="margin-top:12px" onclick="saveMetrics()">Salveaza</button>
       </div>
@@ -342,7 +342,7 @@ function clearS(s){return new Promise((res,rej)=>{const q=tx(s,'readwrite').clea
    ============================================================ */
 const EX={
   bench:        {n:'Barbell Bench Press', a:[]},
-  pullup:       {n:'Weighted Pull-Up', a:['Weighted Pull-Up','Lat Pulldown / Tractiuni','Lat Pulldown / Pull-Up','Tractiuni']},
+  pullup:       {n:'Pull-Up', a:['Weighted Pull-Up','Pull-Up (bodyweight)','Lat Pulldown / Tractiuni','Lat Pulldown / Pull-Up','Tractiuni']},
   ohp:          {n:'Standing Barbell OHP', a:['Standing Barbell OHP','Overhead Press']},
   sarow:        {n:'Single-Arm DB Row', a:['Single-Arm DB Row','Ramat cu haltera']},
   cabLat:       {n:'Cable Lateral Raise (one arm)', a:['Cable Lateral Raise (one arm)','Cable Lateral Raise (un brat)']},
@@ -497,7 +497,7 @@ const FOODS=[
  ]}
 ];
 
-const BUILD='2026-07-09-F';
+const BUILD='2026-07-09-G';
 
 /* ============================================================
    State
@@ -512,7 +512,7 @@ let lastMap={};             // exId -> {date, sets:[]}
    ============================================================ */
 function unlock(){
   const v=document.getElementById('pw').value.trim();
-  if(v!=='bzt'){document.getElementById('gateMsg').textContent='Cod gresit';return}
+  if(v!=='bbb'){document.getElementById('gateMsg').textContent='Cod gresit';return}
   document.getElementById('gate').classList.add('hidden');
   document.getElementById('app').classList.remove('hidden');
   boot();
@@ -662,9 +662,9 @@ function renderRun(){
       const dis=RUNNING?'':'disabled';
       return `<div class="setrow ${s.done?'ok':''}" id="sr-${i}-${j}">
         <div class="n">${j+1}</div>
-        <input type="number" step="0.5" inputmode="decimal" placeholder="kg" class="${wPre}" ${dis}
+        <input type="text" inputmode="decimal" placeholder="kg" class="${wPre}" ${dis}
           id="w-${i}-${j}" value="${wVal}" onfocus="clearPre(this)" onchange="setVal(${i},${j},'weight',this.value)">
-        <input type="number" step="1" inputmode="numeric" placeholder="reps" class="${rPre}" ${dis}
+        <input type="text" inputmode="numeric" placeholder="reps" class="${rPre}" ${dis}
           id="r-${i}-${j}" value="${rVal}" onfocus="clearPre(this)" onchange="setVal(${i},${j},'reps',this.value)">
         <button class="chk" ${dis} onclick="toggleSet(${i},${j})">${s.done?'\u2713':'\u25CB'}</button>
       </div>`;
@@ -683,8 +683,15 @@ function renderRun(){
 
 function clearPre(el){el.classList.remove('pre')}
 
+function numVal(v){
+  if(v==null)return null;
+  v=String(v).trim().replace(',','.');
+  if(v==='')return null;
+  const f=parseFloat(v);
+  return isFinite(f)?f:null;
+}
 function setVal(i,j,k,v){
-  W.exercises[i].sets[j][k]= v===''?null:parseFloat(v);
+  W.exercises[i].sets[j][k]= k==='reps' ? (numVal(v)==null?null:Math.round(numVal(v))) : numVal(v);
 }
 function toggleSet(i,j){
   if(!RUNNING)return;
@@ -692,8 +699,8 @@ function toggleSet(i,j){
   s.done=!s.done;
   // citeste inputurile fara re-render (fara scroll, fara pierdere focus)
   const wi=document.getElementById(`w-${i}-${j}`), ri=document.getElementById(`r-${i}-${j}`);
-  s.weight= wi.value===''?null:parseFloat(wi.value);   // valoarea precompletata se salveaza ca atare
-  s.reps  = ri.value===''?null:parseInt(ri.value,10);
+  s.weight= numVal(wi.value);          // valoarea precompletata se salveaza ca atare; virgula acceptata
+  s.reps  = numVal(ri.value)==null?null:Math.round(numVal(ri.value));
   wi.classList.remove('pre');ri.classList.remove('pre');
   const row=document.getElementById(`sr-${i}-${j}`);
   row.classList.toggle('ok',s.done);
@@ -780,7 +787,7 @@ async function saveMetricsForDay(date,patch){
 async function saveMetrics(){
   const d=document.getElementById('mDate').value;
   if(!d){toast('Alege data');return}
-  const num=id=>{const v=document.getElementById(id).value;return v===''?undefined:parseFloat(v)};
+  const num=id=>{const f=numVal(document.getElementById(id).value);return f==null?undefined:f};
   const p={};
   const w=num('mWeight'),m=num('mMuscle'),f=num('mFat'),ws=num('mWaist');
   if(w!==undefined)p.weight=w;

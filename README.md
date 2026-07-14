@@ -4,7 +4,7 @@ Aplicație PWA single-file pentru înregistrarea antrenamentelor de forță și 
 Toate datele rămân local, în IndexedDB. Zero servere, zero terți, zero telemetrie.
 
 **Live:** `https://bsbuzatu.github.io/Feeder/`
-**Build curent:** `2026-07-09-F` (afișat permanent în subtitlul din header)
+**Build curent:** `2026-07-09-G` (afișat permanent în subtitlul din header)
 
 ---
 
@@ -65,7 +65,7 @@ Upper/Lower, 4 zile. Zone 2 cardio 2–3×/săpt, **înregistrat pe ceas (Apple 
 | # | Exercise | Sets | Reps | RIR | Rest |
 |---|---|---|---|---|---|
 | 1 | Barbell Bench Press | 4 | 5–7 | 2 | 3 min |
-| 2 | Weighted Pull-Up | 4 | 6–8 | 2 | 2.5 min |
+| 2 | Pull-Up | 4 | 6–8 | 2 | 2.5 min |
 | 3 | Standing Barbell OHP | 3 | 6–8 | 2 | 2.5 min |
 | 4 | Single-Arm DB Row | 3 | 8–12 /arm | 1–2 | 90 s |
 | 5 | Cable Lateral Raise (one arm) | 4 | 12–20 | 0–1 | 60 s |
@@ -212,7 +212,7 @@ aliasuri, astfel încât redenumirile nu pierd istoricul.
 | exId | Nume canonic | Aliasuri recunoscute |
 |---|---|---|
 | `bbSquat` | Barbell Back Squat | Back Squat (high-bar, sub paralel / below parallel), Genuflexiuni |
-| `pullup` | Weighted Pull-Up | Lat Pulldown / Tractiuni, Lat Pulldown / Pull-Up |
+| `pullup` | Pull-Up | Weighted Pull-Up, Lat Pulldown / Tractiuni, Lat Pulldown / Pull-Up |
 | `triDip` | Weighted Triceps Dip | Weighted Dip (4 variante) |
 | `facePull` | Face Pull | Face Pull / Reverse Fly |
 | `oneLegCalf` | Weighted One-Leg Standing Calf Raise | Standing Calf Raise, Ridicari pe varfuri |
@@ -236,6 +236,8 @@ Exerciții prezente în istoric dar scoase din program (`Hanging Knee Raise`, `E
 - Bifarea unui set mută DOM-ul direct, fără re-render — poziția paginii și focus-ul rămân intacte.
 - `saveMetricsForDay()` face merge; nu suprascrie câmpuri existente.
 - Constanta `BUILD` se incrementează la fiecare modificare și este afișată în UI.
+- Inputurile numerice sunt `type="text"` + `inputmode="decimal|numeric"`, cu normalizare `,` → `.`
+  în `numVal()`. `type="number"` respinge silențios virgula pe tastatura iOS cu locale RO — nu se folosește.
 
 ---
 
@@ -243,6 +245,7 @@ Exerciții prezente în istoric dar scoase din program (`Hanging Knee Raise`, `E
 
 | Build | Modificări |
 |---|---|
+| `2026-07-09-G` | Virgulă acceptată ca separator zecimal (inputuri text + `numVal()`); Weighted Pull-Up → Pull-Up; cod de acces schimbat |
 | `2026-07-09-F` | Banner „baza de date goala"; build vizibil imediat la pornire |
 | `2026-07-09-E` | Meta tags `no-cache`; build afișat în subtitlu; cod mort eliminat |
 | `2026-07-09-D` | Precompletarea casetelor cu valorile ultimei sesiuni; caseta de istoric eliminată; se salvează doar seturile bifate |
