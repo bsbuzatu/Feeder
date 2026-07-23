@@ -4,7 +4,7 @@ Aplicație PWA single-file pentru înregistrarea antrenamentelor de forță și 
 Toate datele rămân local, în IndexedDB. Zero servere, zero terți, zero telemetrie.
 
 **Live:** `https://bsbuzatu.github.io/Feeder/`
-**Build curent:** `2026-07-09-G` (afișat permanent în subtitlul din header)
+**Build curent:** `2026-07-23-J` (afișat permanent în subtitlul din header)
 
 ---
 
@@ -73,16 +73,17 @@ Upper/Lower, 4 zile. Zone 2 cardio 2–3×/săpt, **înregistrat pe ceas (Apple 
 | 7 | Incline DB Curl | 3 | 8–12 | 0–1 | 90 s |
 | 8 | Overhead Cable Triceps Extension | 2 | 10–12 | 0–1 | 60 s |
 
-### Tuesday — Lower A · Squat Emphasis
+### Tuesday — Lower A · Squat + Knee Flexion
+
+Singura sesiune cu încărcare axială din săptămână. Serii drepte, fără superseturi.
 
 | # | Exercise | Sets | Reps | RIR | Rest |
 |---|---|---|---|---|---|
-| 1 | Barbell Back Squat | 4 | 5–7 | 2 | 3 min |
-| 2 | Romanian Deadlift | 3 | 8–10 | 2 | 2.5 min |
-| 3 | Leg Press | 3 | 10–12 | 1 | 2 min |
-| 4 | Seated Leg Curl | 3 | 10–15 | 0–1 | 90 s |
-| 5 | Weighted One-Leg Standing Calf Raise | 4 | 10–15 /leg | 0–1 | 90 s |
-| 6 | Machine Ab Crunch | 3 | 10–15 | 0–1 | 60 s |
+| 1 | Barbell Back Squat | 4 | 6–8 | 2 | 3 min |
+| 2 | Leg Press | 4 | 10–12 | 1 | 2 min |
+| 3 | Seated Leg Curl | 4 | 10–12 | 0–1 | 90 s |
+| 4 | Weighted One-Leg Standing Calf Raise | 4 | 10–15 /leg | 0–1 | 60 s |
+| 5 | Machine Ab Crunch | 3 | 10–15 | 0–1 | 60 s |
 
 ### Thursday — Upper B · Incline / Vertical
 
@@ -97,16 +98,19 @@ Upper/Lower, 4 zile. Zone 2 cardio 2–3×/săpt, **înregistrat pe ceas (Apple 
 | 7 | Weighted Triceps Dip | 3 | 8–12 | 1–2 | 2 min |
 | 8 | Hammer Curl | 3 | 10–12 | 0–1 | 60 s |
 
-### Friday — Lower B · Hinge / Unilateral
+### Friday — Lower B · Hip Dominant / Unilateral
+
+Zero încărcare axială. Extensia de șold cu trunchi susținut sau vector orizontal.
 
 | # | Exercise | Sets | Reps | RIR | Rest |
 |---|---|---|---|---|---|
-| 1 | Barbell Back Squat | 4 | 8–10 | 2 | 3 min |
-| 2 | Conventional Deadlift | 4 | 3 | 2–3 | 4 min |
-| 3 | Bulgarian Split Squat | 3 | 8–10 /leg | 1–2 | 2 min |
-| 4 | Lying Leg Curl | 3 | 10–15 | 0–1 | 90 s |
-| 5 | Seated Calf Raise (2s pause) | 4 | 12–15 | 0–1 | 60 s |
-| 6 | Pallof Press | 3 | 10–12 /side | — | 45 s |
+| 1 | Bulgarian Split Squat | 3 | 8–10 /leg | 1–2 | 2 min |
+| 2 | Barbell Hip Thrust | 4 | 8–10 | 1–2 | 2 min |
+| 3 | 45° Back Extension (weighted) | 3 | 10–12 | 1–2 | 90 s |
+| 4 | Leg Extension | 3 | 12–15 | 0–1 | 75 s |
+| 5 | Lying Leg Curl | 3 | 10–15 | 0–1 | 75 s |
+| 6 | Seated Calf Raise (2s pause) | 3 | 12–15 | 0–1 | 60 s |
+| 7 | Pallof Press | 3 | 10–12 /side | — | 45 s |
 
 ### Volum săptămânal
 
@@ -119,12 +123,21 @@ Upper/Lower, 4 zile. Zone 2 cardio 2–3×/săpt, **înregistrat pe ceas (Apple 
 | Biceps (direct) | 6 | + indirect |
 | Triceps (direct) | 5 | + indirect |
 | Cvadriceps | 14 | 10–20 |
-| Ischiogambieri | 11 | 10–20 |
-| Gambe | 8 | — |
+| Ischiogambieri (flexie genunchi) | 7 | — |
+| Extensie șold (fesieri + ischio) | 7 | — |
+| Gambe | 7 | — |
 | Core | 6 | — |
-| **Încărcare axială grea** | **15** | prag de monitorizare |
+| **Încărcare axială grea** | **4** | doar Back Squat, marți |
 
-Total: **94 seturi/săptămână**, frecvență 2×/grupă.
+Total: **94 seturi/săptămână**, frecvență 2×/grupă. Fără superseturi — antrenament în sală publică,
+un singur aparat ocupat la un moment dat.
+
+Deadlift-ul convențional și Romanian Deadlift au fost eliminate: cel mai mare moment extensor lombar
+și cea mai mare forță de forfecare dintre exercițiile uzuale (Cholewicki & McGill), cu randament
+hipertrofic modest raportat la costul de oboseală. Extensia de șold se obține din 45° back extension
+(coloană neutră, sarcină pe șolduri) și hip thrust (vector antero-posterior, compresie axială minimă).
+Încărcarea axială nu a fost eliminată complet — stimulul osteogen vertebral necesită compresie, iar
+4 seturi de back squat o furnizează fără acumulare.
 
 ---
 
@@ -142,8 +155,9 @@ Total: **94 seturi/săptămână**, frecvență 2×/grupă.
 
 Întâi repetările până la plafon, apoi greutatea. Niciodată ambele simultan.
 
-3. **Deadlift 4×3:** greutatea aleasă astfel încât 3 repetări să lase RIR 2–3. Dead stop între
-   repetări, nu touch-and-go. Dacă a treia repetare arată diferit de prima, setul se oprește.
+3. **45° Back Extension:** mișcarea pornește din șold, coloana rămâne neutră pe toată amplitudinea.
+   Nu se hiperextinde lombarul la vârf — oprirea se face când trunchiul e aliniat cu picioarele.
+   Greutatea se ține la piept, nu după ceafă.
 
 ---
 
@@ -245,6 +259,9 @@ Exerciții prezente în istoric dar scoase din program (`Hanging Knee Raise`, `E
 
 | Build | Modificări |
 |---|---|
+| `2026-07-23-J` | Superseturi eliminate (sală publică); pauze recalibrate; Seated Calf 4→3, Back Ext 4→3 vineri |
+| `2026-07-23-I` | Back Squat păstrat marți ca unic lift axial; Leg Extension mutat vineri |
+| `2026-07-23-H` | Zilele Lower refăcute: deadlift și RDL eliminate, adăugate 45° Back Extension, Barbell Hip Thrust, Leg Extension; încărcare axială 15 → 4 seturi/săpt |
 | `2026-07-09-G` | Virgulă acceptată ca separator zecimal (inputuri text + `numVal()`); Weighted Pull-Up → Pull-Up; cod de acces schimbat |
 | `2026-07-09-F` | Banner „baza de date goala"; build vizibil imediat la pornire |
 | `2026-07-09-E` | Meta tags `no-cache`; build afișat în subtitlu; cod mort eliminat |

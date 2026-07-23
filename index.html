@@ -370,7 +370,11 @@ const EX={
   bss:          {n:'Bulgarian Split Squat', a:['Bulgarian Split Squat']},
   lyCurl:       {n:'Lying Leg Curl', a:['Lying Leg Curl','Flexii femurali']},
   seatCalf:     {n:'Seated Calf Raise (2s pause)', a:['Seated Calf Raise (pauza 2s)','Seated Calf Raise']},
-  pallof:       {n:'Pallof Press', a:['Pallof Press']}
+  pallof:       {n:'Pallof Press', a:['Pallof Press']},
+
+  backExt:      {n:'45\u00B0 Back Extension (weighted)', a:['45 Back Extension','Back Extension','Hyperextension']},
+  hipThrust:    {n:'Barbell Hip Thrust', a:['Barbell Hip Thrust','Hip Thrust']},
+  legExt:       {n:'Leg Extension', a:['Leg Extension','Extensii cvadriceps']}
 };
 // index invers alias -> id
 const ALIAS={};
@@ -390,12 +394,11 @@ const SESSIONS=[
     {id:'inclCurl', sets:3, reps:'8\u201312',       rir:'0\u20131', rest:90},
     {id:'ohTri',    sets:2, reps:'10\u201312',      rir:'0\u20131', rest:60}
   ]},
-  {id:'lowerA', day:'Tuesday', name:'Lower A \u2014 Squat Emphasis', ex:[
-    {id:'bbSquat',    sets:4, reps:'5\u20137',        rir:'2',   rest:180},
-    {id:'rdl',        sets:3, reps:'8\u201310',       rir:'2',   rest:150},
-    {id:'legPress',   sets:3, reps:'10\u201312',      rir:'1',   rest:120},
-    {id:'seatCurl',   sets:3, reps:'10\u201315',      rir:'0\u20131', rest:90},
-    {id:'oneLegCalf', sets:4, reps:'10\u201315 /leg', rir:'0\u20131', rest:90},
+  {id:'lowerA', day:'Tuesday', name:'Lower A \u2014 Squat + Knee Flexion', ex:[
+    {id:'bbSquat',    sets:4, reps:'6\u20138',        rir:'2',   rest:180},
+    {id:'legPress',   sets:4, reps:'10\u201312',      rir:'1',   rest:120},
+    {id:'seatCurl',   sets:4, reps:'10\u201312',      rir:'0\u20131', rest:90},
+    {id:'oneLegCalf', sets:4, reps:'10\u201315 /leg', rir:'0\u20131', rest:60},
     {id:'machCrunch', sets:3, reps:'10\u201315',      rir:'0\u20131', rest:60}
   ]},
   {id:'upperB', day:'Thursday', name:'Upper B \u2014 Incline / Vertical', ex:[
@@ -408,13 +411,14 @@ const SESSIONS=[
     {id:'triDip',     sets:3, reps:'8\u201312',   rir:'1\u20132', rest:120},
     {id:'hammer',     sets:3, reps:'10\u201312',  rir:'0\u20131', rest:60}
   ]},
-  {id:'lowerB', day:'Friday', name:'Lower B \u2014 Hinge / Unilateral', ex:[
-    {id:'bbSquat',  sets:4, reps:'8\u201310',      rir:'2',   rest:180},
-    {id:'deadlift', sets:4, reps:'3',            rir:'2\u20133', rest:240},
-    {id:'bss',      sets:3, reps:'8\u201310 /leg', rir:'1\u20132', rest:120},
-    {id:'lyCurl',   sets:3, reps:'10\u201315',     rir:'0\u20131', rest:90},
-    {id:'seatCalf', sets:4, reps:'12\u201315',     rir:'0\u20131', rest:60},
-    {id:'pallof',   sets:3, reps:'10\u201312 /side', rir:'\u2014', rest:45}
+  {id:'lowerB', day:'Friday', name:'Lower B \u2014 Hip Dominant / Unilateral', ex:[
+    {id:'bss',       sets:3, reps:'8\u201310 /leg', rir:'1\u20132', rest:120},
+    {id:'hipThrust', sets:4, reps:'8\u201310',      rir:'1\u20132', rest:120},
+    {id:'backExt',   sets:3, reps:'10\u201312',     rir:'1\u20132', rest:90},
+    {id:'legExt',    sets:3, reps:'12\u201315',     rir:'0\u20131', rest:75},
+    {id:'lyCurl',    sets:3, reps:'10\u201315',     rir:'0\u20131', rest:75},
+    {id:'seatCalf',  sets:3, reps:'12\u201315',     rir:'0\u20131', rest:60},
+    {id:'pallof',    sets:3, reps:'10\u201312 /side', rir:'\u2014', rest:45}
   ]}
 ];
 
@@ -497,7 +501,7 @@ const FOODS=[
  ]}
 ];
 
-const BUILD='2026-07-09-G';
+const BUILD='2026-07-23-J';
 
 /* ============================================================
    State
@@ -612,6 +616,7 @@ function startWorkout(sid){
   RUNNING=false;
   W={date:isoToday(),type:'strength',sessionId:S.id,sessionName:S.name,startTs:null,endTs:null,
      exercises:S.ex.map(e=>({exId:e.id,name:EX[e.id].n,targetSets:e.sets,targetReps:e.reps,rir:e.rir,rest:e.rest,
+       ss:e.ss||null,
        sets:Array.from({length:e.sets},()=>({weight:null,reps:null,done:false}))}))};
   document.getElementById('sessPick').classList.add('hidden');
   document.getElementById('sessRun').classList.remove('hidden');
@@ -673,7 +678,7 @@ function renderRun(){
       <div class="ex-h">
         <div style="flex:1">
           <div class="ex-name"><span class="ex-idx">${i+1}</span> ${e.name}</div>
-          <div class="ex-meta">${e.targetSets} \u00D7 ${e.targetReps} \u00B7 RIR ${e.rir} \u00B7 pauza ${e.rest>=60?(e.rest/60)+' min':e.rest+' s'}</div>
+          <div class="ex-meta">${e.targetSets} \u00D7 ${e.targetReps} \u00B7 RIR ${e.rir} \u00B7 pauza ${e.rest>=60?(e.rest/60)+' min':e.rest+' s'}${e.ss?'<br><span style="color:var(--green-dim)">'+e.ss+'</span>':''}</div>
         </div>
       </div>
       ${rows}
