@@ -343,7 +343,7 @@ function clearS(s){return new Promise((res,rej)=>{const q=tx(s,'readwrite').clea
 const EX={
   bench:        {n:'Barbell Bench Press', a:[]},
   pullup:       {n:'Pull-Up', a:['Weighted Pull-Up','Pull-Up (bodyweight)','Lat Pulldown / Tractiuni','Lat Pulldown / Pull-Up','Tractiuni']},
-  ohp:          {n:'Standing Barbell OHP', a:['Standing Barbell OHP','Overhead Press']},
+  ohp:          {n:'Seated Barbell OHP', a:['Seated Barbell OHP','Standing Barbell OHP','Overhead Press']},
   sarow:        {n:'Single-Arm DB Row', a:['Single-Arm DB Row','Ramat cu haltera']},
   cabLat:       {n:'Cable Lateral Raise (one arm)', a:['Cable Lateral Raise (one arm)','Cable Lateral Raise (un brat)']},
   revFly:       {n:'Cable Reverse Fly', a:['Cable Reverse Fly']},
@@ -418,7 +418,7 @@ const SESSIONS=[
     {id:'legExt',    sets:3, reps:'12\u201315',     rir:'0\u20131', rest:75},
     {id:'lyCurl',    sets:3, reps:'10\u201315',     rir:'0\u20131', rest:75},
     {id:'seatCalf',  sets:3, reps:'12\u201315',     rir:'0\u20131', rest:60},
-    {id:'pallof',    sets:3, reps:'10\u201312 /side', rir:'\u2014', rest:45}
+    {id:'pallof',    sets:3, reps:'20\u201330 s /side', rir:'\u2014', rest:45, unit:'sec'}
   ]}
 ];
 
@@ -501,7 +501,7 @@ const FOODS=[
  ]}
 ];
 
-const BUILD='2026-07-23-J';
+const BUILD='2026-07-23-K';
 
 /* ============================================================
    State
@@ -588,7 +588,7 @@ function renderSessions(){
   document.getElementById('sessList').innerHTML=SESSIONS.map(s=>{
     const n=s.ex.reduce((a,e)=>a+e.sets,0);
     return `<button class="sess" onclick="startWorkout('${s.id}')">
-      <div class="t">${s.day} \u2014 ${s.name.split('\u2014')[1].trim()}</div>
+      <div class="t">${s.name}</div>
       <div class="d">${s.ex.length} exercitii \u00B7 ${n} seturi</div></button>`;
   }).join('');
 }
@@ -615,12 +615,12 @@ function startWorkout(sid){
   const S=SESSIONS.find(x=>x.id===sid);
   RUNNING=false;
   W={date:isoToday(),type:'strength',sessionId:S.id,sessionName:S.name,startTs:null,endTs:null,
-     exercises:S.ex.map(e=>({exId:e.id,name:EX[e.id].n,targetSets:e.sets,targetReps:e.reps,rir:e.rir,rest:e.rest,
+     exercises:S.ex.map(e=>({exId:e.id,name:EX[e.id].n,targetSets:e.sets,targetReps:e.reps,rir:e.rir,rest:e.rest,unit:e.unit||'reps',
        ss:e.ss||null,
        sets:Array.from({length:e.sets},()=>({weight:null,reps:null,done:false}))}))};
   document.getElementById('sessPick').classList.add('hidden');
   document.getElementById('sessRun').classList.remove('hidden');
-  document.getElementById('runName').textContent=S.day+' \u2014 '+S.name;
+  document.getElementById('runName').textContent=S.name;
   document.getElementById('runTime').textContent='Nepornit';
   document.getElementById('startBar').classList.remove('hidden');
   document.getElementById('finishBtn').classList.add('hidden');
@@ -669,7 +669,7 @@ function renderRun(){
         <div class="n">${j+1}</div>
         <input type="text" inputmode="decimal" placeholder="kg" class="${wPre}" ${dis}
           id="w-${i}-${j}" value="${wVal}" onfocus="clearPre(this)" onchange="setVal(${i},${j},'weight',this.value)">
-        <input type="text" inputmode="numeric" placeholder="reps" class="${rPre}" ${dis}
+        <input type="text" inputmode="numeric" placeholder="${e.unit==='sec'?'sec':'reps'}" class="${rPre}" ${dis}
           id="r-${i}-${j}" value="${rVal}" onfocus="clearPre(this)" onchange="setVal(${i},${j},'reps',this.value)">
         <button class="chk" ${dis} onclick="toggleSet(${i},${j})">${s.done?'\u2713':'\u25CB'}</button>
       </div>`;
