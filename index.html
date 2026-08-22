@@ -235,6 +235,13 @@ td{padding:8px 4px;border-bottom:1px solid #131813;text-align:right;font-variant
       </div>
 
       <div class="card">
+        <h3>Serii pe grup\u0103 muscular\u0103 (7 zile)</h3>
+        <div class="tw"><table id="muscleTable"></table></div>
+        <div class="muted" style="margin-top:8px">\u021Ainte de reten\u021Bie \u00EEn deficit caloric.
+        Cvadriceps \u0219i ischio au prioritate \u2014 erau sub prag \u00EEn programul vechi.</div>
+      </div>
+
+      <div class="card">
         <h3>Istoric</h3>
         <div class="tw"><table id="histTable"></table></div>
       </div>
@@ -273,12 +280,25 @@ td{padding:8px 4px;border-bottom:1px solid #131813;text-align:right;font-variant
         <div id="diag" class="muted"></div>
       </div>
       <div class="card">
-        <h3>Zone 2 cardio</h3>
+        <h3>Zone 2 \u2014 calibrare (22.08.2026)</h3>
         <div class="muted">
-          Nu se inregistreaza in aplicatie. Ceas / Apple Health.<br><br>
-          Tinta FC (Karvonen, HRmax est. 177, RHR 60): <b style="color:var(--green)">130-142 bpm</b>.
-          2-3 sesiuni x 30-45 min. Bicicleta sau mers inclinat. Miercuri / sambata. Niciodata inainte de Lower.
+          Date: 44 ani \u00B7 RHR ~67 (medie iun\u2013aug) \u00B7 FCmax est. Tanaka 177 (nem\u0103surat\u0103 direct).<br>
+          60\u201370% FCmax = 106\u2013124 \u00B7 Karvonen 50\u201360% HRR = 122\u2013133 \u00B7 MAF = plafon 136.<br><br>
+          <b style="color:#4aa3ff">\u021Aint\u0103 operativ\u0103: 118\u2013133 bpm, plafon absolut 135.</b><br>
+          Vechea \u021Bint\u0103 130\u2013142 era calculat\u0103 pe RHR 60 \u0219i procente prea sus \u2014 pentru tine e Zona 3, nu Zona 2.<br><br>
+          Band\u0103: 6\u20136,5 km/h, \u00EEnclinare 6\u201310%, ajusteaz\u0103 \u00EEnclinarea ca FC s\u0103 stea 125\u2013132.
+          3 \u00D7 40 min (Ma / Jo / S\u00E2 sau Du) = 120 min, apoi progresie spre 150.
+          Niciodat\u0103 \u00EEnainte de for\u021B\u0103; zile separate. Verificare: po\u021Bi vorbi propozi\u021Bii \u00EEntregi.
+          Prima s\u0103pt\u0103m\u00E2n\u0103 pe Mi Band: compar\u0103 FC afi\u0219at\u0103 cu pulsul manual 15 s \u00D7 4.
         </div>
+      </div>
+      <div class="card">
+        <h3>Deload</h3>
+        <div class="muted" style="margin-bottom:10px">
+          \u221240% serii, acelea\u0219i greut\u0103\u021Bi, RIR 3\u20134, 7 zile. Declan\u0219atoare: regres pe bench/squat
+          dou\u0103 sesiuni la r\u00E2nd, RHR \u2191 &gt;5 bpm peste medie, somn sub 6 h \u00D7 3 nop\u021Bi.
+        </div>
+        <button class="btn" id="deloadBtn" onclick="toggleDeload()"></button>
       </div>
       <div class="card">
         <h3>Zona periculoasa</h3>
@@ -384,43 +404,51 @@ Object.keys(EX).forEach(id=>{
 });
 
 const SESSIONS=[
-  {id:'upperA', day:'Monday', name:'Upper A \u2014 Horizontal Push + Pull', ex:[
-    {id:'bench',    sets:4, reps:'5\u20137',        rir:'2',   rest:180},
-    {id:'pullup',   sets:4, reps:'6\u20138',        rir:'2',   rest:150},
-    {id:'ohp',      sets:3, reps:'6\u20138',        rir:'2',   rest:150},
-    {id:'sarow',    sets:3, reps:'8\u201312 /arm',  rir:'1\u20132', rest:90},
-    {id:'cabLat',   sets:4, reps:'12\u201320',      rir:'0\u20131', rest:60},
-    {id:'revFly',   sets:3, reps:'12\u201320',      rir:'0\u20131', rest:60},
-    {id:'inclCurl', sets:3, reps:'8\u201312',       rir:'0\u20131', rest:90},
-    {id:'ohTri',    sets:2, reps:'10\u201312',      rir:'0\u20131', rest:60}
+  {id:'fbA', day:'Luni', name:'Full-Body A \u2014 Squat + Bench', ex:[
+    {id:'bbSquat',    sets:3, reps:'6\u20138',   rir:'2',        rest:180, inc:5},
+    {id:'bench',      sets:3, reps:'5\u20137',   rir:'2',        rest:180, inc:2.5},
+    {id:'csRow',      sets:3, reps:'8\u201312',  rir:'1\u20132', rest:120, inc:2.5},
+    {id:'lyCurl',     sets:3, reps:'10\u201315', rir:'0\u20131', rest:75,  inc:5},
+    {id:'dbLat',      sets:3, reps:'12\u201320', rir:'0\u20131', rest:60,  inc:1},
+    {id:'machCrunch', sets:2, reps:'10\u201315', rir:'0\u20131', rest:60,  inc:5}
   ]},
-  {id:'lowerA', day:'Tuesday', name:'Lower A \u2014 Squat + Knee Flexion', ex:[
-    {id:'bbSquat',    sets:4, reps:'6\u20138',        rir:'2',   rest:180},
-    {id:'legPress',   sets:4, reps:'10\u201312',      rir:'1',   rest:120},
-    {id:'seatCurl',   sets:4, reps:'10\u201312',      rir:'0\u20131', rest:90},
-    {id:'oneLegCalf', sets:4, reps:'10\u201315 /leg', rir:'0\u20131', rest:60},
-    {id:'machCrunch', sets:3, reps:'10\u201315',      rir:'0\u20131', rest:60}
+  {id:'fbB', day:'Miercuri', name:'Full-Body B \u2014 Leg Press + OHP', ex:[
+    {id:'legPress',   sets:3, reps:'10\u201312', rir:'1',        rest:120, inc:5},
+    {id:'rdl',        sets:3, reps:'6\u20138',   rir:'2',        rest:150, inc:5},
+    {id:'ohp',        sets:3, reps:'6\u20138',   rir:'2',        rest:150, inc:2.5},
+    {id:'cgPulldown', sets:3, reps:'10\u201312', rir:'1',        rest:120, inc:2.5},
+    {id:'cabFly',     sets:2, reps:'12\u201315', rir:'0\u20131', rest:75,  inc:2.5},
+    {id:'hammer',     sets:2, reps:'10\u201312', rir:'0\u20131', rest:0,   inc:1, ss:'SS cu Overhead Triceps'},
+    {id:'ohTri',      sets:2, reps:'10\u201312', rir:'0\u20131', rest:75,  inc:2.5, ss:'SS cu Hammer Curl'},
+    {id:'seatCalf',   sets:2, reps:'12\u201315', rir:'0\u20131', rest:60,  inc:5}
   ]},
-  {id:'upperB', day:'Thursday', name:'Upper B \u2014 Incline / Vertical', ex:[
-    {id:'inclDB',     sets:4, reps:'8\u201310',   rir:'2',   rest:150},
-    {id:'csRow',      sets:4, reps:'8\u201312',   rir:'1\u20132', rest:120},
-    {id:'cabFly',     sets:3, reps:'12\u201315',  rir:'0\u20131', rest:90},
-    {id:'cgPulldown', sets:3, reps:'10\u201312',  rir:'1',   rest:120},
-    {id:'dbLat',      sets:4, reps:'12\u201320',  rir:'0\u20131', rest:60},
-    {id:'facePull',   sets:3, reps:'15\u201320',  rir:'0\u20131', rest:60},
-    {id:'triDip',     sets:3, reps:'8\u201312',   rir:'1\u20132', rest:120},
-    {id:'hammer',     sets:3, reps:'10\u201312',  rir:'0\u20131', rest:60}
-  ]},
-  {id:'lowerB', day:'Friday', name:'Lower B \u2014 Hip Dominant / Unilateral', ex:[
-    {id:'bss',       sets:3, reps:'8\u201310 /leg', rir:'1\u20132', rest:120},
-    {id:'hipThrust', sets:4, reps:'8\u201310',      rir:'1\u20132', rest:120},
-    {id:'backExt',   sets:3, reps:'10\u201312',     rir:'1\u20132', rest:90},
-    {id:'legExt',    sets:3, reps:'12\u201315',     rir:'0\u20131', rest:75},
-    {id:'lyCurl',    sets:3, reps:'10\u201315',     rir:'0\u20131', rest:75},
-    {id:'seatCalf',  sets:3, reps:'12\u201315',     rir:'0\u20131', rest:60},
-    {id:'pallof',    sets:3, reps:'20\u201330 s /side', rir:'\u2014', rest:45, unit:'sec'}
+  {id:'fbC', day:'Vineri', name:'Full-Body C \u2014 Hip Thrust + Incline', ex:[
+    {id:'hipThrust',  sets:3, reps:'8\u201310',  rir:'1\u20132', rest:120, inc:5},
+    {id:'inclDB',     sets:3, reps:'8\u201310',  rir:'2',        rest:150, inc:2.5},
+    {id:'pullup',     sets:3, reps:'6\u201310',  rir:'1\u20132', rest:120, inc:2.5},
+    {id:'legExt',     sets:2, reps:'12\u201315', rir:'0\u20131', rest:75,  inc:5},
+    {id:'seatCurl',   sets:2, reps:'10\u201312', rir:'0\u20131', rest:90,  inc:5},
+    {id:'facePull',   sets:3, reps:'15\u201320', rir:'0\u20131', rest:60,  inc:2.5},
+    {id:'oneLegCalf', sets:2, reps:'10\u201315 /leg', rir:'0\u20131', rest:60, inc:2.5},
+    {id:'inclCurl',   sets:2, reps:'8\u201312',  rir:'0\u20131', rest:75,  inc:1}
   ]}
 ];
+
+/* Zone 2 \u2014 personalizat (Bogdan, 44 ani, RHR ~67, FCmax est. Tanaka 177) */
+const Z2={lo:118, hi:133, cap:135, weeklyTargetMin:150, note:'Band\u0103: 6\u20136,5 km/h la \u00EEnclinare 6\u201310%. Test: po\u021Bi vorbi propozi\u021Bii \u00EEntregi.'};
+
+/* grupe musculare pentru volum s\u0103pt\u0103m\u00E2nal */
+const MUSCLE={
+  bench:'piept', inclDB:'piept', cabFly:'piept', triDip:'piept',
+  pullup:'spate', csRow:'spate', sarow:'spate', cgPulldown:'spate',
+  ohp:'umeri', dbLat:'umeri', cabLat:'umeri', facePull:'umeri', revFly:'umeri',
+  inclCurl:'biceps', hammer:'biceps', ohTri:'triceps',
+  bbSquat:'cvadriceps', legPress:'cvadriceps', legExt:'cvadriceps', bss:'cvadriceps',
+  rdl:'ischio', seatCurl:'ischio', lyCurl:'ischio', deadlift:'ischio', backExt:'ischio',
+  hipThrust:'fesieri', oneLegCalf:'gambe', seatCalf:'gambe',
+  machCrunch:'abdomen', pallof:'abdomen'
+};
+const MUSCLE_TARGET={cvadriceps:8, ischio:6, piept:8, spate:8, umeri:6, fesieri:3, gambe:4, biceps:4, triceps:2, abdomen:3};
 
 /* ============================================================
    ALIMENTE — permise pentru masa slaba + pierdere viscerala
@@ -501,7 +529,7 @@ const FOODS=[
  ]}
 ];
 
-const BUILD='2026-07-23-K';
+const BUILD='2026-08-22-FB1';
 
 /* ============================================================
    State
@@ -510,6 +538,8 @@ let W=null;                 // antrenamentul curent (sau doar previzualizat)
 let RUNNING=false;          // false = mod consultare, true = sesiune pornita
 let wakeLock=null, runTimer=null, restTimer=null, restLeft=0;
 let lastMap={};             // exId -> {date, sets:[]}
+let DELOAD=false;           // mod deload: -40% serii, acelea\u0219i greut\u0103\u021Bi
+let Z2RUN=null, z2Timer=null;   // sesiune Zone 2 \u00EEn desf\u0103\u0219urare
 
 /* ============================================================
    Login
@@ -525,6 +555,7 @@ document.getElementById('pw').addEventListener('keydown',e=>{if(e.key==='Enter')
 
 async function boot(){
   await openDB();
+  const dl=await get1('settings','deload');DELOAD=!!(dl&&dl.value);
   await buildLastMap();
   renderSessions();
   await renderRecent();
@@ -538,7 +569,7 @@ async function boot(){
 /* ============================================================
    Navigare
    ============================================================ */
-const TITLES={gym:['Gym','Upper / Lower \u2014 4x per week'],stats:['Stats','Compozitie corporala'],
+const TITLES={gym:['Gym','Full-Body 3\u00D7 + Zone 2'],stats:['Stats','Compozitie corporala'],
   foods:['Alimente','Lista permisa'],set:['Setari','Export & date']};
 function go(v){
   ['gym','stats','foods','set'].forEach(k=>{
@@ -548,7 +579,7 @@ function go(v){
   document.getElementById('hTitle').textContent=TITLES[v][0];
   document.getElementById('hSub').innerHTML=TITLES[v][1]+' \u00B7 <span style="color:var(--green-dim)">build '+BUILD+'</span>';
   if(v==='stats')renderStats();
-  if(v==='set')renderDiag();
+  if(v==='set'){renderDiag();paintDeloadBtn()}
   window.scrollTo(0,0);
 }
 
@@ -582,15 +613,115 @@ async function buildLastMap(){
 function fmtD(d){if(!d)return '';const p=d.split('-');return p[2]+'.'+p[1]}
 
 /* ============================================================
+   Dubl\u0103 progresie: dac\u0103 ultima sesiune a atins v\u00E2rful
+   intervalului de repet\u0103ri pe toate seturile -> cre\u0219te greutatea.
+   ============================================================ */
+function repRange(t){
+  const m=String(t).match(/(\d+)\D+(\d+)/);
+  return m?{lo:+m[1],hi:+m[2]}:null;
+}
+function progressionHint(exDef){
+  const L=lastMap[exDef.id];
+  if(!L||!L.sets.length)return null;
+  const rr=repRange(exDef.reps);
+  if(!rr)return null;
+  const withReps=L.sets.filter(x=>x.r!=null&&x.w!=null);
+  if(!withReps.length)return null;
+  /* stil de lucru cu seturi ascendente -> decizia se ia pe TOP SET */
+  const topW=Math.max(...withReps.map(x=>x.w));
+  const tops=withReps.filter(x=>x.w===topW);
+  const topR=Math.max(...tops.map(x=>x.r));
+  if(topR>=rr.hi)return {cls:'up',txt:'\u2191 Top set '+topW+'\u00D7'+topR+' \u2014 cre\u0219te azi la '+(topW+(exDef.inc||2.5))+' kg'};
+  if(topR<rr.lo)return {cls:'down',txt:'\u2193 Top set '+topW+'\u00D7'+topR+' sub interval \u2014 \u021Bine sau scade greutatea'};
+  return {cls:'flat',txt:'\u2192 \u021Aine '+topW+' kg, \u021Bint\u0103 '+topW+'\u00D7'+rr.hi+' (acum '+topW+'\u00D7'+topR+')'};
+}
+
+/* ============================================================
    Gym
    ============================================================ */
 function renderSessions(){
-  document.getElementById('sessList').innerHTML=SESSIONS.map(s=>{
-    const n=s.ex.reduce((a,e)=>a+e.sets,0);
+  const dl=DELOAD?`<div class="card" style="border-color:var(--amber)">
+      <h3 style="color:var(--amber)">MOD DELOAD ACTIV</h3>
+      <div class="muted">Sesiunile ruleaz\u0103 cu \u221240% serii, acelea\u0219i greut\u0103\u021Bi, RIR 3\u20134.
+      Sugestiile de progresie sunt oprite. Dezactiveaz\u0103 din Set\u0103ri dup\u0103 7 zile.</div></div>`:'';
+  document.getElementById('sessList').innerHTML=dl+SESSIONS.map(s=>{
+    const n=s.ex.reduce((a,e)=>a+deloadSets(e.sets),0);
     return `<button class="sess" onclick="startWorkout('${s.id}')">
       <div class="t">${s.name}</div>
-      <div class="d">${s.ex.length} exercitii \u00B7 ${n} seturi</div></button>`;
-  }).join('');
+      <div class="d">${s.day} \u00B7 ${s.ex.length} exerci\u021Bii \u00B7 ${n} seturi${DELOAD?' (deload)':''}</div></button>`;
+  }).join('')+`
+    <div class="card" style="border-color:#123a5e">
+      <h3 style="color:#4aa3ff">Zone 2 \u2014 Band\u0103 (zi f\u0103r\u0103 for\u021B\u0103)</h3>
+      <div class="muted" style="margin-bottom:10px">
+        \u021Aint\u0103 FC: <b style="color:#4aa3ff">${Z2.lo}\u2013${Z2.hi} bpm</b> \u00B7 plafon ${Z2.cap} \u00B7 40 min.
+        ${Z2.note}<br>S\u0103pt\u0103m\u00E2na asta: <b style="color:#4aa3ff" id="z2wk">\u2026</b> / ${Z2.weeklyTargetMin} min.
+      </div>
+      <div id="z2idle">
+        <button class="btn" style="border-color:#123a5e;color:#4aa3ff" onclick="startZ2()">\u25B6\u00A0 Start Zone 2</button>
+      </div>
+      <div id="z2run" class="hidden">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
+          <div><div class="muted" style="font-size:.68rem;text-transform:uppercase">Timp</div>
+          <div style="color:#4aa3ff;font-size:1.7rem;font-weight:700;font-variant-numeric:tabular-nums" id="z2t">00:00</div></div>
+          <div style="text-align:right"><div class="muted" style="font-size:.68rem;text-transform:uppercase">Band\u0103 FC</div>
+          <div style="color:#4aa3ff;font-weight:700">${Z2.lo}\u2013${Z2.hi}</div></div>
+        </div>
+        <div class="grid2">
+          <div><label>FC medie (band\u0103/Mi Band)</label><input type="text" inputmode="numeric" id="z2avg" placeholder="ex. 127"></div>
+          <div><label>FC maxim\u0103</label><input type="text" inputmode="numeric" id="z2max" placeholder="ex. 134"></div>
+        </div>
+        <button class="btn" style="margin-top:10px;border-color:#123a5e;color:#4aa3ff" onclick="finishZ2()">Termin\u0103 \u0219i salveaz\u0103</button>
+        <button class="btn ghost" style="margin-top:8px" onclick="abortZ2()">Anuleaz\u0103</button>
+      </div>
+    </div>`;
+  paintZ2Week();
+}
+function deloadSets(n){return DELOAD?Math.max(1,Math.round(n*0.6)):n}
+
+/* ---- Zone 2: cronometru + salvare ---- */
+async function z2MinutesThisWeek(){
+  const ws=await all('workouts');
+  const now=new Date();const day=(now.getDay()+6)%7;
+  const mon=new Date(now);mon.setHours(0,0,0,0);mon.setDate(mon.getDate()-day);
+  return Math.round(ws.filter(w=>w.type==='cardio'&&(w.startTs||Date.parse(w.date))>=mon.getTime())
+    .reduce((a,w)=>a+((w.endTs&&w.startTs)?(w.endTs-w.startTs)/60000:(w.z2min||0)),0));
+}
+async function paintZ2Week(){
+  const el=document.getElementById('z2wk');
+  if(el)el.textContent=await z2MinutesThisWeek();
+}
+function startZ2(){
+  if(Z2RUN)return;
+  Z2RUN={date:isoToday(),type:'cardio',sessionId:'zone2',sessionName:'Zone 2 \u2014 Band\u0103',
+    startTs:Date.now(),endTs:null,targetLo:Z2.lo,targetHi:Z2.hi};
+  document.getElementById('z2idle').classList.add('hidden');
+  document.getElementById('z2run').classList.remove('hidden');
+  requestWakeLock();
+  z2Timer=setInterval(()=>{
+    const sec=Math.floor((Date.now()-Z2RUN.startTs)/1000);
+    const el=document.getElementById('z2t');
+    if(el)el.textContent=pad(Math.floor(sec/60))+':'+pad(sec%60);
+  },1000);
+  toast('Zone 2 pornit \u00B7 \u021Bine '+Z2.lo+'\u2013'+Z2.hi+' bpm');
+}
+async function finishZ2(){
+  if(!Z2RUN)return;
+  Z2RUN.endTs=Date.now();
+  const mins=Math.round((Z2RUN.endTs-Z2RUN.startTs)/60000);
+  if(mins<1){toast('Sub 1 minut \u2014 anulat');abortZ2();return}
+  Z2RUN.z2min=mins;
+  Z2RUN.avgHR=numVal(document.getElementById('z2avg').value);
+  Z2RUN.maxHR=numVal(document.getElementById('z2max').value);
+  await put('workouts',Z2RUN);
+  await saveMetricsForDay(Z2RUN.date,{cardioDay:true});
+  clearInterval(z2Timer);z2Timer=null;Z2RUN=null;releaseWakeLock();
+  renderSessions();await renderRecent();
+  toast(mins+' min Zone 2 salvate');
+}
+function abortZ2(){
+  if(z2Timer)clearInterval(z2Timer);z2Timer=null;Z2RUN=null;releaseWakeLock();
+  const i=document.getElementById('z2idle'),r=document.getElementById('z2run');
+  if(i)i.classList.remove('hidden');if(r)r.classList.add('hidden');
 }
 
 async function renderRecent(){
@@ -600,6 +731,13 @@ async function renderRecent(){
   const el=document.getElementById('recentList');
   if(!ws.length){el.innerHTML='<div class="muted">Niciun antrenament inregistrat.</div>';return}
   el.innerHTML=ws.map(w=>{
+    if(w.type==='cardio'){
+      const mins=w.z2min||((w.endTs&&w.startTs)?Math.round((w.endTs-w.startTs)/60000):0);
+      return `<div class="hist"><div><div class="d">${w.date}</div>
+        <div class="m" style="color:#4aa3ff">${w.sessionName||'Zone 2'}</div></div>
+        <div style="text-align:right"><div class="d" style="color:#4aa3ff">${mins} min</div>
+        <div class="m">${w.avgHR?('FC med '+w.avgHR):''}</div></div></div>`;
+    }
     const sets=(w.exercises||[]).reduce((a,e)=>a+(e.sets||[]).filter(s=>s.done).length,0);
     const vol=(w.exercises||[]).reduce((a,e)=>a+(e.sets||[]).reduce((b,s)=>b+((s.done&&s.weight&&s.reps)?s.weight*s.reps:0),0),0);
     const mins=w.startTs&&w.endTs?Math.round((w.endTs-w.startTs)/60000):null;
@@ -615,9 +753,11 @@ function startWorkout(sid){
   const S=SESSIONS.find(x=>x.id===sid);
   RUNNING=false;
   W={date:isoToday(),type:'strength',sessionId:S.id,sessionName:S.name,startTs:null,endTs:null,
-     exercises:S.ex.map(e=>({exId:e.id,name:EX[e.id].n,targetSets:e.sets,targetReps:e.reps,rir:e.rir,rest:e.rest,unit:e.unit||'reps',
+     deload:DELOAD||undefined,
+     exercises:S.ex.map(e=>({exId:e.id,name:EX[e.id].n,targetSets:deloadSets(e.sets),targetReps:e.reps,
+       rir:DELOAD?'3\u20134':e.rir,rest:e.rest,unit:e.unit||'reps',inc:e.inc||2.5,
        ss:e.ss||null,
-       sets:Array.from({length:e.sets},()=>({weight:null,reps:null,done:false}))}))};
+       sets:Array.from({length:deloadSets(e.sets)},()=>({weight:null,reps:null,done:false}))}))};
   document.getElementById('sessPick').classList.add('hidden');
   document.getElementById('sessRun').classList.remove('hidden');
   document.getElementById('runName').textContent=S.name;
@@ -657,23 +797,28 @@ function renderRun(){
   document.getElementById('exList').innerHTML=W.exercises.map((e,i)=>{
     const doneAll=RUNNING&&e.sets.every(s=>s.done);
     const L=lastMap[e.exId];
+    /* ANTI-COPIERE: inputurile pornesc GOALE. Valorile trecute apar doar ca
+       placeholder (nu se salveaza) + linia de referinta de mai jos. */
     const rows=e.sets.map((s,j)=>{
-      const pv=L&&L.sets[j]?L.sets[j]:null;              // valorile de data trecuta, pe acelasi index de set
-      const wSet=s.weight!=null, rSet=s.reps!=null;
-      const wVal=wSet?s.weight:(pv&&pv.w!=null?pv.w:'');
-      const rVal=rSet?s.reps :(pv&&pv.r!=null?pv.r:'');
-      const wPre=!wSet&&wVal!=='' ? 'pre':'';
-      const rPre=!rSet&&rVal!=='' ? 'pre':'';
+      const pv=L&&L.sets[j]?L.sets[j]:null;
+      const wVal=s.weight!=null?s.weight:'';
+      const rVal=s.reps  !=null?s.reps  :'';
+      const wPh=pv&&pv.w!=null?pv.w:'kg';
+      const rPh=pv&&pv.r!=null?pv.r:(e.unit==='sec'?'sec':'reps');
       const dis=RUNNING?'':'disabled';
       return `<div class="setrow ${s.done?'ok':''}" id="sr-${i}-${j}">
         <div class="n">${j+1}</div>
-        <input type="text" inputmode="decimal" placeholder="kg" class="${wPre}" ${dis}
-          id="w-${i}-${j}" value="${wVal}" onfocus="clearPre(this)" onchange="setVal(${i},${j},'weight',this.value)">
-        <input type="text" inputmode="numeric" placeholder="${e.unit==='sec'?'sec':'reps'}" class="${rPre}" ${dis}
-          id="r-${i}-${j}" value="${rVal}" onfocus="clearPre(this)" onchange="setVal(${i},${j},'reps',this.value)">
+        <input type="text" inputmode="decimal" placeholder="${wPh}" ${dis}
+          id="w-${i}-${j}" value="${wVal}" onchange="setVal(${i},${j},'weight',this.value)">
+        <input type="text" inputmode="numeric" placeholder="${rPh}" ${dis}
+          id="r-${i}-${j}" value="${rVal}" onchange="setVal(${i},${j},'reps',this.value)">
         <button class="chk" ${dis} onclick="toggleSet(${i},${j})">${s.done?'\u2713':'\u25CB'}</button>
       </div>`;
     }).join('');
+    const ref=L?`<div class="muted" style="margin-top:8px;font-size:.7rem">Ultima (${fmtD(L.date)}): `+
+      L.sets.map(x=>((x.w!=null?x.w:'\u2014')+'\u00D7'+(x.r!=null?x.r:'\u2014'))).join(' \u00B7 ')+`</div>`:'';
+    const hint=!DELOAD?progressionHint({id:e.exId,reps:e.targetReps,sets:e.targetSets,inc:e.inc}):null;
+    const hintHtml=hint&&!DELOAD?`<div style="font-size:.72rem;margin-top:5px" class="${hint.cls==='up'?'down':(hint.cls==='down'?'up':'flat')}">${hint.txt}</div>`:'';
     return `<div class="ex ${doneAll?'done':''}" id="ex-${i}">
       <div class="ex-h">
         <div style="flex:1">
@@ -682,11 +827,11 @@ function renderRun(){
         </div>
       </div>
       ${rows}
+      ${ref}
+      ${hintHtml}
     </div>`;
   }).join('');
 }
-
-function clearPre(el){el.classList.remove('pre')}
 
 function numVal(v){
   if(v==null)return null;
@@ -701,11 +846,15 @@ function setVal(i,j,k,v){
 function toggleSet(i,j){
   if(!RUNNING)return;
   const s=W.exercises[i].sets[j];
-  s.done=!s.done;
-  // citeste inputurile fara re-render (fara scroll, fara pierdere focus)
   const wi=document.getElementById(`w-${i}-${j}`), ri=document.getElementById(`r-${i}-${j}`);
-  s.weight= numVal(wi.value);          // valoarea precompletata se salveaza ca atare; virgula acceptata
-  s.reps  = numVal(ri.value)==null?null:Math.round(numVal(ri.value));
+  const wv=numVal(wi.value), rv=numVal(ri.value);
+  if(!s.done&&(wv==null||rv==null)){
+    toast('Scrie kg \u0219i reps \u2014 f\u0103r\u0103 valori mo\u0219tenite');
+    return;                              // integritatea datelor: doar valori introduse explicit
+  }
+  s.done=!s.done;
+  s.weight= wv;
+  s.reps  = rv==null?null:Math.round(rv);
   wi.classList.remove('pre');ri.classList.remove('pre');
   const row=document.getElementById(`sr-${i}-${j}`);
   row.classList.toggle('ok',s.done);
@@ -837,7 +986,8 @@ async function renderStats(){
     kpi('Grasime',fm,'kg',dfm,true)+
     kpi('Burta',wa,'cm',dwa,true)+
     kpi('Grasime %',fp,'%',null,true)+
-    kpi('Antrenamente / sapt',await weekCount(),'',null,false);
+    kpi('For\u021B\u0103 / s\u0103pt',await weekCount(),'/ 3',null,false)+
+    kpi('Zone 2 / s\u0103pt',await z2MinutesThisWeek(),'/ '+Z2.weeklyTargetMin+' min',null,false);
 
   drawMulti('chartBody',[
     {d:b.filter(x=>x.weight!=null).map(x=>({x:x.date,y:x.weight})),c:'#39FF14'},
@@ -846,6 +996,7 @@ async function renderStats(){
   ]);
   drawMulti('chartWaist',[{d:b.filter(x=>x.waist!=null).map(x=>({x:x.date,y:x.waist})),c:'#39FF14'}]);
   await drawVolume();
+  await renderMuscleTable();
 
   const rows=b.slice().reverse().slice(0,30).map(x=>`<tr>
     <td>${x.date}</td><td>${x.weight??'\u2014'}</td><td>${x.muscleMass??'\u2014'}</td>
@@ -858,7 +1009,35 @@ async function renderStats(){
 async function weekCount(){
   const ws=await all('workouts');
   const now=Date.now(),wk=7*864e5;
-  return ws.filter(w=>{const t=w.startTs||Date.parse(w.date);return now-t<wk}).length;
+  return ws.filter(w=>w.type!=='cardio'&&(()=>{const t=w.startTs||Date.parse(w.date);return now-t<wk})()).length;
+}
+
+/* volum pe grupa musculara, ultimele 7 zile */
+async function muscleVolume7d(){
+  const ws=await all('workouts');
+  const now=Date.now(),wk=7*864e5;
+  const acc={};
+  ws.forEach(w=>{
+    if(w.type==='cardio')return;
+    const t=w.startTs||Date.parse(w.date);
+    if(!(now-t<wk))return;
+    (w.exercises||[]).forEach(e=>{
+      const id=e.exId||resolveId(e.name);
+      const g=id&&MUSCLE[id];if(!g)return;
+      acc[g]=(acc[g]||0)+(e.sets||[]).filter(x=>x.done).length;
+    });
+  });
+  return acc;
+}
+async function renderMuscleTable(){
+  const acc=await muscleVolume7d();
+  const rows=Object.keys(MUSCLE_TARGET).map(g=>{
+    const v=acc[g]||0,t=MUSCLE_TARGET[g];
+    const c=v>=t?'var(--green)':(v>=Math.ceil(t*0.6)?'var(--amber)':'var(--red)');
+    return `<tr><td>${g}</td><td style="color:${c};font-weight:700">${v}</td><td>${t}</td></tr>`;
+  }).join('');
+  const el=document.getElementById('muscleTable');
+  if(el)el.innerHTML=`<tr><th>Grup\u0103</th><th>Serii 7 zile</th><th>\u021Aint\u0103 min.</th></tr>`+rows;
 }
 
 /* charts */
@@ -891,6 +1070,7 @@ async function drawVolume(){
   const ws=await all('workouts');
   const bucket={};
   ws.forEach(w=>{
+    if(w.type==='cardio')return;
     const t=w.startTs||Date.parse(w.date);if(!t)return;
     const d=new Date(t);const day=(d.getDay()+6)%7;d.setDate(d.getDate()-day);
     const k=d.toISOString().slice(0,10);
@@ -973,9 +1153,10 @@ async function importJSON(){
   let okW=0,okM=0,okE=0;
   // antrenamente: id nou (autoIncrement) ca sa nu suprascrie ce exista deja
   const seen=new Set();
-  for(const w of (await all('workouts'))) seen.add((w.date||'')+'|'+(w.sessionId||''));
+  const kf=w=>(w.date||'')+'|'+(w.sessionId||'')+(w.type==='cardio'?('|'+(w.startTs||'')):'');
+  for(const w of (await all('workouts'))) seen.add(kf(w));
   for(const w of (d.workouts||[])){
-    const key=(w.date||'')+'|'+(w.sessionId||'');
+    const key=kf(w);
     if(seen.has(key))continue;            // deduplicare
     const c={...w};delete c.id;
     await put('workouts',c);seen.add(key);okW++;
@@ -994,6 +1175,20 @@ async function importJSON(){
 
   await buildLastMap();await renderRecent();await renderStats();await renderDiag();
   alert(`Restaurat.\nAntrenamente adaugate: ${okW}\nMasuratori: ${okM}\nIntrari vechi: ${okE}`);
+}
+
+async function toggleDeload(){
+  DELOAD=!DELOAD;
+  await put('settings',{key:'deload',value:DELOAD});
+  paintDeloadBtn();renderSessions();
+  toast(DELOAD?'Deload activ':'Deload oprit');
+}
+function paintDeloadBtn(){
+  const b=document.getElementById('deloadBtn');
+  if(!b)return;
+  b.textContent=DELOAD?'Dezactiveaz\u0103 deload':'Activeaz\u0103 deload (7 zile)';
+  b.style.borderColor=DELOAD?'var(--amber)':'var(--line)';
+  b.style.color=DELOAD?'var(--amber)':'var(--txt)';
 }
 
 async function wipe(){
