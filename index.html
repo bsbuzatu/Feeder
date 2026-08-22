@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ro">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
@@ -9,14 +9,14 @@
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
-<title>Jurnal Antrenament</title>
+<title>Training Log</title>
 <link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' fill='black'/><text y='72' x='50' font-size='64' text-anchor='middle' fill='%2339FF14'>G</text></svg>">
 <style>
 :root{
   --bg:#000; --panel:#0b0f0b; --panel2:#111511; --line:#1f2a1f;
   --green:#39FF14; --green-dim:#1f8f0c; --txt:#d8ffd0; --muted:#7c8f78;
   --red:#ff4d4d; --amber:#ffb020;
-  --fs:18.9px;
+  --fs:19.5px;
 }
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 html,body{margin:0;padding:0;background:var(--bg);color:var(--txt);
@@ -45,12 +45,12 @@ header .sub{color:var(--muted);font-size:.72rem;margin-top:2px}
 main{padding:16px}
 .card{background:var(--panel);border:1px solid var(--line);border-radius:14px;
   padding:14px;margin-bottom:12px}
-.card h3{color:var(--green);font-size:.95rem;margin-bottom:8px;letter-spacing:.02em}
-.muted{color:var(--muted);font-size:.78rem;line-height:1.45}
+.card h3{color:var(--green);font-size:1.05rem;margin-bottom:8px;letter-spacing:.02em}
+.muted{color:var(--muted);font-size:.92rem;line-height:1.45}
 .row{display:flex;gap:10px;align-items:center}
 .grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
 .grid4{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
-label{display:block;color:var(--muted);font-size:.72rem;margin-bottom:5px;letter-spacing:.04em;text-transform:uppercase}
+label{display:block;color:var(--muted);font-size:.85rem;margin-bottom:5px;letter-spacing:.04em;text-transform:uppercase}
 
 .btn{background:var(--panel2);border:1px solid var(--line);border-radius:12px;
   padding:13px 16px;width:100%;font-weight:600;letter-spacing:.02em}
@@ -63,21 +63,21 @@ label{display:block;color:var(--muted);font-size:.72rem;margin-bottom:5px;letter
 .sess{display:block;text-align:left;background:var(--panel);border:1px solid var(--line);
   border-radius:14px;padding:16px;margin-bottom:10px;width:100%}
 .sess .t{color:var(--green);font-weight:700;font-size:1rem}
-.sess .d{color:var(--muted);font-size:.75rem;margin-top:4px}
+.sess .d{color:var(--muted);font-size:.92rem;margin-top:4px}
 
 /* exercise block */
 .ex{background:var(--panel);border:1px solid var(--line);border-radius:14px;
   padding:14px;margin-bottom:12px}
 .ex.done{border-color:var(--green-dim)}
 .ex-h{display:flex;justify-content:space-between;align-items:flex-start;gap:10px}
-.ex-name{font-weight:700;font-size:1rem;line-height:1.25}
-.ex-meta{color:var(--muted);font-size:.72rem;margin-top:4px}
+.ex-name{font-weight:700;font-size:1.15rem;line-height:1.25}
+.ex-meta{color:var(--muted);font-size:.95rem;margin-top:4px}
 .ex-idx{color:var(--green-dim);font-size:.72rem;font-weight:700;min-width:22px}
 .setrow{display:grid;grid-template-columns:26px 1fr 1fr 52px;gap:8px;align-items:center;margin-top:9px}
-.setrow .n{color:var(--muted);font-size:.75rem;text-align:center}
+.setrow .n{color:var(--muted);font-size:.95rem;text-align:center}
 .setrow input{padding:12px 8px;text-align:center;font-size:1.15rem;font-weight:700;
   font-variant-numeric:tabular-nums}
-.setrow input.pre{color:#5f7a5b;font-weight:600}
+.setrow input.tgt{color:#8fb989;font-weight:600}
 .setrow input:disabled{opacity:1;-webkit-text-fill-color:#5f7a5b}
 .chk{background:var(--panel2);border:1px solid var(--line);border-radius:10px;
   height:46px;font-size:1.05rem;line-height:1}
@@ -133,8 +133,8 @@ td{padding:8px 4px;border-bottom:1px solid #131813;text-align:right;font-variant
   color:var(--green);border-radius:999px;padding:3px 9px;font-size:.64rem;
   letter-spacing:.06em;text-transform:uppercase}
 .hist{padding:10px 0;border-bottom:1px solid #131813;display:flex;justify-content:space-between}
-.hist .d{font-size:.8rem}
-.hist .m{color:var(--muted);font-size:.68rem;margin-top:2px}
+.hist .d{font-size:.95rem}
+.hist .m{color:var(--muted);font-size:.85rem;margin-top:2px}
 .toast{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(140px + env(safe-area-inset-bottom));
   background:var(--green);color:#000;padding:11px 18px;border-radius:999px;font-size:.78rem;
   font-weight:700;z-index:200;opacity:0;transition:opacity .2s}
@@ -144,9 +144,9 @@ td{padding:8px 4px;border-bottom:1px solid #131813;text-align:right;font-variant
 <body>
 
 <div id="gate">
-  <h1>JURNAL</h1>
-  <input id="pw" type="password" inputmode="text" autocomplete="off" placeholder="cod">
-  <button onclick="unlock()">Intra</button>
+  <h1>TRAINING LOG</h1>
+  <input id="pw" type="password" inputmode="text" autocomplete="off" placeholder="code">
+  <button onclick="unlock()">Enter</button>
   <div class="muted" id="gateMsg"></div>
 </div>
 
@@ -161,13 +161,13 @@ td{padding:8px 4px;border-bottom:1px solid #131813;text-align:right;font-variant
     <section id="v-gym">
       <div id="sessPick">
         <div id="dbWarn" class="card hidden" style="border-color:#4a1f1f">
-          <h3 style="color:var(--red)">Baza de date e goala</h3>
-          <div class="muted">Zero antrenamente salvate pe aceasta origine. Nu exista istoric de precompletat
-          in casete. Mergi la <b>Setari &rarr; Import</b> si incarca ultimul export JSON.</div>
+          <h3 style="color:var(--red)">Database is empty</h3>
+          <div class="muted">No workouts saved on this origin, so no history to compute today's targets from.
+          Go to <b>Settings &rarr; Import</b> and load your latest JSON export.</div>
         </div>
         <div id="sessList"></div>
         <div class="card">
-          <h3>Antrenamente recente</h3>
+          <h3>Recent workouts</h3>
           <div id="recentList"></div>
         </div>
       </div>
@@ -176,20 +176,20 @@ td{padding:8px 4px;border-bottom:1px solid #131813;text-align:right;font-variant
         <div class="card" style="display:flex;justify-content:space-between;align-items:center">
           <div>
             <div style="color:var(--green);font-weight:700" id="runName"></div>
-            <div class="muted" id="runTime">Nepornit</div>
+            <div class="muted" id="runTime">Not started</div>
           </div>
-          <button class="btn ghost" style="width:auto;padding:9px 14px" id="backBtn" onclick="leaveSession()">Inapoi</button>
+          <button class="btn ghost" style="width:auto;padding:9px 14px" id="backBtn" onclick="leaveSession()">Back</button>
         </div>
 
         <div id="startBar" class="card" style="border-color:var(--green-dim)">
           <div class="muted" style="margin-bottom:10px">
-            Mod consultare. Casetele arata valorile de data trecuta. Nimic nu se inregistreaza pana la Start.
+            Preview. Boxes show today's computed targets. Nothing is recorded until Start.
           </div>
-          <button class="btn primary" onclick="beginWorkout()">&#9654;&nbsp; Start antrenament</button>
+          <button class="btn primary" onclick="beginWorkout()">&#9654;&nbsp; Start workout</button>
         </div>
 
         <div id="exList"></div>
-        <button class="btn primary hidden" id="finishBtn" onclick="finishWorkout()">Termina antrenamentul</button>
+        <button class="btn primary hidden" id="finishBtn" onclick="finishWorkout()">Finish workout</button>
         <div style="height:70px"></div>
       </div>
     </section>
@@ -197,16 +197,16 @@ td{padding:8px 4px;border-bottom:1px solid #131813;text-align:right;font-variant
     <!-- ============ STATS ============ -->
     <section id="v-stats" class="hidden">
       <div class="card">
-        <h3>Masuratori</h3>
-        <label>Data</label>
+        <h3>Measurements</h3>
+        <label>Date</label>
         <input type="date" id="mDate">
         <div class="grid2" style="margin-top:10px">
-          <div><label>Greutate (kg)</label><input type="text" inputmode="decimal" id="mWeight"></div>
-          <div><label>Muschi (kg)</label><input type="text" inputmode="decimal" id="mMuscle"></div>
-          <div><label>Grasime (kg)</label><input type="text" inputmode="decimal" id="mFat"></div>
-          <div><label>Burta (cm)</label><input type="text" inputmode="decimal" id="mWaist"></div>
+          <div><label>Weight (kg)</label><input type="text" inputmode="decimal" id="mWeight"></div>
+          <div><label>Muscle (kg)</label><input type="text" inputmode="decimal" id="mMuscle"></div>
+          <div><label>Fat (kg)</label><input type="text" inputmode="decimal" id="mFat"></div>
+          <div><label>Waist (cm)</label><input type="text" inputmode="decimal" id="mWaist"></div>
         </div>
-        <button class="btn primary" style="margin-top:12px" onclick="saveMetrics()">Salveaza</button>
+        <button class="btn primary" style="margin-top:12px" onclick="saveMetrics()">Save</button>
       </div>
 
       <div class="card">
@@ -215,34 +215,34 @@ td{padding:8px 4px;border-bottom:1px solid #131813;text-align:right;font-variant
       </div>
 
       <div class="card">
-        <h3>Greutate &amp; compozitie</h3>
+        <h3>Weight &amp; composition</h3>
         <canvas id="chartBody"></canvas>
         <div class="muted" style="margin-top:8px">
-          <span style="color:var(--green)">&#9679;</span> greutate &nbsp;
-          <span style="color:#4aa3ff">&#9679;</span> muschi &nbsp;
-          <span style="color:var(--amber)">&#9679;</span> grasime
+          <span style="color:var(--green)">&#9679;</span> weight &nbsp;
+          <span style="color:#4aa3ff">&#9679;</span> muscle &nbsp;
+          <span style="color:var(--amber)">&#9679;</span> fat
         </div>
       </div>
 
       <div class="card">
-        <h3>Circumferinta abdominala</h3>
+        <h3>Waist circumference</h3>
         <canvas id="chartWaist"></canvas>
       </div>
 
       <div class="card">
-        <h3>Volum antrenament (seturi / saptamana)</h3>
+        <h3>Training volume (sets / week)</h3>
         <canvas id="chartVol"></canvas>
       </div>
 
       <div class="card">
-        <h3>Serii pe grup\u0103 muscular\u0103 (7 zile)</h3>
+        <h3>Sets per muscle group (7 days)</h3>
         <div class="tw"><table id="muscleTable"></table></div>
-        <div class="muted" style="margin-top:8px">\u021Ainte de reten\u021Bie \u00EEn deficit caloric.
-        Cvadriceps \u0219i ischio au prioritate \u2014 erau sub prag \u00EEn programul vechi.</div>
+        <div class="muted" style="margin-top:8px">Retention targets while in a caloric deficit.
+        Quads and hamstrings have priority \u2014 they were under threshold in the old split.</div>
       </div>
 
       <div class="card">
-        <h3>Istoric</h3>
+        <h3>History</h3>
         <div class="tw"><table id="histTable"></table></div>
       </div>
     </section>
@@ -250,11 +250,11 @@ td{padding:8px 4px;border-bottom:1px solid #131813;text-align:right;font-variant
     <!-- ============ FOODS ============ -->
     <section id="v-foods" class="hidden">
       <div class="card">
-        <h3>Criterii de includere</h3>
+        <h3>Inclusion criteria</h3>
         <div class="muted">
-          Densitate proteica mare, indice glicemic scazut sau fibra ridicata, grasimi predominant nesaturate,
-          zero ulei vegetal rafinat / zahar adaugat / alcool. Valorile sunt per 100 g produs crud, daca nu se
-          specifica altfel. Compatibil cu atorvastatina: fara grapefruit.
+          High protein density, low glycemic index or high fiber, mostly unsaturated fats,
+          zero refined seed oil / added sugar / alcohol. Values per 100 g raw unless stated.
+          Atorvastatin-compatible: no grapefruit.
         </div>
       </div>
       <div class="card"><div id="foodList"></div></div>
@@ -265,51 +265,51 @@ td{padding:8px 4px;border-bottom:1px solid #131813;text-align:right;font-variant
       <div class="card">
         <h3>Export</h3>
         <div class="muted" style="margin-bottom:10px">
-          Exporta toate datele locale: antrenamente, masuratori, setari. Format JSON v3.
+          Exports all local data: workouts, measurements, settings. JSON v3 format.
         </div>
         <button class="btn primary" onclick="exportJSON()">Export JSON</button>
       </div>
       <div class="card">
         <h3>Import</h3>
-        <div class="muted" style="margin-bottom:10px">Restaureaza dintr-un export JSON (v2 sau v3).</div>
+        <div class="muted" style="margin-bottom:10px">Restore from a JSON export (v2 or v3).</div>
         <input type="file" id="impFile" accept="application/json,.json">
-        <button class="btn" style="margin-top:10px" onclick="importJSON()">Importa</button>
+        <button class="btn" style="margin-top:10px" onclick="importJSON()">Import</button>
       </div>
       <div class="card">
-        <h3>Continut baza de date</h3>
+        <h3>Database contents</h3>
         <div id="diag" class="muted"></div>
       </div>
       <div class="card">
-        <h3>Zone 2 \u2014 calibrare (22.08.2026)</h3>
+        <h3>Zone 2 \u2014 calibration (22 Aug 2026)</h3>
         <div class="muted">
-          Date: 44 ani \u00B7 RHR ~67 (medie iun\u2013aug) \u00B7 FCmax est. Tanaka 177 (nem\u0103surat\u0103 direct).<br>
-          60\u201370% FCmax = 106\u2013124 \u00B7 Karvonen 50\u201360% HRR = 122\u2013133 \u00B7 MAF = plafon 136.<br><br>
-          <b style="color:#4aa3ff">\u021Aint\u0103 operativ\u0103: 118\u2013133 bpm, plafon absolut 135.</b><br>
-          Vechea \u021Bint\u0103 130\u2013142 era calculat\u0103 pe RHR 60 \u0219i procente prea sus \u2014 pentru tine e Zona 3, nu Zona 2.<br><br>
-          Band\u0103: 6\u20136,5 km/h, \u00EEnclinare 6\u201310%, ajusteaz\u0103 \u00EEnclinarea ca FC s\u0103 stea 125\u2013132.
-          3 \u00D7 40 min (Ma / Jo / S\u00E2 sau Du) = 120 min, apoi progresie spre 150.
-          Niciodat\u0103 \u00EEnainte de for\u021B\u0103; zile separate. Verificare: po\u021Bi vorbi propozi\u021Bii \u00EEntregi.
-          Prima s\u0103pt\u0103m\u00E2n\u0103 pe Mi Band: compar\u0103 FC afi\u0219at\u0103 cu pulsul manual 15 s \u00D7 4.
+          Inputs: 44 y \u00B7 RHR ~67 (Jun\u2013Aug avg) \u00B7 HRmax est. Tanaka 177 (not directly measured).<br>
+          60\u201370% HRmax = 106\u2013124 \u00B7 Karvonen 50\u201360% HRR = 122\u2013133 \u00B7 MAF cap = 136.<br><br>
+          <b style="color:#4aa3ff">Working target: 118\u2013133 bpm, hard cap 135.</b><br>
+          The old 130\u2013142 target used RHR 60 and percentages set too high \u2014 for you that is Zone 3, not Zone 2.<br><br>
+          Treadmill: 6\u20136.5 km/h, 6\u201310% incline, adjust incline to keep HR at 125\u2013132.
+          3 \u00D7 40 min (Tue / Thu / Sat or Sun) = 120 min, then progress toward 150.
+          Never before lifting; separate days. Check: you can speak full sentences.
+          First week on Mi Band: compare displayed HR with a manual 15 s \u00D7 4 pulse count.
         </div>
       </div>
       <div class="card">
         <h3>Deload</h3>
         <div class="muted" style="margin-bottom:10px">
-          \u221240% serii, acelea\u0219i greut\u0103\u021Bi, RIR 3\u20134, 7 zile. Declan\u0219atoare: regres pe bench/squat
-          dou\u0103 sesiuni la r\u00E2nd, RHR \u2191 &gt;5 bpm peste medie, somn sub 6 h \u00D7 3 nop\u021Bi.
+          \u221240% sets, same weights, RIR 3\u20134, 7 days. Triggers: bench/squat regression
+          two sessions in a row, RHR &gt;5 bpm above baseline, sleep under 6 h \u00D7 3 nights.
         </div>
         <button class="btn" id="deloadBtn" onclick="toggleDeload()"></button>
       </div>
       <div class="card">
-        <h3>Zona periculoasa</h3>
-        <button class="btn danger" onclick="wipe()">Sterge toate datele</button>
+        <h3>Danger zone</h3>
+        <button class="btn danger" onclick="wipe()">Delete all data</button>
       </div>
     </section>
   </main>
 
   <div id="rest" class="hidden">
     <div>
-      <div class="l" id="restLbl">Pauza</div>
+      <div class="l" id="restLbl">Rest</div>
       <div class="t" id="restT">00:00</div>
     </div>
     <div class="row">
@@ -321,8 +321,8 @@ td{padding:8px 4px;border-bottom:1px solid #131813;text-align:right;font-variant
   <nav>
     <button id="n-gym"   class="on" onclick="go('gym')"><span class="ic">&#128170;</span>Gym</button>
     <button id="n-stats"          onclick="go('stats')"><span class="ic">&#128200;</span>Stats</button>
-    <button id="n-foods"          onclick="go('foods')"><span class="ic">&#127859;</span>Alimente</button>
-    <button id="n-set"            onclick="go('set')"><span class="ic">&#9881;</span>Setari</button>
+    <button id="n-foods"          onclick="go('foods')"><span class="ic">&#127859;</span>Foods</button>
+    <button id="n-set"            onclick="go('set')"><span class="ic">&#9881;</span>Settings</button>
   </nav>
 </div>
 
@@ -363,12 +363,12 @@ function clearS(s){return new Promise((res,rej)=>{const q=tx(s,'readwrite').clea
 const EX={
   bench:        {n:'Barbell Bench Press', a:[]},
   pullup:       {n:'Pull-Up', a:['Weighted Pull-Up','Pull-Up (bodyweight)','Lat Pulldown / Tractiuni','Lat Pulldown / Pull-Up','Tractiuni']},
-  ohp:          {n:'Seated Barbell OHP', a:['Seated Barbell OHP','Standing Barbell OHP','Overhead Press']},
+  ohp:          {n:'Seated DB OHP (kg / dumbbell)', a:['Seated Barbell OHP','Standing Barbell OHP','Overhead Press','Seated Dumbbell OHP']},
   sarow:        {n:'Single-Arm DB Row', a:['Single-Arm DB Row','Ramat cu haltera']},
   cabLat:       {n:'Cable Lateral Raise (one arm)', a:['Cable Lateral Raise (one arm)','Cable Lateral Raise (un brat)']},
   revFly:       {n:'Cable Reverse Fly', a:['Cable Reverse Fly']},
   inclCurl:     {n:'Incline DB Curl', a:['Incline DB Curl']},
-  ohTri:        {n:'Overhead Cable Triceps Extension', a:['Overhead Triceps Extension','Overhead Cable Triceps Extension']},
+  ohTri:        {n:'Overhead DB Triceps Extension', a:['Overhead Triceps Extension','Overhead Cable Triceps Extension']},
 
   bbSquat:      {n:'Barbell Back Squat', a:['Back Squat (high-bar, sub paralel)','Back Squat (high-bar, below parallel)','Back Squat','Genuflexiuni']},
   rdl:          {n:'Romanian Deadlift', a:['Romanian Deadlift','Indreptari romanesti']},
@@ -378,8 +378,8 @@ const EX={
   machCrunch:   {n:'Machine Ab Crunch', a:['Machine Ab Crunch']},
 
   inclDB:       {n:'Incline DB Press (30\u00B0)', a:['Incline DB Press (30\u00B0)','Impins inclinat cu gantere']},
-  csRow:        {n:'Chest-Supported DB Row', a:['Chest-Supported DB Row','Ramat la cablu']},
-  cabFly:       {n:'Cable Chest Fly', a:['Cable Chest Fly']},
+  csRow:        {n:'One-Arm Machine Row (kg / arm)', a:['Chest-Supported DB Row','Ramat la cablu','One-Arm Machine Row']},
+  cabFly:       {n:'Chest Fly (machine or cable)', a:['Cable Chest Fly','Machine Chest Fly','Pec Deck']},
   cgPulldown:   {n:'Close-Grip Lat Pulldown', a:['Close-Grip Lat Pulldown','Pulldown priza apropiata']},
   dbLat:        {n:'DB Lateral Raise', a:['DB Lateral Raise','Ridicari laterale']},
   facePull:     {n:'Face Pull', a:['Face Pull / Reverse Fly','Face Pull']},
@@ -404,7 +404,7 @@ Object.keys(EX).forEach(id=>{
 });
 
 const SESSIONS=[
-  {id:'fbA', day:'Luni', name:'Full-Body A \u2014 Squat + Bench', ex:[
+  {id:'fbA', day:'Monday', name:'Full-Body A \u2014 Squat + Bench', ex:[
     {id:'bbSquat',    sets:3, reps:'6\u20138',   rir:'2',        rest:180, inc:5},
     {id:'bench',      sets:3, reps:'5\u20137',   rir:'2',        rest:180, inc:2.5},
     {id:'csRow',      sets:3, reps:'8\u201312',  rir:'1\u20132', rest:120, inc:2.5},
@@ -412,17 +412,17 @@ const SESSIONS=[
     {id:'dbLat',      sets:3, reps:'12\u201320', rir:'0\u20131', rest:60,  inc:1},
     {id:'machCrunch', sets:2, reps:'10\u201315', rir:'0\u20131', rest:60,  inc:5}
   ]},
-  {id:'fbB', day:'Miercuri', name:'Full-Body B \u2014 Leg Press + OHP', ex:[
+  {id:'fbB', day:'Wednesday', name:'Full-Body B \u2014 Leg Press + OHP', ex:[
     {id:'legPress',   sets:3, reps:'10\u201312', rir:'1',        rest:120, inc:5},
     {id:'rdl',        sets:3, reps:'6\u20138',   rir:'2',        rest:150, inc:5},
     {id:'ohp',        sets:3, reps:'6\u20138',   rir:'2',        rest:150, inc:2.5},
     {id:'cgPulldown', sets:3, reps:'10\u201312', rir:'1',        rest:120, inc:2.5},
     {id:'cabFly',     sets:2, reps:'12\u201315', rir:'0\u20131', rest:75,  inc:2.5},
-    {id:'hammer',     sets:2, reps:'10\u201312', rir:'0\u20131', rest:0,   inc:1, ss:'SS cu Overhead Triceps'},
-    {id:'ohTri',      sets:2, reps:'10\u201312', rir:'0\u20131', rest:75,  inc:2.5, ss:'SS cu Hammer Curl'},
+    {id:'hammer',     sets:2, reps:'10\u201312', rir:'0\u20131', rest:0,   inc:1, ss:'Superset w/ Overhead Triceps'},
+    {id:'ohTri',      sets:2, reps:'10\u201312', rir:'0\u20131', rest:75,  inc:2.5, ss:'Superset w/ Hammer Curl'},
     {id:'seatCalf',   sets:2, reps:'12\u201315', rir:'0\u20131', rest:60,  inc:5}
   ]},
-  {id:'fbC', day:'Vineri', name:'Full-Body C \u2014 Hip Thrust + Incline', ex:[
+  {id:'fbC', day:'Friday', name:'Full-Body C \u2014 Hip Thrust + Incline', ex:[
     {id:'hipThrust',  sets:3, reps:'8\u201310',  rir:'1\u20132', rest:120, inc:5},
     {id:'inclDB',     sets:3, reps:'8\u201310',  rir:'2',        rest:150, inc:2.5},
     {id:'pullup',     sets:3, reps:'6\u201310',  rir:'1\u20132', rest:120, inc:2.5},
@@ -435,101 +435,102 @@ const SESSIONS=[
 ];
 
 /* Zone 2 \u2014 personalizat (Bogdan, 44 ani, RHR ~67, FCmax est. Tanaka 177) */
-const Z2={lo:118, hi:133, cap:135, weeklyTargetMin:150, note:'Band\u0103: 6\u20136,5 km/h la \u00EEnclinare 6\u201310%. Test: po\u021Bi vorbi propozi\u021Bii \u00EEntregi.'};
+const Z2={lo:118, hi:133, cap:135, weeklyTargetMin:150, note:'Treadmill: 6\u20136.5 km/h at 6\u201310% incline. Check: you can speak full sentences.'};
 
 /* grupe musculare pentru volum s\u0103pt\u0103m\u00E2nal */
 const MUSCLE={
-  bench:'piept', inclDB:'piept', cabFly:'piept', triDip:'piept',
-  pullup:'spate', csRow:'spate', sarow:'spate', cgPulldown:'spate',
-  ohp:'umeri', dbLat:'umeri', cabLat:'umeri', facePull:'umeri', revFly:'umeri',
+  bench:'chest', inclDB:'chest', cabFly:'chest', triDip:'chest',
+  pullup:'back', csRow:'back', sarow:'back', cgPulldown:'back',
+  ohp:'delts', dbLat:'delts', cabLat:'delts', facePull:'delts', revFly:'delts',
   inclCurl:'biceps', hammer:'biceps', ohTri:'triceps',
-  bbSquat:'cvadriceps', legPress:'cvadriceps', legExt:'cvadriceps', bss:'cvadriceps',
-  rdl:'ischio', seatCurl:'ischio', lyCurl:'ischio', deadlift:'ischio', backExt:'ischio',
-  hipThrust:'fesieri', oneLegCalf:'gambe', seatCalf:'gambe',
-  machCrunch:'abdomen', pallof:'abdomen'
+  bbSquat:'quads', legPress:'quads', legExt:'quads', bss:'quads',
+  rdl:'hamstrings', seatCurl:'hamstrings', lyCurl:'hamstrings', deadlift:'hamstrings', backExt:'hamstrings',
+  hipThrust:'glutes', oneLegCalf:'calves', seatCalf:'calves',
+  machCrunch:'abs', pallof:'abs'
 };
-const MUSCLE_TARGET={cvadriceps:8, ischio:6, piept:8, spate:8, umeri:6, fesieri:3, gambe:4, biceps:4, triceps:2, abdomen:3};
+const MUSCLE_TARGET={quads:8, hamstrings:6, chest:8, back:8, delts:6, glutes:3, calves:4, biceps:4, triceps:2, abs:3};
 
 /* ============================================================
    ALIMENTE — permise pentru masa slaba + pierdere viscerala
    ============================================================ */
 const FOODS=[
- {g:'Proteine animale',i:[
-  ['Piept de pui',165,31,0,3.6,'Baza. Fiert / tigaie fara ulei.'],
-  ['Curcan, piept',157,29,0,2.1,''],
-  ['Ton in suc propriu',116,26,0,1,'Scurs.'],
-  ['Somon salbatic',180,22,0,10,'EPA/DHA. 2x / sapt.'],
-  ['Macrou',205,19,0,14,'Omega-3 ridicat.'],
-  ['Sardine cu os',208,25,0,11,'Calciu + K2.'],
-  ['Cod / merluciu',82,18,0,0.7,'Densitate proteica maxima.'],
-  ['Vita slaba (rump)',150,26,0,5,'2-3x / sapt.'],
-  ['Oua intregi',143,13,1.1,10,'Fara restrictie de galbenus.'],
-  ['Albus de ou',52,11,0.7,0.2,''],
-  ['Branza cottage 2%',81,11,3.4,2.3,'Cazeina, seara.'],
-  ['Iaurt grecesc 2%',59,10,3.6,2,''],
-  ['Whey isolate',380,88,4,1,'Post-antrenament sau shake matinal.']
+ {g:'Animal protein',i:[
+  ['Chicken breast',165,31,0,3.6,'Staple. Boiled / dry pan.'],
+  ['Turkey breast',157,29,0,2.1,''],
+  ['Tuna in brine',116,26,0,1,'Drained.'],
+  ['Wild salmon',180,22,0,10,'EPA/DHA. 2\u00D7 / week.'],
+  ['Mackerel',205,19,0,14,'High omega-3.'],
+  ['Sardines with bones',208,25,0,11,'Calcium + K2.'],
+  ['Cod / hake',82,18,0,0.7,'Max protein density.'],
+  ['Lean beef (rump)',150,26,0,5,'2\u20133\u00D7 / week.'],
+  ['Whole eggs',143,13,1.1,10,'No yolk restriction.'],
+  ['Egg whites',52,11,0.7,0.2,''],
+  ['Cottage cheese 2%',81,11,3.4,2.3,'Casein, evening.'],
+  ['Greek yogurt 2%',59,10,3.6,2,''],
+  ['Whey isolate',380,88,4,1,'Post-workout or morning shake.']
  ]},
- {g:'Proteine vegetale',i:[
-  ['Linte (crud)',352,25,63,1,'Fibra 11 g.'],
-  ['Naut (crud)',364,19,61,6,''],
-  ['Fasole neagra (crud)',341,21,62,1.4,''],
-  ['Tofu ferm',144,17,3,9,''],
+ {g:'Plant protein',i:[
+  ['Lentils (dry)',352,25,63,1,'11 g fiber.'],
+  ['Chickpeas (dry)',364,19,61,6,''],
+  ['Black beans (dry)',341,21,62,1.4,''],
+  ['Firm tofu',144,17,3,9,''],
   ['Edamame',122,11,10,5,'']
  ]},
- {g:'Carbohidrati',i:[
-  ['Ovaz integral',389,17,66,7,'IG scazut, beta-glucan (LDL).'],
-  ['Orez brun',362,7.5,76,2.7,''],
+ {g:'Carbs',i:[
+  ['Whole oats',389,17,66,7,'Low GI, beta-glucan (LDL).'],
+  ['Brown rice',362,7.5,76,2.7,''],
   ['Quinoa',368,14,64,6,''],
-  ['Cartof dulce',86,1.6,20,0.1,''],
-  ['Cartof alb, racit',77,2,17,0.1,'Racit = amidon rezistent.'],
-  ['Hrisca',343,13,72,3.4,''],
-  ['Paine integrala secara',259,9,48,3.3,'Maxim 2 felii.']
+  ['Sweet potato',86,1.6,20,0.1,''],
+  ['White potato, cooled',77,2,17,0.1,'Cooled = resistant starch.'],
+  ['Buckwheat',343,13,72,3.4,''],
+  ['Whole rye bread',259,9,48,3.3,'Max 2 slices.']
  ]},
- {g:'Grasimi',i:[
-  ['Ulei masline extravirgin',884,0,0,100,'Crud. 1-2 linguri.'],
+ {g:'Fats',i:[
+  ['Extra-virgin olive oil',884,0,0,100,'Raw. 1\u20132 tbsp.'],
   ['Avocado',160,2,9,15,''],
-  ['Migdale',579,21,22,50,'30 g / zi.'],
-  ['Nuci',654,15,14,65,'ALA. 30 g / zi.'],
-  ['Seminte in macinate',534,18,29,42,'Macinate, altfel inutile.'],
-  ['Seminte chia',486,17,42,31,'']
+  ['Almonds',579,21,22,50,'30 g / day.'],
+  ['Walnuts',654,15,14,65,'ALA. 30 g / day.'],
+  ['Ground flaxseed',534,18,29,42,'Ground, otherwise useless.'],
+  ['Chia seeds',486,17,42,31,'']
  ]},
- {g:'Legume (fara limita)',i:[
-  ['Broccoli',34,2.8,7,0.4,'Sulforafan.'],
-  ['Spanac',23,2.9,3.6,0.4,'Nitrati, folat.'],
-  ['Varza kale',49,4.3,9,0.9,'K1 ridicat.'],
-  ['Conopida',25,1.9,5,0.3,''],
-  ['Ardei gras rosu',31,1,6,0.3,''],
-  ['Dovlecel',17,1.2,3.1,0.3,''],
-  ['Sparanghel',20,2.2,3.9,0.1,''],
-  ['Rosii',18,0.9,3.9,0.2,''],
-  ['Ceapa / usturoi',40,1.1,9,0.1,'']
+ {g:'Vegetables (unlimited)',i:[
+  ['Broccoli',34,2.8,7,0.4,'Sulforaphane.'],
+  ['Spinach',23,2.9,3.6,0.4,'Nitrates, folate.'],
+  ['Kale',49,4.3,9,0.9,'High K1.'],
+  ['Cauliflower',25,1.9,5,0.3,''],
+  ['Red bell pepper',31,1,6,0.3,''],
+  ['Zucchini',17,1.2,3.1,0.3,''],
+  ['Asparagus',20,2.2,3.9,0.1,''],
+  ['Tomatoes',18,0.9,3.9,0.2,''],
+  ['Onion / garlic',40,1.1,9,0.1,'']
  ]},
- {g:'Fructe',i:[
-  ['Afine',57,0.7,14,0.3,'Antociani.'],
-  ['Zmeura',52,1.2,12,0.7,'Fibra 6.5 g.'],
-  ['Capsuni',32,0.7,7.7,0.3,''],
-  ['Mar cu coaja',52,0.3,14,0.2,'Pectina.'],
+ {g:'Fruit',i:[
+  ['Blueberries',57,0.7,14,0.3,'Anthocyanins.'],
+  ['Raspberries',52,1.2,12,0.7,'6.5 g fiber.'],
+  ['Strawberries',32,0.7,7.7,0.3,''],
+  ['Apple with skin',52,0.3,14,0.2,'Pectin.'],
   ['Kiwi',61,1.1,15,0.5,''],
-  ['Banana verde',89,1.1,23,0.3,'Doar peri-antrenament.']
+  ['Green banana',89,1.1,23,0.3,'Peri-workout only.'],
+  ['Grapes (Victoria/Mero)',69,0.7,18,0.2,'Max 250 g/day, with protein, lunch, never after 18:00.']
  ]},
- {g:'Bauturi & condimente',i:[
-  ['Apa',0,0,0,0,'3 l / zi.'],
-  ['Cafea neagra',2,0.1,0,0,'Maxim 400 mg cofeina, nu dupa 14:00.'],
-  ['Ceai verde',1,0,0,0,''],
-  ['Otet de mere',22,0,0.9,0,'Inainte de masa cu carbohidrati.'],
-  ['Ierburi / condimente',0,0,0,0,'Turmeric, ghimbir, scortisoara, piper.']
+ {g:'Drinks & seasoning',i:[
+  ['Water',0,0,0,0,'3 l / day.'],
+  ['Black coffee',2,0.1,0,0,'Max 400 mg caffeine, none after 14:00.'],
+  ['Green tea',1,0,0,0,''],
+  ['Apple cider vinegar',22,0,0.9,0,'Before carb meals.'],
+  ['Herbs / spices',0,0,0,0,'Turmeric, ginger, cinnamon, pepper.']
  ]},
- {g:'Interzis',i:[
-  ['Grapefruit',0,0,0,0,'Inhiba CYP3A4 -> atorvastatina.'],
-  ['Alcool',0,0,0,0,'Suprima sinteza proteica, grasime viscerala.'],
-  ['Zahar adaugat / sucuri',0,0,0,0,''],
-  ['Uleiuri rafinate de seminte',0,0,0,0,'Floarea-soarelui, porumb, soia.'],
-  ['Mezeluri / carne procesata',0,0,0,0,''],
-  ['Faina alba / produse de patiserie',0,0,0,0,'']
+ {g:'Forbidden',i:[
+  ['Grapefruit / pomelo',0,0,0,0,'CYP3A4 inhibition \u2192 atorvastatin.'],
+  ['Alcohol',0,0,0,0,'Suppresses protein synthesis, visceral fat.'],
+  ['Added sugar / soft drinks',0,0,0,0,''],
+  ['Refined seed oils',0,0,0,0,'Sunflower, corn, soy.'],
+  ['Deli meats / processed meat',0,0,0,0,''],
+  ['White flour / pastry',0,0,0,0,'']
  ]}
 ];
 
-const BUILD='2026-08-22-FB1';
+const BUILD='2026-08-22-FB2';
 
 /* ============================================================
    State
@@ -546,7 +547,7 @@ let Z2RUN=null, z2Timer=null;   // sesiune Zone 2 \u00EEn desf\u0103\u0219urare
    ============================================================ */
 function unlock(){
   const v=document.getElementById('pw').value.trim();
-  if(v!=='bbb'){document.getElementById('gateMsg').textContent='Cod gresit';return}
+  if(v!=='bbb'){document.getElementById('gateMsg').textContent='Wrong code';return}
   document.getElementById('gate').classList.add('hidden');
   document.getElementById('app').classList.remove('hidden');
   boot();
@@ -569,8 +570,8 @@ async function boot(){
 /* ============================================================
    Navigare
    ============================================================ */
-const TITLES={gym:['Gym','Full-Body 3\u00D7 + Zone 2'],stats:['Stats','Compozitie corporala'],
-  foods:['Alimente','Lista permisa'],set:['Setari','Export & date']};
+const TITLES={gym:['Gym','Full-Body 3\u00D7 + Zone 2'],stats:['Stats','Body composition'],
+  foods:['Foods','Approved list'],set:['Settings','Export & data']};
 function go(v){
   ['gym','stats','foods','set'].forEach(k=>{
     document.getElementById('v-'+k).classList.toggle('hidden',k!==v);
@@ -620,20 +621,33 @@ function repRange(t){
   const m=String(t).match(/(\d+)\D+(\d+)/);
   return m?{lo:+m[1],hi:+m[2]}:null;
 }
-function progressionHint(exDef){
+/* Computes the PRESCRIPTION for today, per set, from the last session.
+   Ascending-set style: ramp sets repeat; the decision is made on the TOP set.
+     top reps >= range top  -> weight + increment, reps back to range bottom
+     within range           -> same weight, +1 rep
+     below range bottom     -> same weight, aim range bottom (hold)
+   Deload mode: last values as-is, no progression. */
+function targetSets(exDef){
   const L=lastMap[exDef.id];
   if(!L||!L.sets.length)return null;
   const rr=repRange(exDef.reps);
-  if(!rr)return null;
-  const withReps=L.sets.filter(x=>x.r!=null&&x.w!=null);
-  if(!withReps.length)return null;
-  /* stil de lucru cu seturi ascendente -> decizia se ia pe TOP SET */
-  const topW=Math.max(...withReps.map(x=>x.w));
-  const tops=withReps.filter(x=>x.w===topW);
-  const topR=Math.max(...tops.map(x=>x.r));
-  if(topR>=rr.hi)return {cls:'up',txt:'\u2191 Top set '+topW+'\u00D7'+topR+' \u2014 cre\u0219te azi la '+(topW+(exDef.inc||2.5))+' kg'};
-  if(topR<rr.lo)return {cls:'down',txt:'\u2193 Top set '+topW+'\u00D7'+topR+' sub interval \u2014 \u021Bine sau scade greutatea'};
-  return {cls:'flat',txt:'\u2192 \u021Aine '+topW+' kg, \u021Bint\u0103 '+topW+'\u00D7'+rr.hi+' (acum '+topW+'\u00D7'+topR+')'};
+  const done=L.sets.filter(x=>x.r!=null).map(x=>({w:(x.w==null?0:x.w),r:x.r}));
+  if(!done.length||!rr)return null;
+  const topW=Math.max(...done.map(x=>x.w));
+  const topR=Math.max(...done.filter(x=>x.w===topW).map(x=>x.r));
+  let nTopW=topW, nTopR;
+  if(DELOAD){nTopR=topR}
+  else if(topR>=rr.hi){nTopW=topW+(exDef.inc||2.5);nTopR=rr.lo}
+  else if(topR<rr.lo){nTopR=rr.lo}
+  else {nTopR=topR+1}
+  const n=exDef.sets;
+  const out=[];
+  for(let j=0;j<n;j++){
+    const src=done[Math.min(j,done.length-1)];
+    const isTop=j>=n-1||src.w===topW;
+    out.push(isTop?{w:nTopW,r:nTopR}:{w:src.w,r:src.r});
+  }
+  return {sets:out, lastTop:topW+'\u00D7'+topR, lastDate:L.date};
 }
 
 /* ============================================================
@@ -641,37 +655,37 @@ function progressionHint(exDef){
    ============================================================ */
 function renderSessions(){
   const dl=DELOAD?`<div class="card" style="border-color:var(--amber)">
-      <h3 style="color:var(--amber)">MOD DELOAD ACTIV</h3>
-      <div class="muted">Sesiunile ruleaz\u0103 cu \u221240% serii, acelea\u0219i greut\u0103\u021Bi, RIR 3\u20134.
-      Sugestiile de progresie sunt oprite. Dezactiveaz\u0103 din Set\u0103ri dup\u0103 7 zile.</div></div>`:'';
+      <h3 style="color:var(--amber)">DELOAD MODE ON</h3>
+      <div class="muted">Sessions run at \u221240% sets, same weights, RIR 3\u20134.
+      Progression is paused. Turn it off in Settings after 7 days.</div></div>`:'';
   document.getElementById('sessList').innerHTML=dl+SESSIONS.map(s=>{
     const n=s.ex.reduce((a,e)=>a+deloadSets(e.sets),0);
     return `<button class="sess" onclick="startWorkout('${s.id}')">
       <div class="t">${s.name}</div>
-      <div class="d">${s.day} \u00B7 ${s.ex.length} exerci\u021Bii \u00B7 ${n} seturi${DELOAD?' (deload)':''}</div></button>`;
+      <div class="d">${s.day} \u00B7 ${s.ex.length} exercises \u00B7 ${n} sets${DELOAD?' (deload)':''}</div></button>`;
   }).join('')+`
     <div class="card" style="border-color:#123a5e">
-      <h3 style="color:#4aa3ff">Zone 2 \u2014 Band\u0103 (zi f\u0103r\u0103 for\u021B\u0103)</h3>
+      <h3 style="color:#4aa3ff">Zone 2 \u2014 Treadmill (non-lifting days)</h3>
       <div class="muted" style="margin-bottom:10px">
-        \u021Aint\u0103 FC: <b style="color:#4aa3ff">${Z2.lo}\u2013${Z2.hi} bpm</b> \u00B7 plafon ${Z2.cap} \u00B7 40 min.
-        ${Z2.note}<br>S\u0103pt\u0103m\u00E2na asta: <b style="color:#4aa3ff" id="z2wk">\u2026</b> / ${Z2.weeklyTargetMin} min.
+        Target HR: <b style="color:#4aa3ff">${Z2.lo}\u2013${Z2.hi} bpm</b> \u00B7 hard cap ${Z2.cap} \u00B7 40 min.
+        ${Z2.note}<br>This week: <b style="color:#4aa3ff" id="z2wk">\u2026</b> / ${Z2.weeklyTargetMin} min.
       </div>
       <div id="z2idle">
         <button class="btn" style="border-color:#123a5e;color:#4aa3ff" onclick="startZ2()">\u25B6\u00A0 Start Zone 2</button>
       </div>
       <div id="z2run" class="hidden">
         <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
-          <div><div class="muted" style="font-size:.68rem;text-transform:uppercase">Timp</div>
+          <div><div class="muted" style="font-size:.8rem;text-transform:uppercase">Time</div>
           <div style="color:#4aa3ff;font-size:1.7rem;font-weight:700;font-variant-numeric:tabular-nums" id="z2t">00:00</div></div>
-          <div style="text-align:right"><div class="muted" style="font-size:.68rem;text-transform:uppercase">Band\u0103 FC</div>
+          <div style="text-align:right"><div class="muted" style="font-size:.8rem;text-transform:uppercase">HR band</div>
           <div style="color:#4aa3ff;font-weight:700">${Z2.lo}\u2013${Z2.hi}</div></div>
         </div>
         <div class="grid2">
-          <div><label>FC medie (band\u0103/Mi Band)</label><input type="text" inputmode="numeric" id="z2avg" placeholder="ex. 127"></div>
-          <div><label>FC maxim\u0103</label><input type="text" inputmode="numeric" id="z2max" placeholder="ex. 134"></div>
+          <div><label>Avg HR (treadmill/Mi Band)</label><input type="text" inputmode="numeric" id="z2avg" placeholder="e.g. 127"></div>
+          <div><label>Max HR</label><input type="text" inputmode="numeric" id="z2max" placeholder="e.g. 134"></div>
         </div>
-        <button class="btn" style="margin-top:10px;border-color:#123a5e;color:#4aa3ff" onclick="finishZ2()">Termin\u0103 \u0219i salveaz\u0103</button>
-        <button class="btn ghost" style="margin-top:8px" onclick="abortZ2()">Anuleaz\u0103</button>
+        <button class="btn" style="margin-top:10px;border-color:#123a5e;color:#4aa3ff" onclick="finishZ2()">Finish &amp; save</button>
+        <button class="btn ghost" style="margin-top:8px" onclick="abortZ2()">Cancel</button>
       </div>
     </div>`;
   paintZ2Week();
@@ -692,7 +706,7 @@ async function paintZ2Week(){
 }
 function startZ2(){
   if(Z2RUN)return;
-  Z2RUN={date:isoToday(),type:'cardio',sessionId:'zone2',sessionName:'Zone 2 \u2014 Band\u0103',
+  Z2RUN={date:isoToday(),type:'cardio',sessionId:'zone2',sessionName:'Zone 2 \u2014 Treadmill',
     startTs:Date.now(),endTs:null,targetLo:Z2.lo,targetHi:Z2.hi};
   document.getElementById('z2idle').classList.add('hidden');
   document.getElementById('z2run').classList.remove('hidden');
@@ -702,13 +716,13 @@ function startZ2(){
     const el=document.getElementById('z2t');
     if(el)el.textContent=pad(Math.floor(sec/60))+':'+pad(sec%60);
   },1000);
-  toast('Zone 2 pornit \u00B7 \u021Bine '+Z2.lo+'\u2013'+Z2.hi+' bpm');
+  toast('Zone 2 started \u00B7 hold '+Z2.lo+'\u2013'+Z2.hi+' bpm');
 }
 async function finishZ2(){
   if(!Z2RUN)return;
   Z2RUN.endTs=Date.now();
   const mins=Math.round((Z2RUN.endTs-Z2RUN.startTs)/60000);
-  if(mins<1){toast('Sub 1 minut \u2014 anulat');abortZ2();return}
+  if(mins<1){toast('Under 1 minute \u2014 cancelled');abortZ2();return}
   Z2RUN.z2min=mins;
   Z2RUN.avgHR=numVal(document.getElementById('z2avg').value);
   Z2RUN.maxHR=numVal(document.getElementById('z2max').value);
@@ -716,7 +730,7 @@ async function finishZ2(){
   await saveMetricsForDay(Z2RUN.date,{cardioDay:true});
   clearInterval(z2Timer);z2Timer=null;Z2RUN=null;releaseWakeLock();
   renderSessions();await renderRecent();
-  toast(mins+' min Zone 2 salvate');
+  toast(mins+' min Zone 2 saved');
 }
 function abortZ2(){
   if(z2Timer)clearInterval(z2Timer);z2Timer=null;Z2RUN=null;releaseWakeLock();
@@ -729,14 +743,14 @@ async function renderRecent(){
   document.getElementById('dbWarn').classList.toggle('hidden',raw.length>0);
   const ws=raw.slice().sort((a,b)=>(b.date||'').localeCompare(a.date||'')).slice(0,8);
   const el=document.getElementById('recentList');
-  if(!ws.length){el.innerHTML='<div class="muted">Niciun antrenament inregistrat.</div>';return}
+  if(!ws.length){el.innerHTML='<div class="muted">No workouts yet.</div>';return}
   el.innerHTML=ws.map(w=>{
     if(w.type==='cardio'){
       const mins=w.z2min||((w.endTs&&w.startTs)?Math.round((w.endTs-w.startTs)/60000):0);
       return `<div class="hist"><div><div class="d">${w.date}</div>
         <div class="m" style="color:#4aa3ff">${w.sessionName||'Zone 2'}</div></div>
         <div style="text-align:right"><div class="d" style="color:#4aa3ff">${mins} min</div>
-        <div class="m">${w.avgHR?('FC med '+w.avgHR):''}</div></div></div>`;
+        <div class="m">${w.avgHR?('avg HR '+w.avgHR):''}</div></div></div>`;
     }
     const sets=(w.exercises||[]).reduce((a,e)=>a+(e.sets||[]).filter(s=>s.done).length,0);
     const vol=(w.exercises||[]).reduce((a,e)=>a+(e.sets||[]).reduce((b,s)=>b+((s.done&&s.weight&&s.reps)?s.weight*s.reps:0),0),0);
@@ -761,10 +775,10 @@ function startWorkout(sid){
   document.getElementById('sessPick').classList.add('hidden');
   document.getElementById('sessRun').classList.remove('hidden');
   document.getElementById('runName').textContent=S.name;
-  document.getElementById('runTime').textContent='Nepornit';
+  document.getElementById('runTime').textContent='Not started';
   document.getElementById('startBar').classList.remove('hidden');
   document.getElementById('finishBtn').classList.add('hidden');
-  document.getElementById('backBtn').textContent='Inapoi';
+  document.getElementById('backBtn').textContent='Back';
   renderRun();
   window.scrollTo(0,0);
 }
@@ -776,12 +790,12 @@ function beginWorkout(){
   W.startTs=Date.now();
   document.getElementById('startBar').classList.add('hidden');
   document.getElementById('finishBtn').classList.remove('hidden');
-  document.getElementById('backBtn').textContent='Anuleaza';
+  document.getElementById('backBtn').textContent='Cancel';
   document.getElementById('runTime').textContent='00:00';
   renderRun();
   startRunClock();
   requestWakeLock();
-  toast('Antrenament pornit');
+  toast('Workout started');
 }
 
 /* Buton unic: Inapoi (preview) sau Anuleaza (in desfasurare) */
@@ -796,34 +810,32 @@ function leaveSession(){
 function renderRun(){
   document.getElementById('exList').innerHTML=W.exercises.map((e,i)=>{
     const doneAll=RUNNING&&e.sets.every(s=>s.done);
-    const L=lastMap[e.exId];
-    /* ANTI-COPIERE: inputurile pornesc GOALE. Valorile trecute apar doar ca
-       placeholder (nu se salveaza) + linia de referinta de mai jos. */
+    /* Boxes hold TODAY'S computed prescription (last session + progression).
+       Confirming a set saves exactly what is in the boxes \u2014 edit first if you
+       did something different. */
+    const T=targetSets({id:e.exId,reps:e.targetReps,sets:e.sets.length,inc:e.inc});
     const rows=e.sets.map((s,j)=>{
-      const pv=L&&L.sets[j]?L.sets[j]:null;
-      const wVal=s.weight!=null?s.weight:'';
-      const rVal=s.reps  !=null?s.reps  :'';
-      const wPh=pv&&pv.w!=null?pv.w:'kg';
-      const rPh=pv&&pv.r!=null?pv.r:(e.unit==='sec'?'sec':'reps');
+      const tv=T&&T.sets[j]?T.sets[j]:null;
+      const touchedW=s.weight!=null, touchedR=s.reps!=null;
+      const wVal=touchedW?s.weight:(tv?tv.w:'');
+      const rVal=touchedR?s.reps :(tv?tv.r:'');
       const dis=RUNNING?'':'disabled';
       return `<div class="setrow ${s.done?'ok':''}" id="sr-${i}-${j}">
         <div class="n">${j+1}</div>
-        <input type="text" inputmode="decimal" placeholder="${wPh}" ${dis}
-          id="w-${i}-${j}" value="${wVal}" onchange="setVal(${i},${j},'weight',this.value)">
-        <input type="text" inputmode="numeric" placeholder="${rPh}" ${dis}
-          id="r-${i}-${j}" value="${rVal}" onchange="setVal(${i},${j},'reps',this.value)">
+        <input type="text" inputmode="decimal" placeholder="kg" class="${!touchedW&&tv?'tgt':''}" ${dis}
+          id="w-${i}-${j}" value="${wVal}" onfocus="this.classList.remove('tgt')" onchange="setVal(${i},${j},'weight',this.value)">
+        <input type="text" inputmode="numeric" placeholder="${e.unit==='sec'?'sec':'reps'}" class="${!touchedR&&tv?'tgt':''}" ${dis}
+          id="r-${i}-${j}" value="${rVal}" onfocus="this.classList.remove('tgt')" onchange="setVal(${i},${j},'reps',this.value)">
         <button class="chk" ${dis} onclick="toggleSet(${i},${j})">${s.done?'\u2713':'\u25CB'}</button>
       </div>`;
     }).join('');
-    const ref=L?`<div class="muted" style="margin-top:8px;font-size:.7rem">Ultima (${fmtD(L.date)}): `+
-      L.sets.map(x=>((x.w!=null?x.w:'\u2014')+'\u00D7'+(x.r!=null?x.r:'\u2014'))).join(' \u00B7 ')+`</div>`:'';
-    const hint=!DELOAD?progressionHint({id:e.exId,reps:e.targetReps,sets:e.targetSets,inc:e.inc}):null;
-    const hintHtml=hint&&!DELOAD?`<div style="font-size:.72rem;margin-top:5px" class="${hint.cls==='up'?'down':(hint.cls==='down'?'up':'flat')}">${hint.txt}</div>`:'';
+    const ref=T?`<div class="muted" style="margin-top:8px;font-size:.88rem">Last top: ${T.lastTop} (${fmtD(T.lastDate)})</div>`:'';
+    const hintHtml='';
     return `<div class="ex ${doneAll?'done':''}" id="ex-${i}">
       <div class="ex-h">
         <div style="flex:1">
           <div class="ex-name"><span class="ex-idx">${i+1}</span> ${e.name}</div>
-          <div class="ex-meta">${e.targetSets} \u00D7 ${e.targetReps} \u00B7 RIR ${e.rir} \u00B7 pauza ${e.rest>=60?(e.rest/60)+' min':e.rest+' s'}${e.ss?'<br><span style="color:var(--green-dim)">'+e.ss+'</span>':''}</div>
+          <div class="ex-meta">${e.targetSets} \u00D7 ${e.targetReps} \u00B7 RIR ${e.rir} \u00B7 rest ${e.rest>=60?(e.rest/60)+' min':e.rest+' s'}${e.ss?'<br><span style="color:var(--green-dim)">'+e.ss+'</span>':''}</div>
         </div>
       </div>
       ${rows}
@@ -849,9 +861,10 @@ function toggleSet(i,j){
   const wi=document.getElementById(`w-${i}-${j}`), ri=document.getElementById(`r-${i}-${j}`);
   const wv=numVal(wi.value), rv=numVal(ri.value);
   if(!s.done&&(wv==null||rv==null)){
-    toast('Scrie kg \u0219i reps \u2014 f\u0103r\u0103 valori mo\u0219tenite');
-    return;                              // integritatea datelor: doar valori introduse explicit
+    toast('Enter kg and reps first');
+    return;
   }
+  if(!s.done){wi.classList.remove('tgt');ri.classList.remove('tgt')}
   s.done=!s.done;
   s.weight= wv;
   s.reps  = rv==null?null:Math.round(rv);
@@ -867,7 +880,7 @@ function toggleSet(i,j){
 async function finishWorkout(){
   if(!W||!RUNNING)return;
   const any=W.exercises.some(e=>e.sets.some(s=>s.done));
-  if(!any){toast('Niciun set bifat');return}
+  if(!any){toast('No sets confirmed');return}
   W.endTs=Date.now();
   W.exercises=W.exercises.map(e=>({...e,sets:e.sets.filter(s=>s.done)}));  // doar seturile confirmate cu bifa
   await put('workouts',W);
@@ -877,10 +890,10 @@ async function finishWorkout(){
   document.getElementById('sessRun').classList.add('hidden');
   document.getElementById('sessPick').classList.remove('hidden');
   await buildLastMap();await renderRecent();
-  toast('Salvat');window.scrollTo(0,0);
+  toast('Saved');window.scrollTo(0,0);
 }
 function abortWorkout(){
-  if(!confirm('Anulezi antrenamentul? Datele nu se salveaza.'))return;
+  if(!confirm('Cancel workout? Nothing will be saved.'))return;
   stopRest();stopRunClock();releaseWakeLock();W=null;RUNNING=false;
   document.getElementById('sessRun').classList.add('hidden');
   document.getElementById('sessPick').classList.remove('hidden');
@@ -940,7 +953,7 @@ async function saveMetricsForDay(date,patch){
 
 async function saveMetrics(){
   const d=document.getElementById('mDate').value;
-  if(!d){toast('Alege data');return}
+  if(!d){toast('Pick a date');return}
   const num=id=>{const f=numVal(document.getElementById(id).value);return f==null?undefined:f};
   const p={};
   const w=num('mWeight'),m=num('mMuscle'),f=num('mFat'),ws=num('mWaist');
@@ -948,11 +961,11 @@ async function saveMetrics(){
   if(m!==undefined)p.muscleMass=m;
   if(f!==undefined)p.fatMass=f;
   if(ws!==undefined)p.waist=ws;
-  if(!Object.keys(p).length){toast('Nimic de salvat');return}
+  if(!Object.keys(p).length){toast('Nothing to save');return}
   if(p.weight&&p.fatMass){p.fatPct=+(p.fatMass/p.weight*100).toFixed(1);p.leanMass=+(p.weight-p.fatMass).toFixed(1)}
   await saveMetricsForDay(d,p);
   ['mWeight','mMuscle','mFat','mWaist'].forEach(i=>document.getElementById(i).value='');
-  toast('Salvat');await renderStats();
+  toast('Saved');await renderStats();
 }
 
 async function getBody(){
@@ -981,13 +994,13 @@ async function renderStats(){
   const fp=(w&&fm)?+(fm/w*100).toFixed(1):null;
 
   document.getElementById('kpis').innerHTML=
-    kpi('Greutate',w,'kg',dw,true)+
-    kpi('Muschi',mu,'kg',dmu,false)+
-    kpi('Grasime',fm,'kg',dfm,true)+
-    kpi('Burta',wa,'cm',dwa,true)+
-    kpi('Grasime %',fp,'%',null,true)+
-    kpi('For\u021B\u0103 / s\u0103pt',await weekCount(),'/ 3',null,false)+
-    kpi('Zone 2 / s\u0103pt',await z2MinutesThisWeek(),'/ '+Z2.weeklyTargetMin+' min',null,false);
+    kpi('Weight',w,'kg',dw,true)+
+    kpi('Muscle',mu,'kg',dmu,false)+
+    kpi('Fat',fm,'kg',dfm,true)+
+    kpi('Waist',wa,'cm',dwa,true)+
+    kpi('Fat %',fp,'%',null,true)+
+    kpi('Lifting / week',await weekCount(),'/ 3',null,false)+
+    kpi('Zone 2 / week',await z2MinutesThisWeek(),'/ '+Z2.weeklyTargetMin+' min',null,false);
 
   drawMulti('chartBody',[
     {d:b.filter(x=>x.weight!=null).map(x=>({x:x.date,y:x.weight})),c:'#39FF14'},
@@ -1002,8 +1015,8 @@ async function renderStats(){
     <td>${x.date}</td><td>${x.weight??'\u2014'}</td><td>${x.muscleMass??'\u2014'}</td>
     <td>${x.fatMass??'\u2014'}</td><td>${x.waist??'\u2014'}</td></tr>`).join('');
   document.getElementById('histTable').innerHTML=
-    `<tr><th>Data</th><th>kg</th><th>Muschi</th><th>Gras.</th><th>Burta</th></tr>`+
-    (rows||'<tr><td colspan="5" class="muted">Fara date</td></tr>');
+    `<tr><th>Date</th><th>kg</th><th>Muscle</th><th>Fat</th><th>Waist</th></tr>`+
+    (rows||'<tr><td colspan="5" class="muted">No data</td></tr>');
 }
 
 async function weekCount(){
@@ -1037,7 +1050,7 @@ async function renderMuscleTable(){
     return `<tr><td>${g}</td><td style="color:${c};font-weight:700">${v}</td><td>${t}</td></tr>`;
   }).join('');
   const el=document.getElementById('muscleTable');
-  if(el)el.innerHTML=`<tr><th>Grup\u0103</th><th>Serii 7 zile</th><th>\u021Aint\u0103 min.</th></tr>`+rows;
+  if(el)el.innerHTML=`<tr><th>Group</th><th>Sets 7d</th><th>Min target</th></tr>`+rows;
 }
 
 /* charts */
@@ -1047,7 +1060,7 @@ function drawMulti(id,series){
   c.width=W2*dpr;c.height=H*dpr;
   const g=c.getContext('2d');g.scale(dpr,dpr);g.clearRect(0,0,W2,H);
   const pts=series.flatMap(s=>s.d);
-  if(pts.length<2){g.fillStyle='#7c8f78';g.font='12px -apple-system';g.fillText('Date insuficiente',8,80);return}
+  if(pts.length<2){g.fillStyle='#7c8f78';g.font='12px -apple-system';g.fillText('Not enough data',8,80);return}
   const xs=[...new Set(pts.map(p=>p.x))].sort();
   const ys=pts.map(p=>p.y);
   let mn=Math.min(...ys),mx=Math.max(...ys);
@@ -1081,7 +1094,7 @@ async function drawVolume(){
   const c=document.getElementById('chartVol'),dpr=devicePixelRatio||1;
   const W2=c.clientWidth,H=150;c.width=W2*dpr;c.height=H*dpr;
   const g=c.getContext('2d');g.scale(dpr,dpr);g.clearRect(0,0,W2,H);
-  if(!keys.length){g.fillStyle='#7c8f78';g.font='12px -apple-system';g.fillText('Fara antrenamente',8,80);return}
+  if(!keys.length){g.fillStyle='#7c8f78';g.font='12px -apple-system';g.fillText('No workouts',8,80);return}
   const mx=Math.max(...keys.map(k=>bucket[k]),1);
   const PL=30,PB=20,PT=10,bw=(W2-PL-8)/keys.length;
   g.fillStyle='#7c8f78';g.font='9px -apple-system';
@@ -1099,7 +1112,7 @@ async function drawVolume(){
    ============================================================ */
 function renderFoods(){
   document.getElementById('foodList').innerHTML=FOODS.map(gr=>{
-    const forbidden=gr.g==='Interzis';
+    const forbidden=gr.g==='Forbidden';
     const items=gr.i.map(f=>{
       const [n,kc,p,cb,ft,note]=f;
       const mac=forbidden?'<span style="color:var(--red)">\u2715</span>':
@@ -1120,10 +1133,10 @@ async function renderDiag(){
   w.forEach(x=>(x.exercises||[]).forEach(y=>{const id=y.exId||resolveId(y.name);if(id)mapped.add(id)}));
   document.getElementById('diag').innerHTML=
     `Build: <b style="color:var(--green)">${BUILD}</b><br>
-     Antrenamente: <b style="color:var(--green)">${w.length}</b><br>
-     Masuratori: <b style="color:var(--green)">${m.length}</b><br>
-     Exercitii cu istoric mapat: <b style="color:var(--green)">${mapped.size}</b> / ${Object.keys(EX).length}<br>
-     Intrari alimentare vechi (pastrate, neafisate): ${e.length}`;
+     Workouts: <b style="color:var(--green)">${w.length}</b><br>
+     Measurements: <b style="color:var(--green)">${m.length}</b><br>
+     Exercises with mapped history: <b style="color:var(--green)">${mapped.size}</b> / ${Object.keys(EX).length}<br>
+     Legacy food entries (kept, not shown): ${e.length}`;
 }
 
 async function exportJSON(){
@@ -1135,20 +1148,20 @@ async function exportJSON(){
   const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});
   const a=document.createElement('a');
   a.href=URL.createObjectURL(blob);
-  a.download='jurnal-antrenament-'+isoToday()+'.json';
+  a.download='training-log-'+isoToday()+'.json';
   document.body.appendChild(a);a.click();a.remove();
   setTimeout(()=>URL.revokeObjectURL(a.href),3000);
-  toast('Export generat');
+  toast('Export ready');
 }
 
 async function importJSON(){
   const f=document.getElementById('impFile').files[0];
-  if(!f){toast('Alege un fisier');return}
+  if(!f){toast('Choose a file');return}
   let d;
-  try{d=JSON.parse(await f.text())}catch(e){alert('Fisier JSON invalid.');return}
+  try{d=JSON.parse(await f.text())}catch(e){alert('Invalid JSON file.');return}
   const nw=(d.workouts||[]).length, nm=(d.metrics||[]).length, ne=(d.entries||[]).length;
-  if(!nw&&!nm&&!ne){alert('Fisierul nu contine date.');return}
-  if(!confirm(`Import: ${nw} antrenamente, ${nm} masuratori, ${ne} intrari vechi.\nDatele existente cu aceeasi data se completeaza, nu se sterg. Continui?`))return;
+  if(!nw&&!nm&&!ne){alert('File contains no data.');return}
+  if(!confirm(`Import: ${nw} workouts, ${nm} measurements, ${ne} legacy entries.\nExisting data for the same dates is merged, not deleted. Continue?`))return;
 
   let okW=0,okM=0,okE=0;
   // antrenamente: id nou (autoIncrement) ca sa nu suprascrie ce exista deja
@@ -1174,29 +1187,29 @@ async function importJSON(){
   for(const e of (d.entries||[])){await put('entries',e);okE++}
 
   await buildLastMap();await renderRecent();await renderStats();await renderDiag();
-  alert(`Restaurat.\nAntrenamente adaugate: ${okW}\nMasuratori: ${okM}\nIntrari vechi: ${okE}`);
+  alert(`Restored.\nWorkouts added: ${okW}\nMeasurements: ${okM}\nLegacy entries: ${okE}`);
 }
 
 async function toggleDeload(){
   DELOAD=!DELOAD;
   await put('settings',{key:'deload',value:DELOAD});
   paintDeloadBtn();renderSessions();
-  toast(DELOAD?'Deload activ':'Deload oprit');
+  toast(DELOAD?'Deload on':'Deload off');
 }
 function paintDeloadBtn(){
   const b=document.getElementById('deloadBtn');
   if(!b)return;
-  b.textContent=DELOAD?'Dezactiveaz\u0103 deload':'Activeaz\u0103 deload (7 zile)';
+  b.textContent=DELOAD?'Turn deload off':'Turn deload on (7 days)';
   b.style.borderColor=DELOAD?'var(--amber)':'var(--line)';
   b.style.color=DELOAD?'var(--amber)':'var(--txt)';
 }
 
 async function wipe(){
-  if(!confirm('Sterge TOATE datele local? Ireversibil.'))return;
-  if(!confirm('Sigur? Fa export intai.'))return;
+  if(!confirm('Delete ALL local data? Irreversible.'))return;
+  if(!confirm('Sure? Export first.'))return;
   await Promise.all([clearS('workouts'),clearS('metrics'),clearS('entries')]);
   await buildLastMap();await renderRecent();await renderStats();await renderDiag();
-  toast('Sters');
+  toast('Deleted');
 }
 
 window.addEventListener('resize',()=>{if(!document.getElementById('v-stats').classList.contains('hidden'))renderStats()});

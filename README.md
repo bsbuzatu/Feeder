@@ -1,271 +1,155 @@
-# Feeder — Jurnal de antrenament
+# Feeder — Training Log
 
-Aplicație PWA single-file pentru înregistrarea antrenamentelor de forță și urmărirea compoziției corporale.
-Toate datele rămân local, în IndexedDB. Zero servere, zero terți, zero telemetrie.
+Single-file offline PWA for strength training and Zone 2 cardio. No build step, no dependencies, no backend. All data lives in the browser (IndexedDB) and never leaves the device.
 
-**Live:** `https://bsbuzatu.github.io/Feeder/`
-**Build curent:** `2026-07-23-J` (afișat permanent în subtitlul din header)
+**Live:** https://bsbuzatu.github.io/Feeder/
+**Build:** `2026-08-22-FB2`
 
 ---
 
-## Arhitectură
+## What it does
 
-| Componentă | Detaliu |
+| Tab | Purpose |
 |---|---|
-| Fișiere | Un singur `index.html` (~46 KB), fără dependențe externe |
-| Stocare | IndexedDB — `bogdan_nutrition_tracker`, `DB_VERSION = 3` |
-| Object stores | `workouts`, `metrics`, `settings`, `entries` (legacy, păstrat pentru export) |
-| Hosting | GitHub Pages |
-| Acces | PWA, adăugat pe Home Screen (necesar pentru persistența IndexedDB pe iOS) |
-| Autentificare | Cod local, fără rețea |
-
-Datele sunt legate de **origine**. Deschiderea `index.html` din Files sau de pe disc (`file://`)
-rulează pe altă origine și nu vede baza de date. Este comportament normal, nu defect.
+| **Gym** | Run a Full-Body session, or log a Zone 2 treadmill block |
+| **Stats** | Body composition, waist, weekly volume, sets per muscle group |
+| **Foods** | Approved food list with macros per 100 g raw |
+| **Settings** | Export / import JSON, deload toggle, Zone 2 calibration, wipe |
 
 ---
 
-## Ecrane
+## Training program
 
-### Gym
-- Patru sesiuni Upper/Lower. Deschiderea unei zile intră în **mod consultare** — nimic nu se
-  înregistrează, cronometrul nu pornește.
-- **Start antrenament** activează logarea, cronometrul și Screen Wake Lock.
-- Casetele sunt **precompletate** cu valorile ultimei sesiuni, set cu set, afișate în gri.
-  `✓` confirmă valoarea ca atare. Scrisul peste o suprascrie.
-- Se salvează **doar seturile bifate**. O valoare precompletată neconfirmată nu ajunge în baza de date.
-- Timer de pauză, fără sunet și fără notificări.
-- Pagina nu derulează automat după bifarea unui set.
-- Banner roșu dacă store-ul `workouts` este gol.
+Full-Body ×3 per week (Mon / Wed / Fri). Replaced a 4-day Upper/Lower split because actual attendance was 2.6–2.9 sessions per week, which meant lower-body days were skipped disproportionately — quads were getting 7 sets/week and hamstrings 5, both below the hypertrophy threshold.
 
-### Stats
-Input: greutate (kg), mușchi (kg), grăsime (kg), circumferință abdominală (cm).
-Derivate automat: procent grăsime, masă slabă.
-Dashboard: KPI cu delta față de măsurătoarea anterioară, grafic compoziție, grafic circumferință,
-grafic volum (seturi/săptămână), tabel istoric.
+| Session | Anchor lifts |
+|---|---|
+| **Full-Body A** | Back Squat · Bench Press · One-Arm Machine Row · Lying Leg Curl · DB Lateral Raise · Ab Crunch |
+| **Full-Body B** | Leg Press · RDL · Seated DB OHP · Close-Grip Pulldown · Chest Fly · Hammer Curl + Overhead Triceps (superset) · Seated Calf |
+| **Full-Body C** | Hip Thrust · Incline DB Press · Pull-Up · Leg Extension · Seated Leg Curl · Face Pull · One-Leg Calf · Incline DB Curl |
 
-`saveMetricsForDay()` face merge, nu suprascriere: câmpurile existente ale zilei (ex. `trainingDay`)
-sunt păstrate la actualizări parțiale.
+Weekly volume at 3 sessions: quads 8 · hamstrings 8 · chest 8 · back 9 · delts 9 · calves 4 · arms 4–6. At 2 sessions every muscle still gets 2 stimuli — the old split gave it 1.
 
-### Alimente
-Listă statică, filtrată pentru creștere de masă slabă și pierdere de grăsime viscerală.
-Opt categorii, inclusiv o secțiune **Interzis** (grapefruit — inhibitor CYP3A4, relevant sub atorvastatină).
-
-### Setări
-Export JSON, Import JSON, diagnostic (build, număr de antrenamente, măsurători, exerciții cu istoric mapat),
-ștergere totală.
+Targets are tracked live in **Stats → Sets per muscle group (7 days)**, colour-coded against retention minimums.
 
 ---
 
-## Program
+## Progression engine
 
-Upper/Lower, 4 zile. Zone 2 cardio 2–3×/săpt, **înregistrat pe ceas (Apple Health), nu în aplicație.**
+Boxes are pre-filled with **today's prescription**, computed from the last session. Ramp sets repeat; the decision is made on the **top set**:
 
-### Monday — Upper A · Horizontal Push + Pull
+| Last top set | Today |
+|---|---|
+| reps ≥ top of range | weight **+ increment**, reps back to bottom of range |
+| reps within range | same weight, **+1 rep** |
+| reps < bottom of range | same weight, hold and aim for bottom of range |
 
-| # | Exercise | Sets | Reps | RIR | Rest |
-|---|---|---|---|---|---|
-| 1 | Barbell Bench Press | 4 | 5–7 | 2 | 3 min |
-| 2 | Pull-Up | 4 | 6–8 | 2 | 2.5 min |
-| 3 | Standing Barbell OHP | 3 | 6–8 | 2 | 2.5 min |
-| 4 | Single-Arm DB Row | 3 | 8–12 /arm | 1–2 | 90 s |
-| 5 | Cable Lateral Raise (one arm) | 4 | 12–20 | 0–1 | 60 s |
-| 6 | Cable Reverse Fly | 3 | 12–20 | 0–1 | 60 s |
-| 7 | Incline DB Curl | 3 | 8–12 | 0–1 | 90 s |
-| 8 | Overhead Cable Triceps Extension | 2 | 10–12 | 0–1 | 60 s |
+Increments are per-exercise (`inc` in the `SESSIONS` array): 5 kg on squat/leg press/hip thrust/RDL, 2.5 kg on presses and rows, 1 kg on lateral raises and curls.
 
-### Tuesday — Lower A · Squat + Knee Flexion
+Confirming a set saves exactly what is in the boxes. **Edit first if you did something different** — the checkmark is a commitment, not an autofill.
 
-Singura sesiune cu încărcare axială din săptămână. Serii drepte, fără superseturi.
+Bodyweight work (pull-ups) is stored as 0 kg and progressed on reps.
 
-| # | Exercise | Sets | Reps | RIR | Rest |
-|---|---|---|---|---|---|
-| 1 | Barbell Back Squat | 4 | 6–8 | 2 | 3 min |
-| 2 | Leg Press | 4 | 10–12 | 1 | 2 min |
-| 3 | Seated Leg Curl | 4 | 10–12 | 0–1 | 90 s |
-| 4 | Weighted One-Leg Standing Calf Raise | 4 | 10–15 /leg | 0–1 | 60 s |
-| 5 | Machine Ab Crunch | 3 | 10–15 | 0–1 | 60 s |
+### Why boxes are not just "last session's numbers"
 
-### Thursday — Upper B · Incline / Vertical
+The v3 export revealed identical set-for-set entries repeated across four separate sessions (Lying Leg Curl `35×12×3 = 1129 kg` on 10.07, 21.07, 03.08, 10.08). The previous build pre-filled the last session's values and the checkmark saved them unedited, so the tonnage series was partly fictional and progression could not be assessed. Prescribing forward instead of backward removes the failure mode: the reflexive tap now moves the load up.
 
-| # | Exercise | Sets | Reps | RIR | Rest |
-|---|---|---|---|---|---|
-| 1 | Incline DB Press (30°) | 4 | 8–10 | 2 | 2.5 min |
-| 2 | Chest-Supported DB Row | 4 | 8–12 | 1–2 | 2 min |
-| 3 | Cable Chest Fly | 3 | 12–15 | 0–1 | 90 s |
-| 4 | Close-Grip Lat Pulldown | 3 | 10–12 | 1 | 2 min |
-| 5 | DB Lateral Raise | 4 | 12–20 | 0–1 | 60 s |
-| 6 | Face Pull | 3 | 15–20 | 0–1 | 60 s |
-| 7 | Weighted Triceps Dip | 3 | 8–12 | 1–2 | 2 min |
-| 8 | Hammer Curl | 3 | 10–12 | 0–1 | 60 s |
+Empty boxes are rejected — a set cannot be confirmed without both kg and reps.
 
-### Friday — Lower B · Hip Dominant / Unilateral
+---
 
-Zero încărcare axială. Extensia de șold cu trunchi susținut sau vector orizontal.
+## Deload mode
 
-| # | Exercise | Sets | Reps | RIR | Rest |
-|---|---|---|---|---|---|
-| 1 | Bulgarian Split Squat | 3 | 8–10 /leg | 1–2 | 2 min |
-| 2 | Barbell Hip Thrust | 4 | 8–10 | 1–2 | 2 min |
-| 3 | 45° Back Extension (weighted) | 3 | 10–12 | 1–2 | 90 s |
-| 4 | Leg Extension | 3 | 12–15 | 0–1 | 75 s |
-| 5 | Lying Leg Curl | 3 | 10–15 | 0–1 | 75 s |
-| 6 | Seated Calf Raise (2s pause) | 3 | 12–15 | 0–1 | 60 s |
-| 7 | Pallof Press | 3 | 10–12 /side | — | 45 s |
+Settings → toggle. Runs sessions at −40% sets, same weights, RIR 3–4, progression paused. Triggers documented in-app:
 
-### Volum săptămânal
+- bench or squat regression two sessions in a row
+- resting HR more than 5 bpm above baseline
+- sleep under 6 h for 3 nights
 
-| Grupă | Seturi | Fereastră |
+---
+
+## Zone 2
+
+Calibrated 22 Aug 2026 for a 44-year-old, RHR ≈ 67, HRmax estimated at 177 (Tanaka; not directly measured).
+
+| Method | Range |
+|---|---|
+| 60–70% HRmax | 106–124 |
+| Karvonen 50–60% HRR | 122–133 |
+| MAF (180 − age) | cap 136 |
+
+**Working target: 118–133 bpm, hard cap 135.**
+
+Treadmill at 6–6.5 km/h, 6–10% incline, adjusting incline to hold 125–132. Talk test: full sentences. 3 × 40 min on non-lifting days, progressing toward 150 min/week. Never before a lifting session.
+
+Logged as `type: 'cardio'` workouts with duration and avg/max HR entered manually. The weekly total shows on the Gym tab and as a Stats KPI.
+
+> Recalculate these numbers if resting HR shifts materially or HRmax is ever measured directly. A previous build shipped 130–142, derived from RHR 60 and percentages set too high — that band is Zone 3 for this profile and compromises recovery between lifting days.
+
+---
+
+## Data model
+
+IndexedDB `bogdan_nutrition_tracker`, `DB_VERSION = 3`.
+
+| Store | Key | Contents |
 |---|---|---|
-| Piept | 11 | 10–20 |
-| Spate | 14 | 10–20 |
-| Deltoid lateral | 8 | 8–12 |
-| Deltoid posterior | 6 | 6–10 |
-| Biceps (direct) | 6 | + indirect |
-| Triceps (direct) | 5 | + indirect |
-| Cvadriceps | 14 | 10–20 |
-| Ischiogambieri (flexie genunchi) | 7 | — |
-| Extensie șold (fesieri + ischio) | 7 | — |
-| Gambe | 7 | — |
-| Core | 6 | — |
-| **Încărcare axială grea** | **4** | doar Back Squat, marți |
+| `workouts` | `id` (auto) | strength sessions and cardio blocks |
+| `metrics` | `date` | weight, muscle, fat, waist, sleep, steps, flags |
+| `settings` | `key` | deload flag |
+| `entries` | `id` (auto) | legacy food entries, preserved but not displayed |
 
-Total: **94 seturi/săptămână**, frecvență 2×/grupă. Fără superseturi — antrenament în sală publică,
-un singur aparat ocupat la un moment dat.
+```js
+// strength
+{ date, type:'strength', sessionId, sessionName, startTs, endTs, deload?,
+  exercises:[{ exId, name, targetSets, targetReps, rir, rest, unit, inc, ss,
+               sets:[{ weight, reps, done }] }] }
 
-Deadlift-ul convențional și Romanian Deadlift au fost eliminate: cel mai mare moment extensor lombar
-și cea mai mare forță de forfecare dintre exercițiile uzuale (Cholewicki & McGill), cu randament
-hipertrofic modest raportat la costul de oboseală. Extensia de șold se obține din 45° back extension
-(coloană neutră, sarcină pe șolduri) și hip thrust (vector antero-posterior, compresie axială minimă).
-Încărcarea axială nu a fost eliminată complet — stimulul osteogen vertebral necesită compresie, iar
-4 seturi de back squat o furnizează fără acumulare.
-
----
-
-## Reguli de logare
-
-1. **Nu se loghează seturile de încălzire.** Doar seturile de lucru. Altfel precompletarea,
-   dubla progresie și volumul din Stats devin false.
-2. **Progresie dublă**, o dată pe săptămână, pe exercițiu:
-
-| Situație la ultimul set | Acțiune |
-|---|---|
-| Capătul de sus al intervalului atins la toate seturile | +2.5 kg (bară) / +1–2 kg (ganteră, cablu), revii la capătul de jos |
-| În interval | Aceeași greutate, +1 repetare pe cât de multe seturi poți |
-| Sub capătul de jos la ultimul set | Aceeași greutate, repeți săptămâna |
-
-Întâi repetările până la plafon, apoi greutatea. Niciodată ambele simultan.
-
-3. **45° Back Extension:** mișcarea pornește din șold, coloana rămâne neutră pe toată amplitudinea.
-   Nu se hiperextinde lombarul la vârf — oprirea se face când trunchiul e aliniat cu picioarele.
-   Greutatea se ține la piept, nu după ceafă.
-
----
-
-## Zone 2 cardio
-
-Nu se înregistrează în aplicație.
-
-| Parametru | Valoare |
-|---|---|
-| Frecvență | 2–3×/săptămână |
-| Durată | 30–45 min |
-| Modalitate | Bicicletă staționară sau mers înclinat. Nu alergare. |
-| Interval FC (Karvonen, HRmax est. 177, RHR 60) | 130–142 bpm |
-| Validare | Talk test: propoziții complete, respirație nazală susținută |
-| Zile | Miercuri, sâmbătă. Niciodată înainte de Lower. |
-| Plafon | ≤150 min/săptămână |
-
----
-
-## Backup și restaurare
-
-**Export înainte de fiecare deploy.** Fără excepții. Setări → Export JSON. ~120 KB.
-
-Formatul exportului (v3):
-
-```
-{
-  exportedAt, version: 3, app, user,
-  settings, exerciseCatalog, program,
-  workouts[], metrics[], entries[]
-}
+// cardio
+{ date, type:'cardio', sessionId:'zone2', startTs, endTs, z2min, avgHR, maxHR,
+  targetLo, targetHi }
 ```
 
-Importul este **deduplicat** (cheie `date|sessionId`) și **nedistructiv** — valorile existente au
-prioritate, cele lipsă se completează din backup. Rularea de două ori nu creează dubluri.
+Only confirmed sets are persisted — unchecked sets are stripped on finish.
+
+### Exercise identity
+
+Every exercise has a stable `exId` plus an alias list in the `EX` map. Renaming the display name does not orphan history: `Chest-Supported DB Row` → `One-Arm Machine Row` still resolves to `csRow`, so progression continues across the rename.
+
+When an exercise moves to different equipment (cable → machine, barbell → dumbbell), **the first session's prescription will be on the old scale.** Edit the weights once; from the second session the engine is calibrated again.
 
 ---
 
-## Cache — procedura corectă de deploy
+## Export / import
 
-GitHub Pages servește HTML prin CDN (~10 min TTL), iar Safari cachează agresiv paginile PWA.
+**Settings → Export JSON** produces `training-log-YYYY-MM-DD.json` containing workouts, metrics, settings, the exercise catalogue and the current program.
 
-| Metodă | Efect asupra IndexedDB |
-|---|---|
-| Deschide `.../Feeder/?v=N` cu N incrementat | **Sigur.** Query string nou = fișier nou. |
-| Șterge icoana de pe Home Screen și readaug-o | **Sigur.** |
-| Safari → Advanced → Website Data → șterge `github.io` | **Șterge datele.** Evită. |
-| Settings → Safari → Clear History and Website Data | **Șterge tot.** Niciodată. |
+Import merges rather than overwrites: workouts are de-duplicated on `date|sessionId` (plus `startTs` for cardio, since multiple blocks per day are valid), and existing metric fields win over imported ones.
 
-Procedura:
-
-1. Export JSON.
-2. Urcă `index.html`. Așteaptă ~1 minut.
-3. Deschide `bsbuzatu.github.io/Feeder/?v=N+1` în Safari.
-4. Verifică build-ul în subtitlul de sub „Gym".
-5. Setări → verifică `Antrenamente: N`.
-6. Add to Home Screen.
+**Export before every deploy.** Data survives a file replacement because IndexedDB is keyed to the origin, not the file — but verify that, don't assume it.
 
 ---
 
-## Mapare istoric
+## Deploy
 
-Exercițiile sunt identificate prin `exId` canonic. Numele vechi sunt rezolvate printr-un tabel de
-aliasuri, astfel încât redenumirile nu pierd istoricul.
+Replace `index.html` on `main`. GitHub Pages publishes in 1–2 minutes.
 
-| exId | Nume canonic | Aliasuri recunoscute |
-|---|---|---|
-| `bbSquat` | Barbell Back Squat | Back Squat (high-bar, sub paralel / below parallel), Genuflexiuni |
-| `pullup` | Pull-Up | Weighted Pull-Up, Lat Pulldown / Tractiuni, Lat Pulldown / Pull-Up |
-| `triDip` | Weighted Triceps Dip | Weighted Dip (4 variante) |
-| `facePull` | Face Pull | Face Pull / Reverse Fly |
-| `oneLegCalf` | Weighted One-Leg Standing Calf Raise | Standing Calf Raise, Ridicari pe varfuri |
-| `ohTri` | Overhead Cable Triceps Extension | Overhead Triceps Extension |
-| `sarow` | Single-Arm DB Row | Ramat cu haltera |
-| `csRow` | Chest-Supported DB Row | Ramat la cablu |
-| … | | vezi obiectul `EX` din `index.html` |
+The page sends `no-cache` headers, but iOS sometimes holds the old version in memory: close the PWA from the app switcher and reopen. Confirm the build string in **Settings → Database contents**.
 
-Exerciții prezente în istoric dar scoase din program (`Hanging Knee Raise`, `EZ-Bar Skull Crusher`,
-`Barbell Hip Thrust`, `Cable Crunch`): datele rămân în IndexedDB și în export, dar nu se afișează.
-
-`Machine Ab Crunch` nu este aliasat la `Cable Crunch` — încărcările nu sunt comparabile, iar o
-„ultimă valoare" falsă e mai rea decât absența ei.
+Access code: `bbb` — a friction gate, not security. Anything sensitive should not be in here.
 
 ---
 
-## Convenții de cod
+## Constraints and conventions
 
-- **Fără diacritice în `index.html`.** Bug recurent. Textele vizibile folosesc forme fără diacritice.
-- Fără `scrollIntoView` nicăieri.
-- Bifarea unui set mută DOM-ul direct, fără re-render — poziția paginii și focus-ul rămân intacte.
-- `saveMetricsForDay()` face merge; nu suprascrie câmpuri existente.
-- Constanta `BUILD` se incrementează la fiecare modificare și este afișată în UI.
-- Inputurile numerice sunt `type="text"` + `inputmode="decimal|numeric"`, cu normalizare `,` → `.`
-  în `numVal()`. `type="number"` respinge silențios virgula pe tastatura iOS cu locale RO — nu se folosește.
+- Single file. No bundler, no npm, no external requests.
+- Vanilla JS in strict mode. No framework.
+- Dark theme, neon green (`#39FF14`), blue (`#4aa3ff`) reserved for cardio.
+- UI text is English throughout, sized for reading mid-set without glasses.
+- Nutrition data reflects an atorvastatin + ezetimibe protocol: grapefruit and pomelo are listed as contraindicated (CYP3A4).
 
 ---
 
-## Istoric build-uri
+## License
 
-| Build | Modificări |
-|---|---|
-| `2026-07-23-J` | Superseturi eliminate (sală publică); pauze recalibrate; Seated Calf 4→3, Back Ext 4→3 vineri |
-| `2026-07-23-I` | Back Squat păstrat marți ca unic lift axial; Leg Extension mutat vineri |
-| `2026-07-23-H` | Zilele Lower refăcute: deadlift și RDL eliminate, adăugate 45° Back Extension, Barbell Hip Thrust, Leg Extension; încărcare axială 15 → 4 seturi/săpt |
-| `2026-07-09-G` | Virgulă acceptată ca separator zecimal (inputuri text + `numVal()`); Weighted Pull-Up → Pull-Up; cod de acces schimbat |
-| `2026-07-09-F` | Banner „baza de date goala"; build vizibil imediat la pornire |
-| `2026-07-09-E` | Meta tags `no-cache`; build afișat în subtitlu; cod mort eliminat |
-| `2026-07-09-D` | Precompletarea casetelor cu valorile ultimei sesiuni; caseta de istoric eliminată; se salvează doar seturile bifate |
-| `2026-07-09-C` | Deadlift 4×3; card „Split" eliminat; import deduplicat și nedistructiv |
-| `2026-07-09-B` | Buton Start; mod consultare separat de sesiunea activă |
-| `2026-07-09-A` | Rescriere: modul nutriție eliminat, program nou, Stats, Alimente, Export |
+None. Personal project.
