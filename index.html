@@ -394,7 +394,10 @@ const EX={
 
   backExt:      {n:'45\u00B0 Back Extension (weighted)', a:['45 Back Extension','Back Extension','Hyperextension']},
   hipThrust:    {n:'Barbell Hip Thrust', a:['Barbell Hip Thrust','Hip Thrust']},
-  legExt:       {n:'Leg Extension', a:['Leg Extension','Extensii cvadriceps']}
+  legExt:       {n:'Leg Extension', a:['Leg Extension','Extensii cvadriceps']},
+
+  supPulldown:  {n:'Supinated Cable Pulldown', a:['Supinated Lat Pulldown','Underhand Pulldown','Pulldown priza supinata']},
+  pushdown:     {n:'Rope Triceps Pushdown', a:['Triceps Pushdown','Cable Pushdown','Extensii triceps la cablu']}
 };
 // index invers alias -> id
 const ALIAS={};
@@ -405,32 +408,37 @@ Object.keys(EX).forEach(id=>{
 
 const SESSIONS=[
   {id:'fbA', day:'Monday', name:'Full-Body A \u2014 Squat + Bench', ex:[
-    {id:'bbSquat',    sets:3, reps:'6\u20138',   rir:'2',        rest:180, inc:5},
-    {id:'bench',      sets:3, reps:'5\u20137',   rir:'2',        rest:180, inc:2.5},
-    {id:'csRow',      sets:3, reps:'8\u201312',  rir:'1\u20132', rest:120, inc:2.5},
-    {id:'lyCurl',     sets:3, reps:'10\u201315', rir:'0\u20131', rest:75,  inc:5},
-    {id:'dbLat',      sets:3, reps:'12\u201320', rir:'0\u20131', rest:60,  inc:1},
-    {id:'machCrunch', sets:2, reps:'10\u201315', rir:'0\u20131', rest:60,  inc:5}
+    {id:'bbSquat',     sets:3, reps:'6\u20138',   rir:'2',        rest:180, inc:5},
+    {id:'bench',       sets:3, reps:'5\u20137',   rir:'2',        rest:180, inc:2.5},
+    {id:'supPulldown', sets:3, reps:'8\u201312',  rir:'1\u20132', rest:120, inc:2.5},
+    {id:'csRow',       sets:2, reps:'8\u201312',  rir:'1\u20132', rest:120, inc:2.5},
+    {id:'seatCurl',    sets:3, reps:'10\u201315', rir:'0\u20131', rest:75,  inc:5},
+    {id:'dbLat',       sets:3, reps:'12\u201320', rir:'0\u20131', rest:60,  inc:1},
+    {id:'ohTri',       sets:2, reps:'10\u201312', rir:'0\u20131', rest:75,  inc:2.5},
+    {id:'machCrunch',  sets:2, reps:'10\u201315', rir:'0\u20131', rest:60,  inc:5}
   ]},
   {id:'fbB', day:'Wednesday', name:'Full-Body B \u2014 Leg Press + OHP', ex:[
-    {id:'legPress',   sets:3, reps:'10\u201312', rir:'1',        rest:120, inc:5},
-    {id:'rdl',        sets:3, reps:'6\u20138',   rir:'2',        rest:150, inc:5},
-    {id:'ohp',        sets:3, reps:'6\u20138',   rir:'2',        rest:150, inc:2.5},
-    {id:'cgPulldown', sets:3, reps:'10\u201312', rir:'1',        rest:120, inc:2.5},
-    {id:'cabFly',     sets:2, reps:'12\u201315', rir:'0\u20131', rest:75,  inc:2.5},
-    {id:'hammer',     sets:2, reps:'10\u201312', rir:'0\u20131', rest:0,   inc:1, ss:'Superset w/ Overhead Triceps'},
-    {id:'ohTri',      sets:2, reps:'10\u201312', rir:'0\u20131', rest:75,  inc:2.5, ss:'Superset w/ Hammer Curl'},
-    {id:'seatCalf',   sets:2, reps:'12\u201315', rir:'0\u20131', rest:60,  inc:5}
+    {id:'legPress',    sets:3, reps:'10\u201312', rir:'1',        rest:120, inc:5},
+    {id:'rdl',         sets:3, reps:'6\u20138',   rir:'2',        rest:150, inc:5},
+    {id:'ohp',         sets:3, reps:'6\u20138',   rir:'2',        rest:150, inc:2.5},
+    {id:'sarow',       sets:3, reps:'8\u201312',  rir:'1\u20132', rest:120, inc:2.5},
+    {id:'cabFly',      sets:2, reps:'12\u201315', rir:'0\u20131', rest:75,  inc:2.5},
+    {id:'cabLat',      sets:2, reps:'12\u201315', rir:'0\u20131', rest:60,  inc:1},
+    {id:'hammer',      sets:2, reps:'10\u201312', rir:'0\u20131', rest:60,  inc:1},
+    {id:'ohTri',       sets:2, reps:'10\u201312', rir:'0\u20131', rest:75,  inc:2.5},
+    {id:'seatCalf',    sets:2, reps:'12\u201315', rir:'0\u20131', rest:60,  inc:5}
   ]},
   {id:'fbC', day:'Friday', name:'Full-Body C \u2014 Hip Thrust + Incline', ex:[
-    {id:'hipThrust',  sets:3, reps:'8\u201310',  rir:'1\u20132', rest:120, inc:5},
-    {id:'inclDB',     sets:3, reps:'8\u201310',  rir:'2',        rest:150, inc:2.5},
-    {id:'pullup',     sets:3, reps:'6\u201310',  rir:'1\u20132', rest:120, inc:2.5},
-    {id:'legExt',     sets:2, reps:'12\u201315', rir:'0\u20131', rest:75,  inc:5},
-    {id:'seatCurl',   sets:2, reps:'10\u201312', rir:'0\u20131', rest:90,  inc:5},
-    {id:'facePull',   sets:3, reps:'15\u201320', rir:'0\u20131', rest:60,  inc:2.5},
-    {id:'oneLegCalf', sets:2, reps:'10\u201315 /leg', rir:'0\u20131', rest:60, inc:2.5},
-    {id:'inclCurl',   sets:2, reps:'8\u201312',  rir:'0\u20131', rest:75,  inc:1}
+    {id:'hipThrust',   sets:3, reps:'8\u201310',  rir:'1\u20132', rest:120, inc:5},
+    {id:'inclDB',      sets:3, reps:'8\u201310',  rir:'2',        rest:150, inc:2.5},
+    {id:'pullup',      sets:3, reps:'6\u201310',  rir:'1\u20132', rest:120, inc:2.5},
+    {id:'legExt',      sets:2, reps:'12\u201315', rir:'0\u20131', rest:75,  inc:5},
+    {id:'seatCurl',    sets:2, reps:'10\u201312', rir:'0\u20131', rest:90,  inc:5},
+    {id:'facePull',    sets:3, reps:'15\u201320', rir:'0\u20131', rest:60,  inc:2.5},
+    {id:'inclCurl',    sets:2, reps:'8\u201312',  rir:'0\u20131', rest:75,  inc:1},
+    {id:'pushdown',    sets:2, reps:'10\u201315', rir:'0\u20131', rest:60,  inc:2.5},
+    {id:'oneLegCalf',  sets:2, reps:'10\u201315 /leg', rir:'0\u20131', rest:60, inc:2.5},
+    {id:'pallof',      sets:2, reps:'10\u201312 /side', rir:'0\u20131', rest:60, inc:2.5}
   ]}
 ];
 
@@ -440,15 +448,15 @@ const Z2={lo:118, hi:133, cap:135, weeklyTargetMin:150, note:'Treadmill: 6\u2013
 /* grupe musculare pentru volum s\u0103pt\u0103m\u00E2nal */
 const MUSCLE={
   bench:'chest', inclDB:'chest', cabFly:'chest', triDip:'chest',
-  pullup:'back', csRow:'back', sarow:'back', cgPulldown:'back',
+  pullup:'back', csRow:'back', sarow:'back', cgPulldown:'back', supPulldown:'back',
   ohp:'delts', dbLat:'delts', cabLat:'delts', facePull:'delts', revFly:'delts',
-  inclCurl:'biceps', hammer:'biceps', ohTri:'triceps',
+  inclCurl:'biceps', hammer:'biceps', ohTri:'triceps', pushdown:'triceps',
   bbSquat:'quads', legPress:'quads', legExt:'quads', bss:'quads',
   rdl:'hamstrings', seatCurl:'hamstrings', lyCurl:'hamstrings', deadlift:'hamstrings', backExt:'hamstrings',
   hipThrust:'glutes', oneLegCalf:'calves', seatCalf:'calves',
   machCrunch:'abs', pallof:'abs'
 };
-const MUSCLE_TARGET={quads:8, hamstrings:6, chest:8, back:8, delts:6, glutes:3, calves:4, biceps:4, triceps:2, abs:3};
+const MUSCLE_TARGET={quads:8, hamstrings:8, chest:8, back:11, delts:11, glutes:3, calves:4, biceps:4, triceps:6, abs:4};
 
 /* ============================================================
    ALIMENTE — permise pentru masa slaba + pierdere viscerala
