@@ -78,6 +78,9 @@ label{display:block;color:var(--muted);font-size:.85rem;margin-bottom:5px;letter
 .setrow input{padding:12px 8px;text-align:center;font-size:1.15rem;font-weight:700;
   font-variant-numeric:tabular-nums}
 .setrow input.tgt{color:#8fb989;font-weight:600}
+.setrow.wu input{font-size:.95rem;font-weight:500;color:var(--muted);-webkit-text-fill-color:var(--muted);border-style:dashed}
+.setrow.wu .n{font-size:.8rem}
+.setrow.wu.ok input{color:var(--green-dim);-webkit-text-fill-color:var(--green-dim)}
 .setrow input:disabled{opacity:1;-webkit-text-fill-color:#5f7a5b}
 .chk{background:var(--panel2);border:1px solid var(--line);border-radius:10px;
   height:46px;font-size:1.05rem;line-height:1}
@@ -407,37 +410,39 @@ Object.keys(EX).forEach(id=>{
 });
 
 const SESSIONS=[
+  /* v9 \u2014 serii drepte la aceeasi greutate. wu = incalziri [fractie din greutatea de lucru, reps],
+     afisate ca rinduri separate, excluse din volum si din progresie. bar = niciodata sub bara de 20 kg. */
   {id:'fbA', day:'Monday', name:'Full-Body A \u2014 Squat + Bench', ex:[
-    {id:'bbSquat',     sets:3, reps:'6\u20138',   rir:'2',        rest:180, inc:5},
-    {id:'bench',       sets:3, reps:'5\u20137',   rir:'2',        rest:180, inc:2.5},
-    {id:'supPulldown', sets:3, reps:'8\u201312',  rir:'1\u20132', rest:120, inc:2.5},
-    {id:'csRow',       sets:2, reps:'8\u201312',  rir:'1\u20132', rest:120, inc:2.5},
+    {id:'bbSquat',     sets:3, reps:'6\u20138',   rir:'2',        rest:180, inc:5,   bar:true, wu:[[0.5,8],[0.75,4]]},
+    {id:'bench',       sets:3, reps:'5\u20137',   rir:'2',        rest:180, inc:2.5, bar:true, wu:[[0.5,8],[0.75,4]]},
+    {id:'supPulldown', sets:3, reps:'8\u201312',  rir:'1\u20132', rest:120, inc:5,   wu:[[0.65,8]]},
+    {id:'csRow',       sets:3, reps:'8\u201312',  rir:'1\u20132', rest:120, inc:5,   wu:[[0.65,6]]},
     {id:'seatCurl',    sets:3, reps:'10\u201315', rir:'0\u20131', rest:75,  inc:5},
     {id:'dbLat',       sets:3, reps:'12\u201320', rir:'0\u20131', rest:60,  inc:1},
-    {id:'ohTri',       sets:2, reps:'10\u201312', rir:'0\u20131', rest:75,  inc:2.5},
+    {id:'ohTri',       sets:3, reps:'10\u201312', rir:'0\u20131', rest:75,  inc:2.5},
     {id:'machCrunch',  sets:2, reps:'10\u201315', rir:'0\u20131', rest:60,  inc:5}
   ]},
   {id:'fbB', day:'Wednesday', name:'Full-Body B \u2014 Leg Press + OHP', ex:[
-    {id:'legPress',    sets:3, reps:'10\u201312', rir:'1',        rest:120, inc:5},
-    {id:'rdl',         sets:3, reps:'6\u20138',   rir:'2',        rest:150, inc:5},
-    {id:'ohp',         sets:3, reps:'6\u20138',   rir:'2',        rest:150, inc:2.5},
-    {id:'sarow',       sets:3, reps:'8\u201312',  rir:'1\u20132', rest:120, inc:2.5},
-    {id:'cabFly',      sets:2, reps:'12\u201315', rir:'0\u20131', rest:75,  inc:2.5},
-    {id:'cabLat',      sets:2, reps:'12\u201315', rir:'0\u20131', rest:60,  inc:1},
+    {id:'legPress',    sets:3, reps:'10\u201312', rir:'1',        rest:120, inc:5,   wu:[[0.5,8],[0.75,5]]},
+    {id:'rdl',         sets:3, reps:'6\u20138',   rir:'2',        rest:150, inc:5,   bar:true, wu:[[0.6,6]]},
+    {id:'ohp',         sets:3, reps:'6\u20138',   rir:'2',        rest:150, inc:2.5, wu:[[0.5,8],[0.75,4]]},
+    {id:'sarow',       sets:3, reps:'8\u201312',  rir:'1\u20132', rest:120, inc:2.5, wu:[[0.65,6]]},
+    {id:'cabFly',      sets:3, reps:'12\u201315', rir:'0\u20131', rest:75,  inc:2.5},
+    {id:'cabLat',      sets:3, reps:'12\u201315', rir:'0\u20131', rest:60,  inc:1},
     {id:'hammer',      sets:2, reps:'10\u201312', rir:'0\u20131', rest:60,  inc:1},
     {id:'ohTri',       sets:2, reps:'10\u201312', rir:'0\u20131', rest:75,  inc:2.5},
-    {id:'seatCalf',    sets:2, reps:'12\u201315', rir:'0\u20131', rest:60,  inc:5}
+    {id:'seatCalf',    sets:3, reps:'12\u201315', rir:'0\u20131', rest:60,  inc:5}
   ]},
   {id:'fbC', day:'Friday', name:'Full-Body C \u2014 Hip Thrust + Incline', ex:[
-    {id:'hipThrust',   sets:3, reps:'8\u201310',  rir:'1\u20132', rest:120, inc:5},
-    {id:'inclDB',      sets:3, reps:'8\u201310',  rir:'2',        rest:150, inc:2.5},
-    {id:'pullup',      sets:3, reps:'6\u201310',  rir:'1\u20132', rest:120, inc:2.5},
-    {id:'legExt',      sets:2, reps:'12\u201315', rir:'0\u20131', rest:75,  inc:5},
+    {id:'hipThrust',   sets:3, reps:'8\u201310',  rir:'1\u20132', rest:120, inc:5,   bar:true, wu:[[0.5,8],[0.75,5]]},
+    {id:'inclDB',      sets:3, reps:'8\u201310',  rir:'2',        rest:150, inc:2.5, wu:[[0.5,8],[0.75,4]]},
+    {id:'cgPulldown',  sets:3, reps:'8\u201312',  rir:'1\u20132', rest:120, inc:5,   wu:[[0.65,8]]},
+    {id:'legExt',      sets:3, reps:'12\u201315', rir:'0\u20131', rest:75,  inc:5},
     {id:'seatCurl',    sets:2, reps:'10\u201312', rir:'0\u20131', rest:90,  inc:5},
     {id:'facePull',    sets:3, reps:'15\u201320', rir:'0\u20131', rest:60,  inc:2.5},
     {id:'inclCurl',    sets:2, reps:'8\u201312',  rir:'0\u20131', rest:75,  inc:1},
     {id:'pushdown',    sets:2, reps:'10\u201315', rir:'0\u20131', rest:60,  inc:2.5},
-    {id:'oneLegCalf',  sets:2, reps:'10\u201315 /leg', rir:'0\u20131', rest:60, inc:2.5},
+    {id:'oneLegCalf',  sets:3, reps:'10\u201315 /leg', rir:'0\u20131', rest:60, inc:2.5},
     {id:'pallof',      sets:2, reps:'10\u201312 /side', rir:'0\u20131', rest:60, inc:2.5}
   ]}
 ];
@@ -456,7 +461,7 @@ const MUSCLE={
   hipThrust:'glutes', oneLegCalf:'calves', seatCalf:'calves',
   machCrunch:'abs', pallof:'abs'
 };
-const MUSCLE_TARGET={quads:8, hamstrings:8, chest:8, back:11, delts:11, glutes:3, calves:4, biceps:4, triceps:6, abs:4};
+const MUSCLE_TARGET={quads:9, hamstrings:8, chest:9, back:12, delts:12, glutes:3, calves:6, biceps:4, triceps:7, abs:4};
 
 /* ============================================================
    ALIMENTE — permise pentru masa slaba + pierdere viscerala
@@ -615,7 +620,7 @@ async function buildLastMap(){
       if(!id)return;
       const sets=(e.sets||[]).filter(s=>s.done&&(s.weight!=null||s.reps!=null));
       if(!sets.length)return;
-      lastMap[id]={date:w.date,sets:sets.map(s=>({w:s.weight,r:s.reps}))};
+      lastMap[id]={date:w.date,sets:sets.map(s=>({w:s.weight,r:s.reps})),prev:lastMap[id]||null};
     });
   });
 }
@@ -629,33 +634,63 @@ function repRange(t){
   const m=String(t).match(/(\d+)\D+(\d+)/);
   return m?{lo:+m[1],hi:+m[2]}:null;
 }
-/* Computes the PRESCRIPTION for today, per set, from the last session.
-   Ascending-set style: ramp sets repeat; the decision is made on the TOP set.
-     top reps >= range top  -> weight + increment, reps back to range bottom
-     within range           -> same weight, +1 rep
-     below range bottom     -> same weight, aim range bottom (hold)
+/* Computes the PRESCRIPTION for today from the last session (straight sets, v9).
+   Working sets of the last session = sets at >= 80% of that day's top weight (this also
+   filters out the ramp sets of the old v8 logs). Double progression, decided on ALL sets:
+     every set reached range top          -> weight + inc, every set targets range bottom
+     any set 3+ reps under range bottom   -> weight - inc, every set targets range bottom
+                                             (load was mis-chosen, not a stall)
+     any set under range bottom, and the previous session at the same weight
+     also missed the bottom               -> weight - inc, every set targets range bottom (stall)
+     any set under range bottom otherwise -> same weight, every set targets range bottom (hold)
+     otherwise                            -> same weight, each set targets its last reps + 1
+                                             (capped at range top); sets with no history
+                                             target one rep less than the set before, not
+                                             below range bottom
    Deload mode: last values as-is, no progression. */
+function workingOf(L){
+  const done=(L.sets||[]).filter(x=>x.r!=null).map(x=>({w:(x.w==null?0:x.w),r:x.r}));
+  if(!done.length)return {topW:0,work:[]};
+  const topW=Math.max(...done.map(x=>x.w));
+  return {topW,work:done.filter(x=>topW===0||x.w>=0.8*topW)};
+}
 function targetSets(exDef){
   const L=lastMap[exDef.id];
   if(!L||!L.sets.length)return null;
   const rr=repRange(exDef.reps);
-  const done=L.sets.filter(x=>x.r!=null).map(x=>({w:(x.w==null?0:x.w),r:x.r}));
-  if(!done.length||!rr)return null;
-  const topW=Math.max(...done.map(x=>x.w));
-  const topR=Math.max(...done.filter(x=>x.w===topW).map(x=>x.r));
-  let nTopW=topW, nTopR;
-  if(DELOAD){nTopR=topR}
-  else if(topR>=rr.hi){nTopW=topW+(exDef.inc||2.5);nTopR=rr.lo}
-  else if(topR<rr.lo){nTopR=rr.lo}
-  else {nTopR=topR+1}
-  const n=exDef.sets;
-  const out=[];
-  for(let j=0;j<n;j++){
-    const src=done[Math.min(j,done.length-1)];
-    const isTop=j>=n-1||src.w===topW;
-    out.push(isTop?{w:nTopW,r:nTopR}:{w:src.w,r:src.r});
+  const {topW,work}=workingOf(L);
+  if(!work.length||!rr)return null;
+  const n=exDef.sets, inc=exDef.inc||2.5;
+  let w=topW, reps=[];
+  const missed=work.some(x=>x.r<rr.lo);
+  const severe=work.some(x=>x.r<=rr.lo-3);
+  const P=L.prev?workingOf(L.prev):null;
+  const stalled=missed&&P&&P.topW===topW&&P.work.some(x=>x.r<rr.lo);
+  if(DELOAD){
+    for(let j=0;j<n;j++)reps.push(work[Math.min(j,work.length-1)].r);
+  }else if(work.length>=n && work.every(x=>x.r>=rr.hi)){
+    w=topW+inc; for(let j=0;j<n;j++)reps.push(rr.lo);
+  }else if(severe||stalled){
+    w=Math.max(0,+(topW-inc).toFixed(2)); for(let j=0;j<n;j++)reps.push(rr.lo);
+  }else if(missed){
+    for(let j=0;j<n;j++)reps.push(rr.lo);
+  }else{
+    for(let j=0;j<n;j++)reps.push(work[j]?Math.min(rr.hi,work[j].r+1):Math.max(rr.lo,reps[j-1]-1));
   }
-  return {sets:out, lastTop:topW+'\u00D7'+topR, lastDate:L.date};
+  const out=reps.map(r=>({w,r}));
+  return {sets:out, lastTop:work.map(x=>x.w+'\u00D7'+x.r).join(', '), lastDate:L.date};
+}
+/* Warm-up rows for today: actual kg from the working weight, rounded to the exercise
+   increment (never finer than 2.5 kg); barbell lifts never below the 20 kg bar. */
+function warmupSets(exDef,workW){
+  if(!exDef.wu||!exDef.wu.length||workW==null||workW<=0)return [];
+  const step=Math.max(2.5,exDef.inc||2.5);
+  return exDef.wu.map(([f,r])=>{
+    let kg=Math.round(workW*f/step)*step;
+    if(exDef.bar)kg=Math.max(20,kg);
+    if(kg>=workW)kg=Math.max(exDef.bar?20:step,workW-step);
+    return {weight:kg,reps:r,done:false};
+  });
 }
 
 /* ============================================================
@@ -668,9 +703,10 @@ function renderSessions(){
       Progression is paused. Turn it off in Settings after 7 days.</div></div>`:'';
   document.getElementById('sessList').innerHTML=dl+SESSIONS.map(s=>{
     const n=s.ex.reduce((a,e)=>a+deloadSets(e.sets),0);
+    const nw=s.ex.reduce((a,e)=>a+((e.wu||[]).length),0);
     return `<button class="sess" onclick="startWorkout('${s.id}')">
       <div class="t">${s.name}</div>
-      <div class="d">${s.day} \u00B7 ${s.ex.length} exercises \u00B7 ${n} sets${DELOAD?' (deload)':''}</div></button>`;
+      <div class="d">${s.day} \u00B7 ${s.ex.length} exercises \u00B7 ${n} working sets + ${nw} warm-ups${DELOAD?' (deload)':''}</div></button>`;
   }).join('')+`
     <div class="card" style="border-color:#123a5e">
       <h3 style="color:#4aa3ff">Zone 2 \u2014 Treadmill (non-lifting days)</h3>
@@ -778,7 +814,8 @@ function startWorkout(sid){
      deload:DELOAD||undefined,
      exercises:S.ex.map(e=>({exId:e.id,name:EX[e.id].n,targetSets:deloadSets(e.sets),targetReps:e.reps,
        rir:DELOAD?'3\u20134':e.rir,rest:e.rest,unit:e.unit||'reps',inc:e.inc||2.5,
-       ss:e.ss||null,
+       ss:e.ss||null, wu:e.wu||null, bar:!!e.bar,
+       wuSets:[],
        sets:Array.from({length:deloadSets(e.sets)},()=>({weight:null,reps:null,done:false}))}))};
   document.getElementById('sessPick').classList.add('hidden');
   document.getElementById('sessRun').classList.remove('hidden');
@@ -822,6 +859,17 @@ function renderRun(){
        Confirming a set saves exactly what is in the boxes \u2014 edit first if you
        did something different. */
     const T=targetSets({id:e.exId,reps:e.targetReps,sets:e.sets.length,inc:e.inc});
+    /* Warm-ups: computed once from today's working weight (target, or first box the user typed). */
+    const typed=e.sets.find(s=>s.weight!=null);
+    const workW=typed?typed.weight:(T?T.sets[0].w:null);
+    if(e.wu&&!(e.wuSets||[]).length&&workW)e.wuSets=warmupSets({wu:e.wu,inc:e.inc,bar:e.bar},workW);
+    const dis0=RUNNING?'':'disabled';
+    const wuRows=(e.wuSets||[]).map((s,j)=>`<div class="setrow wu ${s.done?'ok':''}" id="wr-${i}-${j}">
+        <div class="n">W${j+1}</div>
+        <input type="text" inputmode="decimal" placeholder="kg" ${dis0} id="ww-${i}-${j}" value="${s.weight}" onchange="setWu(${i},${j},'weight',this.value)">
+        <input type="text" inputmode="numeric" placeholder="reps" ${dis0} id="wq-${i}-${j}" value="${s.reps}" onchange="setWu(${i},${j},'reps',this.value)">
+        <button class="chk" ${dis0} onclick="toggleWu(${i},${j})">${s.done?'\u2713':'\u25CB'}</button>
+      </div>`).join('');
     const rows=e.sets.map((s,j)=>{
       const tv=T&&T.sets[j]?T.sets[j]:null;
       const touchedW=s.weight!=null, touchedR=s.reps!=null;
@@ -837,7 +885,7 @@ function renderRun(){
         <button class="chk" ${dis} onclick="toggleSet(${i},${j})">${s.done?'\u2713':'\u25CB'}</button>
       </div>`;
     }).join('');
-    const ref=T?`<div class="muted" style="margin-top:8px;font-size:.88rem">Last top: ${T.lastTop} (${fmtD(T.lastDate)})</div>`:'';
+    const ref=T?`<div class="muted" style="margin-top:8px;font-size:.88rem">Last: ${T.lastTop} (${fmtD(T.lastDate)})</div>`:'';
     const hintHtml='';
     return `<div class="ex ${doneAll?'done':''}" id="ex-${i}">
       <div class="ex-h">
@@ -846,6 +894,7 @@ function renderRun(){
           <div class="ex-meta">${e.targetSets} \u00D7 ${e.targetReps} \u00B7 RIR ${e.rir} \u00B7 rest ${e.rest>=60?(e.rest/60)+' min':e.rest+' s'}${e.ss?'<br><span style="color:var(--green-dim)">'+e.ss+'</span>':''}</div>
         </div>
       </div>
+      ${wuRows}
       ${rows}
       ${ref}
       ${hintHtml}
@@ -862,6 +911,19 @@ function numVal(v){
 }
 function setVal(i,j,k,v){
   W.exercises[i].sets[j][k]= k==='reps' ? (numVal(v)==null?null:Math.round(numVal(v))) : numVal(v);
+}
+function setWu(i,j,k,v){
+  const s=W.exercises[i].wuSets[j];
+  s[k]= k==='reps' ? (numVal(v)==null?null:Math.round(numVal(v))) : numVal(v);
+}
+function toggleWu(i,j){
+  if(!RUNNING)return;
+  const s=W.exercises[i].wuSets[j];
+  s.done=!s.done;
+  const row=document.getElementById(`wr-${i}-${j}`);
+  row.classList.toggle('ok',s.done);
+  row.querySelector('.chk').textContent=s.done?'\u2713':'\u25CB';
+  if(s.done)startRest(60,W.exercises[i].name+' (warm-up)');
 }
 function toggleSet(i,j){
   if(!RUNNING)return;
@@ -890,7 +952,7 @@ async function finishWorkout(){
   const any=W.exercises.some(e=>e.sets.some(s=>s.done));
   if(!any){toast('No sets confirmed');return}
   W.endTs=Date.now();
-  W.exercises=W.exercises.map(e=>({...e,sets:e.sets.filter(s=>s.done)}));  // doar seturile confirmate cu bifa
+  W.exercises=W.exercises.map(e=>({...e,sets:e.sets.filter(s=>s.done),wuSets:(e.wuSets||[]).filter(s=>s.done)}));  // doar seturile confirmate; incalzirile raman separate de .sets
   await put('workouts',W);
   await saveMetricsForDay(W.date,{workout:W.sessionId,trainingDay:true});
   stopRest();stopRunClock();releaseWakeLock();
