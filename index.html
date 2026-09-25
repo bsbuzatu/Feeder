@@ -9,7 +9,7 @@
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
-<title>Training Log</title>
+<title>Training Log v10.1</title>
 <link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' fill='black'/><text y='72' x='50' font-size='64' text-anchor='middle' fill='%2339FF14'>G</text></svg>">
 <style>
 :root{
@@ -29,13 +29,7 @@ input:focus,select:focus{outline:none;border-color:var(--green)}
 h1,h2,h3{margin:0}
 .hidden{display:none !important}
 
-/* login */
-#gate{position:fixed;inset:0;background:#000;display:flex;flex-direction:column;
-  align-items:center;justify-content:center;gap:18px;z-index:999;padding:24px}
-#gate h1{color:var(--green);font-size:1.6rem;letter-spacing:.08em}
-#gate input{max-width:260px;text-align:center;letter-spacing:.4em}
-#gate button{background:var(--green);color:#000;border:0;border-radius:12px;
-  padding:14px 34px;font-weight:700}
+/* login: removed in v10.1 */
 
 header{position:sticky;top:0;background:rgba(0,0,0,.92);backdrop-filter:blur(10px);
   border-bottom:1px solid var(--line);padding:calc(12px + env(safe-area-inset-top)) 16px 12px;z-index:50}
@@ -87,15 +81,22 @@ label{display:block;color:var(--muted);font-size:.85rem;margin-bottom:5px;letter
 .setrow.ok input{border-color:var(--green-dim);color:var(--green);-webkit-text-fill-color:var(--green)}
 .setrow.ok .chk{background:var(--green);color:#000;border-color:var(--green)}
 
-/* rest timer */
+/* rest timer (v10.1): readable from the floor without glasses.
+   Counting down: discreet panel colour. At zero: fluorescent green, black text. */
 #rest{position:fixed;left:12px;right:12px;bottom:calc(76px + env(safe-area-inset-bottom));
-  background:#0d160d;border:1px solid var(--green-dim);border-radius:14px;
-  padding:12px 14px;display:flex;justify-content:space-between;align-items:center;z-index:60}
-#rest .t{color:var(--green);font-size:1.5rem;font-weight:700;font-variant-numeric:tabular-nums}
-#rest .l{color:var(--muted);font-size:.68rem;text-transform:uppercase;letter-spacing:.1em}
-#rest.zero{border-color:var(--green);background:#12220f}
-#rest button{background:transparent;border:1px solid var(--line);border-radius:10px;
-  padding:9px 12px;font-size:.78rem;color:var(--muted)}
+  background:var(--panel2);border:2px solid var(--line);border-radius:18px;
+  padding:14px 18px;display:flex;justify-content:space-between;align-items:center;z-index:60;
+  transition:background .25s,border-color .25s}
+#rest .t{color:var(--txt);font-size:4.6rem;line-height:1;font-weight:800;letter-spacing:.02em;
+  font-variant-numeric:tabular-nums;transition:color .25s}
+#rest .l{color:var(--muted);font-size:.72rem;text-transform:uppercase;letter-spacing:.1em;margin-bottom:4px}
+#rest.zero{background:var(--green);border-color:var(--green)}
+#rest.zero .t{color:#000}
+#rest.zero .l{color:#0a3a00}
+#rest .row{display:flex;flex-direction:column;gap:8px}
+#rest button{background:transparent;border:1px solid var(--line);border-radius:12px;
+  padding:12px 16px;font-size:.95rem;font-weight:700;color:var(--muted);min-width:84px}
+#rest.zero button{border-color:#0a3a00;color:#0a3a00}
 
 /* nav */
 nav{position:fixed;left:0;right:0;bottom:0;background:rgba(0,0,0,.95);
@@ -146,17 +147,14 @@ td{padding:8px 4px;border-bottom:1px solid #131813;text-align:right;font-variant
 </head>
 <body>
 
-<div id="gate">
-  <h1>TRAINING LOG</h1>
-  <input id="pw" type="password" inputmode="text" autocomplete="off" placeholder="code">
-  <button onclick="unlock()">Enter</button>
-  <div class="muted" id="gateMsg"></div>
+<!-- v10.1: password gate removed - app opens directly -->
 </div>
 
-<div id="app" class="hidden">
+<div id="app">
   <header>
     <h2 id="hTitle">Gym</h2>
     <div class="sub" id="hSub"></div>
+    <div class="muted" style="font-size:.66rem;letter-spacing:.08em;margin-top:2px">v10.1</div>
   </header>
 
   <main>
@@ -313,7 +311,7 @@ td{padding:8px 4px;border-bottom:1px solid #131813;text-align:right;font-variant
   <div id="rest" class="hidden">
     <div>
       <div class="l" id="restLbl">Rest</div>
-      <div class="t" id="restT">00:00</div>
+      <div class="t" id="restT">0:00</div>
     </div>
     <div class="row">
       <button onclick="addRest(30)">+30s</button>
@@ -410,42 +408,44 @@ Object.keys(EX).forEach(id=>{
 });
 
 const SESSIONS=[
-  /* v9 \u2014 serii drepte la aceeasi greutate. wu = incalziri [fractie din greutatea de lucru, reps],
-     afisate ca rinduri separate, excluse din volum si din progresie. bar = niciodata sub bara de 20 kg. */
+  /* v10 \u2014 3x/sapt, 45 de ani, sustenabil. Serii drepte la aceeasi greutate, RIR 2 pe compuse,
+     RIR 1 pe izolari. wu = incalziri [fractie din greutatea de lucru, reps], rinduri separate,
+     excluse din volum si progresie. bar = niciodata sub bara de 20 kg. inc = cel mai mic pas real. */
   {id:'fbA', day:'Monday', name:'Full-Body A \u2014 Squat + Bench', ex:[
-    {id:'bbSquat',     sets:3, reps:'6\u20138',   rir:'2',        rest:180, inc:5,   bar:true, wu:[[0.5,8],[0.75,4]]},
-    {id:'bench',       sets:3, reps:'5\u20137',   rir:'2',        rest:180, inc:2.5, bar:true, wu:[[0.5,8],[0.75,4]]},
-    {id:'supPulldown', sets:3, reps:'8\u201312',  rir:'1\u20132', rest:120, inc:5,   wu:[[0.65,8]]},
-    {id:'csRow',       sets:3, reps:'8\u201312',  rir:'1\u20132', rest:120, inc:5,   wu:[[0.65,6]]},
-    {id:'seatCurl',    sets:3, reps:'10\u201315', rir:'0\u20131', rest:75,  inc:5},
-    {id:'dbLat',       sets:3, reps:'12\u201320', rir:'0\u20131', rest:60,  inc:1},
-    {id:'ohTri',       sets:3, reps:'10\u201312', rir:'0\u20131', rest:75,  inc:2.5},
-    {id:'machCrunch',  sets:2, reps:'10\u201315', rir:'0\u20131', rest:60,  inc:5}
+    {id:'bbSquat',     sets:3, reps:'6\u201310',  rir:'2',        rest:180, inc:2.5, bar:true, wu:[[0.5,8],[0.75,4]]},
+    {id:'bench',       sets:3, reps:'6\u201310',  rir:'2',        rest:180, inc:2.5, bar:true, wu:[[0.5,8],[0.75,4]]},
+    {id:'supPulldown', sets:3, reps:'8\u201312',  rir:'2',        rest:120, inc:5,   wu:[[0.65,8]]},
+    {id:'csRow',       sets:2, reps:'8\u201312',  rir:'1\u20132', rest:90,  inc:5,   wu:[[0.65,6]]},
+    {id:'seatCurl',    sets:3, reps:'10\u201315', rir:'1\u20132', rest:90,  inc:5},
+    {id:'dbLat',       sets:3, reps:'12\u201320', rir:'1',        rest:75,  inc:1},
+    {id:'ohTri',       sets:2, reps:'10\u201315', rir:'1',        rest:75,  inc:2.5},
+    {id:'machCrunch',  sets:2, reps:'10\u201315', rir:'1',        rest:60,  inc:5}
   ]},
   {id:'fbB', day:'Wednesday', name:'Full-Body B \u2014 Leg Press + OHP', ex:[
-    {id:'legPress',    sets:3, reps:'10\u201312', rir:'1',        rest:120, inc:5,   wu:[[0.5,8],[0.75,5]]},
-    {id:'rdl',         sets:3, reps:'6\u20138',   rir:'2',        rest:150, inc:5,   bar:true, wu:[[0.6,6]]},
-    {id:'ohp',         sets:3, reps:'6\u20138',   rir:'2',        rest:150, inc:2.5, wu:[[0.5,8],[0.75,4]]},
-    {id:'sarow',       sets:3, reps:'8\u201312',  rir:'1\u20132', rest:120, inc:2.5, wu:[[0.65,6]]},
-    {id:'cabFly',      sets:3, reps:'12\u201315', rir:'0\u20131', rest:75,  inc:2.5},
-    {id:'cabLat',      sets:3, reps:'12\u201315', rir:'0\u20131', rest:60,  inc:1},
-    {id:'hammer',      sets:2, reps:'10\u201312', rir:'0\u20131', rest:60,  inc:1},
-    {id:'ohTri',       sets:2, reps:'10\u201312', rir:'0\u20131', rest:75,  inc:2.5},
-    {id:'seatCalf',    sets:3, reps:'12\u201315', rir:'0\u20131', rest:60,  inc:5}
+    {id:'legPress',    sets:3, reps:'10\u201315', rir:'2',        rest:120, inc:5,   wu:[[0.5,8],[0.75,5]]},
+    {id:'rdl',         sets:3, reps:'6\u201310',  rir:'2',        rest:150, inc:2.5, bar:true, wu:[[0.6,6]]},
+    {id:'ohp',         sets:3, reps:'8\u201312',  rir:'2',        rest:150, inc:2.5, wu:[[0.5,8],[0.75,4]]},
+    {id:'sarow',       sets:3, reps:'8\u201312',  rir:'1\u20132', rest:90,  inc:2.5, wu:[[0.65,6]]},
+    {id:'cabFly',      sets:2, reps:'12\u201315', rir:'1',        rest:75,  inc:2.5},
+    {id:'cabLat',      sets:2, reps:'12\u201320', rir:'1',        rest:60,  inc:1},
+    {id:'hammer',      sets:2, reps:'10\u201315', rir:'1',        rest:75,  inc:2.5},
+    {id:'ohTri',       sets:2, reps:'10\u201315', rir:'1',        rest:75,  inc:2.5},
+    {id:'seatCalf',    sets:2, reps:'12\u201315', rir:'1',        rest:60,  inc:5}
   ]},
   {id:'fbC', day:'Friday', name:'Full-Body C \u2014 Hip Thrust + Incline', ex:[
-    {id:'hipThrust',   sets:3, reps:'8\u201310',  rir:'1\u20132', rest:120, inc:5,   bar:true, wu:[[0.5,8],[0.75,5]]},
-    {id:'inclDB',      sets:3, reps:'8\u201310',  rir:'2',        rest:150, inc:2.5, wu:[[0.5,8],[0.75,4]]},
-    {id:'cgPulldown',  sets:3, reps:'8\u201312',  rir:'1\u20132', rest:120, inc:5,   wu:[[0.65,8]]},
-    {id:'legExt',      sets:3, reps:'12\u201315', rir:'0\u20131', rest:75,  inc:5},
-    {id:'seatCurl',    sets:2, reps:'10\u201312', rir:'0\u20131', rest:90,  inc:5},
-    {id:'facePull',    sets:3, reps:'15\u201320', rir:'0\u20131', rest:60,  inc:2.5},
-    {id:'inclCurl',    sets:2, reps:'8\u201312',  rir:'0\u20131', rest:75,  inc:1},
-    {id:'pushdown',    sets:2, reps:'10\u201315', rir:'0\u20131', rest:60,  inc:2.5},
-    {id:'oneLegCalf',  sets:3, reps:'10\u201315 /leg', rir:'0\u20131', rest:60, inc:2.5},
-    {id:'pallof',      sets:2, reps:'10\u201312 /side', rir:'0\u20131', rest:60, inc:2.5}
+    {id:'hipThrust',   sets:3, reps:'8\u201312',  rir:'2',        rest:120, inc:5,   bar:true, wu:[[0.5,8],[0.75,5]]},
+    {id:'inclDB',      sets:3, reps:'8\u201312',  rir:'2',        rest:150, inc:2.5, wu:[[0.5,8],[0.75,4]]},
+    {id:'cgPulldown',  sets:3, reps:'8\u201312',  rir:'2',        rest:120, inc:5,   wu:[[0.65,8]]},
+    {id:'legExt',      sets:2, reps:'12\u201315', rir:'1',        rest:75,  inc:5},
+    {id:'seatCurl',    sets:2, reps:'10\u201315', rir:'1',        rest:90,  inc:5},
+    {id:'facePull',    sets:2, reps:'15\u201320', rir:'1',        rest:60,  inc:2.5},
+    {id:'inclCurl',    sets:2, reps:'8\u201312',  rir:'1',        rest:75,  inc:1},
+    {id:'pushdown',    sets:2, reps:'10\u201315', rir:'1',        rest:60,  inc:2.5},
+    {id:'oneLegCalf',  sets:2, reps:'10\u201315 /leg', rir:'1',   rest:60,  inc:2.5},
+    {id:'pallof',      sets:2, reps:'10\u201312 /side', rir:'1',  rest:60,  inc:2.5}
   ]}
 ];
+
 
 /* Zone 2 \u2014 personalizat (Bogdan, 44 ani, RHR ~67, FCmax est. Tanaka 177) */
 const Z2={lo:118, hi:133, cap:135, weeklyTargetMin:150, note:'Treadmill: 6\u20136.5 km/h at 6\u201310% incline. Check: you can speak full sentences.'};
@@ -461,7 +461,7 @@ const MUSCLE={
   hipThrust:'glutes', oneLegCalf:'calves', seatCalf:'calves',
   machCrunch:'abs', pallof:'abs'
 };
-const MUSCLE_TARGET={quads:9, hamstrings:8, chest:9, back:12, delts:12, glutes:3, calves:6, biceps:4, triceps:7, abs:4};
+const MUSCLE_TARGET={quads:8, hamstrings:8, chest:8, back:11, delts:10, glutes:3, calves:4, biceps:4, triceps:6, abs:4};
 
 /* ============================================================
    ALIMENTE — permise pentru masa slaba + pierdere viscerala
@@ -558,14 +558,8 @@ let Z2RUN=null, z2Timer=null;   // sesiune Zone 2 \u00EEn desf\u0103\u0219urare
 /* ============================================================
    Login
    ============================================================ */
-function unlock(){
-  const v=document.getElementById('pw').value.trim();
-  if(v!=='bbb'){document.getElementById('gateMsg').textContent='Wrong code';return}
-  document.getElementById('gate').classList.add('hidden');
-  document.getElementById('app').classList.remove('hidden');
-  boot();
-}
-document.getElementById('pw').addEventListener('keydown',e=>{if(e.key==='Enter')unlock()});
+/* v10.1: no password. The app boots straight into the main screen. */
+if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',boot);else boot();
 
 async function boot(){
   await openDB();
@@ -634,19 +628,21 @@ function repRange(t){
   const m=String(t).match(/(\d+)\D+(\d+)/);
   return m?{lo:+m[1],hi:+m[2]}:null;
 }
-/* Computes the PRESCRIPTION for today from the last session (straight sets, v9).
-   Working sets of the last session = sets at >= 80% of that day's top weight (this also
-   filters out the ramp sets of the old v8 logs). Double progression, decided on ALL sets:
+/* Computes the PRESCRIPTION for today from the last session (straight sets, v10).
+   Working sets of the last session = sets at >= 80% of that day's top weight.
+   Rules, in order (rr = rep range, inc = smallest real step):
+     ramp conversion: last session had ONE working set but today asks for several
+                                          -> that top weight minus inc, every set targets bottom
+                                             (a fresh top set does not carry over to 3 straight sets)
      every set reached range top          -> weight + inc, every set targets range bottom
-     any set 3+ reps under range bottom   -> weight - inc, every set targets range bottom
-                                             (load was mis-chosen, not a stall)
-     any set under range bottom, and the previous session at the same weight
-     also missed the bottom               -> weight - inc, every set targets range bottom (stall)
-     any set under range bottom otherwise -> same weight, every set targets range bottom (hold)
-     otherwise                            -> same weight, each set targets its last reps + 1
-                                             (capped at range top); sets with no history
-                                             target one rep less than the set before, not
-                                             below range bottom
+     any set 2+ reps under bottom, or 2+ sets under bottom
+                                          -> weight - inc, every set targets range bottom
+     one set 1 rep under bottom twice in a row at this weight
+                                          -> weight - inc, every set targets range bottom
+     one set 1 rep under bottom           -> same weight, every set targets its last reps (min bottom)
+     otherwise                            -> same weight; set 1 targets last reps + 1 (capped at top),
+                                             the other sets target their own last reps; sets with no
+                                             history target one less than the set before, min bottom
    Deload mode: last values as-is, no progression. */
 function workingOf(L){
   const done=(L.sets||[]).filter(x=>x.r!=null).map(x=>({w:(x.w==null?0:x.w),r:x.r}));
@@ -661,21 +657,24 @@ function targetSets(exDef){
   const {topW,work}=workingOf(L);
   if(!work.length||!rr)return null;
   const n=exDef.sets, inc=exDef.inc||2.5;
+  const dec=x=>Math.max(0,+(x-inc).toFixed(2));
   let w=topW, reps=[];
-  const missed=work.some(x=>x.r<rr.lo);
-  const severe=work.some(x=>x.r<=rr.lo-3);
+  const under=work.filter(x=>x.r<rr.lo);
+  const hardMiss=under.length>=2||under.some(x=>x.r<=rr.lo-2);
   const P=L.prev?workingOf(L.prev):null;
-  const stalled=missed&&P&&P.topW===topW&&P.work.some(x=>x.r<rr.lo);
+  const repeatMiss=under.length===1&&P&&P.topW===topW&&P.work.some(x=>x.r<rr.lo);
   if(DELOAD){
     for(let j=0;j<n;j++)reps.push(work[Math.min(j,work.length-1)].r);
+  }else if(work.length===1&&n>1&&topW>0){
+    w=dec(topW); for(let j=0;j<n;j++)reps.push(rr.lo);
   }else if(work.length>=n && work.every(x=>x.r>=rr.hi)){
     w=topW+inc; for(let j=0;j<n;j++)reps.push(rr.lo);
-  }else if(severe||stalled){
-    w=Math.max(0,+(topW-inc).toFixed(2)); for(let j=0;j<n;j++)reps.push(rr.lo);
-  }else if(missed){
-    for(let j=0;j<n;j++)reps.push(rr.lo);
+  }else if(hardMiss||repeatMiss){
+    w=dec(topW); for(let j=0;j<n;j++)reps.push(rr.lo);
+  }else if(under.length){
+    for(let j=0;j<n;j++)reps.push(work[j]?Math.max(rr.lo,work[j].r):rr.lo);
   }else{
-    for(let j=0;j<n;j++)reps.push(work[j]?Math.min(rr.hi,work[j].r+1):Math.max(rr.lo,reps[j-1]-1));
+    for(let j=0;j<n;j++)reps.push(work[j]?(work[j].w<topW?rr.lo:(j===0?Math.min(rr.hi,work[j].r+1):Math.max(rr.lo,work[j].r))):Math.max(rr.lo,reps[j-1]-1));
   }
   const out=reps.map(r=>({w,r}));
   return {sets:out, lastTop:work.map(x=>x.w+'\u00D7'+x.r).join(', '), lastDate:L.date};
@@ -991,11 +990,11 @@ function startRest(sec,label){
   if(restTimer)clearInterval(restTimer);
   restTimer=setInterval(()=>{
     restLeft--;
-    if(restLeft<=0){restLeft=0;box.classList.add('zero');clearInterval(restTimer);restTimer=null}
+    if(restLeft<=0){restLeft=0;box.classList.add('zero');document.getElementById('restLbl').textContent='GO';clearInterval(restTimer);restTimer=null}
     paintRest();
   },1000);
 }
-function paintRest(){document.getElementById('restT').textContent=pad(Math.floor(restLeft/60))+':'+pad(restLeft%60)}
+function paintRest(){document.getElementById('restT').textContent=Math.floor(restLeft/60)+':'+pad(restLeft%60)}
 function addRest(s){restLeft+=s;document.getElementById('rest').classList.remove('zero');
   if(!restTimer)startRest(restLeft,document.getElementById('restLbl').textContent);paintRest()}
 function stopRest(){if(restTimer)clearInterval(restTimer);restTimer=null;
