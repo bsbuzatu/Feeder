@@ -9,7 +9,7 @@
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
-<title>Training Log v10.1</title>
+<title>Training Log v10.2</title>
 <link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' fill='black'/><text y='72' x='50' font-size='64' text-anchor='middle' fill='%2339FF14'>G</text></svg>">
 <style>
 :root{
@@ -23,6 +23,7 @@ html,body{margin:0;padding:0;background:var(--bg);color:var(--txt);
   font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text",system-ui,sans-serif;
   font-size:var(--fs);overscroll-behavior-y:none}
 body{padding-bottom:calc(84px + env(safe-area-inset-bottom))}
+body.resting{padding-bottom:calc(84px + 180px + env(safe-area-inset-bottom))} /* v10.2: room to scroll under the rest box */
 button,input,select{font-family:inherit;font-size:1rem;color:var(--txt)}
 input,select{background:var(--panel2);border:1px solid var(--line);border-radius:10px;padding:10px;width:100%}
 input:focus,select:focus{outline:none;border-color:var(--green)}
@@ -93,6 +94,7 @@ label{display:block;color:var(--muted);font-size:.85rem;margin-bottom:5px;letter
 #rest.zero{background:var(--green);border-color:var(--green)}
 #rest.zero .t{color:#000}
 #rest.zero .l{color:#0a3a00}
+#rest.zero .t{cursor:pointer}
 #rest .row{display:flex;flex-direction:column;gap:8px}
 #rest button{background:transparent;border:1px solid var(--line);border-radius:12px;
   padding:12px 16px;font-size:.95rem;font-weight:700;color:var(--muted);min-width:84px}
@@ -139,6 +141,14 @@ td{padding:8px 4px;border-bottom:1px solid #131813;text-align:right;font-variant
 .hist{padding:10px 0;border-bottom:1px solid #131813;display:flex;justify-content:space-between}
 .hist .d{font-size:.95rem}
 .hist .m{color:var(--muted);font-size:.85rem;margin-top:2px}
+.hist.tap{cursor:pointer}
+.hist.open{border-bottom:0}
+.histDetail{border-bottom:1px solid #131813;padding:4px 0 12px}
+.histDetail .ex{padding:8px 0 2px;color:var(--txt);font-weight:600;font-size:.95rem}
+.histDetail .tg{color:var(--muted);font-size:.8rem}
+.histDetail .st{font-variant-numeric:tabular-nums;font-size:.95rem;padding:2px 0 2px 12px}
+.histDetail .st.wu{color:var(--muted);font-size:.85rem}
+.histDetail .note{color:var(--muted);font-size:.85rem;padding:6px 0 0;font-style:italic}
 .toast{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(140px + env(safe-area-inset-bottom));
   background:var(--green);color:#000;padding:11px 18px;border-radius:999px;font-size:.78rem;
   font-weight:700;z-index:200;opacity:0;transition:opacity .2s}
@@ -154,7 +164,7 @@ td{padding:8px 4px;border-bottom:1px solid #131813;text-align:right;font-variant
   <header>
     <h2 id="hTitle">Gym</h2>
     <div class="sub" id="hSub"></div>
-    <div class="muted" style="font-size:.66rem;letter-spacing:.08em;margin-top:2px">v10.1</div>
+    <div class="muted" style="font-size:.66rem;letter-spacing:.08em;margin-top:2px">v10.2</div>
   </header>
 
   <main>
@@ -311,7 +321,7 @@ td{padding:8px 4px;border-bottom:1px solid #131813;text-align:right;font-variant
   <div id="rest" class="hidden">
     <div>
       <div class="l" id="restLbl">Rest</div>
-      <div class="t" id="restT">0:00</div>
+      <div class="t" id="restT" onclick="if(restLeft<=0)stopRest()">0:00</div>
     </div>
     <div class="row">
       <button onclick="addRest(30)">+30s</button>
@@ -781,13 +791,15 @@ function abortZ2(){
   if(i)i.classList.remove('hidden');if(r)r.classList.add('hidden');
 }
 
+let RECENT=[], RECENT_LIMIT=8;
 async function renderRecent(){
   const raw=await all('workouts');
   document.getElementById('dbWarn').classList.toggle('hidden',raw.length>0);
-  const ws=raw.slice().sort((a,b)=>(b.date||'').localeCompare(a.date||'')).slice(0,8);
+  const ws=raw.slice().sort((a,b)=>(b.date||'').localeCompare(a.date||''));
+  RECENT=ws.slice(0,RECENT_LIMIT);
   const el=document.getElementById('recentList');
   if(!ws.length){el.innerHTML='<div class="muted">No workouts yet.</div>';return}
-  el.innerHTML=ws.map(w=>{
+  el.innerHTML=RECENT.map((w,k)=>{
     if(w.type==='cardio'){
       const mins=w.z2min||((w.endTs&&w.startTs)?Math.round((w.endTs-w.startTs)/60000):0);
       return `<div class="hist"><div><div class="d">${w.date}</div>
@@ -798,11 +810,28 @@ async function renderRecent(){
     const sets=(w.exercises||[]).reduce((a,e)=>a+(e.sets||[]).filter(s=>s.done).length,0);
     const vol=(w.exercises||[]).reduce((a,e)=>a+(e.sets||[]).reduce((b,s)=>b+((s.done&&s.weight&&s.reps)?s.weight*s.reps:0),0),0);
     const mins=w.startTs&&w.endTs?Math.round((w.endTs-w.startTs)/60000):null;
-    return `<div class="hist"><div><div class="d">${w.date}</div>
-      <div class="m">${w.sessionName||w.sessionId||''}</div></div>
+    return `<div class="hist tap" id="hist-${k}" onclick="toggleHist(${k})"><div><div class="d">${w.date}</div>
+      <div class="m">${w.sessionName||w.sessionId||''}${w.deload?' \u00B7 deload':''}</div></div>
       <div style="text-align:right"><div class="d">${sets} seturi</div>
-      <div class="m">${vol?Math.round(vol)+' kg vol':''}${mins?' \u00B7 '+mins+' min':''}</div></div></div>`;
-  }).join('');
+      <div class="m">${vol?Math.round(vol)+' kg vol':''}${mins?' \u00B7 '+mins+' min':''} \u203A</div></div></div>
+      <div class="histDetail hidden" id="histD-${k}"></div>`;
+  }).join('')+(ws.length>RECENT.length?`<button class="btn ghost" style="margin-top:10px" onclick="RECENT_LIMIT+=12;renderRecent()">Show older (${ws.length-RECENT.length} more)</button>`:'');
+}
+/* v10.2: exact recorded values of a past workout - every exercise, warm-ups, working sets */
+function toggleHist(k){
+  const w=RECENT[k]; if(!w)return;
+  const row=document.getElementById('hist-'+k), d=document.getElementById('histD-'+k);
+  const open=d.classList.contains('hidden');
+  d.classList.toggle('hidden',!open); row.classList.toggle('open',open);
+  if(!open)return;
+  const fmt=x=>(x.weight==null||x.weight===0?'BW':x.weight+' kg')+' \u00D7 '+(x.reps==null?'?':x.reps);
+  d.innerHTML=(w.exercises||[]).map((e,i)=>{
+    const wu=(e.wuSets||[]).filter(x=>x.done), st=(e.sets||[]).filter(x=>x.done);
+    if(!wu.length&&!st.length)return '';
+    return `<div class="ex">${i+1}. ${e.name||EX[e.exId]?.n||e.exId} <span class="tg">${e.targetSets||''}${e.targetReps?' \u00D7 '+e.targetReps:''}${e.rir?' \u00B7 RIR '+e.rir:''}</span></div>`+
+      wu.map((x,j)=>`<div class="st wu">W${j+1}\u2003${fmt(x)}</div>`).join('')+
+      st.map((x,j)=>`<div class="st">${j+1}\u2003${fmt(x)}</div>`).join('');
+  }).join('')+(w.note?`<div class="note">${w.note}</div>`:'');
 }
 
 /* Deschide programul in modul consultare. Nu porneste nimic. */
@@ -985,6 +1014,7 @@ function startRest(sec,label){
   restLeft=sec;
   const box=document.getElementById('rest');
   box.classList.remove('hidden','zero');
+  document.body.classList.add('resting');
   document.getElementById('restLbl').textContent=label||'Pauza';
   paintRest();
   if(restTimer)clearInterval(restTimer);
@@ -998,7 +1028,7 @@ function paintRest(){document.getElementById('restT').textContent=Math.floor(res
 function addRest(s){restLeft+=s;document.getElementById('rest').classList.remove('zero');
   if(!restTimer)startRest(restLeft,document.getElementById('restLbl').textContent);paintRest()}
 function stopRest(){if(restTimer)clearInterval(restTimer);restTimer=null;
-  document.getElementById('rest').classList.add('hidden')}
+  document.getElementById('rest').classList.add('hidden');document.body.classList.remove('resting')}
 
 async function requestWakeLock(){
   try{if('wakeLock' in navigator)wakeLock=await navigator.wakeLock.request('screen')}catch(e){}
