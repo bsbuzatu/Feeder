@@ -9,7 +9,7 @@
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
-<title>Training Log v10.2</title>
+<title>Training Log v10.3</title>
 <link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' fill='black'/><text y='72' x='50' font-size='64' text-anchor='middle' fill='%2339FF14'>G</text></svg>">
 <style>
 :root{
@@ -164,7 +164,7 @@ td{padding:8px 4px;border-bottom:1px solid #131813;text-align:right;font-variant
   <header>
     <h2 id="hTitle">Gym</h2>
     <div class="sub" id="hSub"></div>
-    <div class="muted" style="font-size:.66rem;letter-spacing:.08em;margin-top:2px">v10.2</div>
+    <div class="muted" style="font-size:.66rem;letter-spacing:.08em;margin-top:2px">v10.3</div>
   </header>
 
   <main>
@@ -194,7 +194,7 @@ td{padding:8px 4px;border-bottom:1px solid #131813;text-align:right;font-variant
 
         <div id="startBar" class="card" style="border-color:var(--green-dim)">
           <div class="muted" style="margin-bottom:10px">
-            Preview. Boxes show today's computed targets. Nothing is recorded until Start.
+            Preview. Boxes show your last recorded values for each set. Edit them if you lift more today. Nothing is recorded until Start.
           </div>
           <button class="btn primary" onclick="beginWorkout()">&#9654;&nbsp; Start workout</button>
         </div>
@@ -422,8 +422,8 @@ const SESSIONS=[
      RIR 1 pe izolari. wu = incalziri [fractie din greutatea de lucru, reps], rinduri separate,
      excluse din volum si progresie. bar = niciodata sub bara de 20 kg. inc = cel mai mic pas real. */
   {id:'fbA', day:'Monday', name:'Full-Body A \u2014 Squat + Bench', ex:[
-    {id:'bbSquat',     sets:3, reps:'6\u201310',  rir:'2',        rest:180, inc:2.5, bar:true, wu:[[0.5,8],[0.75,4]]},
-    {id:'bench',       sets:3, reps:'6\u201310',  rir:'2',        rest:180, inc:2.5, bar:true, wu:[[0.5,8],[0.75,4]]},
+    {id:'bbSquat',     sets:3, reps:'6\u201310',  rir:'2',        rest:120, inc:2.5, bar:true, wu:[[0.65,6]]},
+    {id:'bench',       sets:3, reps:'6\u201310',  rir:'2',        rest:120, inc:2.5, bar:true, wu:[[0.65,6]]},
     {id:'supPulldown', sets:3, reps:'8\u201312',  rir:'2',        rest:120, inc:5,   wu:[[0.65,8]]},
     {id:'csRow',       sets:2, reps:'8\u201312',  rir:'1\u20132', rest:90,  inc:5,   wu:[[0.65,6]]},
     {id:'seatCurl',    sets:3, reps:'10\u201315', rir:'1\u20132', rest:90,  inc:5},
@@ -432,9 +432,9 @@ const SESSIONS=[
     {id:'machCrunch',  sets:2, reps:'10\u201315', rir:'1',        rest:60,  inc:5}
   ]},
   {id:'fbB', day:'Wednesday', name:'Full-Body B \u2014 Leg Press + OHP', ex:[
-    {id:'legPress',    sets:3, reps:'10\u201315', rir:'2',        rest:120, inc:5,   wu:[[0.5,8],[0.75,5]]},
+    {id:'legPress',    sets:3, reps:'10\u201315', rir:'2',        rest:120, inc:5,   wu:[[0.65,6]]},
     {id:'rdl',         sets:3, reps:'6\u201310',  rir:'2',        rest:150, inc:2.5, bar:true, wu:[[0.6,6]]},
-    {id:'ohp',         sets:3, reps:'8\u201312',  rir:'2',        rest:150, inc:2.5, wu:[[0.5,8],[0.75,4]]},
+    {id:'ohp',         sets:3, reps:'8\u201312',  rir:'2',        rest:150, inc:2.5, wu:[[0.65,6]]},
     {id:'sarow',       sets:3, reps:'8\u201312',  rir:'1\u20132', rest:90,  inc:2.5, wu:[[0.65,6]]},
     {id:'cabFly',      sets:2, reps:'12\u201315', rir:'1',        rest:75,  inc:2.5},
     {id:'cabLat',      sets:2, reps:'12\u201320', rir:'1',        rest:60,  inc:1},
@@ -443,8 +443,8 @@ const SESSIONS=[
     {id:'seatCalf',    sets:2, reps:'12\u201315', rir:'1',        rest:60,  inc:5}
   ]},
   {id:'fbC', day:'Friday', name:'Full-Body C \u2014 Hip Thrust + Incline', ex:[
-    {id:'hipThrust',   sets:3, reps:'8\u201312',  rir:'2',        rest:120, inc:5,   bar:true, wu:[[0.5,8],[0.75,5]]},
-    {id:'inclDB',      sets:3, reps:'8\u201312',  rir:'2',        rest:150, inc:2.5, wu:[[0.5,8],[0.75,4]]},
+    {id:'hipThrust',   sets:3, reps:'8\u201312',  rir:'2',        rest:120, inc:5,   bar:true, wu:[[0.65,6]]},
+    {id:'inclDB',      sets:3, reps:'8\u201312',  rir:'2',        rest:150, inc:2.5, wu:[[0.65,6]]},
     {id:'cgPulldown',  sets:3, reps:'8\u201312',  rir:'2',        rest:120, inc:5,   wu:[[0.65,8]]},
     {id:'legExt',      sets:2, reps:'12\u201315', rir:'1',        rest:75,  inc:5},
     {id:'seatCurl',    sets:2, reps:'10\u201315', rir:'1',        rest:90,  inc:5},
@@ -638,22 +638,11 @@ function repRange(t){
   const m=String(t).match(/(\d+)\D+(\d+)/);
   return m?{lo:+m[1],hi:+m[2]}:null;
 }
-/* Computes the PRESCRIPTION for today from the last session (straight sets, v10).
-   Working sets of the last session = sets at >= 80% of that day's top weight.
-   Rules, in order (rr = rep range, inc = smallest real step):
-     ramp conversion: last session had ONE working set but today asks for several
-                                          -> that top weight minus inc, every set targets bottom
-                                             (a fresh top set does not carry over to 3 straight sets)
-     every set reached range top          -> weight + inc, every set targets range bottom
-     any set 2+ reps under bottom, or 2+ sets under bottom
-                                          -> weight - inc, every set targets range bottom
-     one set 1 rep under bottom twice in a row at this weight
-                                          -> weight - inc, every set targets range bottom
-     one set 1 rep under bottom           -> same weight, every set targets its last reps (min bottom)
-     otherwise                            -> same weight; set 1 targets last reps + 1 (capped at top),
-                                             the other sets target their own last reps; sets with no
-                                             history target one less than the set before, min bottom
-   Deload mode: last values as-is, no progression. */
+/* v10.3: the boxes show the LAST RECORDED working sets, as they were - no suggestions,
+   no progression. Working sets of the last session = sets at >= 80% of that day's top
+   weight (ramp/warm-up rows are never in .sets, old v8 ramps are filtered out).
+   Set j today shows set j of last time; if last time had fewer sets, the last one repeats.
+   Progressing (kg or reps) is the lifter's call, typed over the value in the box. */
 function workingOf(L){
   const done=(L.sets||[]).filter(x=>x.r!=null).map(x=>({w:(x.w==null?0:x.w),r:x.r}));
   if(!done.length)return {topW:0,work:[]};
@@ -663,31 +652,11 @@ function workingOf(L){
 function targetSets(exDef){
   const L=lastMap[exDef.id];
   if(!L||!L.sets.length)return null;
-  const rr=repRange(exDef.reps);
-  const {topW,work}=workingOf(L);
-  if(!work.length||!rr)return null;
-  const n=exDef.sets, inc=exDef.inc||2.5;
-  const dec=x=>Math.max(0,+(x-inc).toFixed(2));
-  let w=topW, reps=[];
-  const under=work.filter(x=>x.r<rr.lo);
-  const hardMiss=under.length>=2||under.some(x=>x.r<=rr.lo-2);
-  const P=L.prev?workingOf(L.prev):null;
-  const repeatMiss=under.length===1&&P&&P.topW===topW&&P.work.some(x=>x.r<rr.lo);
-  if(DELOAD){
-    for(let j=0;j<n;j++)reps.push(work[Math.min(j,work.length-1)].r);
-  }else if(work.length===1&&n>1&&topW>0){
-    w=dec(topW); for(let j=0;j<n;j++)reps.push(rr.lo);
-  }else if(work.length>=n && work.every(x=>x.r>=rr.hi)){
-    w=topW+inc; for(let j=0;j<n;j++)reps.push(rr.lo);
-  }else if(hardMiss||repeatMiss){
-    w=dec(topW); for(let j=0;j<n;j++)reps.push(rr.lo);
-  }else if(under.length){
-    for(let j=0;j<n;j++)reps.push(work[j]?Math.max(rr.lo,work[j].r):rr.lo);
-  }else{
-    for(let j=0;j<n;j++)reps.push(work[j]?(work[j].w<topW?rr.lo:(j===0?Math.min(rr.hi,work[j].r+1):Math.max(rr.lo,work[j].r))):Math.max(rr.lo,reps[j-1]-1));
-  }
-  const out=reps.map(r=>({w,r}));
-  return {sets:out, lastTop:work.map(x=>x.w+'\u00D7'+x.r).join(', '), lastDate:L.date};
+  const {work}=workingOf(L);
+  if(!work.length)return null;
+  const n=exDef.sets, out=[];
+  for(let j=0;j<n;j++){const src=work[Math.min(j,work.length-1)];out.push({w:src.w,r:src.r})}
+  return {sets:out, lastTop:work.map(x=>x.w+'×'+x.r).join(', '), lastDate:L.date};
 }
 /* Warm-up rows for today: actual kg from the working weight, rounded to the exercise
    increment (never finer than 2.5 kg); barbell lifts never below the 20 kg bar. */
@@ -709,7 +678,7 @@ function renderSessions(){
   const dl=DELOAD?`<div class="card" style="border-color:var(--amber)">
       <h3 style="color:var(--amber)">DELOAD MODE ON</h3>
       <div class="muted">Sessions run at \u221240% sets, same weights, RIR 3\u20134.
-      Progression is paused. Turn it off in Settings after 7 days.</div></div>`:'';
+      Turn it off in Settings after 7 days.</div></div>`:'';
   document.getElementById('sessList').innerHTML=dl+SESSIONS.map(s=>{
     const n=s.ex.reduce((a,e)=>a+deloadSets(e.sets),0);
     const nw=s.ex.reduce((a,e)=>a+((e.wu||[]).length),0);
@@ -883,9 +852,8 @@ function leaveSession(){
 function renderRun(){
   document.getElementById('exList').innerHTML=W.exercises.map((e,i)=>{
     const doneAll=RUNNING&&e.sets.every(s=>s.done);
-    /* Boxes hold TODAY'S computed prescription (last session + progression).
-       Confirming a set saves exactly what is in the boxes \u2014 edit first if you
-       did something different. */
+    /* v10.3: boxes hold the last recorded values. Confirming a set saves exactly
+       what is in the boxes \u2014 edit first if you did something different. */
     const T=targetSets({id:e.exId,reps:e.targetReps,sets:e.sets.length,inc:e.inc});
     /* Warm-ups: computed once from today's working weight (target, or first box the user typed). */
     const typed=e.sets.find(s=>s.weight!=null);
