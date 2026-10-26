@@ -3,7 +3,7 @@
 Single-file offline PWA for strength training and Zone 2 cardio. No build step, no dependencies, no backend. All data lives in the browser (IndexedDB) and never leaves the device.
 
 **Live:** https://bsbuzatu.github.io/Feeder/
-**Build:** `2026-10-26-v11`
+**Build:** `2026-10-26-v11.1`
 
 ---
 
@@ -25,6 +25,7 @@ Goals: lean muscle, lose visceral fat, clear the fatty liver (CAP 371 dB/m, 4.4 
 - **Zone 2 only on non-lifting days** (Tue / Thu / Sat / Sun), 150 min/week target. Walks without the timer are logged manually.
 - **Fasting store** (`fasts`): `{start, end, target}`. Logging a meal for today ends a running fast.
 - **Meal presets** with codes: `SHK` / `SHKN` morning shake, `OML` weekend omelette, `M1`–`M6` batch meals (one cook = lunch + early dinner), `OTH` free entry with kcal / protein estimate. Macros come from the recipe; the comment field records deviations.
+- **v11.1 preset calibration:** any morning item (SHK / SHKN / OML) + two batch portions lands at 2,090–2,240 kcal and 186–210 g protein. Presets are audited against per-day bands before shipping.
 - **Targets** default to 2,150 kcal, 185 g protein, 16 h fast, goal weight 86 kg (−8 %). Editable in Settings.
 - **Labs store** (`labs`): one record per date; the Health card shows the latest value per marker against targets.
 - Export is JSON **v4** (adds `fasts`, `meals`, `labs`, `mealPresets`); import accepts v2–v4 with de-duplication.

@@ -9,7 +9,7 @@
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
-<title>Training Log v11.0</title>
+<title>Training Log v11.1</title>
 <link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' fill='black'/><text y='72' x='50' font-size='64' text-anchor='middle' fill='%2339FF14'>G</text></svg>">
 <style>
 :root{
@@ -232,7 +232,7 @@ nav button{font-size:.62rem}
   <header>
     <h2 id="hTitle">Gym</h2>
     <div class="sub" id="hSub"></div>
-    <div class="muted" style="font-size:.66rem;letter-spacing:.08em;margin-top:2px">v11.0 · gym · fast · food</div>
+    <div class="muted" style="font-size:.66rem;letter-spacing:.08em;margin-top:2px">v11.1 · gym · fast · food</div>
   </header>
 
   <main>
@@ -406,6 +406,7 @@ nav button{font-size:.62rem}
       <div id="fv-cook" class="hidden">
         <div class="muted" style="margin:0 2px 12px">
           Raw weights. <b>M1&ndash;M6 = one day</b>: cook the whole amount once, split in two boxes (lunch + early dinner).
+          Any shake/omelette + any two portions = 2,090&ndash;2,240 kcal, 186&ndash;210 g protein. Weigh the oil.
         </div>
         <div id="mealCards"></div>
       </div>
@@ -741,7 +742,7 @@ const FOODS=[
  ]}
 ];
 
-const BUILD='2026-10-26-v11';
+const BUILD='2026-10-26-v11.1';
 
 /* ============================================================
    State
@@ -1648,6 +1649,7 @@ const ING={
   egg:      {n:'Whole eggs',            kc:79, p:7,   c:0.6,f:5.5, a:'Dairy & eggs', u:'pcs'},
   eggwhite: {n:'Egg whites',            kc:52, p:11,  c:0.7,f:0.2, a:'Dairy & eggs'},
   yog:      {n:'Greek yogurt 2%',       kc:59, p:10,  c:3.6,f:2,   a:'Dairy & eggs'},
+  skyr:     {n:'Skyr natural (0–0.2 % fat)',kc:63,p:11,  c:4,  f:0.2, a:'Dairy & eggs'},
   whey:     {n:'Whey isolate',          kc:380,p:88,  c:4,  f:1,   a:'Staples'},
   creatine: {n:'Creatine monohydrate',  kc:0,  p:0,   c:0,  f:0,   a:'Staples'},
   psyllium: {n:'Psyllium husk',         kc:200,p:2,   c:4,  f:0,   a:'Staples'},
@@ -1675,32 +1677,32 @@ const ING={
 };
 /* ing = [key, amount per ONE portion] (g, or pieces for u:'pcs'). Batch meals are cooked ×2. */
 const MEALS=[
-  {code:'SHK', kind:'shake', name:'Morning shake', when:'Gym days, after the 16 h',
+  {code:'SHK', kind:'shake', name:'Morning shake', when:'Mon–Fri, after the 16 h',
    ing:[['whey',30],['banana',120],['creatine',5],['psyllium',10]],
    steps:['Shake whey + 300 ml water, add creatine and psyllium, drink at once (psyllium thickens).','Banana on the side or blended.']},
-  {code:'SHKN',kind:'shake', name:'Morning shake + nuts', when:'Same, with 20 g walnuts / almonds',
-   ing:[['whey',30],['banana',120],['creatine',5],['psyllium',10],['walnut',20]],
-   steps:['As SHK, plus a handful of nuts.']},
+  {code:'SHKN',kind:'shake', name:'Morning shake + nuts', when:'Half banana + 15 g walnuts / almonds',
+   ing:[['whey',30],['banana',60],['creatine',5],['psyllium',10],['walnut',15]],
+   steps:['As SHK, but half a banana and 15 g nuts — keeps the day on target.']},
   {code:'OML', kind:'eggs',  name:'Weekend omelette', when:'Sat / Sun first meal',
-   ing:[['egg',3],['eggwhite',100],['spinach',60],['tomato',80],['pepper',60],['oil',5],['rye',1]],
-   steps:['Sauté the vegetables in the oil 3 min.','Add eggs + whites, salt, pepper; cook on low until just set.','One slice of rye bread.']},
+   ing:[['egg',2],['eggwhite',150],['spinach',80],['tomato',100],['pepper',80],['oil',2],['psyllium',10]],
+   steps:['Sauté the vegetables in the oil 3 min (non-stick pan).','Add eggs + whites, salt, pepper; cook on low until just set.','Psyllium in a glass of water alongside (weekend fibre). No bread.']},
   {code:'M1',  kind:'batch', name:'Chicken · brown rice · broccoli', when:'Core batch',
-   ing:[['chicken',250],['rice',80],['broccoli',200],['oil',10],['lemon',0.5],['garlic',2]],
+   ing:[['chicken',220],['rice',90],['broccoli',300],['oil',15],['lemon',0.5],['garlic',2]],
    steps:['Rice: rinse, 1 : 2 water, lid on, 35 min.','Chicken: salt, pepper, paprika; dry pan or oven 200 °C 20–25 min.','Broccoli: steam 5 min; dress with the oil, lemon, crushed garlic.','Split into 2 boxes: lunch and dinner.']},
-  {code:'M2',  kind:'batch', name:'Salmon · cooled potatoes · green salad', when:'2× / week — omega-3',
-   ing:[['salmon',250],['potato',300],['lettuce',100],['tomato',100],['cucumber',100],['oil',10],['acv',10]],
-   steps:['Potatoes: boil in skin 20 min, then cool in the fridge (resistant starch).','Salmon: oven 200 °C 12–15 min, lemon, dill.','Salad dressed with the oil + vinegar; keep dressing separate for the dinner box.']},
+  {code:'M2',  kind:'batch', name:'Salmon · skyr-dill sauce · potatoes · salad', when:'2× / week — omega-3',
+   ing:[['salmon',200],['skyr',300],['potato',350],['lettuce',100],['tomato',100],['cucumber',100],['oil',5],['acv',10]],
+   steps:['Potatoes: boil in skin 20 min, then cool in the fridge (resistant starch).','Salmon: oven 200 °C 12–15 min, lemon.','Sauce: skyr + dill + garlic + salt, split in two pots.','Salad dressed with the oil + vinegar; keep dressing separate for the dinner box.']},
   {code:'M3',  kind:'batch', name:'Turkey · red lentils · roasted vegetables', when:'Core batch — fibre',
-   ing:[['turkey',250],['lentil',80],['zucchini',150],['pepper',150],['onion',50],['oil',10],['garlic',2]],
+   ing:[['turkey',210],['lentil',90],['zucchini',150],['pepper',150],['onion',50],['oil',20],['garlic',2]],
    steps:['Lentils: rinse, 1 : 2.5 water, 15 min, salt at the end.','Vegetables in chunks, oil, salt; oven 210 °C 25 min, turkey strips on the same tray for the last 15 min.','Split into 2 boxes.']},
-  {code:'M4',  kind:'batch', name:'Lean beef · quinoa · tomato-cucumber salad', when:'1–2× / week',
-   ing:[['beef',250],['quinoa',70],['tomato',150],['cucumber',150],['onion',30],['oil',10],['lemon',0.5]],
-   steps:['Quinoa: rinse, 1 : 2 water, 15 min, rest 5 min.','Beef in strips, hot pan 2–3 min a side, rest.','Chop salad; oil + lemon.']},
-  {code:'M5',  kind:'batch', name:'Cod · sweet potato · spinach', when:'Lightest batch',
-   ing:[['cod',350],['spotato',350],['spinach',200],['oil',15],['garlic',2],['lemon',0.5]],
-   steps:['Sweet potato in wedges, 5 g of the oil, oven 210 °C 30 min.','Cod on the same tray for the last 12 min, lemon.','Spinach wilted 2 min with garlic and the rest of the oil.']},
+  {code:'M4',  kind:'batch', name:'Lean beef · quinoa · chickpea salad', when:'1–2× / week',
+   ing:[['beef',220],['quinoa',75],['chickpea',120],['tomato',150],['cucumber',150],['onion',30],['oil',10],['lemon',0.5]],
+   steps:['Quinoa: rinse, 1 : 2 water, 15 min, rest 5 min.','Beef in strips, hot pan 2–3 min a side, rest.','Chop salad, add the drained chickpeas; oil + lemon.']},
+  {code:'M5',  kind:'batch', name:'Cod · sweet potato · lentil spinach', when:'Lightest batch',
+   ing:[['cod',320],['spotato',300],['spinach',200],['lentil',40],['oil',22],['garlic',2],['lemon',0.5]],
+   steps:['Sweet potato in wedges, 10 g of the oil, oven 210 °C 30 min.','Lentils: rinse, 1 : 2.5 water, 15 min.','Cod on the same tray for the last 12 min, lemon.','Spinach wilted 2 min with garlic and the rest of the oil; stir in the lentils.']},
   {code:'M6',  kind:'batch', name:'Tuna · chickpea bowl (no cooking)', when:'Fallback — 5 minutes',
-   ing:[['tuna',220],['chickpea',200],['tomato',150],['onion',40],['spinach',50],['oil',15],['lemon',0.5]],
+   ing:[['tuna',200],['chickpea',330],['tomato',150],['onion',40],['spinach',80],['oil',23],['lemon',0.5]],
    steps:['Drain tuna and chickpeas, mix everything, lemon, pepper.','Keeps 2 days in the fridge.']},
   {code:'OTH', kind:'other', name:'Something else', when:'Enter kcal / protein estimate', ing:[], steps:[]}
 ];
