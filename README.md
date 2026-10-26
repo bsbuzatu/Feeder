@@ -13,7 +13,7 @@ Single-file offline PWA for strength training and Zone 2 cardio. No build step, 
 |---|---|
 | **Gym** | Week plan, next session (A→B→C rotation), run a Full-Body session, Zone 2 timer or manual walk entry |
 | **Fast** | Start / end a fast (16 h target), edit start and end afterwards, 7-day average, history |
-| **Food** | **Log** meals by preset code + comment · **Cook** batch recipes for 2 portions · **Shop** weekly list from the planned batches · **List** approved foods |
+| **Food** | **Log** a meal by tapping its code (+ optional comment) · **Meals** raw weights for one day of each preset, always visible · **Shop** tap the meals you'll buy for, get the aggregated raw-weight list · **List** approved foods |
 | **Stats** | Body composition, waist, Health card (Fibroscan / CAP / labs vs targets), fasting and intake averages, volume |
 | **Settings** | Targets (kcal, protein, fast hours, goal weight), export / import JSON v4, deload, Zone 2 calibration, wipe |
 

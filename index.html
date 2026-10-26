@@ -366,7 +366,7 @@ nav button{font-size:.62rem}
     <section id="v-foods" class="hidden">
       <div class="subtabs">
         <button id="ft-log"  class="on" onclick="foodTab('log')">Log</button>
-        <button id="ft-cook"           onclick="foodTab('cook')">Cook</button>
+        <button id="ft-cook"           onclick="foodTab('cook')">Meals</button>
         <button id="ft-shop"           onclick="foodTab('shop')">Shop</button>
         <button id="ft-list"           onclick="foodTab('list')">List</button>
       </div>
@@ -383,12 +383,9 @@ nav button{font-size:.62rem}
         </div>
         <div class="card">
           <h3>Add meal</h3>
-          <div class="muted" style="margin-bottom:8px">Tap the preset code. Comment = anything added, swapped or skipped (used in the analysis).</div>
+          <div class="muted" style="margin-bottom:8px">Tap the code, save. Comment only if something was added, swapped or skipped.</div>
           <div class="chips" id="logChips"></div>
-          <div class="grid2" style="margin-top:10px">
-            <div><label>Time</label><input type="time" id="logTime"></div>
-            <div><label>Portions</label><input type="text" inputmode="decimal" id="logPort" value="1"></div>
-          </div>
+          <div style="margin-top:10px"><label>Time</label><input type="time" id="logTime"></div>
           <div id="othBox" class="hidden" style="margin-top:10px">
             <div class="grid2">
               <div><label>kcal (est.)</label><input type="text" inputmode="numeric" id="othK" placeholder="e.g. 600"></div>
@@ -405,25 +402,20 @@ nav button{font-size:.62rem}
         </div>
       </div>
 
-      <!-- COOK -->
+      <!-- MEALS -->
       <div id="fv-cook" class="hidden">
-        <div class="card">
-          <h3>Batch meals &mdash; cook once, eat twice</h3>
-          <div class="muted" style="margin-bottom:8px">
-            Quantities below are for <b>2 portions</b> (lunch + early dinner). Meat, side and salad all go in the same batch.
-            One portion &asymp; 800&ndash;900 kcal, 75&ndash;95 g protein. Two portions + shake land on the daily target.
-          </div>
-          <div id="cookPick"></div>
+        <div class="muted" style="margin:0 2px 12px">
+          Raw weights. <b>M1&ndash;M6 = one day</b>: cook the whole amount once, split in two boxes (lunch + early dinner).
         </div>
-        <div id="cookView"></div>
+        <div id="mealCards"></div>
       </div>
 
       <!-- SHOP -->
       <div id="fv-shop">
         <div class="card">
-          <h3>This week's batches</h3>
-          <div class="muted" style="margin-bottom:6px">One batch = one day (2 portions). Set how many of each, the list below adds up.</div>
-          <div id="shopPlan"></div>
+          <h3>Buying for</h3>
+          <div class="muted" style="margin-bottom:8px">Tap a meal to add one day of it. Tap again for a second day, third day; then it clears.</div>
+          <div class="chips" id="shopPlan"></div>
         </div>
         <div class="card">
           <div class="row" style="justify-content:space-between">
@@ -786,7 +778,7 @@ async function boot(){
    Navigare
    ============================================================ */
 const TITLES={gym:['Gym','Full-Body A\u2192B\u2192C + Zone 2'],fast:['Fast','16 : 8'],stats:['Stats','Body & health'],
-  foods:['Food','Log \u00B7 Cook \u00B7 Shop \u00B7 List'],set:['Settings','Targets & data']};
+  foods:['Food','Log \u00B7 Meals \u00B7 Shop \u00B7 List'],set:['Settings','Targets & data']};
 function go(v){
   ['gym','fast','stats','foods','set'].forEach(k=>{
     document.getElementById('v-'+k).classList.toggle('hidden',k!==v);
@@ -1729,7 +1721,7 @@ function foodTab(t){
     document.getElementById('fv-'+k).classList.toggle('hidden',k!==t);
     document.getElementById('ft-'+k).classList.toggle('on',k===t);
   });
-  if(t==='log')renderLog();if(t==='cook')renderCook();if(t==='shop')renderShop();
+  if(t==='log')renderLog();if(t==='cook')renderMeals();if(t==='shop')renderShop();
   window.scrollTo(0,0);
 }
 
@@ -1751,7 +1743,7 @@ async function saveMeal(){
   if(!LOG_CODE){toast('Pick a preset');return}
   const date=document.getElementById('logDate').value||isoToday();
   const time=document.getElementById('logTime').value||'';
-  const portions=numVal(document.getElementById('logPort').value)||1;
+  const portions=1;
   const comment=document.getElementById('logCm').value.trim();
   let mac;
   if(LOG_CODE==='OTH'){
@@ -1759,9 +1751,6 @@ async function saveMeal(){
     if(!mac.kc&&!comment){toast('Add an estimate or a comment');return}
   }else mac=mealMacros(MEAL_BY[LOG_CODE],portions);
   await put('meals',{date,time,code:LOG_CODE,portions,comment,...mac,ts:Date.now()});
-  // batch bookkeeping: a logged batch meal consumes one portion of the cooked batch
-  const b=await get1('settings','batch');
-  if(b&&b.value&&b.value.code===LOG_CODE&&b.value.left>0){b.value.left-=1;await put('settings',b)}
   // a meal eaten today ends a running fast
   if(FAST_ACTIVE&&date===isoToday()){
     const [hh,mm]=(time||'00:00').split(':').map(Number);const d=new Date();d.setHours(hh,mm,0,0);
@@ -1769,7 +1758,6 @@ async function saveMeal(){
     await endFast(endTs);
   }
   document.getElementById('logCm').value='';document.getElementById('othK').value='';document.getElementById('othP').value='';
-  document.getElementById('logPort').value='1';
   LOG_CODE=null;MEALS.forEach(m=>document.getElementById('chip-'+m.code).classList.remove('on'));
   document.getElementById('othBox').classList.add('hidden');
   await loadMeals();renderLog();toast('Meal saved');
@@ -1811,59 +1799,40 @@ function renderLog(){
       <div><div class="d">${fmtD(d)} ${x.clean?'<span class="pill">clean</span>':(x.oth?'<span class="pill" style="color:var(--amber);border-color:#4a3a10">other ×'+x.oth+'</span>':'')}</div><div class="m">${codes}</div></div>
       <div style="text-align:right"><div class="d ${kcCls}">${x.kc} kcal</div><div class="m ${pCls}">${x.p} g protein</div></div></div>`}).join('');
   document.getElementById('logHist').innerHTML=hist||'<div class="muted">No meals logged yet.</div>';
-  // suggest cooked batch
-  get1('settings','batch').then(b=>{
-    if(b&&b.value&&b.value.left>0&&MEAL_BY[b.value.code]&&!LOG_CODE){
-      const ch=document.getElementById('chip-'+b.value.code);if(ch)ch.style.borderColor='var(--green)';
-    }
-  });
 }
 function esc(s){return String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]))}
 
-/* ---- COOK ---- */
-let COOK_CODE=null;
-async function renderCook(){
-  const pick=document.getElementById('cookPick');if(!pick)return;
-  const b=await get1('settings','batch');const cur=b&&b.value;
-  pick.innerHTML=MEALS.filter(m=>m.kind!=='other').map(m=>{const mac=mealMacros(m,1);
-    const live=cur&&cur.code===m.code&&cur.left>0;
-    return `<div class="mealRow" onclick="COOK_CODE='${m.code}';renderCook()">
-      <div><div class="t"><span style="color:var(--green)">${m.code}</span> ${m.name}${live?'<span class="next">'+cur.left+' left</span>':''}</div>
-      <div class="m">${m.when} · ${mac.kc} kcal · ${mac.p} g P per portion</div></div><div class="muted">›</div></div>`}).join('');
-  const v=document.getElementById('cookView');
-  const m=MEAL_BY[COOK_CODE];
-  if(!m){v.innerHTML='';return}
-  const n=m.kind==='batch'?2:1, mac=mealMacros(m,1);
-  v.innerHTML=`<div class="card" style="border-color:var(--green-dim)">
-    <h3>${m.code} — ${m.name}</h3>
-    <div class="muted" style="margin-bottom:8px">${n===2?'For 2 portions.':'For 1 portion.'} Per portion: <b style="color:var(--green)">${mac.kc} kcal · ${mac.p} P · ${mac.c} C · ${mac.f} F</b></div>
-    ${m.ing.map(([k,q])=>`<div class="ing"><span>${ING[k].n}</span><span class="q">${ingLine(k,q*n)}</span></div>`).join('')}
-    <div style="margin-top:10px">${m.steps.map((s,i)=>`<div class="step"><b>${i+1}</b><span>${s}</span></div>`).join('')}</div>
-    ${m.kind==='batch'?`<button class="btn primary" style="margin-top:12px" onclick="markCooked('${m.code}')">Cooked — 2 portions ready</button>`:''}
-  </div>`;
-}
-async function markCooked(code){
-  await put('settings',{key:'batch',value:{code,date:isoToday(),left:2}});
-  toast(code+' ready: log it under Food → Log');renderCook();
+/* ---- MEALS: everything visible, raw weights for one day (2 portions for M1–M6) ---- */
+function renderMeals(){
+  const el=document.getElementById('mealCards');if(!el)return;
+  el.innerHTML=MEALS.filter(m=>m.kind!=='other').map(m=>{
+    const n=m.kind==='batch'?2:1, mac=mealMacros(m,1);
+    return `<div class="card">
+      <h3><span style="color:var(--txt)">${m.code}</span> &nbsp;${m.name}</h3>
+      <div class="muted" style="margin-bottom:6px">${m.when} · per portion <b style="color:var(--green)">${mac.kc} kcal · ${mac.p} g P</b>${n===2?' · amounts for the whole day (2 portions)':''}</div>
+      ${m.ing.map(([k,q])=>`<div class="ing"><span>${ING[k].n}</span><span class="q">${ingLine(k,q*n)}</span></div>`).join('')}
+      <details style="margin-top:8px"><summary class="muted" style="cursor:pointer">How to cook</summary>
+        ${m.steps.map((st,i)=>`<div class="step"><b>${i+1}</b><span>${st}</span></div>`).join('')}</details>
+    </div>`}).join('');
 }
 
 /* ---- SHOP  (settings 'shop': {plan:{M1:n,...}, ticked:{name:true}}) ---- */
-let SHOP={plan:{M1:2,M2:2,M3:1,M4:1,M5:1,M6:0},ticked:{}};
+let SHOP={plan:{},ticked:{}};
 async function loadShop(){const s=await get1('settings','shop');if(s&&s.value)SHOP={...SHOP,...s.value}}
 async function saveShop(){await put('settings',{key:'shop',value:SHOP})}
-async function shopAdj(code,d){SHOP.plan[code]=Math.max(0,(SHOP.plan[code]||0)+d);await saveShop();renderShop()}
+async function shopCycle(code){SHOP.plan[code]=((SHOP.plan[code]||0)+1)%4;await saveShop();renderShop()}
 async function shopTick(name){SHOP.ticked[name]=!SHOP.ticked[name];await saveShop();renderShop()}
 async function shopReset(){SHOP.ticked={};await saveShop();renderShop()}
 function renderShop(){
   const pl=document.getElementById('shopPlan');if(!pl)return;
-  const batches=MEALS.filter(m=>m.kind==='batch');
+  const batches=[...MEALS.filter(m=>m.kind==='batch'),...MEALS.filter(m=>m.kind==='eggs')];
   const days=batches.reduce((a,m)=>a+(SHOP.plan[m.code]||0),0);
-  pl.innerHTML=batches.map(m=>`<div class="mealRow"><div><div class="t"><span style="color:var(--green)">${m.code}</span> ${m.name}</div><div class="m">${m.when}</div></div>
-    <div class="cnt"><button onclick="shopAdj('${m.code}',-1)">−</button><b>${SHOP.plan[m.code]||0}</b><button onclick="shopAdj('${m.code}',1)">+</button></div></div>`).join('')+
-    `<div class="muted" style="margin-top:8px">${days} batch days planned${days<7?' · '+(7-days)+' day(s) uncovered':days>7?' · more than a week':' · full week'}.</div>`;
-  // aggregate
+  pl.innerHTML=batches.map(m=>{const c=SHOP.plan[m.code]||0;
+    return `<button class="chip ${c?'on':''}" onclick="shopCycle('${m.code}')"><span class="c">${m.code}</span>${m.name}${c?' <b>×'+c+'</b>':''}</button>`}).join('')+
+    `<div class="muted" style="margin-top:10px;width:100%">${days?days+' day(s) of meals selected.':'Nothing selected — the list below is empty.'}</div>`;
+  // aggregate: one tap = one day = 2 portions (OML = 1 portion)
   const need={};
-  batches.forEach(m=>{const n=(SHOP.plan[m.code]||0)*2;if(!n)return;
+  batches.forEach(m=>{const n=(SHOP.plan[m.code]||0)*(m.kind==='batch'?2:1);if(!n)return;
     m.ing.forEach(([k,q])=>{need[k]=(need[k]||0)+q*n})});
   const aisles=['Meat & fish','Dairy & eggs','Produce','Dry goods','Pantry'];
   const row=(k,qty)=>{const g=ING[k],done=!!SHOP.ticked[k];
@@ -1872,7 +1841,7 @@ function renderShop(){
   let html=aisles.map(a=>{const items=Object.keys(need).filter(k=>ING[k].a===a);if(!items.length)return '';
     return `<div class="fgrp"><div class="hd">${a}</div>${items.map(k=>row(k,fmtQ(k,need[k]))).join('')}</div>`}).join('');
   const staples=['whey','creatine','psyllium','walnut','banana','egg','eggwhite','oil','acv'];
-  html+=`<div class="fgrp"><div class="hd">Staples — check stock</div>${staples.filter(k=>!need[k]||ING[k].a==='Staples').map(k=>row(k,k==='banana'?'3 / week':k==='egg'?'6 + whites':'stock')).join('')}</div>`;
+  html+=`<div class="fgrp"><div class="hd">Shake &amp; staples — check stock</div>${staples.filter(k=>!need[k]||ING[k].a==='Staples').map(k=>row(k,k==='banana'?'3 / week':k==='egg'?'6 + whites':'stock')).join('')}</div>`;
   html+=`<div class="fgrp"><div class="hd">Always</div>${['Black coffee','Salt, pepper, paprika, dill, turmeric','Sparkling water','Frozen broccoli / spinach (backup)'].map(n=>{const done=!!SHOP.ticked[n];
     return `<div class="shop ${done?'ok':''}" onclick="shopTick('${n}')"><div class="box">${done?'✓':''}</div><div class="nm">${n}</div><div class="q"></div></div>`}).join('')}</div>`;
   document.getElementById('shopList').innerHTML=html;
