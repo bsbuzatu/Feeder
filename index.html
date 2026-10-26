@@ -9,7 +9,7 @@
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
-<title>Training Log v10.3</title>
+<title>Training Log v11.0</title>
 <link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' fill='black'/><text y='72' x='50' font-size='64' text-anchor='middle' fill='%2339FF14'>G</text></svg>">
 <style>
 :root{
@@ -103,7 +103,7 @@ label{display:block;color:var(--muted);font-size:.85rem;margin-bottom:5px;letter
 /* nav */
 nav{position:fixed;left:0;right:0;bottom:0;background:rgba(0,0,0,.95);
   backdrop-filter:blur(12px);border-top:1px solid var(--line);
-  display:grid;grid-template-columns:repeat(4,1fr);
+  display:grid;grid-template-columns:repeat(5,1fr);
   padding:8px 0 calc(8px + env(safe-area-inset-bottom));z-index:70}
 nav button{background:none;border:0;padding:8px 0;color:var(--muted);font-size:.68rem;
   display:flex;flex-direction:column;align-items:center;gap:4px}
@@ -153,6 +153,74 @@ td{padding:8px 4px;border-bottom:1px solid #131813;text-align:right;font-variant
   background:var(--green);color:#000;padding:11px 18px;border-radius:999px;font-size:.78rem;
   font-weight:700;z-index:200;opacity:0;transition:opacity .2s}
 .toast.on{opacity:1}
+
+/* ===== v11: fasting ===== */
+.fastBox{text-align:center;padding:10px 0 6px}
+.fastBox .st{color:var(--muted);font-size:.72rem;letter-spacing:.12em;text-transform:uppercase}
+.fastBox .big{font-size:3.6rem;font-weight:800;line-height:1.05;font-variant-numeric:tabular-nums;margin:6px 0 2px}
+.fastBox.on .big{color:var(--green)}
+.fastBox.off .big{color:#4aa3ff}
+.fastBox .sub2{color:var(--muted);font-size:.9rem}
+.bar{height:10px;background:var(--panel2);border:1px solid var(--line);border-radius:999px;overflow:hidden;margin:10px 0}
+.bar i{display:block;height:100%;background:var(--green);transition:width .3s}
+.bar.blue i{background:#4aa3ff}
+.bar.amber i{background:var(--amber)}
+input[type=datetime-local],input[type=time]{color-scheme:dark}
+textarea{font-family:inherit;font-size:1rem;color:var(--txt);background:var(--panel2);border:1px solid var(--line);
+  border-radius:10px;padding:10px;width:100%;min-height:72px;resize:vertical}
+textarea:focus{outline:none;border-color:var(--green)}
+
+/* ===== v11: sub-tabs, chips, shopping ===== */
+.subtabs{display:flex;gap:6px;margin-bottom:12px}
+.subtabs button{flex:1;background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:10px 0;
+  color:var(--muted);font-size:.82rem;font-weight:700;letter-spacing:.03em}
+.subtabs button.on{color:#000;background:var(--green);border-color:var(--green)}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{background:var(--panel2);border:1px solid var(--line);border-radius:999px;padding:8px 12px;
+  font-size:.82rem;font-weight:600;color:var(--txt);text-align:left}
+.chip.on{background:var(--green);color:#000;border-color:var(--green)}
+.chip .c{color:var(--green);margin-right:6px}.chip.on .c{color:#0a3a00}
+.chip.oth{border-style:dashed}
+.ml{display:flex;justify-content:space-between;gap:10px;padding:10px 0;border-bottom:1px solid #131813;align-items:flex-start}
+.ml .code{color:var(--green);font-weight:800;font-size:1rem;min-width:52px}
+.ml .nm{font-size:.9rem}
+.ml .cm{color:var(--muted);font-size:.82rem;margin-top:2px;white-space:pre-wrap}
+.ml .mac{color:var(--muted);font-size:.74rem;text-align:right;white-space:nowrap;font-variant-numeric:tabular-nums}
+.ml .mac b{color:var(--green)}
+.ml .x{background:none;border:0;color:var(--muted);font-size:1.1rem;padding:0 4px}
+.tot{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.tot .k{background:var(--panel2);border:1px solid var(--line);border-radius:12px;padding:10px 12px}
+.tot .k .n{color:var(--muted);font-size:.66rem;text-transform:uppercase;letter-spacing:.06em}
+.tot .k .v{font-size:1.3rem;font-weight:700;font-variant-numeric:tabular-nums}
+.tot .k .v small{color:var(--muted);font-size:.72rem;font-weight:500}
+.shop{display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid #131813}
+.shop .box{width:26px;height:26px;border:2px solid var(--line);border-radius:7px;flex:none;display:flex;align-items:center;justify-content:center;color:#000;font-weight:800}
+.shop.ok .box{background:var(--green);border-color:var(--green)}
+.shop.ok .nm{color:var(--muted);text-decoration:line-through}
+.shop .nm{flex:1;font-size:.95rem}
+.shop .q{color:var(--green);font-weight:700;font-variant-numeric:tabular-nums;white-space:nowrap}
+.cnt{display:flex;align-items:center;gap:8px}
+.cnt button{width:40px;height:40px;border-radius:10px;background:var(--panel2);border:1px solid var(--line);font-size:1.2rem;font-weight:700}
+.cnt b{min-width:22px;text-align:center;color:var(--green);font-size:1.1rem}
+.mealRow{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid #131813}
+.mealRow .t{font-weight:700}.mealRow .m{color:var(--muted);font-size:.78rem;margin-top:2px}
+.step{display:flex;gap:10px;padding:7px 0;font-size:.95rem;line-height:1.4}
+.step b{color:var(--green);min-width:20px}
+.ing{display:flex;justify-content:space-between;padding:7px 0;border-bottom:1px solid #131813;font-size:.95rem}
+.ing .q{color:var(--green);font-weight:700;font-variant-numeric:tabular-nums}
+.next{display:inline-block;background:var(--green);color:#000;border-radius:999px;padding:2px 9px;font-size:.62rem;
+  font-weight:800;letter-spacing:.08em;margin-left:8px;vertical-align:middle}
+.plan{display:grid;grid-template-columns:repeat(7,1fr);gap:5px;margin-top:8px}
+.plan div{background:var(--panel2);border:1px solid var(--line);border-radius:10px;padding:8px 2px;text-align:center}
+.plan .d{color:var(--muted);font-size:.6rem;text-transform:uppercase;letter-spacing:.05em}
+.plan .w{font-weight:800;font-size:.9rem;margin-top:3px}
+.plan .lift .w{color:var(--green)}.plan .z2 .w{color:#4aa3ff}.plan.today,.plan div.today{border-color:var(--green)}
+.lab{display:grid;grid-template-columns:1.3fr 1fr 1fr;gap:6px;align-items:center;padding:8px 0;border-bottom:1px solid #131813;font-size:.88rem}
+.lab .n{color:var(--txt)}.lab .n small{color:var(--muted);display:block;font-size:.7rem}
+.lab .v{text-align:right;font-weight:800;font-variant-numeric:tabular-nums}.lab .v small{display:block;color:var(--muted);font-weight:500;font-size:.68rem}
+.lab .t{text-align:right;color:var(--muted);font-size:.78rem}
+.ok{color:var(--green)}.warn{color:var(--amber)}.bad{color:var(--red)}
+nav button{font-size:.62rem}
 </style>
 </head>
 <body>
@@ -164,7 +232,7 @@ td{padding:8px 4px;border-bottom:1px solid #131813;text-align:right;font-variant
   <header>
     <h2 id="hTitle">Gym</h2>
     <div class="sub" id="hSub"></div>
-    <div class="muted" style="font-size:.66rem;letter-spacing:.08em;margin-top:2px">v10.3</div>
+    <div class="muted" style="font-size:.66rem;letter-spacing:.08em;margin-top:2px">v11.0 · gym · fast · food</div>
   </header>
 
   <main>
@@ -225,6 +293,23 @@ td{padding:8px 4px;border-bottom:1px solid #131813;text-align:right;font-variant
         <div class="kpi" id="kpis"></div>
       </div>
 
+      <div class="card" style="border-color:#3a2a0a">
+        <h3 style="color:var(--amber)">Health &mdash; liver &amp; metabolic</h3>
+        <div class="muted" style="margin-bottom:8px" id="healthGoal"></div>
+        <div id="labTable"></div>
+        <button class="btn ghost" style="margin-top:10px" onclick="document.getElementById('labForm').classList.toggle('hidden')">Enter results</button>
+        <div id="labForm" class="hidden" style="margin-top:10px">
+          <label>Date</label><input type="date" id="labDate">
+          <div class="grid2" style="margin-top:10px" id="labInputs"></div>
+          <button class="btn primary" style="margin-top:12px" onclick="saveLabs()">Save results</button>
+        </div>
+        <div class="muted" style="margin-top:10px;font-size:.8rem">
+          Meds on file: Coltowan (rosuvastatin) + ezetimibe, Aspirin Cardio 100. Rosuvastatin has no grapefruit interaction
+          (that restriction was for atorvastatin). Statins are safe in steatosis. Report any ALT above 3&times; the limit to the doctor.
+        </div>
+      </div>
+
+
       <div class="card">
         <h3>Weight &amp; composition</h3>
         <canvas id="chartBody"></canvas>
@@ -258,31 +343,137 @@ td{padding:8px 4px;border-bottom:1px solid #131813;text-align:right;font-variant
       </div>
     </section>
 
-    <!-- ============ FOODS ============ -->
-    <section id="v-foods" class="hidden">
+    <!-- ============ FASTING (v11) ============ -->
+    <section id="v-fast" class="hidden">
+      <div class="card" id="fastCard"></div>
       <div class="card">
-        <h3>Inclusion criteria</h3>
-        <div class="muted">
-          High protein density, low glycemic index or high fiber, mostly unsaturated fats,
-          zero refined seed oil / added sugar / alcohol. Values per 100 g raw unless stated.
-          Atorvastatin-compatible: no grapefruit.
+        <h3>Last 7 days</h3>
+        <div class="tot" id="fastKpi"></div>
+        <div class="muted" style="margin-top:10px">
+          Target <b style="color:var(--green)" id="fastTgtLbl">16</b> h. Morning shake or first meal ends the fast.
+          Gym days: train fasted at 07:00, black coffee is fine, shake after the 16 h are up.
+          Logging a meal for today in <b>Food &rarr; Log</b> ends a running fast automatically.
         </div>
       </div>
-      <div class="card"><div id="foodList"></div></div>
+      <div class="card">
+        <h3>History</h3>
+        <div class="muted" style="margin-bottom:6px">Tap a fast to edit its start / end.</div>
+        <div id="fastHist"></div>
+      </div>
+    </section>
+
+    <!-- ============ FOOD (v11) ============ -->
+    <section id="v-foods" class="hidden">
+      <div class="subtabs">
+        <button id="ft-log"  class="on" onclick="foodTab('log')">Log</button>
+        <button id="ft-cook"           onclick="foodTab('cook')">Cook</button>
+        <button id="ft-shop"           onclick="foodTab('shop')">Shop</button>
+        <button id="ft-list"           onclick="foodTab('list')">List</button>
+      </div>
+
+      <!-- LOG -->
+      <div id="fv-log">
+        <div class="card">
+          <div class="row" style="justify-content:space-between;margin-bottom:8px">
+            <h3 style="margin:0">Today</h3>
+            <input type="date" id="logDate" style="width:auto;padding:7px 9px;font-size:.9rem" onchange="renderLog()">
+          </div>
+          <div class="tot" id="dayTot"></div>
+          <div id="dayMeals" style="margin-top:10px"></div>
+        </div>
+        <div class="card">
+          <h3>Add meal</h3>
+          <div class="muted" style="margin-bottom:8px">Tap the preset code. Comment = anything added, swapped or skipped (used in the analysis).</div>
+          <div class="chips" id="logChips"></div>
+          <div class="grid2" style="margin-top:10px">
+            <div><label>Time</label><input type="time" id="logTime"></div>
+            <div><label>Portions</label><input type="text" inputmode="decimal" id="logPort" value="1"></div>
+          </div>
+          <div id="othBox" class="hidden" style="margin-top:10px">
+            <div class="grid2">
+              <div><label>kcal (est.)</label><input type="text" inputmode="numeric" id="othK" placeholder="e.g. 600"></div>
+              <div><label>Protein g (est.)</label><input type="text" inputmode="numeric" id="othP" placeholder="e.g. 40"></div>
+            </div>
+          </div>
+          <label style="margin-top:10px">Comment</label>
+          <textarea id="logCm" placeholder="e.g. +1 slice rye bread, no oil, ate out"></textarea>
+          <button class="btn primary" style="margin-top:12px" onclick="saveMeal()">Save meal</button>
+        </div>
+        <div class="card">
+          <h3>Last 14 days</h3>
+          <div id="logHist"></div>
+        </div>
+      </div>
+
+      <!-- COOK -->
+      <div id="fv-cook" class="hidden">
+        <div class="card">
+          <h3>Batch meals &mdash; cook once, eat twice</h3>
+          <div class="muted" style="margin-bottom:8px">
+            Quantities below are for <b>2 portions</b> (lunch + early dinner). Meat, side and salad all go in the same batch.
+            One portion &asymp; 800&ndash;900 kcal, 75&ndash;95 g protein. Two portions + shake land on the daily target.
+          </div>
+          <div id="cookPick"></div>
+        </div>
+        <div id="cookView"></div>
+      </div>
+
+      <!-- SHOP -->
+      <div id="fv-shop">
+        <div class="card">
+          <h3>This week's batches</h3>
+          <div class="muted" style="margin-bottom:6px">One batch = one day (2 portions). Set how many of each, the list below adds up.</div>
+          <div id="shopPlan"></div>
+        </div>
+        <div class="card">
+          <div class="row" style="justify-content:space-between">
+            <h3 style="margin:0">Shopping list</h3>
+            <button class="btn ghost" style="width:auto;padding:7px 12px;font-size:.85rem" onclick="shopReset()">Untick all</button>
+          </div>
+          <div id="shopList" style="margin-top:6px"></div>
+        </div>
+      </div>
+
+      <!-- LIST -->
+      <div id="fv-list" class="hidden">
+        <div class="card">
+          <h3>Inclusion criteria</h3>
+          <div class="muted">
+            High protein density, low glycaemic load or high fibre, mostly unsaturated fat.
+            Zero alcohol, zero added sugar / soft drinks, no refined seed oil, no pastry. Values per 100 g raw unless stated.
+            Liver-first: fructose only as whole fruit, max 2 portions a day, never as juice.
+          </div>
+        </div>
+        <div class="card"><div id="foodList"></div></div>
+      </div>
     </section>
 
     <!-- ============ SETTINGS ============ -->
     <section id="v-set" class="hidden">
       <div class="card">
+        <h3>Targets</h3>
+        <div class="muted" style="margin-bottom:10px">
+          Deficit of ~500 kcal under estimated maintenance (~2,650 at 93.6 kg, 182 cm, 45 y, 3 lifting + Zone 2).
+          Protein 2 g/kg. Goal weight = &minus;8 % (the 7&ndash;10 % that clears liver fat).
+        </div>
+        <div class="grid2">
+          <div><label>kcal / day</label><input type="text" inputmode="numeric" id="tKcal"></div>
+          <div><label>Protein g / day</label><input type="text" inputmode="numeric" id="tProt"></div>
+          <div><label>Fast target (h)</label><input type="text" inputmode="decimal" id="tFast"></div>
+          <div><label>Goal weight (kg)</label><input type="text" inputmode="decimal" id="tGoalW"></div>
+        </div>
+        <button class="btn" style="margin-top:12px" onclick="saveTargets()">Save targets</button>
+      </div>
+      <div class="card">
         <h3>Export</h3>
         <div class="muted" style="margin-bottom:10px">
-          Exports all local data: workouts, measurements, settings. JSON v3 format.
+          Exports all local data: workouts, measurements, fasts, meals, lab results, settings. JSON v4 format.
         </div>
         <button class="btn primary" onclick="exportJSON()">Export JSON</button>
       </div>
       <div class="card">
         <h3>Import</h3>
-        <div class="muted" style="margin-bottom:10px">Restore from a JSON export (v2 or v3).</div>
+        <div class="muted" style="margin-bottom:10px">Restore from a JSON export (v2, v3 or v4).</div>
         <input type="file" id="impFile" accept="application/json,.json">
         <button class="btn" style="margin-top:10px" onclick="importJSON()">Import</button>
       </div>
@@ -293,12 +484,12 @@ td{padding:8px 4px;border-bottom:1px solid #131813;text-align:right;font-variant
       <div class="card">
         <h3>Zone 2 \u2014 calibration (22 Aug 2026)</h3>
         <div class="muted">
-          Inputs: 44 y \u00B7 RHR ~67 (Jun\u2013Aug avg) \u00B7 HRmax est. Tanaka 177 (not directly measured).<br>
+          Inputs: 45 y \u00B7 RHR ~67 (Jun\u2013Aug avg) \u00B7 HRmax est. Tanaka 177 (not directly measured).<br>
           60\u201370% HRmax = 106\u2013124 \u00B7 Karvonen 50\u201360% HRR = 122\u2013133 \u00B7 MAF cap = 136.<br><br>
           <b style="color:#4aa3ff">Working target: 118\u2013133 bpm, hard cap 135.</b><br>
           The old 130\u2013142 target used RHR 60 and percentages set too high \u2014 for you that is Zone 3, not Zone 2.<br><br>
           Treadmill: 6\u20136.5 km/h, 6\u201310% incline, adjust incline to keep HR at 125\u2013132.
-          3 \u00D7 40 min (Tue / Thu / Sat or Sun) = 120 min, then progress toward 150.
+          Tue / Thu / Sat / Sun, 40 min each: 3 sessions = 120 min, 4 = 160. Weekly target 150. Outdoor brisk walks count \u2014 log them manually on the Gym tab.
           Never before lifting; separate days. Check: you can speak full sentences.
           First week on Mi Band: compare displayed HR with a manual 15 s \u00D7 4 pulse count.
         </div>
@@ -331,8 +522,9 @@ td{padding:8px 4px;border-bottom:1px solid #131813;text-align:right;font-variant
 
   <nav>
     <button id="n-gym"   class="on" onclick="go('gym')"><span class="ic">&#128170;</span>Gym</button>
+    <button id="n-fast"           onclick="go('fast')"><span class="ic">&#9203;</span>Fast</button>
+    <button id="n-foods"          onclick="go('foods')"><span class="ic">&#127859;</span>Food</button>
     <button id="n-stats"          onclick="go('stats')"><span class="ic">&#128200;</span>Stats</button>
-    <button id="n-foods"          onclick="go('foods')"><span class="ic">&#127859;</span>Foods</button>
     <button id="n-set"            onclick="go('set')"><span class="ic">&#9881;</span>Settings</button>
   </nav>
 </div>
@@ -345,7 +537,7 @@ td{padding:8px 4px;border-bottom:1px solid #131813;text-align:right;font-variant
 /* ============================================================
    DB  (acelasi nume/stores ca versiunea veche -> zero pierderi)
    ============================================================ */
-const DB_NAME='bogdan_nutrition_tracker', DB_VERSION=3;
+const DB_NAME='bogdan_nutrition_tracker', DB_VERSION=4;
 let _db=null;
 
 function openDB(){
@@ -357,6 +549,10 @@ function openDB(){
       if(!d.objectStoreNames.contains('metrics'))  d.createObjectStore('metrics',{keyPath:'date'});
       if(!d.objectStoreNames.contains('settings')) d.createObjectStore('settings',{keyPath:'key'});
       if(!d.objectStoreNames.contains('workouts')) d.createObjectStore('workouts',{keyPath:'id',autoIncrement:true});
+      /* v11 */
+      if(!d.objectStoreNames.contains('fasts'))    d.createObjectStore('fasts',{keyPath:'id',autoIncrement:true});
+      if(!d.objectStoreNames.contains('meals'))    d.createObjectStore('meals',{keyPath:'id',autoIncrement:true});
+      if(!d.objectStoreNames.contains('labs'))     d.createObjectStore('labs',{keyPath:'date'});
     };
     r.onsuccess=e=>{_db=e.target.result;res(_db)};
     r.onerror=e=>rej(e.target.error);
@@ -533,7 +729,7 @@ const FOODS=[
   ['Strawberries',32,0.7,7.7,0.3,''],
   ['Apple with skin',52,0.3,14,0.2,'Pectin.'],
   ['Kiwi',61,1.1,15,0.5,''],
-  ['Green banana',89,1.1,23,0.3,'Peri-workout only.'],
+  ['Banana',89,1.1,23,0.3,'In the morning shake only.'],
   ['Grapes (Victoria/Mero)',69,0.7,18,0.2,'Max 250 g/day, with protein, lunch, never after 18:00.']
  ]},
  {g:'Drinks & seasoning',i:[
@@ -544,8 +740,8 @@ const FOODS=[
   ['Herbs / spices',0,0,0,0,'Turmeric, ginger, cinnamon, pepper.']
  ]},
  {g:'Forbidden',i:[
-  ['Grapefruit / pomelo',0,0,0,0,'CYP3A4 inhibition \u2192 atorvastatin.'],
-  ['Alcohol',0,0,0,0,'Suppresses protein synthesis, visceral fat.'],
+  ['Alcohol',0,0,0,0,'Zero. Direct driver of liver fat.'],
+  ['Fruit juice / smoothies / honey',0,0,0,0,'Fructose load goes straight to the liver.'],
   ['Added sugar / soft drinks',0,0,0,0,''],
   ['Refined seed oils',0,0,0,0,'Sunflower, corn, soy.'],
   ['Deli meats / processed meat',0,0,0,0,''],
@@ -553,7 +749,7 @@ const FOODS=[
  ]}
 ];
 
-const BUILD='2026-08-22-FB2';
+const BUILD='2026-10-26-v11';
 
 /* ============================================================
    State
@@ -574,11 +770,13 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
 async function boot(){
   await openDB();
   const dl=await get1('settings','deload');DELOAD=!!(dl&&dl.value);
+  await loadTargets();
   await buildLastMap();
-  renderSessions();
+  await renderSessions();
   await renderRecent();
-  initStatsForm();
-  renderFoods();
+  initStatsForm();initLabForm();initLogForm();
+  await Promise.all([loadFasts(),loadMeals(),loadLabs(),loadShop()]);
+  renderFoods();renderFast();renderLog();
   await renderStats();
   await renderDiag();
   go('gym');   // afiseaza imediat build-ul in subtitlu
@@ -587,16 +785,18 @@ async function boot(){
 /* ============================================================
    Navigare
    ============================================================ */
-const TITLES={gym:['Gym','Full-Body 3\u00D7 + Zone 2'],stats:['Stats','Body composition'],
-  foods:['Foods','Approved list'],set:['Settings','Export & data']};
+const TITLES={gym:['Gym','Full-Body A\u2192B\u2192C + Zone 2'],fast:['Fast','16 : 8'],stats:['Stats','Body & health'],
+  foods:['Food','Log \u00B7 Cook \u00B7 Shop \u00B7 List'],set:['Settings','Targets & data']};
 function go(v){
-  ['gym','stats','foods','set'].forEach(k=>{
+  ['gym','fast','stats','foods','set'].forEach(k=>{
     document.getElementById('v-'+k).classList.toggle('hidden',k!==v);
     document.getElementById('n-'+k).classList.toggle('on',k===v);
   });
   document.getElementById('hTitle').textContent=TITLES[v][0];
   document.getElementById('hSub').innerHTML=TITLES[v][1]+' \u00B7 <span style="color:var(--green-dim)">build '+BUILD+'</span>';
   if(v==='stats')renderStats();
+  if(v==='fast')renderFast();
+  if(v==='foods')foodTab(FOOD_TAB);
   if(v==='set'){renderDiag();paintDeloadBtn()}
   window.scrollTo(0,0);
 }
@@ -674,16 +874,22 @@ function warmupSets(exDef,workW){
 /* ============================================================
    Gym
    ============================================================ */
-function renderSessions(){
+async function renderSessions(){
+  const NEXT=await nextSessionId();
   const dl=DELOAD?`<div class="card" style="border-color:var(--amber)">
       <h3 style="color:var(--amber)">DELOAD MODE ON</h3>
       <div class="muted">Sessions run at \u221240% sets, same weights, RIR 3\u20134.
       Turn it off in Settings after 7 days.</div></div>`:'';
-  document.getElementById('sessList').innerHTML=dl+SESSIONS.map(s=>{
+  const plan=`<div class="card"><h3>Week</h3>
+      <div class="muted">Lift Mon / Wed / Fri, Zone 2 on the other days (no cardio after lifting).
+      Sessions rotate <b style="color:var(--green)">A \u2192 B \u2192 C</b> by what you did last, not by weekday:
+      miss a day, do the next letter \u2014 never skip one. In a 2-session week every muscle still gets 2 stimuli.</div>
+      ${weekPlanHtml()}</div>`;
+  document.getElementById('sessList').innerHTML=dl+plan+SESSIONS.map(s=>{
     const n=s.ex.reduce((a,e)=>a+deloadSets(e.sets),0);
     const nw=s.ex.reduce((a,e)=>a+((e.wu||[]).length),0);
-    return `<button class="sess" onclick="startWorkout('${s.id}')">
-      <div class="t">${s.name}</div>
+    return `<button class="sess" ${s.id===NEXT?'style="border-color:var(--green)"':''} onclick="startWorkout('${s.id}')">
+      <div class="t">${s.name}${s.id===NEXT?'<span class="next">NEXT</span>':''}</div>
       <div class="d">${s.day} \u00B7 ${s.ex.length} exercises \u00B7 ${n} working sets + ${nw} warm-ups${DELOAD?' (deload)':''}</div></button>`;
   }).join('')+`
     <div class="card" style="border-color:#123a5e">
@@ -708,6 +914,17 @@ function renderSessions(){
         </div>
         <button class="btn" style="margin-top:10px;border-color:#123a5e;color:#4aa3ff" onclick="finishZ2()">Finish &amp; save</button>
         <button class="btn ghost" style="margin-top:8px" onclick="abortZ2()">Cancel</button>
+      </div>
+      <div style="margin-top:14px;border-top:1px solid var(--line);padding-top:10px">
+        <div class="muted" style="margin-bottom:6px">Log a walk done without the timer</div>
+        <div class="grid2">
+          <div><label>Date</label><input type="date" id="z2mDate" value="${isoToday()}"></div>
+          <div><label>Minutes</label><input type="text" inputmode="numeric" id="z2mMin" placeholder="40"></div>
+        </div>
+        <div class="row" style="margin-top:8px">
+          <input type="text" inputmode="numeric" id="z2mHR" placeholder="avg HR (optional)">
+          <button class="btn" style="width:auto;border-color:#123a5e;color:#4aa3ff" onclick="logZ2Manual()">Save</button>
+        </div>
       </div>
     </div>`;
   paintZ2Week();
@@ -1067,7 +1284,12 @@ async function renderStats(){
     kpi('Waist',wa,'cm',dwa,true)+
     kpi('Fat %',fp,'%',null,true)+
     kpi('Lifting / week',await weekCount(),'/ 3',null,false)+
-    kpi('Zone 2 / week',await z2MinutesThisWeek(),'/ '+Z2.weeklyTargetMin+' min',null,false);
+    kpi('Zone 2 / week',await z2MinutesThisWeek(),'/ '+Z2.weeklyTargetMin+' min',null,false)+
+    kpi('Fast avg 7d',avgFast7(),'h',null,false)+
+    kpi('kcal avg 7d',avgMeals7('kc'),'/ '+TGT.kcal,null,false)+
+    kpi('Protein avg 7d',avgMeals7('p'),'/ '+TGT.prot+' g',null,false)+
+    kpi('To goal weight',w!=null?+(w-TGT.goalW).toFixed(1):null,'kg',null,true);
+  await renderHealth();
 
   drawMulti('chartBody',[
     {d:b.filter(x=>x.weight!=null).map(x=>({x:x.date,y:x.weight})),c:'#39FF14'},
@@ -1195,23 +1417,24 @@ function renderFoods(){
    Setari
    ============================================================ */
 async function renderDiag(){
-  const [w,m,e]=await Promise.all([all('workouts'),all('metrics'),all('entries')]);
+  const [w,m,e,f,ml,l]=await Promise.all([all('workouts'),all('metrics'),all('entries'),all('fasts'),all('meals'),all('labs')]);
   const mapped=new Set();
   w.forEach(x=>(x.exercises||[]).forEach(y=>{const id=y.exId||resolveId(y.name);if(id)mapped.add(id)}));
   document.getElementById('diag').innerHTML=
     `Build: <b style="color:var(--green)">${BUILD}</b><br>
      Workouts: <b style="color:var(--green)">${w.length}</b><br>
      Measurements: <b style="color:var(--green)">${m.length}</b><br>
+     Fasts: <b style="color:var(--green)">${f.length}</b> \u00B7 Meals: <b style="color:var(--green)">${ml.length}</b> \u00B7 Lab dates: <b style="color:var(--green)">${l.length}</b><br>
      Exercises with mapped history: <b style="color:var(--green)">${mapped.size}</b> / ${Object.keys(EX).length}<br>
      Legacy food entries (kept, not shown): ${e.length}`;
 }
 
 async function exportJSON(){
-  const [entries,metrics,workouts,settings]=await Promise.all([all('entries'),all('metrics'),all('workouts'),all('settings')]);
-  const data={exportedAt:new Date().toISOString(),version:3,app:'jurnal-antrenament',user:'Bogdan',
+  const [entries,metrics,workouts,settings,fasts,meals,labs]=await Promise.all([all('entries'),all('metrics'),all('workouts'),all('settings'),all('fasts'),all('meals'),all('labs')]);
+  const data={exportedAt:new Date().toISOString(),version:4,app:'jurnal-antrenament',user:'Bogdan',
     settings:Object.fromEntries(settings.map(s=>[s.key,s.value!==undefined?s.value:s])),
     exerciseCatalog:Object.fromEntries(Object.entries(EX).map(([k,v])=>[k,v.n])),
-    program:SESSIONS, workouts, metrics, entries};
+    program:SESSIONS, mealPresets:MEALS, workouts, metrics, fasts, meals, labs, entries};
   const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});
   const a=document.createElement('a');
   a.href=URL.createObjectURL(blob);
@@ -1227,8 +1450,9 @@ async function importJSON(){
   let d;
   try{d=JSON.parse(await f.text())}catch(e){alert('Invalid JSON file.');return}
   const nw=(d.workouts||[]).length, nm=(d.metrics||[]).length, ne=(d.entries||[]).length;
-  if(!nw&&!nm&&!ne){alert('File contains no data.');return}
-  if(!confirm(`Import: ${nw} workouts, ${nm} measurements, ${ne} legacy entries.\nExisting data for the same dates is merged, not deleted. Continue?`))return;
+  const nf=(d.fasts||[]).length, nml=(d.meals||[]).length, nl=(d.labs||[]).length;
+  if(!nw&&!nm&&!ne&&!nf&&!nml&&!nl){alert('File contains no data.');return}
+  if(!confirm(`Import: ${nw} workouts, ${nm} measurements, ${nf} fasts, ${nml} meals, ${nl} lab dates, ${ne} legacy entries.\nExisting data for the same dates is merged, not deleted. Continue?`))return;
 
   let okW=0,okM=0,okE=0;
   // antrenamente: id nou (autoIncrement) ca sa nu suprascrie ce exista deja
@@ -1252,9 +1476,19 @@ async function importJSON(){
   }
   // intrari vechi: pastrate integral, doar pentru export
   for(const e of (d.entries||[])){await put('entries',e);okE++}
+  // v11: fasts (dedupe by start), meals (dedupe by date|time|code), labs (merge by date)
+  let okF=0,okMl=0,okL=0;
+  const fs=new Set((await all('fasts')).map(f=>f.start));
+  for(const f of (d.fasts||[])){if(!f.start||fs.has(f.start))continue;const c={...f};delete c.id;await put('fasts',c);fs.add(f.start);okF++}
+  const mk=m=>(m.date||'')+'|'+(m.time||'')+'|'+(m.code||'');
+  const ms=new Set((await all('meals')).map(mk));
+  for(const m of (d.meals||[])){if(ms.has(mk(m)))continue;const c={...m};delete c.id;await put('meals',c);ms.add(mk(m));okMl++}
+  for(const l of (d.labs||[])){if(!l.date)continue;const ex=await get1('labs',l.date)||{};await put('labs',{...l,...ex,date:l.date});okL++}
+  if(d.settings&&d.settings.targets){await put('settings',{key:'targets',value:d.settings.targets});await loadTargets()}
 
-  await buildLastMap();await renderRecent();await renderStats();await renderDiag();
-  alert(`Restored.\nWorkouts added: ${okW}\nMeasurements: ${okM}\nLegacy entries: ${okE}`);
+  await buildLastMap();await renderRecent();await Promise.all([loadFasts(),loadMeals(),loadLabs()]);renderFast();renderLog();
+  await renderStats();await renderDiag();await renderSessions();
+  alert(`Restored.\nWorkouts added: ${okW}\nMeasurements: ${okM}\nFasts: ${okF}\nMeals: ${okMl}\nLab dates: ${okL}\nLegacy entries: ${okE}`);
 }
 
 async function toggleDeload(){
@@ -1274,9 +1508,483 @@ function paintDeloadBtn(){
 async function wipe(){
   if(!confirm('Delete ALL local data? Irreversible.'))return;
   if(!confirm('Sure? Export first.'))return;
-  await Promise.all([clearS('workouts'),clearS('metrics'),clearS('entries')]);
-  await buildLastMap();await renderRecent();await renderStats();await renderDiag();
+  await Promise.all([clearS('workouts'),clearS('metrics'),clearS('entries'),clearS('fasts'),clearS('meals'),clearS('labs')]);
+  await buildLastMap();await renderRecent();await Promise.all([loadFasts(),loadMeals(),loadLabs()]);renderFast();renderLog();
+  await renderStats();await renderDiag();await renderSessions();
   toast('Deleted');
+}
+
+
+/* ============================================================
+   v11 — TARGETS (Settings → Targets)
+   ============================================================ */
+const TARGET_DEFAULT={kcal:2150, prot:185, fastH:16, goalW:86};
+let TGT={...TARGET_DEFAULT};
+async function loadTargets(){
+  const s=await get1('settings','targets');
+  TGT={...TARGET_DEFAULT,...((s&&s.value)||{})};
+  const set=(id,v)=>{const e=document.getElementById(id);if(e)e.value=v};
+  set('tKcal',TGT.kcal);set('tProt',TGT.prot);set('tFast',TGT.fastH);set('tGoalW',TGT.goalW);
+  const l=document.getElementById('fastTgtLbl');if(l)l.textContent=TGT.fastH;
+}
+async function saveTargets(){
+  const g=id=>numVal(document.getElementById(id).value);
+  const t={kcal:g('tKcal')||TARGET_DEFAULT.kcal,prot:g('tProt')||TARGET_DEFAULT.prot,
+    fastH:g('tFast')||TARGET_DEFAULT.fastH,goalW:g('tGoalW')||TARGET_DEFAULT.goalW};
+  await put('settings',{key:'targets',value:t});
+  await loadTargets();toast('Targets saved');
+  renderFast();renderLog();renderStats();
+}
+
+/* ============================================================
+   v11 — FASTING  (store 'fasts': {id, start, end|null, target})
+   ============================================================ */
+let FAST_ACTIVE=null, fastTimer=null, FAST_HIST=[], fastEditId=null;
+const H=3600000;
+function fmtHM(ms){const h=Math.floor(ms/H),m=Math.floor((ms%H)/60000);return h+':'+pad(m)}
+function fmtDT(ts){const d=new Date(ts);return pad(d.getDate())+'.'+pad(d.getMonth()+1)+' '+pad(d.getHours())+':'+pad(d.getMinutes())}
+function toLocalInput(ts){const d=new Date(ts);return d.getFullYear()+'-'+pad(d.getMonth()+1)+'-'+pad(d.getDate())+'T'+pad(d.getHours())+':'+pad(d.getMinutes())}
+function fromLocalInput(s){const t=Date.parse(s);return isNaN(t)?null:t}
+
+async function loadFasts(){
+  const f=await all('fasts');
+  FAST_HIST=f.slice().sort((a,b)=>b.start-a.start);
+  FAST_ACTIVE=FAST_HIST.find(x=>x.end==null)||null;
+}
+async function startFast(){
+  if(FAST_ACTIVE){toast('A fast is already running');return}
+  const id=await put('fasts',{start:Date.now(),end:null,target:TGT.fastH});
+  await loadFasts();renderFast();toast('Fast started');
+}
+async function endFast(ts){
+  if(!FAST_ACTIVE)return;
+  FAST_ACTIVE.end=ts||Date.now();
+  await put('fasts',FAST_ACTIVE);
+  await loadFasts();renderFast();
+  toast('Fast ended');
+}
+function renderFast(){
+  const c=document.getElementById('fastCard');if(!c)return;
+  if(fastTimer){clearInterval(fastTimer);fastTimer=null}
+  const paint=()=>{
+    const now=Date.now();
+    if(FAST_ACTIVE){
+      const el=now-FAST_ACTIVE.start, tgt=(FAST_ACTIVE.target||TGT.fastH)*H, pct=Math.min(100,el/tgt*100);
+      const done=el>=tgt;
+      c.innerHTML=`<div class="fastBox on">
+        <div class="st">${done?'Target reached — eat when ready':'Fasting'}</div>
+        <div class="big">${fmtHM(el)}</div>
+        <div class="sub2">since ${fmtDT(FAST_ACTIVE.start)} · target ${FAST_ACTIVE.target||TGT.fastH} h at ${fmtDT(FAST_ACTIVE.start+tgt).slice(6)}</div>
+        <div class="bar ${done?'':'blue'}"><i style="width:${pct.toFixed(1)}%"></i></div>
+      </div>
+      <button class="btn primary" onclick="endFast()">&#9632;&nbsp; End fast (eat)</button>
+      <div style="margin-top:10px"><label>Edit start</label>
+        <div class="row"><input type="datetime-local" id="fastStartEdit" value="${toLocalInput(FAST_ACTIVE.start)}">
+        <button class="btn" style="width:auto" onclick="saveActiveStart()">Save</button></div></div>`;
+    }else{
+      const last=FAST_HIST[0];
+      const since=last?now-last.end:null;
+      c.innerHTML=`<div class="fastBox off">
+        <div class="st">Eating window</div>
+        <div class="big">${since!=null?fmtHM(since):'—'}</div>
+        <div class="sub2">${last?'since the fast ended at '+fmtDT(last.end):'no fasts logged yet'}</div>
+      </div>
+      <button class="btn primary" onclick="startFast()">&#9654;&nbsp; Start fast</button>
+      <div class="muted" style="margin-top:8px;text-align:center;font-size:.8rem">After the early dinner. Start now, or fix the time afterwards in History.</div>`;
+    }
+  };
+  paint();
+  fastTimer=setInterval(paint,30000);
+  renderFastKpi();renderFastHist();
+}
+async function saveActiveStart(){
+  const t=fromLocalInput(document.getElementById('fastStartEdit').value);
+  if(!t||t>Date.now()){toast('Invalid start');return}
+  FAST_ACTIVE.start=t;await put('fasts',FAST_ACTIVE);await loadFasts();renderFast();toast('Start updated');
+}
+function renderFastKpi(){
+  const el=document.getElementById('fastKpi');if(!el)return;
+  const wk=Date.now()-7*864e5;
+  const done=FAST_HIST.filter(x=>x.end!=null&&x.end>=wk);
+  const hrs=done.map(x=>(x.end-x.start)/H);
+  const avg=hrs.length?hrs.reduce((a,b)=>a+b,0)/hrs.length:null;
+  const hit=hrs.filter(h=>h>=TGT.fastH).length;
+  el.innerHTML=`<div class="k"><div class="n">Average fast</div><div class="v ${avg!=null&&avg>=TGT.fastH?'ok':''}">${avg!=null?avg.toFixed(1):'—'}<small> h</small></div></div>
+    <div class="k"><div class="n">≥ ${TGT.fastH} h</div><div class="v">${hit}<small> / ${done.length} fasts</small></div></div>`;
+}
+function renderFastHist(){
+  const el=document.getElementById('fastHist');if(!el)return;
+  const rows=FAST_HIST.filter(x=>x.end!=null).slice(0,21);
+  if(!rows.length){el.innerHTML='<div class="muted">No completed fasts.</div>';return}
+  el.innerHTML=rows.map(f=>{
+    const h=(f.end-f.start)/H, ok=h>=(f.target||TGT.fastH);
+    const edit=fastEditId===f.id?`<div class="histDetail" style="padding-top:8px">
+        <label>Start</label><input type="datetime-local" id="fe-s" value="${toLocalInput(f.start)}">
+        <label style="margin-top:8px">End</label><input type="datetime-local" id="fe-e" value="${toLocalInput(f.end)}">
+        <div class="row" style="margin-top:10px">
+          <button class="btn primary" onclick="saveFastEdit(${f.id})">Save</button>
+          <button class="btn danger" style="width:auto" onclick="deleteFast(${f.id})">Delete</button>
+        </div></div>`:'';
+    return `<div class="hist tap ${fastEditId===f.id?'open':''}" onclick="fastEditId=(fastEditId===${f.id}?null:${f.id});renderFastHist()">
+      <div><div class="d">${fmtDT(f.start)} &rarr; ${fmtDT(f.end).slice(6)}</div><div class="m">${fmtD(isoOf(f.end))}</div></div>
+      <div style="text-align:right"><div class="d ${ok?'ok':'warn'}">${h.toFixed(1)} h</div><div class="m">${ok?'target':'short'} ›</div></div></div>${edit}`;
+  }).join('');
+}
+function isoOf(ts){const d=new Date(ts);return d.getFullYear()+'-'+pad(d.getMonth()+1)+'-'+pad(d.getDate())}
+async function saveFastEdit(id){
+  const s=fromLocalInput(document.getElementById('fe-s').value), e=fromLocalInput(document.getElementById('fe-e').value);
+  if(!s||!e||e<=s){toast('End must be after start');return}
+  const f=FAST_HIST.find(x=>x.id===id);if(!f)return;
+  f.start=s;f.end=e;await put('fasts',f);fastEditId=null;await loadFasts();renderFast();toast('Fast updated');
+}
+async function deleteFast(id){
+  if(!confirm('Delete this fast?'))return;
+  await new Promise((res,rej)=>{const q=tx('fasts','readwrite').delete(id);q.onsuccess=()=>res();q.onerror=()=>rej(q.error)});
+  fastEditId=null;await loadFasts();renderFast();toast('Deleted');
+}
+
+/* ============================================================
+   v11 — FOOD: ingredients (per 100 g raw, or per piece) and meal presets
+   ============================================================ */
+const ING={
+  chicken:  {n:'Chicken breast',        kc:165,p:31,  c:0,  f:3.6, a:'Meat & fish'},
+  turkey:   {n:'Turkey breast',         kc:157,p:29,  c:0,  f:2.1, a:'Meat & fish'},
+  beef:     {n:'Lean beef (rump / pulpă)',kc:150,p:26, c:0,  f:5,   a:'Meat & fish'},
+  salmon:   {n:'Salmon fillet',         kc:200,p:20,  c:0,  f:13,  a:'Meat & fish'},
+  cod:      {n:'Cod / hake fillet',     kc:82, p:18,  c:0,  f:0.7, a:'Meat & fish'},
+  tuna:     {n:'Tuna in brine (drained)',kc:116,p:26, c:0,  f:1,   a:'Pantry'},
+  egg:      {n:'Whole eggs',            kc:79, p:7,   c:0.6,f:5.5, a:'Dairy & eggs', u:'pcs'},
+  eggwhite: {n:'Egg whites',            kc:52, p:11,  c:0.7,f:0.2, a:'Dairy & eggs'},
+  yog:      {n:'Greek yogurt 2%',       kc:59, p:10,  c:3.6,f:2,   a:'Dairy & eggs'},
+  whey:     {n:'Whey isolate',          kc:380,p:88,  c:4,  f:1,   a:'Staples'},
+  creatine: {n:'Creatine monohydrate',  kc:0,  p:0,   c:0,  f:0,   a:'Staples'},
+  psyllium: {n:'Psyllium husk',         kc:200,p:2,   c:4,  f:0,   a:'Staples'},
+  walnut:   {n:'Walnuts / almonds',     kc:640,p:16,  c:16, f:60,  a:'Staples'},
+  banana:   {n:'Banana',                kc:89, p:1.1, c:23, f:0.3, a:'Produce'},
+  rice:     {n:'Brown rice (dry)',      kc:362,p:7.5, c:76, f:2.7, a:'Dry goods'},
+  lentil:   {n:'Red lentils (dry)',     kc:352,p:25,  c:63, f:1,   a:'Dry goods'},
+  quinoa:   {n:'Quinoa (dry)',          kc:368,p:14,  c:64, f:6,   a:'Dry goods'},
+  chickpea: {n:'Chickpeas, canned (drained)',kc:130,p:7.5,c:19,f:2.5,a:'Pantry'},
+  potato:   {n:'Potatoes',              kc:77, p:2,   c:17, f:0.1, a:'Produce'},
+  spotato:  {n:'Sweet potato',          kc:86, p:1.6, c:20, f:0.1, a:'Produce'},
+  rye:      {n:'Whole rye bread (slice 40 g)',kc:104,p:3.6,c:19,f:1.3,a:'Dry goods', u:'pcs'},
+  broccoli: {n:'Broccoli',              kc:34, p:2.8, c:7,  f:0.4, a:'Produce'},
+  spinach:  {n:'Spinach',               kc:23, p:2.9, c:3.6,f:0.4, a:'Produce'},
+  zucchini: {n:'Zucchini',              kc:17, p:1.2, c:3.1,f:0.3, a:'Produce'},
+  pepper:   {n:'Red bell pepper',       kc:31, p:1,   c:6,  f:0.3, a:'Produce'},
+  onion:    {n:'Onion',                 kc:40, p:1.1, c:9,  f:0.1, a:'Produce'},
+  tomato:   {n:'Tomatoes',              kc:18, p:0.9, c:3.9,f:0.2, a:'Produce'},
+  cucumber: {n:'Cucumber',              kc:15, p:0.7, c:3.6,f:0.1, a:'Produce'},
+  lettuce:  {n:'Lettuce / mixed leaves',kc:15, p:1.4, c:2.9,f:0.2, a:'Produce'},
+  lemon:    {n:'Lemon',                 kc:29, p:1.1, c:9,  f:0.3, a:'Produce', u:'pcs'},
+  garlic:   {n:'Garlic (cloves)',       kc:4,  p:0.2, c:1,  f:0,   a:'Produce', u:'pcs'},
+  oil:      {n:'Extra-virgin olive oil',kc:884,p:0,   c:0,  f:100, a:'Pantry'},
+  acv:      {n:'Apple cider vinegar',   kc:22, p:0,   c:0.9,f:0,   a:'Pantry'}
+};
+/* ing = [key, amount per ONE portion] (g, or pieces for u:'pcs'). Batch meals are cooked ×2. */
+const MEALS=[
+  {code:'SHK', kind:'shake', name:'Morning shake', when:'Gym days, after the 16 h',
+   ing:[['whey',30],['banana',120],['creatine',5],['psyllium',10]],
+   steps:['Shake whey + 300 ml water, add creatine and psyllium, drink at once (psyllium thickens).','Banana on the side or blended.']},
+  {code:'SHKN',kind:'shake', name:'Morning shake + nuts', when:'Same, with 20 g walnuts / almonds',
+   ing:[['whey',30],['banana',120],['creatine',5],['psyllium',10],['walnut',20]],
+   steps:['As SHK, plus a handful of nuts.']},
+  {code:'OML', kind:'eggs',  name:'Weekend omelette', when:'Sat / Sun first meal',
+   ing:[['egg',3],['eggwhite',100],['spinach',60],['tomato',80],['pepper',60],['oil',5],['rye',1]],
+   steps:['Sauté the vegetables in the oil 3 min.','Add eggs + whites, salt, pepper; cook on low until just set.','One slice of rye bread.']},
+  {code:'M1',  kind:'batch', name:'Chicken · brown rice · broccoli', when:'Core batch',
+   ing:[['chicken',250],['rice',80],['broccoli',200],['oil',10],['lemon',0.5],['garlic',2]],
+   steps:['Rice: rinse, 1 : 2 water, lid on, 35 min.','Chicken: salt, pepper, paprika; dry pan or oven 200 °C 20–25 min.','Broccoli: steam 5 min; dress with the oil, lemon, crushed garlic.','Split into 2 boxes: lunch and dinner.']},
+  {code:'M2',  kind:'batch', name:'Salmon · cooled potatoes · green salad', when:'2× / week — omega-3',
+   ing:[['salmon',250],['potato',300],['lettuce',100],['tomato',100],['cucumber',100],['oil',10],['acv',10]],
+   steps:['Potatoes: boil in skin 20 min, then cool in the fridge (resistant starch).','Salmon: oven 200 °C 12–15 min, lemon, dill.','Salad dressed with the oil + vinegar; keep dressing separate for the dinner box.']},
+  {code:'M3',  kind:'batch', name:'Turkey · red lentils · roasted vegetables', when:'Core batch — fibre',
+   ing:[['turkey',250],['lentil',80],['zucchini',150],['pepper',150],['onion',50],['oil',10],['garlic',2]],
+   steps:['Lentils: rinse, 1 : 2.5 water, 15 min, salt at the end.','Vegetables in chunks, oil, salt; oven 210 °C 25 min, turkey strips on the same tray for the last 15 min.','Split into 2 boxes.']},
+  {code:'M4',  kind:'batch', name:'Lean beef · quinoa · tomato-cucumber salad', when:'1–2× / week',
+   ing:[['beef',250],['quinoa',70],['tomato',150],['cucumber',150],['onion',30],['oil',10],['lemon',0.5]],
+   steps:['Quinoa: rinse, 1 : 2 water, 15 min, rest 5 min.','Beef in strips, hot pan 2–3 min a side, rest.','Chop salad; oil + lemon.']},
+  {code:'M5',  kind:'batch', name:'Cod · sweet potato · spinach', when:'Lightest batch',
+   ing:[['cod',350],['spotato',350],['spinach',200],['oil',15],['garlic',2],['lemon',0.5]],
+   steps:['Sweet potato in wedges, 5 g of the oil, oven 210 °C 30 min.','Cod on the same tray for the last 12 min, lemon.','Spinach wilted 2 min with garlic and the rest of the oil.']},
+  {code:'M6',  kind:'batch', name:'Tuna · chickpea bowl (no cooking)', when:'Fallback — 5 minutes',
+   ing:[['tuna',220],['chickpea',200],['tomato',150],['onion',40],['spinach',50],['oil',15],['lemon',0.5]],
+   steps:['Drain tuna and chickpeas, mix everything, lemon, pepper.','Keeps 2 days in the fridge.']},
+  {code:'OTH', kind:'other', name:'Something else', when:'Enter kcal / protein estimate', ing:[], steps:[]}
+];
+const MEAL_BY=Object.fromEntries(MEALS.map(m=>[m.code,m]));
+function mealMacros(m,portions=1){
+  const t={kc:0,p:0,c:0,f:0};
+  m.ing.forEach(([k,q])=>{const g=ING[k];const mult=(g.u==='pcs'?q:q/100)*portions;
+    t.kc+=g.kc*mult;t.p+=g.p*mult;t.c+=g.c*mult;t.f+=g.f*mult});
+  return {kc:Math.round(t.kc),p:Math.round(t.p),c:Math.round(t.c),f:Math.round(t.f)};
+}
+function ingLine(k,q){const g=ING[k];return g.u==='pcs'?(q%1?q.toFixed(1):q)+' pcs':Math.round(q)+' g'}
+
+/* ---- sub-tabs ---- */
+let FOOD_TAB='log';
+function foodTab(t){
+  FOOD_TAB=t;
+  ['log','cook','shop','list'].forEach(k=>{
+    document.getElementById('fv-'+k).classList.toggle('hidden',k!==t);
+    document.getElementById('ft-'+k).classList.toggle('on',k===t);
+  });
+  if(t==='log')renderLog();if(t==='cook')renderCook();if(t==='shop')renderShop();
+  window.scrollTo(0,0);
+}
+
+/* ---- LOG  (store 'meals': {id,date,time,code,portions,comment,kc,p,c,f}) ---- */
+let LOG_CODE=null, MEALS_ALL=[];
+async function loadMeals(){MEALS_ALL=await all('meals')}
+function initLogForm(){
+  const d=document.getElementById('logDate');if(d&&!d.value)d.value=isoToday();
+  const t=document.getElementById('logTime');if(t){const n=new Date();t.value=pad(n.getHours())+':'+pad(n.getMinutes())}
+  const ch=document.getElementById('logChips');
+  if(ch)ch.innerHTML=MEALS.map(m=>`<button class="chip ${m.code==='OTH'?'oth':''}" id="chip-${m.code}" onclick="pickCode('${m.code}')"><span class="c">${m.code}</span>${m.name}</button>`).join('');
+}
+function pickCode(c){
+  LOG_CODE=c;
+  MEALS.forEach(m=>document.getElementById('chip-'+m.code).classList.toggle('on',m.code===c));
+  document.getElementById('othBox').classList.toggle('hidden',c!=='OTH');
+}
+async function saveMeal(){
+  if(!LOG_CODE){toast('Pick a preset');return}
+  const date=document.getElementById('logDate').value||isoToday();
+  const time=document.getElementById('logTime').value||'';
+  const portions=numVal(document.getElementById('logPort').value)||1;
+  const comment=document.getElementById('logCm').value.trim();
+  let mac;
+  if(LOG_CODE==='OTH'){
+    mac={kc:Math.round(numVal(document.getElementById('othK').value)||0),p:Math.round(numVal(document.getElementById('othP').value)||0),c:null,f:null};
+    if(!mac.kc&&!comment){toast('Add an estimate or a comment');return}
+  }else mac=mealMacros(MEAL_BY[LOG_CODE],portions);
+  await put('meals',{date,time,code:LOG_CODE,portions,comment,...mac,ts:Date.now()});
+  // batch bookkeeping: a logged batch meal consumes one portion of the cooked batch
+  const b=await get1('settings','batch');
+  if(b&&b.value&&b.value.code===LOG_CODE&&b.value.left>0){b.value.left-=1;await put('settings',b)}
+  // a meal eaten today ends a running fast
+  if(FAST_ACTIVE&&date===isoToday()){
+    const [hh,mm]=(time||'00:00').split(':').map(Number);const d=new Date();d.setHours(hh,mm,0,0);
+    const endTs=Math.max(FAST_ACTIVE.start+60000,Math.min(Date.now(),d.getTime()));
+    await endFast(endTs);
+  }
+  document.getElementById('logCm').value='';document.getElementById('othK').value='';document.getElementById('othP').value='';
+  document.getElementById('logPort').value='1';
+  LOG_CODE=null;MEALS.forEach(m=>document.getElementById('chip-'+m.code).classList.remove('on'));
+  document.getElementById('othBox').classList.add('hidden');
+  await loadMeals();renderLog();toast('Meal saved');
+}
+async function deleteMeal(id){
+  if(!confirm('Delete this meal?'))return;
+  await new Promise((res,rej)=>{const q=tx('meals','readwrite').delete(id);q.onsuccess=()=>res();q.onerror=()=>rej(q.error)});
+  await loadMeals();renderLog();
+}
+function dayTotals(date){
+  const ms=MEALS_ALL.filter(m=>m.date===date);
+  return {kc:ms.reduce((a,m)=>a+(m.kc||0),0),p:ms.reduce((a,m)=>a+(m.p||0),0),n:ms.length,
+    clean:ms.length>0&&ms.every(m=>m.code!=='OTH'&&!m.comment),oth:ms.filter(m=>m.code==='OTH').length};
+}
+function totBox(n,v,tgt,unit,lowIsGood){
+  const over=tgt&&v>tgt*1.05, under=tgt&&v<tgt*0.9;
+  const cls=lowIsGood?(over?'bad':(v>0?'ok':'')):(v>=tgt?'ok':(v>0?'warn':''));
+  return `<div class="k"><div class="n">${n}</div><div class="v ${cls}">${v}<small> / ${tgt} ${unit}</small></div></div>`;
+}
+function renderLog(){
+  const dEl=document.getElementById('logDate');if(!dEl)return;
+  const date=dEl.value||isoToday();
+  const t=dayTotals(date);
+  document.getElementById('dayTot').innerHTML=totBox('kcal',t.kc,TGT.kcal,'',true)+totBox('protein',t.p,TGT.prot,'g',false);
+  const ms=MEALS_ALL.filter(m=>m.date===date).sort((a,b)=>(a.time||'').localeCompare(b.time||''));
+  document.getElementById('dayMeals').innerHTML=ms.length?ms.map(m=>`<div class="ml">
+      <div class="code">${m.code}</div>
+      <div style="flex:1"><div class="nm">${MEAL_BY[m.code]?MEAL_BY[m.code].name:m.code}${m.portions&&m.portions!==1?' × '+m.portions:''} <span class="muted" style="font-size:.78rem">${m.time||''}</span></div>
+        ${m.comment?`<div class="cm">${esc(m.comment)}</div>`:''}</div>
+      <div class="mac"><b>${m.p||0}P</b><br>${m.kc||0} kcal</div>
+      <button class="x" onclick="deleteMeal(${m.id})">✕</button></div>`).join('')
+    :'<div class="muted">Nothing logged for this day.</div>';
+  // history 14 days
+  const days=[];for(let i=0;i<14;i++){const d=new Date();d.setDate(d.getDate()-i);days.push(isoOf(d.getTime()))}
+  const hist=days.map(d=>{const x=dayTotals(d);if(!x.n)return '';
+    const codes=MEALS_ALL.filter(m=>m.date===d).map(m=>m.code).join(' · ');
+    const kcCls=x.kc>TGT.kcal*1.05?'bad':'ok', pCls=x.p>=TGT.prot?'ok':'warn';
+    return `<div class="hist" onclick="document.getElementById('logDate').value='${d}';renderLog();window.scrollTo(0,0)">
+      <div><div class="d">${fmtD(d)} ${x.clean?'<span class="pill">clean</span>':(x.oth?'<span class="pill" style="color:var(--amber);border-color:#4a3a10">other ×'+x.oth+'</span>':'')}</div><div class="m">${codes}</div></div>
+      <div style="text-align:right"><div class="d ${kcCls}">${x.kc} kcal</div><div class="m ${pCls}">${x.p} g protein</div></div></div>`}).join('');
+  document.getElementById('logHist').innerHTML=hist||'<div class="muted">No meals logged yet.</div>';
+  // suggest cooked batch
+  get1('settings','batch').then(b=>{
+    if(b&&b.value&&b.value.left>0&&MEAL_BY[b.value.code]&&!LOG_CODE){
+      const ch=document.getElementById('chip-'+b.value.code);if(ch)ch.style.borderColor='var(--green)';
+    }
+  });
+}
+function esc(s){return String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]))}
+
+/* ---- COOK ---- */
+let COOK_CODE=null;
+async function renderCook(){
+  const pick=document.getElementById('cookPick');if(!pick)return;
+  const b=await get1('settings','batch');const cur=b&&b.value;
+  pick.innerHTML=MEALS.filter(m=>m.kind!=='other').map(m=>{const mac=mealMacros(m,1);
+    const live=cur&&cur.code===m.code&&cur.left>0;
+    return `<div class="mealRow" onclick="COOK_CODE='${m.code}';renderCook()">
+      <div><div class="t"><span style="color:var(--green)">${m.code}</span> ${m.name}${live?'<span class="next">'+cur.left+' left</span>':''}</div>
+      <div class="m">${m.when} · ${mac.kc} kcal · ${mac.p} g P per portion</div></div><div class="muted">›</div></div>`}).join('');
+  const v=document.getElementById('cookView');
+  const m=MEAL_BY[COOK_CODE];
+  if(!m){v.innerHTML='';return}
+  const n=m.kind==='batch'?2:1, mac=mealMacros(m,1);
+  v.innerHTML=`<div class="card" style="border-color:var(--green-dim)">
+    <h3>${m.code} — ${m.name}</h3>
+    <div class="muted" style="margin-bottom:8px">${n===2?'For 2 portions.':'For 1 portion.'} Per portion: <b style="color:var(--green)">${mac.kc} kcal · ${mac.p} P · ${mac.c} C · ${mac.f} F</b></div>
+    ${m.ing.map(([k,q])=>`<div class="ing"><span>${ING[k].n}</span><span class="q">${ingLine(k,q*n)}</span></div>`).join('')}
+    <div style="margin-top:10px">${m.steps.map((s,i)=>`<div class="step"><b>${i+1}</b><span>${s}</span></div>`).join('')}</div>
+    ${m.kind==='batch'?`<button class="btn primary" style="margin-top:12px" onclick="markCooked('${m.code}')">Cooked — 2 portions ready</button>`:''}
+  </div>`;
+}
+async function markCooked(code){
+  await put('settings',{key:'batch',value:{code,date:isoToday(),left:2}});
+  toast(code+' ready: log it under Food → Log');renderCook();
+}
+
+/* ---- SHOP  (settings 'shop': {plan:{M1:n,...}, ticked:{name:true}}) ---- */
+let SHOP={plan:{M1:2,M2:2,M3:1,M4:1,M5:1,M6:0},ticked:{}};
+async function loadShop(){const s=await get1('settings','shop');if(s&&s.value)SHOP={...SHOP,...s.value}}
+async function saveShop(){await put('settings',{key:'shop',value:SHOP})}
+async function shopAdj(code,d){SHOP.plan[code]=Math.max(0,(SHOP.plan[code]||0)+d);await saveShop();renderShop()}
+async function shopTick(name){SHOP.ticked[name]=!SHOP.ticked[name];await saveShop();renderShop()}
+async function shopReset(){SHOP.ticked={};await saveShop();renderShop()}
+function renderShop(){
+  const pl=document.getElementById('shopPlan');if(!pl)return;
+  const batches=MEALS.filter(m=>m.kind==='batch');
+  const days=batches.reduce((a,m)=>a+(SHOP.plan[m.code]||0),0);
+  pl.innerHTML=batches.map(m=>`<div class="mealRow"><div><div class="t"><span style="color:var(--green)">${m.code}</span> ${m.name}</div><div class="m">${m.when}</div></div>
+    <div class="cnt"><button onclick="shopAdj('${m.code}',-1)">−</button><b>${SHOP.plan[m.code]||0}</b><button onclick="shopAdj('${m.code}',1)">+</button></div></div>`).join('')+
+    `<div class="muted" style="margin-top:8px">${days} batch days planned${days<7?' · '+(7-days)+' day(s) uncovered':days>7?' · more than a week':' · full week'}.</div>`;
+  // aggregate
+  const need={};
+  batches.forEach(m=>{const n=(SHOP.plan[m.code]||0)*2;if(!n)return;
+    m.ing.forEach(([k,q])=>{need[k]=(need[k]||0)+q*n})});
+  const aisles=['Meat & fish','Dairy & eggs','Produce','Dry goods','Pantry'];
+  const row=(k,qty)=>{const g=ING[k],done=!!SHOP.ticked[k];
+    return `<div class="shop ${done?'ok':''}" onclick="shopTick('${k}')"><div class="box">${done?'✓':''}</div><div class="nm">${g.n}</div><div class="q">${qty}</div></div>`};
+  const fmtQ=(k,q)=>{const g=ING[k];if(g.u==='pcs')return Math.ceil(q)+' pcs';return q>=1000?(q/1000).toFixed(1)+' kg':Math.ceil(q/50)*50+' g'};
+  let html=aisles.map(a=>{const items=Object.keys(need).filter(k=>ING[k].a===a);if(!items.length)return '';
+    return `<div class="fgrp"><div class="hd">${a}</div>${items.map(k=>row(k,fmtQ(k,need[k]))).join('')}</div>`}).join('');
+  const staples=['whey','creatine','psyllium','walnut','banana','egg','eggwhite','oil','acv'];
+  html+=`<div class="fgrp"><div class="hd">Staples — check stock</div>${staples.filter(k=>!need[k]||ING[k].a==='Staples').map(k=>row(k,k==='banana'?'3 / week':k==='egg'?'6 + whites':'stock')).join('')}</div>`;
+  html+=`<div class="fgrp"><div class="hd">Always</div>${['Black coffee','Salt, pepper, paprika, dill, turmeric','Sparkling water','Frozen broccoli / spinach (backup)'].map(n=>{const done=!!SHOP.ticked[n];
+    return `<div class="shop ${done?'ok':''}" onclick="shopTick('${n}')"><div class="box">${done?'✓':''}</div><div class="nm">${n}</div><div class="q"></div></div>`}).join('')}</div>`;
+  document.getElementById('shopList').innerHTML=html;
+}
+
+/* ============================================================
+   v11 — HEALTH  (store 'labs': {date, ...values})
+   ============================================================ */
+const LAB_DEFS=[
+  ['cap',    'Liver fat (CAP)',   'dB/m', '< 248 (S0) · 268 S2 · 280 S3', v=>v<248?'ok':v<280?'warn':'bad'],
+  ['kpa',    'Fibroscan stiffness','kPa', '< 7 (F0–F1)',                   v=>v<7?'ok':v<9.5?'warn':'bad'],
+  ['alt',    'ALT (TGP)',         'U/L',  '< 30 optimal · 40 limit',       v=>v<=30?'ok':v<=40?'warn':'bad'],
+  ['ast',    'AST (TGO)',         'U/L',  '< 40',                          v=>v<=35?'ok':v<=40?'warn':'bad'],
+  ['ggt',    'GGT',               'U/L',  '< 55 (optimal < 40)',           v=>v<=40?'ok':v<=55?'warn':'bad'],
+  ['tg',     'Triglycerides',     'mg/dL','< 150 (optimal < 100)',         v=>v<100?'ok':v<150?'warn':'bad'],
+  ['ldl',    'LDL-C',             'mg/dL','< 100 (on statin: < 70)',       v=>v<70?'ok':v<100?'warn':'bad'],
+  ['hdl',    'HDL-C',             'mg/dL','> 40',                          v=>v>=40?'ok':'bad'],
+  ['apob',   'ApoB',              'mg/dL','< 90 (optimal < 80)',           v=>v<80?'ok':v<90?'warn':'bad'],
+  ['tc',     'Total cholesterol', 'mg/dL','< 200',                         v=>v<200?'ok':v<240?'warn':'bad'],
+  ['hba1c',  'HbA1c',             '%',    '< 5.7',                         v=>v<5.7?'ok':v<6.5?'warn':'bad'],
+  ['glu',    'Fasting glucose',   'mg/dL','< 100',                         v=>v<100?'ok':v<126?'warn':'bad'],
+  ['ins',    'Fasting insulin',   'µIU/mL','< 10 (HOMA-IR < 2)',           v=>v<10?'ok':v<15?'warn':'bad'],
+  ['crp',    'hs-CRP',            'mg/L', '< 1',                           v=>v<1?'ok':v<3?'warn':'bad'],
+  ['ferr',   'Ferritin',          'ng/mL','30 – 300',                      v=>v>=30&&v<=300?'ok':'warn']
+];
+let LABS=[];
+async function loadLabs(){
+  LABS=(await all('labs')).sort((a,b)=>a.date.localeCompare(b.date));
+  if(!LABS.length){
+    const seeded=await get1('settings','labsSeeded');
+    if(!(seeded&&seeded.value)){
+      await put('labs',{date:'2026-10-19',cap:371,kpa:4.4,note:'Fibroscan, Spitalul CF Timișoara. Steatoză hepatică severă, fără fibroză.'});
+      await put('settings',{key:'labsSeeded',value:true});
+      LABS=await all('labs');
+    }
+  }
+}
+function initLabForm(){
+  const d=document.getElementById('labDate');if(d&&!d.value)d.value=isoToday();
+  const el=document.getElementById('labInputs');
+  if(el)el.innerHTML=LAB_DEFS.map(([k,n,u])=>`<div><label>${n} (${u})</label><input type="text" inputmode="decimal" id="lab-${k}"></div>`).join('');
+}
+async function saveLabs(){
+  const date=document.getElementById('labDate').value;if(!date){toast('Pick a date');return}
+  const ex=await get1('labs',date)||{date};
+  let n=0;
+  LAB_DEFS.forEach(([k])=>{const v=numVal(document.getElementById('lab-'+k).value);if(v!=null){ex[k]=v;n++;document.getElementById('lab-'+k).value=''}});
+  if(!n){toast('Nothing to save');return}
+  await put('labs',ex);await loadLabs();renderHealth();
+  document.getElementById('labForm').classList.add('hidden');toast(n+' results saved');
+}
+async function renderHealth(){
+  const el=document.getElementById('labTable');if(!el)return;
+  const latest=k=>{for(let i=LABS.length-1;i>=0;i--)if(LABS[i][k]!=null)return LABS[i];return null};
+  const prev=k=>{let s=0;for(let i=LABS.length-1;i>=0;i--)if(LABS[i][k]!=null){s++;if(s===2)return LABS[i]}return null};
+  el.innerHTML=LAB_DEFS.map(([k,n,u,t,fn])=>{const L=latest(k),P=prev(k);
+    const v=L?L[k]:null, cls=v!=null?fn(v):'';
+    const d=(L&&P)?(v-P[k]):null;
+    return `<div class="lab"><div class="n">${n}<small>${u}</small></div>
+      <div class="v ${cls}">${v!=null?v:'—'}<small>${L?fmtD(L.date)+(d!=null?' · '+(d>0?'+':'')+(+d.toFixed(1)):''):'no result'}</small></div>
+      <div class="t">${t}</div></div>`}).join('');
+  // goal line
+  const b=await getBody();const lw=[...b].reverse().find(x=>x.weight!=null), lwa=[...b].reverse().find(x=>x.waist!=null);
+  const w=lw?lw.weight:null, start=93.6, goal=TGT.goalW;
+  const pct=w!=null?Math.max(0,Math.min(100,(start-w)/(start-goal)*100)):0;
+  document.getElementById('healthGoal').innerHTML=
+    `Diagnosis 19.10.2026: severe steatosis (CAP 371), no fibrosis (4.4 kPa) — reversible. The lever is <b>−7–10 % body weight</b>
+     (${start} → ${goal} kg), ≥150 min/week Zone 2, zero alcohol, fructose only as whole fruit. Re-check Fibroscan in ~6 months.
+     <div class="bar amber" style="margin:10px 0 4px"><i style="width:${pct.toFixed(0)}%"></i></div>
+     <span style="color:var(--txt)">Weight ${w!=null?w+' kg':'—'} · ${pct.toFixed(0)} % of the way to ${goal} kg · waist ${lwa?lwa.waist+' cm':'—'} (target &lt; 94)</span>`;
+}
+
+/* ============================================================
+   v11 — Zone 2 manual entry (outdoor walks without the timer)
+   ============================================================ */
+async function logZ2Manual(){
+  const mins=numVal(document.getElementById('z2mMin').value);
+  const date=document.getElementById('z2mDate').value||isoToday();
+  if(!mins||mins<5){toast('Minutes?');return}
+  const avg=numVal(document.getElementById('z2mHR').value);
+  const start=Date.parse(date+'T08:00:00');
+  await put('workouts',{date,type:'cardio',sessionId:'zone2',sessionName:'Zone 2 — walk',startTs:start,endTs:start+mins*60000,
+    z2min:mins,avgHR:avg,manual:true,targetLo:Z2.lo,targetHi:Z2.hi});
+  await saveMetricsForDay(date,{cardioDay:true});
+  document.getElementById('z2mMin').value='';document.getElementById('z2mHR').value='';
+  renderSessions();await renderRecent();toast(mins+' min Zone 2 saved');
+}
+
+/* ============================================================
+   v11 — Rotation: next session = the one after the last lifted, A→B→C
+   ============================================================ */
+async function nextSessionId(){
+  const ws=(await all('workouts')).filter(w=>w.type!=='cardio'&&w.sessionId).sort((a,b)=>(b.startTs||Date.parse(b.date))-(a.startTs||Date.parse(a.date)));
+  const last=ws[0];if(!last)return SESSIONS[0].id;
+  const i=SESSIONS.findIndex(s=>s.id===last.sessionId);
+  return SESSIONS[(i+1)%SESSIONS.length].id;
+}
+function weekPlanHtml(){
+  const names=['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];
+  const plan=[['lift','A'],['z2','Z2'],['lift','B'],['z2','Z2'],['lift','C'],['z2','Z2'],['z2','Z2 / walk']];
+  const td=(new Date().getDay()+6)%7;
+  return `<div class="plan">${plan.map(([c,t],i)=>`<div class="${c} ${i===td?'today':''}"><div class="d">${names[i]}</div><div class="w">${t}</div></div>`).join('')}</div>`;
+}
+
+function avgFast7(){
+  const wk=Date.now()-7*864e5;const h=FAST_HIST.filter(x=>x.end!=null&&x.end>=wk).map(x=>(x.end-x.start)/H);
+  return h.length?+(h.reduce((a,b)=>a+b,0)/h.length).toFixed(1):null;
+}
+function avgMeals7(k){
+  const days={};const wk=isoOf(Date.now()-6*864e5);
+  MEALS_ALL.filter(m=>m.date>=wk).forEach(m=>{days[m.date]=(days[m.date]||0)+(m[k]||0)});
+  const v=Object.values(days);return v.length?Math.round(v.reduce((a,b)=>a+b,0)/v.length):null;
 }
 
 window.addEventListener('resize',()=>{if(!document.getElementById('v-stats').classList.contains('hidden'))renderStats()});

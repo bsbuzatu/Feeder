@@ -3,7 +3,7 @@
 Single-file offline PWA for strength training and Zone 2 cardio. No build step, no dependencies, no backend. All data lives in the browser (IndexedDB) and never leaves the device.
 
 **Live:** https://bsbuzatu.github.io/Feeder/
-**Build:** `2026-08-22-FB2`
+**Build:** `2026-10-26-v11`
 
 ---
 
@@ -11,10 +11,23 @@ Single-file offline PWA for strength training and Zone 2 cardio. No build step, 
 
 | Tab | Purpose |
 |---|---|
-| **Gym** | Run a Full-Body session, or log a Zone 2 treadmill block |
-| **Stats** | Body composition, waist, weekly volume, sets per muscle group |
-| **Foods** | Approved food list with macros per 100 g raw |
-| **Settings** | Export / import JSON, deload toggle, Zone 2 calibration, wipe |
+| **Gym** | Week plan, next session (A→B→C rotation), run a Full-Body session, Zone 2 timer or manual walk entry |
+| **Fast** | Start / end a fast (16 h target), edit start and end afterwards, 7-day average, history |
+| **Food** | **Log** meals by preset code + comment · **Cook** batch recipes for 2 portions · **Shop** weekly list from the planned batches · **List** approved foods |
+| **Stats** | Body composition, waist, Health card (Fibroscan / CAP / labs vs targets), fasting and intake averages, volume |
+| **Settings** | Targets (kcal, protein, fast hours, goal weight), export / import JSON v4, deload, Zone 2 calibration, wipe |
+
+## v11 (26 Oct 2026) — three goals in one app
+
+Goals: lean muscle, lose visceral fat, clear the fatty liver (CAP 371 dB/m, 4.4 kPa, 19.10.2026).
+
+- **Rotation, not weekdays.** The next session is the letter after the last one lifted. A missed day shifts the rotation instead of skipping a session.
+- **Zone 2 only on non-lifting days** (Tue / Thu / Sat / Sun), 150 min/week target. Walks without the timer are logged manually.
+- **Fasting store** (`fasts`): `{start, end, target}`. Logging a meal for today ends a running fast.
+- **Meal presets** with codes: `SHK` / `SHKN` morning shake, `OML` weekend omelette, `M1`–`M6` batch meals (one cook = lunch + early dinner), `OTH` free entry with kcal / protein estimate. Macros come from the recipe; the comment field records deviations.
+- **Targets** default to 2,150 kcal, 185 g protein, 16 h fast, goal weight 86 kg (−8 %). Editable in Settings.
+- **Labs store** (`labs`): one record per date; the Health card shows the latest value per marker against targets.
+- Export is JSON **v4** (adds `fasts`, `meals`, `labs`, `mealPresets`); import accepts v2–v4 with de-duplication.
 
 ---
 
