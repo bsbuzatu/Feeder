@@ -4,13 +4,15 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
 <meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Healthy Life">
 <meta name="apple-mobile-web-app-status-bar-style" content="black">
 <meta name="theme-color" content="#000000">
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
-<title>Training Log v11.1</title>
-<link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' fill='black'/><text y='72' x='50' font-size='64' text-anchor='middle' fill='%2339FF14'>G</text></svg>">
+<title>Healthy Life</title>
+<link rel="icon" href="favicon.ico" sizes="any">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
 <style>
 :root{
   --bg:#000; --panel:#0b0f0b; --panel2:#111511; --line:#1f2a1f;
@@ -73,6 +75,9 @@ label{display:block;color:var(--muted);font-size:.85rem;margin-bottom:5px;letter
 .setrow input{padding:12px 8px;text-align:center;font-size:1.15rem;font-weight:700;
   font-variant-numeric:tabular-nums}
 .setrow input.tgt{color:#8fb989;font-weight:600}
+/* v11.2: value parked in the placeholder while the box is being typed into */
+.setrow input::placeholder{color:#55704f;font-weight:600;opacity:1}
+input::placeholder{opacity:1}
 .setrow.wu input{font-size:.95rem;font-weight:500;color:var(--muted);-webkit-text-fill-color:var(--muted);border-style:dashed}
 .setrow.wu .n{font-size:.8rem}
 .setrow.wu.ok input{color:var(--green-dim);-webkit-text-fill-color:var(--green-dim)}
@@ -232,7 +237,7 @@ nav button{font-size:.62rem}
   <header>
     <h2 id="hTitle">Gym</h2>
     <div class="sub" id="hSub"></div>
-    <div class="muted" style="font-size:.66rem;letter-spacing:.08em;margin-top:2px">v11.1 · gym · fast · food</div>
+    <div class="muted" style="font-size:.66rem;letter-spacing:.08em;margin-top:2px">Healthy Life · v11.2 · gym · fast · food</div>
   </header>
 
   <main>
@@ -565,7 +570,8 @@ const EX={
   pullup:       {n:'Pull-Up', a:['Weighted Pull-Up','Pull-Up (bodyweight)','Lat Pulldown / Tractiuni','Lat Pulldown / Pull-Up','Tractiuni']},
   ohp:          {n:'Seated DB OHP (kg / dumbbell)', a:['Seated Barbell OHP','Standing Barbell OHP','Overhead Press','Seated Dumbbell OHP']},
   sarow:        {n:'Single-Arm DB Row', a:['Single-Arm DB Row','Ramat cu haltera']},
-  cabLat:       {n:'Cable Lateral Raise (one arm)', a:['Cable Lateral Raise (one arm)','Cable Lateral Raise (un brat)']},
+  cabLat:       {n:'Cable Lateral Raise (one arm)', a:['Cable Lateral Raise (one arm)','Cable Lateral Raise (un brat)']},  /* v11.2: retired from the program — pulley loads never aligned */
+  machLat:      {n:'Machine Lateral Raise (both arms)', a:['Machine Lateral Raise','Lateral Raise Machine','Seated Machine Lateral Raise']},
   revFly:       {n:'Cable Reverse Fly', a:['Cable Reverse Fly']},
   inclCurl:     {n:'Incline DB Curl', a:['Incline DB Curl']},
   ohTri:        {n:'Overhead DB Triceps Extension', a:['Overhead Triceps Extension','Overhead Cable Triceps Extension']},
@@ -579,7 +585,8 @@ const EX={
 
   inclDB:       {n:'Incline DB Press (30\u00B0)', a:['Incline DB Press (30\u00B0)','Impins inclinat cu gantere']},
   csRow:        {n:'One-Arm Machine Row (kg / arm)', a:['Chest-Supported DB Row','Ramat la cablu','One-Arm Machine Row']},
-  cabFly:       {n:'Chest Fly (machine or cable)', a:['Cable Chest Fly','Machine Chest Fly','Pec Deck']},
+  cabFly:       {n:'Chest Fly (machine or cable)', a:['Cable Chest Fly','Machine Chest Fly','Pec Deck']},  /* v11.2: retired from the program */
+  dbFly:        {n:'DB Chest Fly (flat bench)', a:['DB Chest Fly','Dumbbell Chest Fly','Dumbbell Fly','DB Fly (flat)']},
   cgPulldown:   {n:'Close-Grip Lat Pulldown', a:['Close-Grip Lat Pulldown','Pulldown priza apropiata']},
   dbLat:        {n:'DB Lateral Raise', a:['DB Lateral Raise','Ridicari laterale']},
   facePull:     {n:'Face Pull', a:['Face Pull / Reverse Fly','Face Pull']},
@@ -625,8 +632,8 @@ const SESSIONS=[
     {id:'rdl',         sets:3, reps:'6\u201310',  rir:'2',        rest:150, inc:2.5, bar:true, wu:[[0.6,6]]},
     {id:'ohp',         sets:3, reps:'8\u201312',  rir:'2',        rest:150, inc:2.5, wu:[[0.65,6]]},
     {id:'sarow',       sets:3, reps:'8\u201312',  rir:'1\u20132', rest:90,  inc:2.5, wu:[[0.65,6]]},
-    {id:'cabFly',      sets:2, reps:'12\u201315', rir:'1',        rest:75,  inc:2.5},
-    {id:'cabLat',      sets:2, reps:'12\u201320', rir:'1',        rest:60,  inc:1},
+    {id:'dbFly',       sets:2, reps:'12\u201315', rir:'1',        rest:75,  inc:2.5},
+    {id:'machLat',     sets:2, reps:'12\u201320', rir:'1',        rest:60,  inc:5},
     {id:'hammer',      sets:2, reps:'10\u201315', rir:'1',        rest:75,  inc:2.5},
     {id:'ohTri',       sets:2, reps:'10\u201315', rir:'1',        rest:75,  inc:2.5},
     {id:'seatCalf',    sets:2, reps:'12\u201315', rir:'1',        rest:60,  inc:5}
@@ -651,9 +658,9 @@ const Z2={lo:118, hi:133, cap:135, weeklyTargetMin:150, note:'Treadmill: 6\u2013
 
 /* grupe musculare pentru volum s\u0103pt\u0103m\u00E2nal */
 const MUSCLE={
-  bench:'chest', inclDB:'chest', cabFly:'chest', triDip:'chest',
+  bench:'chest', inclDB:'chest', cabFly:'chest', dbFly:'chest', triDip:'chest',
   pullup:'back', csRow:'back', sarow:'back', cgPulldown:'back', supPulldown:'back',
-  ohp:'delts', dbLat:'delts', cabLat:'delts', facePull:'delts', revFly:'delts',
+  ohp:'delts', dbLat:'delts', cabLat:'delts', machLat:'delts', facePull:'delts', revFly:'delts',
   inclCurl:'biceps', hammer:'biceps', ohTri:'triceps', pushdown:'triceps',
   bbSquat:'quads', legPress:'quads', legExt:'quads', bss:'quads',
   rdl:'hamstrings', seatCurl:'hamstrings', lyCurl:'hamstrings', deadlift:'hamstrings', backExt:'hamstrings',
@@ -742,7 +749,7 @@ const FOODS=[
  ]}
 ];
 
-const BUILD='2026-10-26-v11.1';
+const BUILD='2026-11-05-v11.2';
 
 /* ============================================================
    State
@@ -793,6 +800,38 @@ function go(v){
   if(v==='set'){renderDiag();paintDeloadBtn()}
   window.scrollTo(0,0);
 }
+
+/* ============================================================
+   v11.2 — tap-to-clear number boxes
+   Tapping a box empties it and parks what was in it in the placeholder, so typing
+   70 over 65 can never produce 7065. Leave the box without typing and the value
+   comes back. Nothing is ever read from a placeholder: boxVal()/rv() return the
+   typed value, or the parked value if the box was only tapped, or '' if the user
+   deliberately emptied it. Integrity rule unchanged — a set still needs real
+   numbers in both boxes before it can be confirmed.
+   ============================================================ */
+const NUMBOX='input[inputmode="decimal"],input[inputmode="numeric"]';
+function ffPark(el){
+  if(el.dataset.ffPh==null)el.dataset.ffPh=el.placeholder||'';
+  el.dataset.ffTyped='0';
+  if(el.value!==''){el.dataset.ffPrev=el.value;el.placeholder=el.value;el.value=''}
+  el.classList.remove('tgt');
+}
+function ffUnpark(el){
+  if(el.value===''&&el.dataset.ffTyped!=='1'&&el.dataset.ffPrev!=null)el.value=el.dataset.ffPrev;
+  if(el.dataset.ffPh!=null)el.placeholder=el.dataset.ffPh;
+  delete el.dataset.ffPrev;delete el.dataset.ffTyped;delete el.dataset.ffPh;
+}
+function boxVal(el){
+  if(!el)return '';
+  if(el.value!=='')return el.value;
+  if(el.dataset.ffTyped==='1')return '';
+  return el.dataset.ffPrev!=null?el.dataset.ffPrev:'';
+}
+function rv(id){return boxVal(document.getElementById(id))}
+document.addEventListener('focusin', e=>{const t=e.target;if(t&&t.matches&&t.matches(NUMBOX))ffPark(t)});
+document.addEventListener('focusout',e=>{const t=e.target;if(t&&t.matches&&t.matches(NUMBOX))ffUnpark(t)});
+document.addEventListener('input',   e=>{const t=e.target;if(t&&t.matches&&t.matches(NUMBOX))t.dataset.ffTyped='1'});
 
 function toast(m){
   const t=document.getElementById('toast');
@@ -956,8 +995,8 @@ async function finishZ2(){
   const mins=Math.round((Z2RUN.endTs-Z2RUN.startTs)/60000);
   if(mins<1){toast('Under 1 minute \u2014 cancelled');abortZ2();return}
   Z2RUN.z2min=mins;
-  Z2RUN.avgHR=numVal(document.getElementById('z2avg').value);
-  Z2RUN.maxHR=numVal(document.getElementById('z2max').value);
+  Z2RUN.avgHR=numVal(rv('z2avg'));
+  Z2RUN.maxHR=numVal(rv('z2max'));
   await put('workouts',Z2RUN);
   await saveMetricsForDay(Z2RUN.date,{cardioDay:true});
   clearInterval(z2Timer);z2Timer=null;Z2RUN=null;releaseWakeLock();
@@ -1072,8 +1111,8 @@ function renderRun(){
     const dis0=RUNNING?'':'disabled';
     const wuRows=(e.wuSets||[]).map((s,j)=>`<div class="setrow wu ${s.done?'ok':''}" id="wr-${i}-${j}">
         <div class="n">W${j+1}</div>
-        <input type="text" inputmode="decimal" placeholder="kg" ${dis0} id="ww-${i}-${j}" value="${s.weight}" onchange="setWu(${i},${j},'weight',this.value)">
-        <input type="text" inputmode="numeric" placeholder="reps" ${dis0} id="wq-${i}-${j}" value="${s.reps}" onchange="setWu(${i},${j},'reps',this.value)">
+        <input type="text" inputmode="decimal" placeholder="kg" ${dis0} id="ww-${i}-${j}" value="${s.weight}" oninput="setWu(${i},${j},'weight',this.value)">
+        <input type="text" inputmode="numeric" placeholder="reps" ${dis0} id="wq-${i}-${j}" value="${s.reps}" oninput="setWu(${i},${j},'reps',this.value)">
         <button class="chk" ${dis0} onclick="toggleWu(${i},${j})">${s.done?'\u2713':'\u25CB'}</button>
       </div>`).join('');
     const rows=e.sets.map((s,j)=>{
@@ -1085,9 +1124,9 @@ function renderRun(){
       return `<div class="setrow ${s.done?'ok':''}" id="sr-${i}-${j}">
         <div class="n">${j+1}</div>
         <input type="text" inputmode="decimal" placeholder="kg" class="${!touchedW&&tv?'tgt':''}" ${dis}
-          id="w-${i}-${j}" value="${wVal}" onfocus="this.classList.remove('tgt')" onchange="setVal(${i},${j},'weight',this.value)">
+          id="w-${i}-${j}" value="${wVal}" oninput="setVal(${i},${j},'weight',this.value)">
         <input type="text" inputmode="numeric" placeholder="${e.unit==='sec'?'sec':'reps'}" class="${!touchedR&&tv?'tgt':''}" ${dis}
-          id="r-${i}-${j}" value="${rVal}" onfocus="this.classList.remove('tgt')" onchange="setVal(${i},${j},'reps',this.value)">
+          id="r-${i}-${j}" value="${rVal}" oninput="setVal(${i},${j},'reps',this.value)">
         <button class="chk" ${dis} onclick="toggleSet(${i},${j})">${s.done?'\u2713':'\u25CB'}</button>
       </div>`;
     }).join('');
@@ -1135,7 +1174,7 @@ function toggleSet(i,j){
   if(!RUNNING)return;
   const s=W.exercises[i].sets[j];
   const wi=document.getElementById(`w-${i}-${j}`), ri=document.getElementById(`r-${i}-${j}`);
-  const wv=numVal(wi.value), rv=numVal(ri.value);
+  const wv=numVal(boxVal(wi)), rv=numVal(boxVal(ri));
   if(!s.done&&(wv==null||rv==null)){
     toast('Enter kg and reps first');
     return;
@@ -1231,7 +1270,7 @@ async function saveMetricsForDay(date,patch){
 async function saveMetrics(){
   const d=document.getElementById('mDate').value;
   if(!d){toast('Pick a date');return}
-  const num=id=>{const f=numVal(document.getElementById(id).value);return f==null?undefined:f};
+  const num=id=>{const f=numVal(rv(id));return f==null?undefined:f};
   const p={};
   const w=num('mWeight'),m=num('mMuscle'),f=num('mFat'),ws=num('mWaist');
   if(w!==undefined)p.weight=w;
@@ -1424,14 +1463,14 @@ async function renderDiag(){
 
 async function exportJSON(){
   const [entries,metrics,workouts,settings,fasts,meals,labs]=await Promise.all([all('entries'),all('metrics'),all('workouts'),all('settings'),all('fasts'),all('meals'),all('labs')]);
-  const data={exportedAt:new Date().toISOString(),version:4,app:'jurnal-antrenament',user:'Bogdan',
+  const data={exportedAt:new Date().toISOString(),version:4,app:'healthy-life',user:'Bogdan',
     settings:Object.fromEntries(settings.map(s=>[s.key,s.value!==undefined?s.value:s])),
     exerciseCatalog:Object.fromEntries(Object.entries(EX).map(([k,v])=>[k,v.n])),
     program:SESSIONS, mealPresets:MEALS, workouts, metrics, fasts, meals, labs, entries};
   const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});
   const a=document.createElement('a');
   a.href=URL.createObjectURL(blob);
-  a.download='training-log-'+isoToday()+'.json';
+  a.download='healthy-life-'+isoToday()+'.json';
   document.body.appendChild(a);a.click();a.remove();
   setTimeout(()=>URL.revokeObjectURL(a.href),3000);
   toast('Export ready');
@@ -1521,7 +1560,7 @@ async function loadTargets(){
   const l=document.getElementById('fastTgtLbl');if(l)l.textContent=TGT.fastH;
 }
 async function saveTargets(){
-  const g=id=>numVal(document.getElementById(id).value);
+  const g=id=>numVal(rv(id));
   const t={kcal:g('tKcal')||TARGET_DEFAULT.kcal,prot:g('tProt')||TARGET_DEFAULT.prot,
     fastH:g('tFast')||TARGET_DEFAULT.fastH,goalW:g('tGoalW')||TARGET_DEFAULT.goalW};
   await put('settings',{key:'targets',value:t});
@@ -1749,7 +1788,7 @@ async function saveMeal(){
   const comment=document.getElementById('logCm').value.trim();
   let mac;
   if(LOG_CODE==='OTH'){
-    mac={kc:Math.round(numVal(document.getElementById('othK').value)||0),p:Math.round(numVal(document.getElementById('othP').value)||0),c:null,f:null};
+    mac={kc:Math.round(numVal(rv('othK'))||0),p:Math.round(numVal(rv('othP'))||0),c:null,f:null};
     if(!mac.kc&&!comment){toast('Add an estimate or a comment');return}
   }else mac=mealMacros(MEAL_BY[LOG_CODE],portions);
   await put('meals',{date,time,code:LOG_CODE,portions,comment,...mac,ts:Date.now()});
@@ -1890,7 +1929,7 @@ async function saveLabs(){
   const date=document.getElementById('labDate').value;if(!date){toast('Pick a date');return}
   const ex=await get1('labs',date)||{date};
   let n=0;
-  LAB_DEFS.forEach(([k])=>{const v=numVal(document.getElementById('lab-'+k).value);if(v!=null){ex[k]=v;n++;document.getElementById('lab-'+k).value=''}});
+  LAB_DEFS.forEach(([k])=>{const v=numVal(rv('lab-'+k));if(v!=null){ex[k]=v;n++;document.getElementById('lab-'+k).value=''}});
   if(!n){toast('Nothing to save');return}
   await put('labs',ex);await loadLabs();renderHealth();
   document.getElementById('labForm').classList.add('hidden');toast(n+' results saved');
@@ -1920,10 +1959,10 @@ async function renderHealth(){
    v11 — Zone 2 manual entry (outdoor walks without the timer)
    ============================================================ */
 async function logZ2Manual(){
-  const mins=numVal(document.getElementById('z2mMin').value);
+  const mins=numVal(rv('z2mMin'));
   const date=document.getElementById('z2mDate').value||isoToday();
   if(!mins||mins<5){toast('Minutes?');return}
-  const avg=numVal(document.getElementById('z2mHR').value);
+  const avg=numVal(rv('z2mHR'));
   const start=Date.parse(date+'T08:00:00');
   await put('workouts',{date,type:'cardio',sessionId:'zone2',sessionName:'Zone 2 — walk',startTs:start,endTs:start+mins*60000,
     z2min:mins,avgHR:avg,manual:true,targetLo:Z2.lo,targetHi:Z2.hi});
